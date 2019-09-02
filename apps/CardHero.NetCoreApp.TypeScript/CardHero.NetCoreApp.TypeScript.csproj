@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DefaultItemExcludes>.git\**;node_modules\**;$(DefaultItemExcludes)</DefaultItemExcludes>
+    <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\analyzers\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="WebMarkupMin.AspNetCore2" Version="2.6.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="ClientApp/**/*.ts" />
+    <None Remove="ClientApp/**/*.tsx" />
+    <Content Remove="ClientApp**/*.ts" />
+    <Content Remove="ClientApp/**/*.tsx" />
+    <TypeScriptCompile Include="ClientApp/**/*.ts" />
+    <TypeScriptCompile Include="ClientApp/**/*.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="package.json" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\manifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\CardHero.Core.Models\CardHero.Core.Models.csproj" />
+    <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />
+  </ItemGroup>
+
+</Project>

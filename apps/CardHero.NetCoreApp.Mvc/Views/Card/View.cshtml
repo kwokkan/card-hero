@@ -1,0 +1,86 @@
+@model CardViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a asp-route-id="@Model.Id">@Model.Name</a>
+
+                    @if (isAuthenticated)
+                    {
+                        <span class="fa fa-star card-favourite float-right @(Model.IsFavourited ? "enabled" : "")" data-card-id="@Model.Id"></span>
+                    }
+                </h4>
+                <p class="card-text">@Model.Description</p>
+
+                <table class="table table-striped">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th colspan="2">Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.Health)</th>
+                            <td>@Model.Health</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.Attack)</th>
+                            <td>@Model.Attack</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.Defence)</th>
+                            <td>@Model.Defence</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.UpAttack)</th>
+                            <td>@Model.UpAttack</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.RightAttack)</th>
+                            <td>@Model.RightAttack</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.DownAttack)</th>
+                            <td>@Model.DownAttack</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.LeftAttack)</th>
+                            <td>@Model.LeftAttack</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">@Html.DisplayNameFor(x => x.TotalStats)</th>
+                            <td>@Model.TotalStats</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <canvas class="chart-js" data-chart-js-url="@Url.Action("GetById", "Cards", new { id = Model.Id })" data-chart-js-group="main"></canvas>
+    </div>
+
+    <div class="col-lg-4">
+        <canvas class="chart-js" data-chart-js-url="@Url.Action("GetById", "Cards", new { id = Model.Id })" data-chart-js-group="secondary"></canvas>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/modules/cards/_.min.js" asp-append-version="true"></script>
+    <script src="~/modules/charts/_.min.js" asp-append-version="true"></script>
+}

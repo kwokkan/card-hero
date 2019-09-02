@@ -1,0 +1,51 @@
+﻿@{
+    var useExternal = false;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>@ViewData["Title"] - CardHero.NetCoreApp.TypeScript</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="CardHero.NetCoreApp.TypeScript is the best card game." />
+    
+    <base href="~/" />
+
+    <link rel="shortcut icon" href="~/favicon.ico">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/all.min.css" integrity="sha256-cC4ByuxbguozEVx8jcKy94MFiGvxN9GwjCqZ8f3+yBk=" crossorigin="anonymous" />*@
+
+    <link rel="stylesheet" asp-href-include="~/dist/styles.*.min.css" asp-append-version="true" />
+
+    @RenderSection("head", false)
+</head>
+<body>
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+
+    <div id="root"></div>
+
+    @RenderBody()
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous" defer></script>
+
+    @if (useExternal)
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.9.0/umd/react.development.js" integrity="sha256-WxLwqChHGMEY+a2GfnOzwRX6D1Nsf42IRPi4OV7BhPw=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js" integrity="sha256-qVsF1ftL3vUq8RFOLwPnKimXOLo72xguDliIxeffHRc=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.min.js" integrity="sha256-FW22WiuVHRjHTl/Z0FHNNwNxhkyS2fTrPEzxIkIwd9M=" crossorigin="anonymous"></script>
+    }
+
+    @*<script asp-src-include="~/dist/runtime.*.min.js"></script>*@
+    <script defer asp-src-include="~/dist/vendor.*.min.js" asp-append-version="true"></script>
+    <script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="true"></script>
+
+    @RenderSection("scripts", false)
+</body>
+</html>

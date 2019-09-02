@@ -1,0 +1,73 @@
+@model GameViewModel
+
+@{
+    ViewData["Title"] = $"#{ Model.Id } { Model.Name }";
+
+    var gameType = Model.Type.ToString().ToLower();
+}
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card">
+            <h4 class="card-header">
+                <a asp-route-id="@Model.Id">@ViewData["Title"]</a>
+            </h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <div>
+                        <strong>@Html.DisplayNameFor(x => x.Type):</strong>
+                        @Model.Type
+                    </div>
+                    <div>
+                        <strong>@Html.DisplayNameFor(x => x.StartTime):</strong>
+                        @Model.StartTime
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4 id="history-heading" class="card-header">
+                <a href="#history-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="history-collapse">History</a>
+            </h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <div id="history-collapse" class="collapse show" role="tabpanel" aria-labelledby="history-heading">
+                        <ul>
+                            <li>Game Started at @Model.StartTime</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            @await Html.PartialAsync("_View" + Model.Type.ToString())
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card">
+            <h4 class="card-header">
+                <a asp-action="Index" asp-controller="Profile">You</a>
+            </h4>
+            <div class="card-body">
+                <div class="card-text">
+                    <ul id="current-deck" class="ch-cards" data-max-cards="@Model.Deck.MaxCards">
+                        @foreach (var card in Model.Deck.Cards)
+                        {
+                            <li class="ch-card current-card @(card.IsUsable ? "" : "bg-secondary text-white disabled")" data-card-collection-id="@card.CardCollectionId">@card.Card.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/modules/games/@(gameType)/_.min.js" asp-append-version="true"></script>
+    <script src="~/js/games/page/view.@(gameType).js" asp-append-version="true"></script>
+}

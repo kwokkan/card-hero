@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard1.3</TargetFrameworks>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<Authors>Kwok Kan</Authors>
+	<Company>Kwok Kan</Company>
+	<Copyright>Kwok Kan</Copyright>
+	<Description>Sortable.</Description>
+    <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\analyzers\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.13" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.5.1" />
+  </ItemGroup>
+
+</Project>

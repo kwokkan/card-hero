@@ -1,0 +1,66 @@
+﻿@model SearchCardViewModel
+
+@{
+	ViewData["Title"] = "Cards";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" class="ui form search-filter card-filter">
+	<div class="inline fields">
+		<div class="field">
+			@Html.TextBoxFor(x => x.Name, new { placeholder = Html.DisplayNameFor(x => x.Name) })
+		</div>
+		<div class="field">
+			@Html.SortableDropDownList(typeof(CardViewModel), htmlAttributes: new { @class = "ui dropdown" }, selectedValue: Model.Sort)
+		</div>
+		<div class="field">
+			@Html.SortableDirectionDropDownList(htmlAttributes: new { @class = "ui fluid dropdown" }, selectedValue: Model.SortDir)
+		</div>
+		<div class="field">
+			<button type="submit" class="ui button">Filter</button>
+		</div>
+	</div>
+</form>
+
+<hr />
+
+<div class="ui four cards user-select-none">
+	@foreach (var card in Model.Cards)
+	{
+		<div class="card transition pointer" data-card-id="@card.Id">
+			<div class="image">
+				<img src="@Url.CdnContent($"~/images/cards/{card.Id}.png")" />
+			</div>
+			<div class="content">
+				<div class="header">
+					@card.Name
+				</div>
+				<div class="meta">
+					#@card.Id
+				</div>
+				<div class="description">
+					@card.Name
+				</div>
+			</div>
+			<div class="extra cotent">
+				<a class="right floated">
+					Favorite
+					<i class="empty star icon"></i>
+				</a>
+			</div>
+		</div>
+	}
+</div>
+
+@section styles {
+	<environment names="Development">
+		<link rel="stylesheet" href="~/css/cards.css" />
+	</environment>
+}
+
+@section scripts {
+	<environment names="Development">
+		<script src="~/js/cards.js"></script>
+	</environment>
+}

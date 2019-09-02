@@ -1,0 +1,27 @@
+﻿@model PlayerViewModel
+
+@{
+	ViewData["Title"] = Model.Name;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+	<div>
+		@Model.Name
+	</div>
+	<div>
+		@foreach (var card in Model.CardCollection)
+		{
+			<div class="card">
+				<div>@card.Card.Name</div>
+				<div>@card.Count</div>
+			</div>
+		}
+	</div>
+	<div>
+
+	</div>
+</div>
+
+<a asp-action="Index" class="btn btn-primary">Back</a>

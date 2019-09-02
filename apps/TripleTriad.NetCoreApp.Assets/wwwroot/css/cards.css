@@ -1,0 +1,33 @@
+﻿
+.cards {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.card {
+	width: 270px;
+	height: 360px;
+	margin: 5px;
+	padding: 5px;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 10px;
+}
+
+.card.selected, .card:hover {
+	box-shadow: 0 0 20px #ff7f27;
+	background-color: #ff7f27;
+}
+
+.card.transition {
+	transition: box-shadow linear 0.15s, 
+		background-color linear 0.15s;
+}
+
+.card-name {
+	margin-top: 10px;
+	font-weight: bold;
+	font-size: large;
+	text-align: center;
+}

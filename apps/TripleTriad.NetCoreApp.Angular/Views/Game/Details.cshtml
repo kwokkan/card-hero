@@ -1,0 +1,68 @@
+﻿@model GameViewModel
+
+@{ 
+	ViewData["Title"] = "Game #" + Model.Id;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="game-summary pull-right" ng-app="gameApp">
+	<h3>@Html.DisplayNameFor(x => x.StartTime)</h3>
+	<span>@Model.StartTime</span>
+
+	<h3>@Html.DisplayNameFor(x => x.EndTime)</h3>
+	<span>@Model.EndTime</span>
+
+	<h3>@Html.DisplayNameFor(x => x.Players)</h3>
+	<ul>
+		@foreach (var player in Model.Players)
+		{
+			<li>
+				<a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.Name</a>
+
+				@if (player.Id == Model.CurrentPlayer.Id)
+				{
+					<span class="fa fa-clock-o" title="Current turn"></span>
+				}
+			</li>
+		}
+	</ul>
+
+	<hr />
+
+	<form class="form" ng-controller="GamePlayController" ng-init="gameId = @Model.Id">
+		<input type="text" class="form-control" placeholder="gameId" ng-model="gameId" />
+		<input type="text" class="form-control" placeholder="cardCollectionId" ng-model="cardCollectionId" />
+		<input type="text" class="form-control" placeholder="row" ng-model="row" />
+		<input type="text" class="form-control" placeholder="column" ng-model="column" />
+
+		<button type="button" class="btn btn-success" ng-click="move($event)">Move</button>
+	</form>
+</div>
+
+<table class="game-grid user-select-none">
+	@for(int i = 0; i < Model.Rows; i++)
+	{
+		<tr>
+			@for (int j = 0; j < Model.Columns; j++)
+			{
+				<td class="game-cell">
+					asd
+				</td>
+			}
+		</tr>
+	}
+</table>
+
+@section styles {
+	<environment names="Development">
+		<link rel="stylesheet" href="~/css/games.css" />
+	</environment>
+}
+
+@section scripts {
+	<environment names="Development">
+		<script asp-src-include="~/js/Game/*Controller.js"></script>
+		<script src="~/js/Game/app.js"></script>
+	</environment>
+}

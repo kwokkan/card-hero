@@ -1,0 +1,30 @@
+﻿@model CreateGameViewModel
+
+@{ 
+	ViewData["Title"] = "Create Game";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@Html.ValidationSummary()
+
+<form method="post" asp-controller="Game" asp-action="Create">
+	@Html.AntiForgeryToken()
+
+	<ul class="list-group">
+		@foreach (var player in Model.Players)
+		{
+			<li class="list-group-item">
+				<label class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" name="playerIds" value="@player.Id"/>
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description">@player.Name</span>
+				</label>
+			</li>
+		}
+	</ul>
+
+	<hr />
+
+	<button type="submit" class="btn btn-success">Create Game</button>
+</form>

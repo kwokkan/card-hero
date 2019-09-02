@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Card Hero ASP.NET Core MVC Tag Helpers.</Description>
+    <Copyright>Kwok Kan</Copyright>
+    <AssemblyTitle>Card Hero ASP.NET Core MVC Tag Helpers</AssemblyTitle>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>CardHero.AspNetCore.Mvc.TagHelpers</AssemblyName>
+    <PackageId>CardHero.AspNetCore.Mvc.TagHelpers</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Authors>Kwok Kan</Authors>
+    <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\analyzers\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.13" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

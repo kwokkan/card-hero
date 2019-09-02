@@ -1,0 +1,68 @@
+@model DeckEditViewModel
+
+@{
+    ViewData["Title"] = Model.Deck.Name;
+
+    var deckVm = Model.Deck;
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a asp-route-id="@deckVm.Id">@deckVm.Name</a>
+                    <span class="fa fa-star deck-favourite float-right @(deckVm.IsFavourited ? "enabled" : "")" data-deck-id="@deckVm.Id"></span>
+                </h4>
+                <p class="card-text">@deckVm.Description</p>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="save-deck" class="btn btn-success pull-right" data-deck-id="@deckVm.Id">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    Owned Cards
+                </h4>
+                <p class="card-text">
+                    <ul id="owned-cards" class="ch-cards droppable">
+                        @foreach (var owned in Model.OwnedCards)
+                        {
+                            <li class="ch-card draggable" data-card-collection-id="@owned.CardCollectionId">@owned.Card.Name</li>
+                        }
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    Current Deck
+                </h4>
+                <p class="card-text">
+                    <ul id="used-cards" class="ch-cards droppable" data-max-cards="@deckVm.MaxCards">
+                        @foreach (var used in Model.UsedCards)
+                        {
+                            <li class="ch-card draggable" data-card-collection-id="@used.CardCollectionId">@used.Card.Name</li>
+                        }
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <link rel="stylesheet" href="~/nodelib/dragula/3.7.2/dragula.min.css" tt-use-asset="true" />
+    <script src="~/nodelib/dragula/3.7.2/dragula.min.js" tt-use-asset="true"></script>
+
+    <script src="~/modules/decks/_.min.js" asp-append-version="true"></script>
+    <script src="~/js/decks/page/view.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Card Hero core objects.</Description>
+    <Copyright>Kwok Kan</Copyright>
+    <AssemblyTitle>Card Hero Core</AssemblyTitle>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>CardHero.Core.Abstractions</AssemblyName>
+    <PackageId>CardHero.Core</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>CardHero.Core.Abstractions</RootNamespace>
+    <Authors>Kwok Kan</Authors>
+    <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors />
+    <NoWarn>1701;1702;1705;CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <DocumentationFile>bin\Release\net461\CardHero.Core.Abstractions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <DocumentationFile>bin\Debug\net461\CardHero.Core.Abstractions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\CardHero.Core.Abstractions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\CardHero.Core.Abstractions.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\analyzers\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.13" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\KwokKan.Sortable\KwokKan.Sortable.csproj" />
+    <ProjectReference Include="..\CardHero.Core.Models\CardHero.Core.Models.csproj" />
+  </ItemGroup>
+
+</Project>

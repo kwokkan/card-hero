@@ -1,0 +1,13 @@
+﻿
+.game-summary {
+	width: 300px;
+}
+
+.game-grid {
+	width: 800px;
+	height: 800px;
+}
+
+.game-cell {
+	border: 1px solid red;
+}

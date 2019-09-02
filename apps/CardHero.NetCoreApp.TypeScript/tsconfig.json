@@ -1,0 +1,39 @@
+{
+	"compilerOptions": {
+		"noEmitOnError": true,
+
+		"alwaysStrict": true,
+		"noEmitHelpers": true,
+		"noErrorTruncation": true,
+		"noImplicitAny": false,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noResolve": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		//"strictPropertyInitialization": true,
+		//"strictNullChecks": true,
+
+		"removeComments": true,
+		"sourceMap": true,
+		"target": "esnext",
+		"incremental": true,
+		"module": "esnext",
+		"jsx": "react",
+		"esModuleInterop": true,
+		"outDir": "./wwwroot/dist/",
+
+		"allowJs": true,
+		//"checkJs": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": [
+		"./ClientApp/**/*"
+	],
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

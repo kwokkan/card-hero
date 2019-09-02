@@ -1,0 +1,3 @@
+﻿{
+	"projects": [ "databases", "shared", "src", "test" ]
+}

@@ -1,0 +1,26 @@
+﻿@model LoginViewModel
+
+@{ 
+	ViewData["Title"] = "Login";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@Html.ValidationSummary()
+
+<form method="post">
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(x => x.ReturnUrl)
+
+	<div class="form-group">
+		@Html.LabelFor(x => x.Username)
+		@Html.TextBoxFor(x => x.Username, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Username) })
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(x => x.Password)
+		@Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Password) })
+	</div>
+
+	<button type="submit" class="btn btn-primary">Login</button>
+</form>

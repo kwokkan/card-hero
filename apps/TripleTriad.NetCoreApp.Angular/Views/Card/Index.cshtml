@@ -1,0 +1,50 @@
+﻿@model SearchCardViewModel
+
+@{
+	ViewData["Title"] = "Cards";
+	ViewData["NgApp"] = "cardApp";
+	ViewData["NgController"] = "CardController";
+}
+
+
+@section sideContent {
+	<h2>@ViewData["Title"]</h2>
+
+	<hr />
+
+	<form method="get" class="search-filter card-filter" ng-init="search($event)">
+		<div class="form-group">
+			@Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Name), ng_model = "name" })
+		</div>
+
+		<div class="form-group">
+			@Html.SortableDropDownList(typeof(CardViewModel), htmlAttributes: new { @class = "form-control custom-select", ng_model = "sort" }, selectedValue: Model.Sort)
+		</div>
+
+		<div class="form-group">
+			@Html.SortableDirectionDropDownList(htmlAttributes: new { @class = "form-control custom-select", ng_model = "sortDir" }, selectedValue: Model.SortDir)
+		</div>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary pull-right" ng-click="search($event)">Filter</button>
+
+			<div class="clearfix"></div>
+		</div>
+	</form>
+}
+
+<div class="row text-xs-center ng-cloak">
+	<div class="col-xs-3" ng-repeat="card in cards">
+	<div class="card transition pointer" data-card-id="{{card.id}}">
+		<img class="card-img-top img-fluid" ng-src="@Url.CdnContent("~/images/cards/{{card.id}}.png")" />
+		<div class="card-footer" ng-bind="card.name"></div>
+	</div>
+	</div>
+</div>
+
+@section scripts {
+	<environment names="Development">
+		<script src="~/js/Card/CardController.js"></script>
+		<script src="~/js/Card/app.js"></script>
+	</environment>
+}

@@ -1,0 +1,32 @@
+﻿@import "constants/colours.scss";
+
+@each $r, $c in $rarity-colours {
+    $i: index($rarity-colours, ($r $c));
+
+    .card-rarity_#{$r},
+    .card-rarity_#{$i} {
+        border-color: $c;
+    }
+
+    .text-rarity_#{$r},
+    .text-rarity_#{$i} {
+        color: $c;
+    }
+
+    .collection-card.card-rarity_#{$r} .card-footer,
+    .collection-card.card-rarity_#{$i} .card-footer {
+        background-color: scale-color($c, $alpha: -90%);
+    }
+}
+
+.card-rarity-symbols {
+    margin-top: -1em;
+}
+
+.current-card {
+    cursor: pointer;
+}
+
+.current-card.disabled {
+    cursor: not-allowed;
+}
