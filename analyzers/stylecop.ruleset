@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="StyleCop.Analyzers ruleset" Description="" ToolsVersion="15.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" />
+    <Rule Id="SA1005" Action="None" />
+    <Rule Id="SA1009" Action="None" />
+    <!-- Opening brace should not be followed by a space. -->
+    <Rule Id="SA1012" Action="None" />
+    <!-- Closing brace should not be preceded by a space. -->
+    <Rule Id="SA1013" Action="None" />
+    <Rule Id="SA1027" Action="None" />
+    <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1111" Action="None" />
+    <Rule Id="SA1117" Action="None" />
+    <!-- Do not use default value type constructor -->
+    <Rule Id="SA1129" Action="None" />
+    <Rule Id="SA1137" Action="None" />
+    <Rule Id="SA1200" Action="None" />
+    <Rule Id="SA1201" Action="None" />
+    <Rule Id="SA1202" Action="None" />
+    <Rule Id="SA1309" Action="None" />
+    <Rule Id="SA1413" Action="None" />
+    <Rule Id="SA1512" Action="None" />
+    <Rule Id="SA1515" Action="None" />
+    <Rule Id="SA1516" Action="None" />
+    <Rule Id="SA1600" Action="None" />
+    <!-- Partial elements should be documented -->
+    <Rule Id="SA1601" Action="None" />
+    <Rule Id="SA1616" Action="None" />
+    <Rule Id="SA1618" Action="None" />
+    <Rule Id="SA1623" Action="None" />
+    <!-- Documentation text should end with a period -->
+    <Rule Id="SA1629" Action="None" />
+    <Rule Id="SA1633" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.VisualStudio.Threading.Analyzers" RuleNamespace="Microsoft.VisualStudio.Threading.Analyzers">
+    <Rule Id="VSTHRD200" Action="None" />
+  </Rules>
+</RuleSet>
