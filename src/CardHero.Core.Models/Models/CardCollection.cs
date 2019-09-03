@@ -3,31 +3,31 @@
     /// <summary>
     /// Card collection.
     /// </summary>
-	public class CardCollection : ICardHeroEntity
+    public class CardCollection : ICardHeroEntity
     {
         /// <summary>
         /// Id.
         /// </summary>
-		public int Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Card id.
         /// </summary>
-		public int CardId { get; set; }
+        public int CardId { get; set; }
 
         /// <summary>
         /// User id.
         /// </summary>
-		public int UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Card.
         /// </summary>
-		public virtual Card Card { get; set; }
+        public virtual Card Card { get; set; }
 
         /// <summary>
         /// User.
         /// </summary>
-		public virtual User User { get; set; }
-	}
+        public virtual User User { get; set; }
+    }
 }

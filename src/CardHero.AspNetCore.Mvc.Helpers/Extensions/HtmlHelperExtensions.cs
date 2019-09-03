@@ -20,7 +20,7 @@ namespace CardHero.AspNetCore.Mvc.Helpers
             {
                 var linkValue = $"<{ preloadLink }>; rel=preload; as={ type };";
                 var responseHeaders = helper.ViewContext.HttpContext.Response.Headers;
-                var stringValues = new StringValues();
+                var stringValues = default(StringValues);
 
                 if (responseHeaders.TryGetValue("Link", out stringValues))
                 {

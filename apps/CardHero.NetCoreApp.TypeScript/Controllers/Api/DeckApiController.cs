@@ -37,7 +37,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             {
                 Description = model.Description,
                 MaxCards = 5,
-                Name = model.Name
+                Name = model.Name,
             };
 
             var userId = (await GetUserAsync()).Id;

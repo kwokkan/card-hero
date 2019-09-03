@@ -14,8 +14,8 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class TurnService : BaseService, ITurnService
     {
-        public TurnService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-            : base(contextFactory, options)
+        public TurnService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
         {
         }
 
@@ -30,7 +30,7 @@ namespace CardHero.Core.SqlServer.Services
                 {
                     EndTime = x.EndTime,
                     Id = x.TurnPk,
-                    StartTime = x.StartTime
+                    StartTime = x.StartTime,
                 })
                 .ToListAsync();
 

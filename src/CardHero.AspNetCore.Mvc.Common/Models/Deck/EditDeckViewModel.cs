@@ -4,6 +4,6 @@ namespace CardHero.AspNetCore.Mvc.Common.Models
 {
     public class EditDeckViewModel : DeckViewModel
     {
-		public IEnumerable<CardCollectionViewModel> OwnedCards { get; set; }
-	}
+        public IEnumerable<CardCollectionViewModel> OwnedCards { get; set; }
+    }
 }

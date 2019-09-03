@@ -36,7 +36,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Type = model.Type,
-                UserId = (await GetUserAsync())?.Id
+                UserId = (await GetUserAsync())?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
@@ -53,7 +53,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         {
             var filter = new GameSearchFilter
             {
-                GameId = id
+                GameId = id,
             };
             var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
             var moves = await _moveService.GetMovesAsync(id);
@@ -66,9 +66,9 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 {
                     CardCollectionId = x.CardCollectionId,
                     Column = x.Column,
-                    Row = x.Row
+                    Row = x.Row,
                 }).ToList(),
-                Rows = game.Rows
+                Rows = game.Rows,
             };
             model.Data = data;
 
@@ -118,7 +118,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     Deck = new Deck { Id = model.SelectedDeckId.Value },
                     Name = model.Name,
                     Type = model.Type,
-                    Users = new List<User> { user }
+                    Users = new List<User> { user },
                 };
                 var newGame = await _gameService.CreateGameAsync(game);
 
@@ -126,7 +126,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
 
                 return Json(new JsonViewModel
                 {
-                    RedirectUrl = url
+                    RedirectUrl = url,
                 });
             }
 

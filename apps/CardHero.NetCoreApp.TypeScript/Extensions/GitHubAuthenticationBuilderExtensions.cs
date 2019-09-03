@@ -70,7 +70,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         }
 
                         return Task.CompletedTask;
-                    }
+                    },
                 };
 
                 if (options.Scopes != null)

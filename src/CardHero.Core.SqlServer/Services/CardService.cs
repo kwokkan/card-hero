@@ -13,11 +13,11 @@ using Microsoft.Extensions.Options;
 namespace CardHero.Core.SqlServer.Services
 {
     public class CardService : BaseService, ICardService
-	{
-		public CardService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-			: base(contextFactory, options)
-		{
-		}
+    {
+        public CardService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
+        {
+        }
 
         public async Task<IEnumerable<Models.CardCollection>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
         {
@@ -49,7 +49,7 @@ namespace CardHero.Core.SqlServer.Services
             var cardCollectionIds = cardCollections.Select(x => x.CardCollectionPk).ToArray();
             return (await GetCardCollectionAsync(new CardCollectionSearchFilter
             {
-                Ids = cardCollectionIds
+                Ids = cardCollectionIds,
             })).Results;
         }
 
@@ -80,31 +80,31 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
         }
 
-		public Task<SearchResult<Core.Models.Card>> GetCardsAsync(CardSearchFilter filter)
-		{
-			var result = new SearchResult<Core.Models.Card>();
+        public Task<SearchResult<Core.Models.Card>> GetCardsAsync(CardSearchFilter filter)
+        {
+            var result = new SearchResult<Core.Models.Card>();
 
-			var context = GetContext();
+            var context = GetContext();
 
-			var query = context.Card.AsQueryable();
+            var query = context.Card.AsQueryable();
 
             if (filter.UserId.HasValue)
             {
                 query = query.Include(x => x.CardFavourite);
             }
 
-			if (filter.Ids != null)
-			{
-				query = query.Where(x => filter.Ids.Contains(x.CardPk));
-			}
+            if (filter.Ids != null)
+            {
+                query = query.Where(x => filter.Ids.Contains(x.CardPk));
+            }
 
-			if (!string.IsNullOrEmpty(filter.Name))
-			{
-				query = query.Where(x => x.Name.IndexOf(filter.Name, StringComparison.OrdinalIgnoreCase) > -1);
-			}
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                query = query.Where(x => x.Name.IndexOf(filter.Name, StringComparison.OrdinalIgnoreCase) > -1);
+            }
 
-			return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
-		}
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
+        }
 
         public async Task<bool> ToggleFavouriteAsync(int id, int userId)
         {
@@ -119,7 +119,7 @@ namespace CardHero.Core.SqlServer.Services
                 var newCardFavourite = new CardFavourite
                 {
                     CardFk = id,
-                    UserFk = userId
+                    UserFk = userId,
                 };
 
                 context.CardFavourite.Add(newCardFavourite);

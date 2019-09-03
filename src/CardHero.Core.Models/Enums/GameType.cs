@@ -8,6 +8,6 @@
         /// <summary>
         /// Triple Triad game type.
         /// </summary>
-        TripleTriad = 1
+        TripleTriad = 1,
     }
 }

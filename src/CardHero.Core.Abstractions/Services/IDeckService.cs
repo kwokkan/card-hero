@@ -16,28 +16,28 @@ namespace CardHero.Core.Abstractions
         /// <returns></returns>
         Task<SearchResult<Deck>> GetDecksAsync(DeckSearchFilter filter);
 
-		/// <summary>
-		/// Gets a deck by id.
-		/// </summary>
-		/// <param name="id">The id of the deck.</param>
-		/// <returns></returns>
-		Task<Deck> GetDeckByIdAsync(int id);
+        /// <summary>
+        /// Gets a deck by id.
+        /// </summary>
+        /// <param name="id">The id of the deck.</param>
+        /// <returns></returns>
+        Task<Deck> GetDeckByIdAsync(int id);
 
-		/// <summary>
-		/// Creates a new deck.
-		/// </summary>
-		/// <param name="deck">The deck to create.</param>
+        /// <summary>
+        /// Creates a new deck.
+        /// </summary>
+        /// <param name="deck">The deck to create.</param>
         /// <param name="userId">The user to create the deck for.</param>
-		/// <returns></returns>
-		Task<Deck> CreateDeckAsync(Deck deck, int userId);
+        /// <returns></returns>
+        Task<Deck> CreateDeckAsync(Deck deck, int userId);
 
-		/// <summary>
-		/// Updates a deck.
-		/// </summary>
-		/// <param name="deckId">The deck tp update.</param>
-		/// <param name="deck">The updated deck.</param>
-		/// <returns></returns>
-		Task UpdateDeckAsync(int deckId, Deck deck);
+        /// <summary>
+        /// Updates a deck.
+        /// </summary>
+        /// <param name="deckId">The deck tp update.</param>
+        /// <param name="deck">The updated deck.</param>
+        /// <returns></returns>
+        Task UpdateDeckAsync(int deckId, Deck deck);
 
         /// <summary>
         /// Toggles a favourite for a deck.

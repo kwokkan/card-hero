@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
 {
     [Route("api/decks")]
-	[Authorize]
+    [Authorize]
     public class DeckApiController : BaseController
     {
         private readonly IUserService _userService;
-		private readonly IDeckService _deckService;
+        private readonly IDeckService _deckService;
 
         public DeckApiController(IUserService userService, IDeckService deckService)
-		{
+        {
             _userService = userService;
-			_deckService = deckService;
+            _deckService = deckService;
         }
 
         private async Task<User> GetUserAsync()
@@ -45,40 +45,40 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
         }
 
         [HttpGet]
-		[Route("")]
-		public async Task<IEnumerable<DeckViewModel>> GetDecksAsync()
-		{
+        [Route("")]
+        public async Task<IEnumerable<DeckViewModel>> GetDecksAsync()
+        {
             var filter = new DeckSearchFilter();
-			var decks = await _deckService.GetDecksAsync(filter);
-			var result = decks.Results.Select(x => new DeckViewModel
-			{
-				Id = x.Id,
-				Name = x.Name,
-				MaxCards = x.MaxCards,
-				Cards = x.Cards.Select(y => new DeckCardCollectionViewModel
-				{
-					Id = y.Id,
-					Name = y.Name,
-					DeckCardCollectionId = y.CardCollectionId
-				})
-			});
+            var decks = await _deckService.GetDecksAsync(filter);
+            var result = decks.Results.Select(x => new DeckViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                MaxCards = x.MaxCards,
+                Cards = x.Cards.Select(y => new DeckCardCollectionViewModel
+                {
+                    Id = y.Id,
+                    Name = y.Name,
+                    DeckCardCollectionId = y.CardCollectionId,
+                }),
+            });
 
-			return result;
-		}
+            return result;
+        }
 
-		[HttpPost]
-		[Route("")]
-		public async Task<Deck> PostDeckAsync([FromBody]DeckViewModel model)
-		{
-			var deck = new Deck
-			{
-				Name = model.Name,
-				MaxCards = model.MaxCards
-			};
+        [HttpPost]
+        [Route("")]
+        public async Task<Deck> PostDeckAsync([FromBody]DeckViewModel model)
+        {
+            var deck = new Deck
+            {
+                Name = model.Name,
+                MaxCards = model.MaxCards,
+            };
             var user = await GetUserAsync();
-			var result = await _deckService.CreateDeckAsync(deck, user.Id);
+            var result = await _deckService.CreateDeckAsync(deck, user.Id);
 
-			return result;
-		}
+            return result;
+        }
     }
 }

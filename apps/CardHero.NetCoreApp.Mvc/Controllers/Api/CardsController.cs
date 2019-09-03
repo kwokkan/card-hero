@@ -25,7 +25,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         {
             var filter = new CardSearchFilter
             {
-                Ids = new[] { id }
+                Ids = new[] { id },
             };
             var card = (await _cardService.GetCardsAsync(filter)).Results.FirstOrDefault();
             var cardModel = new CardViewModel().FromCard(card);
@@ -46,9 +46,9 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
                             PointBorderColor = "rgba(0, 0, 0, 0)",
                             PointHoverBackgroundColor = "rgba(0, 0, 200, 0.5)",
                             PointHoverBorderColor = "rgba(0, 0, 200, 0.5)",
-                            Data = cardModel.GetData(group: group)
-                        }
-                    }
+                            Data = cardModel.GetData(group: group),
+                        },
+                    },
                 },
                 Options = new OptionsViewModel
                 {
@@ -57,10 +57,10 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
                         Ticks = new TicksViewModel
                         {
                             BeginAtZero = true,
-                            Max = 10
-                        }
-                    }
-                }
+                            Max = 10,
+                        },
+                    },
+                },
             };
 
             return model;

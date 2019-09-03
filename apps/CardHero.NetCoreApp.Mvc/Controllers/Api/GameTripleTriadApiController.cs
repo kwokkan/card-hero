@@ -32,7 +32,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
                 Column = model.Column.Value,
                 GameId = id,
                 Row = model.Row.Value,
-                UserId = user.Id
+                UserId = user.Id,
             };
             await _gamePlayService.MakeMoveAsync(move);
 

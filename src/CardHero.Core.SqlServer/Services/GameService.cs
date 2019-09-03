@@ -10,15 +10,15 @@ using Microsoft.Extensions.Options;
 namespace CardHero.Core.SqlServer.Services
 {
     public class GameService : BaseService, IGameService
-	{
-		public GameService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-			: base(contextFactory, options)
-		{
-		}
+    {
+        public GameService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
+        {
+        }
 
-		public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
-		{
-			if (game == null)
+        public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
+        {
+            if (game == null)
             {
                 throw new ArgumentNullException(nameof(game));
             }
@@ -43,42 +43,42 @@ namespace CardHero.Core.SqlServer.Services
             //    throw new InvalidDeckException("The selected deck is invalid.");
 
             var users = game.Users.ToList();
-			var currentUserId = new Random().Next(0, users.Count());
-			var newGame = new EntityFramework.Game
-			{
-				CurrentUserFk = users[currentUserId].Id,
+            var currentUserId = new Random().Next(0, users.Count());
+            var newGame = new EntityFramework.Game
+            {
+                CurrentUserFk = users[currentUserId].Id,
                 DeckFk = game.DeckId,
                 GameUser = users.Select(x => new GameUser
-				{
-					UserFk = x.Id
-				}).ToList(),
+                {
+                    UserFk = x.Id,
+                }).ToList(),
                 GameTypeFk = (int)game.Type,
-                Name = game.Name
-			};
+                Name = game.Name,
+            };
 
             newGame.Turn.Add(new EntityFramework.Turn
             {
                 CurrentUserFk = users[currentUserId].Id,
-                StartTime = DateTime.UtcNow
+                StartTime = DateTime.UtcNow,
             });
 
-			context.Add(newGame);
-			await context.SaveChangesAsync();
+            context.Add(newGame);
+            await context.SaveChangesAsync();
 
-			var filter = new GameSearchFilter
-			{
-				GameId = newGame.GamePk
-			};
-			var result = (await GetGamesAsync(filter)).Results.FirstOrDefault();
+            var filter = new GameSearchFilter
+            {
+                GameId = newGame.GamePk,
+            };
+            var result = (await GetGamesAsync(filter)).Results.FirstOrDefault();
 
-			return result;
-		}
+            return result;
+        }
 
-		public Task<SearchResult<Core.Models.Game>> GetGamesAsync(GameSearchFilter filter)
-		{
-			var result = new SearchResult<Core.Models.Game>();
+        public Task<SearchResult<Core.Models.Game>> GetGamesAsync(GameSearchFilter filter)
+        {
+            var result = new SearchResult<Core.Models.Game>();
 
-			var context = GetContext();
+            var context = GetContext();
 
             var query = context.Game
                 .Include(x => x.CurrentUserFkNavigation)
@@ -93,37 +93,37 @@ namespace CardHero.Core.SqlServer.Services
                 .Include(x => x.WinnerFkNavigation)
                 .AsQueryable();
 
-			if (filter.GameId.HasValue)
-			{
-				query = query.Where(x => x.GamePk == filter.GameId.Value);
-			}
+            if (filter.GameId.HasValue)
+            {
+                query = query.Where(x => x.GamePk == filter.GameId.Value);
+            }
 
             if (!string.IsNullOrWhiteSpace(filter.Name))
             {
                 query = query.Where(x => x.Name.Contains(filter.Name));
             }
 
-			if (filter.StartTime.HasValue)
-			{
-				query = query.Where(x => x.StartTime >= filter.StartTime.Value);
-			}
+            if (filter.StartTime.HasValue)
+            {
+                query = query.Where(x => x.StartTime >= filter.StartTime.Value);
+            }
 
-			if (filter.EndTime.HasValue)
-			{
-				query = query.Where(x => x.EndTime <= filter.EndTime.Value);
-			}
+            if (filter.EndTime.HasValue)
+            {
+                query = query.Where(x => x.EndTime <= filter.EndTime.Value);
+            }
 
-			if (filter.ActiveOnly)
-			{
-				query = query.Where(x => !x.EndTime.HasValue);
-			}
+            if (filter.ActiveOnly)
+            {
+                query = query.Where(x => !x.EndTime.HasValue);
+            }
 
             if (filter.Type.HasValue)
             {
                 query = query.Where(x => x.GameTypeFk == (int)filter.Type.Value);
             }
 
-			return PaginateAndSortAsync(query, filter, x => x.ToCore());
-		}
-	}
+            return PaginateAndSortAsync(query, filter, x => x.ToCore());
+        }
+    }
 }

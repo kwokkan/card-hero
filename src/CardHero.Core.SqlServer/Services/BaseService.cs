@@ -17,13 +17,11 @@ namespace CardHero.Core.SqlServer.Services
     public abstract class BaseService
     {
         private readonly IDesignTimeDbContextFactory<CardHeroDbContext> _contextFactory;
-        private readonly IOptions<CardHeroOptions> _options;
         private readonly Lazy<CardHeroDbContext> _context;
 
-        public BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
+        public BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
-            _options = options;
             _context = new Lazy<CardHeroDbContext>(() => _contextFactory.CreateDbContext(new string[0]));
         }
 
@@ -54,7 +52,7 @@ namespace CardHero.Core.SqlServer.Services
         {
             var result = new SearchResult<TResult>
             {
-                Count = query.Count()
+                Count = query.Count(),
             };
 
             var q = query.Select(selector);

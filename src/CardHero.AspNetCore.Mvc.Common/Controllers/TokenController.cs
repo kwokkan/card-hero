@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace CardHero.AspNetCore.Mvc.Common.Controllers
 {
     public class TokenController : BaseController
-	{
-		public virtual async Task<IActionResult> AuthorizeAsync()
-		{
+    {
+        public virtual async Task<IActionResult> AuthorizeAsync()
+        {
             var httpClient = new HttpClient();
 
             var tokenRequest = new ClientCredentialsTokenRequest
@@ -16,12 +16,12 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
                 Address = "http://localhost:4433/connect/token",
                 ClientId = "TripleTriadWebClient",
                 ClientSecret = "TripleTriadWebClientSecret",
-                Scope = "AccessTripleTriad"
+                Scope = "AccessTripleTriad",
             };
 
             var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(tokenRequest);
 
-			return Json(tokenResponse);
-		}
-	}
+            return Json(tokenResponse);
+        }
+    }
 }

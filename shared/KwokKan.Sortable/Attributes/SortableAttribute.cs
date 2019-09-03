@@ -4,9 +4,9 @@ namespace KwokKan.Sortable
 {
     public class SortableAttribute : Attribute
     {
-		public string Name { get; set; }
+        public string Name { get; set; }
 
-		public int Order { get; set; }
+        public int Order { get; set; }
 
         public SortableAttribute()
         {

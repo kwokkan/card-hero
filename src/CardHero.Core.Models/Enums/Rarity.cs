@@ -28,6 +28,6 @@
         /// <summary>
         /// Legendary.
         /// </summary>
-        Legendary
+        Legendary,
     }
 }

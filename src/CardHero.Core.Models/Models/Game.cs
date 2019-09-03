@@ -6,12 +6,12 @@ namespace CardHero.Core.Models
     /// <summary>
     /// Game.
     /// </summary>
-	public class Game : ICardHeroEntity
+    public class Game : ICardHeroEntity
     {
         /// <summary>
         /// Id.
         /// </summary>
-		public int Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name.
@@ -21,42 +21,42 @@ namespace CardHero.Core.Models
         /// <summary>
         /// Sart time.
         /// </summary>
-		public DateTime StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// End time.
         /// </summary>
-		public DateTime? EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         /// <summary>
         /// Users.
         /// </summary>
-		public IEnumerable<User> Users { get; set; }
+        public IEnumerable<User> Users { get; set; }
 
         /// <summary>
         /// Turns.
         /// </summary>
-		public IEnumerable<Turn> Turns { get; set; }
+        public IEnumerable<Turn> Turns { get; set; }
 
         /// <summary>
         /// Current user.
         /// </summary>
-		public User CurrentUser { get; set; }
+        public User CurrentUser { get; set; }
 
         /// <summary>
         /// Winner.
         /// </summary>
-		public User Winner { get; set; }
+        public User Winner { get; set; }
 
         /// <summary>
         /// Columns.
         /// </summary>
-		public int Columns { get; set; }
+        public int Columns { get; set; }
 
         /// <summary>
         /// Rows.
         /// </summary>
-		public int Rows { get; set; }
+        public int Rows { get; set; }
 
         /// <summary>
         /// Game type.

@@ -14,8 +14,8 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class MoveService : BaseService, IMoveService
     {
-        public MoveService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-            : base(contextFactory, options)
+        public MoveService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
         {
         }
 
@@ -33,7 +33,7 @@ namespace CardHero.Core.SqlServer.Services
                     Column = x.Column,
                     GameId = x.TurnFkNavigation.GameFk,
                     Row = x.Row,
-                    UserId = x.TurnFkNavigation.CurrentUserFk
+                    UserId = x.TurnFkNavigation.CurrentUserFk,
                 })
                 .ToListAsync();
 

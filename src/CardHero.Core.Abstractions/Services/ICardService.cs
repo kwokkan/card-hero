@@ -9,13 +9,13 @@ namespace CardHero.Core.Abstractions
     /// Defines methods to getting cards.
     /// </summary>
     public interface ICardService
-	{
-		/// <summary>
-		/// Gets a list of cards.
-		/// </summary>
-		/// <param name="filter">The card filter to use.</param>
-		/// <returns>A list of cards. Unknown ids will not be returned.</returns>
-		Task<SearchResult<Card>> GetCardsAsync(CardSearchFilter filter);
+    {
+        /// <summary>
+        /// Gets a list of cards.
+        /// </summary>
+        /// <param name="filter">The card filter to use.</param>
+        /// <returns>A list of cards. Unknown ids will not be returned.</returns>
+        Task<SearchResult<Card>> GetCardsAsync(CardSearchFilter filter);
 
         /// <summary>
         /// Gets all the cards belonging to a player.
@@ -39,5 +39,5 @@ namespace CardHero.Core.Abstractions
         /// <param name="userId">The user id.</param>
         /// <returns>true if the card is favourited otherwise false.</returns>
         Task<bool> ToggleFavouriteAsync(int id, int userId);
-	}
+    }
 }
