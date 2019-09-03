@@ -1,7 +1,30 @@
 ﻿{
-	"settings": {
-		"spacingRules": {
-			
-		}
-	}
+  "settings": {
+    "indentation": {
+      "indentationSize": 4,
+      "tabSize": 4,
+      "useTabs": true
+    },
+    "layoutRules": {
+      "allowConsecutiveUsings": true,
+      "newlineAtEndOfFile": "require"
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [
+        "class",
+        "delegate",
+        "enum",
+        "interface",
+        "struct"
+      ]
+    },
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "require",
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "spacingRules": {
+
+    }
+  }
 }
