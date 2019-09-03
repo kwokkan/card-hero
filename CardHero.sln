@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A4871F8E-B9E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{128AF639-3CB9-45A5-8449-7339C2810218}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		global.json = global.json
 		servers.bat = servers.bat
 	EndProjectSection
@@ -45,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.Models", "src\CardHero.Core.Models\CardHero.Core.Models.csproj", "{9D516B83-48CC-4EDA-ACE0-BB7E75EBAD14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.NetCoreApp.TypeScript", "apps\CardHero.NetCoreApp.TypeScript\CardHero.NetCoreApp.TypeScript.csproj", "{3182E7A7-448E-40DE-BB22-6394E486CD26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.NetCoreApp.TypeScript", "apps\CardHero.NetCoreApp.TypeScript\CardHero.NetCoreApp.TypeScript.csproj", "{3182E7A7-448E-40DE-BB22-6394E486CD26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
