@@ -26,7 +26,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 TotalStats = card.TotalStats,
                 Rarity = (Models.Rarity)card.RarityFk,
 
-                IsFavourited = !userId.HasValue ? false : card.CardFavourite.Any(x => x.UserFk == userId.Value)
+                IsFavourited = !userId.HasValue ? false : card.CardFavourite.Any(x => x.UserFk == userId.Value),
             };
         }
 
@@ -38,12 +38,12 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 CardId = collection.CardFk,
                 Id = collection.CardCollectionPk,
                 User = collection.UserFkNavigation.ToCore(),
-                UserId = collection.UserFk
+                UserId = collection.UserFk,
             };
         }
 
-		public static Core.Models.Deck ToCore(this Deck deck, int? userId = null)
-		{
+        public static Core.Models.Deck ToCore(this Deck deck, int? userId = null)
+        {
             return deck == null ? null : new Core.Models.Deck
             {
                 Cards = deck.DeckCardCollection.Select(x => x.ToCore()),
@@ -52,7 +52,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 MaxCards = deck.MaxCards,
                 Name = deck.Name,
 
-                IsFavourited = !userId.HasValue ? false : deck.DeckFavourite.Any(x => x.UserFk == userId.Value)
+                IsFavourited = !userId.HasValue ? false : deck.DeckFavourite.Any(x => x.UserFk == userId.Value),
             };
         }
 
@@ -71,12 +71,12 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Attack = deckCard.CardCollectionFkNavigation.CardFkNavigation.Attack,
                 Defence = deckCard.CardCollectionFkNavigation.CardFkNavigation.Defence,
                 Rarity = (Models.Rarity)deckCard.CardCollectionFkNavigation.CardFkNavigation.RarityFk,
-                TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats
+                TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats,
             };
         }
 
-		public static Core.Models.Game ToCore(this Game game)
-		{
+        public static Core.Models.Game ToCore(this Game game)
+        {
             return new Core.Models.Game
             {
                 Columns = game.Columns,
@@ -90,7 +90,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 StartTime = game.StartTime,
                 Turns = game.Turn.Select(x => x.ToCore()),
                 Type = (Models.GameType)game.GameTypeFk,
-                Winner = game.WinnerFk.HasValue ? game.WinnerFkNavigation.ToCore() : null
+                Winner = game.WinnerFk.HasValue ? game.WinnerFkNavigation.ToCore() : null,
             };
         }
 
@@ -103,20 +103,20 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Expiry = storeItem.Expiry,
                 Id = storeItem.StoreItemPk,
                 ItemCount = storeItem.ItemCount,
-                Name = storeItem.Name
+                Name = storeItem.Name,
             };
         }
 
         public static Core.Models.Turn ToCore(this Turn turn)
-		{
-			return new Core.Models.Turn
-			{
-				EndTime = turn.EndTime,
-				Game = turn.GameFkNavigation.ToCore(),
-				Id = turn.TurnPk,
-				User = turn.CurrentUserFkNavigation.ToCore(),
-				StartTime = turn.StartTime
-			};
+        {
+            return new Core.Models.Turn
+            {
+                EndTime = turn.EndTime,
+                Game = turn.GameFkNavigation.ToCore(),
+                Id = turn.TurnPk,
+                User = turn.CurrentUserFkNavigation.ToCore(),
+                StartTime = turn.StartTime,
+            };
         }
 
         public static Core.Models.User ToCore(this User user)
@@ -133,7 +133,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 FullName = user.FullName,
                 Id = user.UserPk,
                 Identifier = user.Identifier,
-                IdPsource = user.IdPsource
+                IdPsource = user.IdPsource,
             };
         }
     }

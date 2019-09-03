@@ -9,13 +9,13 @@ namespace CardHero.Core.Abstractions
     /// Defines methods for querying the store.
     /// </summary>
     public interface IStoreItemService
-	{
-		/// <summary>
-		/// Gets a list of store items.
-		/// </summary>
-		/// <param name="filter">The store item filter to use.</param>
-		/// <returns>A list of store items.</returns>
-		Task<SearchResult<StoreItem>> GetStoreItemsAsync(StoreItemSearchFilter filter);
+    {
+        /// <summary>
+        /// Gets a list of store items.
+        /// </summary>
+        /// <param name="filter">The store item filter to use.</param>
+        /// <returns>A list of store items.</returns>
+        Task<SearchResult<StoreItem>> GetStoreItemsAsync(StoreItemSearchFilter filter);
 
         /// <summary>
         /// Buy a store item.
@@ -24,5 +24,5 @@ namespace CardHero.Core.Abstractions
         /// <param name="userId">The user to buy for.</param>
         /// <returns>List of items.</returns>
         Task<IEnumerable<Card>> BuyStoreItemAsync(StoreItem storeItem, int userId);
-	}
+    }
 }

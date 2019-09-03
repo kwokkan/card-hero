@@ -14,8 +14,8 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class StoreItemService : BaseService, IStoreItemService
     {
-        public StoreItemService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-            : base(contextFactory, options)
+        public StoreItemService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
         {
         }
 

@@ -12,44 +12,45 @@ using Microsoft.Extensions.Options;
 namespace CardHero.Core.SqlServer.Services
 {
     public class GamePlayService : BaseService, IGamePlayService
-	{
-		private readonly ICardService _cardService;
-		private readonly IGameService _gameService;
+    {
+        private readonly ICardService _cardService;
+        private readonly IGameService _gameService;
 
-		public GamePlayService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options,
-			ICardService cardService, IGameService gamseService
-		)
-			: base(contextFactory, options)
-		{
-			_cardService = cardService;
-			_gameService = gamseService;
-		}
+        public GamePlayService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            ICardService cardService,
+            IGameService gamseService
+        )
+            : base(contextFactory)
+        {
+            _cardService = cardService;
+            _gameService = gamseService;
+        }
 
-		private async Task<Models.Game> ValidateMoveAsync(Core.Models.Move move)
-		{
+        private async Task<Models.Game> ValidateMoveAsync(Core.Models.Move move)
+        {
             var game = (await _gameService.GetGamesAsync(new GameSearchFilter
-			{
-				GameId = move.GameId
-			})).Results.FirstOrDefault();
+            {
+                GameId = move.GameId,
+            })).Results.FirstOrDefault();
 
-			if (game == null)
+            if (game == null)
             {
                 throw new InvalidGameException();
             }
 
-			if (game.CurrentUser.Id != move.UserId)
+            if (game.CurrentUser.Id != move.UserId)
             {
                 throw new InvalidTurnException();
             }
 
             var card = (await _cardService.GetCardCollectionAsync(new CardCollectionSearchFilter
-			{
+            {
                 Ids = new int[] { move.CardCollectionId },
-                UserId = move.UserId
-			})).Results.FirstOrDefault(x => x.Id == move.CardCollectionId);
+                UserId = move.UserId,
+            })).Results.FirstOrDefault(x => x.Id == move.CardCollectionId);
 
-			if (card == null)
+            if (card == null)
             {
                 throw new InvalidCardException();
             }
@@ -60,63 +61,63 @@ namespace CardHero.Core.SqlServer.Services
             }
 
             return game;
-		}
+        }
 
-		public async Task MakeMoveAsync(Core.Models.Move move)
-		{
-			var game = await ValidateMoveAsync(move);
+        public async Task MakeMoveAsync(Core.Models.Move move)
+        {
+            var game = await ValidateMoveAsync(move);
 
-			var context = GetContext();
-			{
-				var currentTurn = context.Game
+            var context = GetContext();
+            {
+                var currentTurn = context.Game
                     .Include(x => x.Turn)
                     .Where(x => x.GamePk == game.Id)
-					.SelectMany(x => x.Turn)
-					.Where(x => !x.EndTime.HasValue)
-					.OrderByDescending(x => x.StartTime)
-					.FirstOrDefault();
+                    .SelectMany(x => x.Turn)
+                    .Where(x => !x.EndTime.HasValue)
+                    .OrderByDescending(x => x.StartTime)
+                    .FirstOrDefault();
 
-				currentTurn.EndTime = DateTime.UtcNow;
+                currentTurn.EndTime = DateTime.UtcNow;
 
-				context.Update(currentTurn);
+                context.Update(currentTurn);
 
-				var currentMove = new EntityFramework.Move
-				{
-					CardCollectionFk = move.CardCollectionId,
-					Column = move.Column,
-					CreatedTime = DateTime.UtcNow,
-					Row = move.Row,
-					TurnFk = currentTurn.TurnPk
-				};
+                var currentMove = new EntityFramework.Move
+                {
+                    CardCollectionFk = move.CardCollectionId,
+                    Column = move.Column,
+                    CreatedTime = DateTime.UtcNow,
+                    Row = move.Row,
+                    TurnFk = currentTurn.TurnPk,
+                };
 
-				context.Add(currentMove);
+                context.Add(currentMove);
 
-				var nextUser = game.Users
-					.SkipWhile(x => x.Id != move.UserId)
-					.Skip(1)
-					.FirstOrDefault();
+                var nextUser = game.Users
+                    .SkipWhile(x => x.Id != move.UserId)
+                    .Skip(1)
+                    .FirstOrDefault();
 
-				if (nextUser == null)
+                if (nextUser == null)
                 {
                     nextUser = game.Users.First();
                 }
 
                 var newTurn = new EntityFramework.Turn
-				{
-					CurrentUserFk = nextUser.Id,
-					GameFk = game.Id,
-					StartTime = DateTime.UtcNow
-				};
+                {
+                    CurrentUserFk = nextUser.Id,
+                    GameFk = game.Id,
+                    StartTime = DateTime.UtcNow,
+                };
 
-				context.Add(newTurn);
+                context.Add(newTurn);
 
-				var currentGame = context.Game.SingleOrDefault(x => x.GamePk == game.Id);
-				currentGame.CurrentUserFk = nextUser.Id;
+                var currentGame = context.Game.SingleOrDefault(x => x.GamePk == game.Id);
+                currentGame.CurrentUserFk = nextUser.Id;
 
-				context.Update(currentGame);
+                context.Update(currentGame);
 
-				await context.SaveChangesAsync();
-			}
-		}
-	}
+                await context.SaveChangesAsync();
+            }
+        }
+    }
 }

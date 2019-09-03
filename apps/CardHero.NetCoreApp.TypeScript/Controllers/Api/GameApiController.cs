@@ -42,7 +42,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
             var filter = new GameSearchFilter
             {
-                GameId = id
+                GameId = id,
             };
             var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
             var moves = await _moveService.GetMovesAsync(id);
@@ -54,14 +54,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 {
                     CardCollectionId = x.CardCollectionId,
                     Column = x.Column,
-                    Row = x.Row
+                    Row = x.Row,
                 }).ToList(),
-                Rows = game.Rows
+                Rows = game.Rows,
             };
 
             var model = new GameViewModel(game)
             {
-                Data = data
+                Data = data,
             };
 
             foreach (var card in model.Deck.Cards)
@@ -83,7 +83,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Name = model.Name,
                 Type = model.Type,
                 StartTime = DateTime.UtcNow,
-                Users = new User[] { new User { Id = userId } }
+                Users = new User[] { new User { Id = userId } },
             };
 
             var newGame = await _gameService.CreateGameAsync(game);
@@ -102,7 +102,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Column = model.Column,
                 GameId = id,
                 Row = model.Row,
-                UserId = user.Id
+                UserId = user.Id,
             };
             await _gamePlayService.MakeMoveAsync(move);
 

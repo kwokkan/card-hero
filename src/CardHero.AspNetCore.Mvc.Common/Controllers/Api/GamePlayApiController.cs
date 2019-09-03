@@ -8,26 +8,26 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
 {
     [Route("api/gameplay")]
     public class GamePlayApiController : BaseController
-	{
-		private readonly IGamePlayService _gamePlayService;
+    {
+        private readonly IGamePlayService _gamePlayService;
 
-		public GamePlayApiController(IGamePlayService gamePlayService)
-		{
-			_gamePlayService = gamePlayService;
-		}
+        public GamePlayApiController(IGamePlayService gamePlayService)
+        {
+            _gamePlayService = gamePlayService;
+        }
 
-		[HttpPost("move")]
-		public async Task MoveAsync([FromBody]MoveViewModel model)
-		{
-			var move = new Move
-			{
-				CardCollectionId = model.CardCollectionId,
-				Column = model.Column,
-				GameId = model.GameId,
-				Row = model.Row
-			};
+        [HttpPost("move")]
+        public async Task MoveAsync([FromBody]MoveViewModel model)
+        {
+            var move = new Move
+            {
+                CardCollectionId = model.CardCollectionId,
+                Column = model.Column,
+                GameId = model.GameId,
+                Row = model.Row,
+            };
 
-			await _gamePlayService.MakeMoveAsync(move);
-		}
-	}
+            await _gamePlayService.MakeMoveAsync(move);
+        }
+    }
 }

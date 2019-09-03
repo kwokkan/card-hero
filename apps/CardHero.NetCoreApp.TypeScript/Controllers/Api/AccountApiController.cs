@@ -31,7 +31,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             {
                 Coins = user.Coins,
                 FullName = user.FullName,
-                Identifier = user.Identifier
+                Identifier = user.Identifier,
             };
 
             return Ok(result);

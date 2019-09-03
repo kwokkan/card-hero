@@ -123,7 +123,7 @@ namespace CardHero.NetCoreApp.TypeScript
                         context.Context.Response.Headers.Add("SourceMap", sourceMapFileName);
                         context.Context.Response.Headers.Add("X-SourceMap", sourceMapFileName);
                     }
-                }
+                },
             };
             app.UseStaticFiles(staticFileOptions);
 

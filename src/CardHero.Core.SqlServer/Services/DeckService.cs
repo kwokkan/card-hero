@@ -11,41 +11,41 @@ using Microsoft.Extensions.Options;
 namespace CardHero.Core.SqlServer.Services
 {
     public class DeckService : BaseService, IDeckService
-	{
-		public DeckService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options)
-			: base(contextFactory, options)
-		{
-		}
+    {
+        public DeckService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+            : base(contextFactory)
+        {
+        }
 
-		public async Task<Core.Models.Deck> CreateDeckAsync(Core.Models.Deck deck, int userId)
-		{
-			using (var context = GetContext())
-			{
-				var entity = new EntityFramework.Deck
-				{
+        public async Task<Core.Models.Deck> CreateDeckAsync(Core.Models.Deck deck, int userId)
+        {
+            using (var context = GetContext())
+            {
+                var entity = new EntityFramework.Deck
+                {
                     Description = deck.Description,
-					MaxCards = deck.MaxCards,
-					Name = deck.Name,
-					UserFk = userId
-				};
-				context.Deck.Add(entity);
+                    MaxCards = deck.MaxCards,
+                    Name = deck.Name,
+                    UserFk = userId,
+                };
+                context.Deck.Add(entity);
 
-				await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
 
-				return await GetDeckByIdAsync(entity.DeckPk);
-			}
-		}
+                return await GetDeckByIdAsync(entity.DeckPk);
+            }
+        }
 
-		public Task<Core.Models.Deck> GetDeckByIdAsync(int id)
-		{
-			using (var context = GetContext())
-			{
-				var query = context.Deck.SingleOrDefault(x => x.DeckPk == id);
-				var result = query.ToCore();
+        public Task<Core.Models.Deck> GetDeckByIdAsync(int id)
+        {
+            using (var context = GetContext())
+            {
+                var query = context.Deck.SingleOrDefault(x => x.DeckPk == id);
+                var result = query.ToCore();
 
-				return Task.FromResult(result);
-			}
-		}
+                return Task.FromResult(result);
+            }
+        }
 
         public async Task<SearchResult<Core.Models.Deck>> GetDecksAsync(DeckSearchFilter filter)
         {
@@ -92,7 +92,7 @@ namespace CardHero.Core.SqlServer.Services
                 var newDeckFavourite = new DeckFavourite
                 {
                     DeckFk = id,
-                    UserFk = userId
+                    UserFk = userId,
                 };
 
                 context.DeckFavourite.Add(newDeckFavourite);
@@ -155,7 +155,7 @@ namespace CardHero.Core.SqlServer.Services
                 context.DeckCardCollection.Add(new DeckCardCollection
                 {
                     CardCollectionFk = d,
-                    DeckFk = id
+                    DeckFk = id,
                 });
             }
 
@@ -163,8 +163,8 @@ namespace CardHero.Core.SqlServer.Services
         }
 
         public Task UpdateDeckAsync(int deckId, Core.Models.Deck deck)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -14,7 +14,7 @@ namespace CardHero.NetCoreApp.Mvc.Models
             new SelectListItem { Text = "10" },
             new SelectListItem { Text = "25" },
             new SelectListItem { Text = "50" },
-            new SelectListItem { Text = "100" }
+            new SelectListItem { Text = "100" },
         };
 
         public int Total { get; set; }

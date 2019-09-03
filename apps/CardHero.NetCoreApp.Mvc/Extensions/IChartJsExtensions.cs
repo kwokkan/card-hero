@@ -24,7 +24,7 @@ namespace CardHero.NetCoreApp.Mvc.Models.ChartJs
                             return new
                             {
                                 Value = da ?? ca.Label ?? x.Name,
-                                Order = ca.Order
+                                Order = ca.Order,
                             };
                         })
                         .OrderBy(x => x.Order)
@@ -50,7 +50,7 @@ namespace CardHero.NetCoreApp.Mvc.Models.ChartJs
                             return new
                             {
                                 Value = x.GetValue(chart, null),
-                                Order = ca.Order
+                                Order = ca.Order,
                             };
                         })
                         .OrderBy(x => x.Order)

@@ -14,8 +14,8 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly NewUserOptions _newUserOptions;
 
-        public UserService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, IOptions<CardHeroOptions> options, NewUserOptions newUserOptions)
-            : base(contextFactory, options)
+        public UserService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, NewUserOptions newUserOptions)
+            : base(contextFactory)
         {
             _newUserOptions = newUserOptions;
         }
@@ -32,7 +32,7 @@ namespace CardHero.Core.SqlServer.Services
                     IdPsource = idp,
                     FullName = name,
 
-                    Coins = _newUserOptions.Coins
+                    Coins = _newUserOptions.Coins,
                 };
 
                 var context = GetContext();

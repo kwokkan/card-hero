@@ -6,12 +6,12 @@ namespace CardHero.Core.Models
     /// <summary>
     /// Store item.
     /// </summary>
-	public class StoreItem : ICardHeroEntity
+    public class StoreItem : ICardHeroEntity
     {
         /// <summary>
         /// Id.
         /// </summary>
-		public int Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name.

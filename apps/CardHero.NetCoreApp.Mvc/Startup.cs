@@ -76,7 +76,7 @@ namespace CardHero.NetCoreApp.Mvc
                             }
 
                             return Task.CompletedTask;
-                        }
+                        },
                     };
                     x.GetClaimsFromUserInfoEndpoint = true;
                     x.ResponseType = "code id_token token";
@@ -84,7 +84,7 @@ namespace CardHero.NetCoreApp.Mvc
                     x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
                         NameClaimType = "name",
-                        RoleClaimType = "role"
+                        RoleClaimType = "role",
                     };
 
                     if (kkidOptions.Scopes != null)

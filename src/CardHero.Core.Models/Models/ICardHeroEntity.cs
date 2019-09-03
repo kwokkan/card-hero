@@ -3,11 +3,11 @@
     /// <summary>
     /// Main class.
     /// </summary>
-	public interface ICardHeroEntity
+    public interface ICardHeroEntity
     {
         /// <summary>
         /// Id.
         /// </summary>
-		int Id { get; set; }
+        int Id { get; set; }
     }
 }

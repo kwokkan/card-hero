@@ -5,17 +5,17 @@ namespace CardHero.Core.Models
     /// <summary>
     /// Deck.
     /// </summary>
-	public class Deck : ICardHeroEntity
+    public class Deck : ICardHeroEntity
     {
         /// <summary>
         /// Id.
         /// </summary>
-		public int Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name.
         /// </summary>
-		public string Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Description.
@@ -25,7 +25,7 @@ namespace CardHero.Core.Models
         /// <summary>
         /// Max cards.
         /// </summary>
-		public int MaxCards { get; set; }
+        public int MaxCards { get; set; }
 
         /// <summary>
         /// Is favourited.
@@ -35,6 +35,6 @@ namespace CardHero.Core.Models
         /// <summary>
         /// List of cards.
         /// </summary>
-		public IEnumerable<DeckCard> Cards { get; set; }
-	}
+        public IEnumerable<DeckCard> Cards { get; set; }
+    }
 }

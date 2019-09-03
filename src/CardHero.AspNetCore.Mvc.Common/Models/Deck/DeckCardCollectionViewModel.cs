@@ -2,6 +2,6 @@
 {
     public class DeckCardCollectionViewModel : CardViewModel
     {
-		public int DeckCardCollectionId { get; set; }
-	}
+        public int DeckCardCollectionId { get; set; }
+    }
 }

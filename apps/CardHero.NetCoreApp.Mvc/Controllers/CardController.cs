@@ -27,7 +27,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Name = model.Name,
-                UserId = (await GetUserAsync())?.Id
+                UserId = (await GetUserAsync())?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
@@ -45,7 +45,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             var filter = new CardSearchFilter
             {
                 Ids = new[] { id },
-                UserId = (await GetUserAsync())?.Id
+                UserId = (await GetUserAsync())?.Id,
             };
 
             var card = (await _cardService.GetCardsAsync(filter)).Results.FirstOrDefault();

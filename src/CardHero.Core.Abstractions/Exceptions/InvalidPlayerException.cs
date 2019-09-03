@@ -2,23 +2,23 @@
 
 namespace CardHero.Core.Abstractions
 {
-	/// <summary>
-	/// Represents a player which is invalid.
-	/// </summary>
-	public class InvalidPlayerException : CardHeroException
-	{
-		public InvalidPlayerException()
-		{
-		}
+    /// <summary>
+    /// Represents a player which is invalid.
+    /// </summary>
+    public class InvalidPlayerException : CardHeroException
+    {
+        public InvalidPlayerException()
+        {
+        }
 
-		public InvalidPlayerException(string message)
+        public InvalidPlayerException(string message)
             : base(message)
-		{
-		}
+        {
+        }
 
-		public InvalidPlayerException(string message, Exception innerException)
+        public InvalidPlayerException(string message, Exception innerException)
             : base(message, innerException)
-		{
-		}
-	}
+        {
+        }
+    }
 }
