@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -15,16 +15,19 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly ICardService _cardService;
         private readonly IGameService _gameService;
+        private readonly IGameRepository _gameRepository;
 
         public GamePlayService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardService cardService,
-            IGameService gamseService
+            IGameService gamseService,
+            IGameRepository gameRepository
         )
             : base(contextFactory)
         {
             _cardService = cardService;
             _gameService = gamseService;
+            _gameRepository = gameRepository;
         }
 
         private async Task<Models.Game> ValidateMoveAsync(Core.Models.Move move)
@@ -57,7 +60,14 @@ namespace CardHero.Core.SqlServer.Services
 
             if (move.Row < 0 || move.Row >= game.Rows || move.Column < 0 || move.Column >= game.Columns)
             {
-                throw new InvalidMoveException();
+                throw new InvalidMoveException("Move must be made on the board.");
+            }
+
+            var moves = await _gameRepository.GetMovesByGameIdAsync(move.GameId);
+
+            if (moves.Any(x => x.Row == move.Row && x.Column == move.Column))
+            {
+                throw new InvalidMoveException("There is already a card in this location.");
             }
 
             return game;

@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
+    <ProjectReference Include="..\CardHero.Data.Abstractions\CardHero.Data.Abstractions.csproj" />
   </ItemGroup>
 	
 </Project>

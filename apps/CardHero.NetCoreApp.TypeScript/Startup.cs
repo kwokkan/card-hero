@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -89,6 +89,8 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.SupportedHttpMethods.Add("POST");
                 })
             ;
+
+            services.AddCardHeroDataSqlServer(Configuration);
 
             services.AddCardHeroSqlServerDbContext(Configuration);
         }
