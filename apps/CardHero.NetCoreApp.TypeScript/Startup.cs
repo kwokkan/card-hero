@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -27,6 +28,9 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var localAuthOptions = Configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
+            localAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
             var githubAuthOptions = Configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
             githubAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
@@ -56,6 +60,7 @@ namespace CardHero.NetCoreApp.TypeScript
                         return Task.CompletedTask;
                     };
                 })
+                .AddLocalAuthentication(localAuthOptions)
                 .AddGitHubAuthentication(githubAuthOptions)
             ;
 
@@ -124,6 +129,8 @@ namespace CardHero.NetCoreApp.TypeScript
                 },
             };
             app.UseStaticFiles(staticFileOptions);
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             app.UseAuthentication();
 

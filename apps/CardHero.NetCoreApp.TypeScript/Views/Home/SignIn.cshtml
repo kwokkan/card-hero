@@ -1,0 +1,21 @@
+﻿@model SignInViewModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container body-content">
+    <div className="row">
+        <div class="card">
+            <div class="card-header">Sign In</div>
+            <div class="card-body">
+                <form method="post">
+                    @Html.HiddenFor(x => x.RedirectUri)
+                    @foreach (var ai in Model.AllowedIdPs)
+                    {
+                        <button type="submit" name="idp" class="btn btn-primary" value="@ai">@ai</button>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,20 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Linq;
+
+using CardHero.NetCoreApp.TypeScript.Models;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
 {
     public class HomeController : Controller
     {
+        private static readonly string[] AllowedIdPs = new string[]
+        {
+            LocalAuthenticationOptions.DefaultAuthenticationScheme,
+            GitHubAuthenticationOptions.DefaultAuthenticationScheme,
+        };
+
         public IActionResult Index()
         {
             return View();
@@ -29,7 +39,39 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
                 returnUrl = referer;
             }
 
-            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, GitHubAuthenticationOptions.DefaultAuthenticationScheme);
+            var model = new SignInViewModel
+            {
+                AllowedIdPs = AllowedIdPs,
+                RedirectUri = returnUrl,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost(nameof(SignIn))]
+        [ValidateAntiForgeryToken]
+        public IActionResult SignIn(string idp, string redirectUri)
+        {
+            if (!AllowedIdPs.Contains(idp))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var absoluteBaseUri = string.Format(
+                "{0}://{1}{2}",
+                Request.Scheme,
+                Request.Host,
+                Request.PathBase.HasValue ? "/" + Request.PathBase : string.Empty
+            );
+
+            var returnUrl = "/";
+
+            if (!string.IsNullOrWhiteSpace(redirectUri) && redirectUri.StartsWith(absoluteBaseUri + "/"))
+            {
+                returnUrl = redirectUri;
+            }
+
+            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, idp);
         }
 
         [Route("SignOut")]

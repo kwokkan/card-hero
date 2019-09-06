@@ -8,10 +8,11 @@ using CardHero.NetCoreApp.TypeScript;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.AspNetCore.Builder
 {
     public static class GitHubAuthenticationBuilderExtensions
     {
@@ -19,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             authenticationBuilder.AddOAuth(GitHubAuthenticationOptions.DefaultAuthenticationScheme, GitHubAuthenticationOptions.DefaultDisplayName, x =>
             {
-                x.CallbackPath = new AspNetCore.Http.PathString("/signin-github");
+                x.CallbackPath = new Http.PathString("/signin-github");
 
                 x.ClientId = options.ClientId;
                 x.ClientSecret = options.ClientSecret;
