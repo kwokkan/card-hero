@@ -98,14 +98,7 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
+            app.UseJsonException();
 
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
@@ -121,9 +114,12 @@ namespace CardHero.NetCoreApp.TypeScript
                     {
                         context.Context.Response.Headers.Add("Cache-Control", "public, max-age=31536000, stale-while-revalidate=31536000, stale-if-error=31536000, immutable");
 
-                        var sourceMapFileName = context.File.Name + ".map";
-                        context.Context.Response.Headers.Add("SourceMap", sourceMapFileName);
-                        context.Context.Response.Headers.Add("X-SourceMap", sourceMapFileName);
+                        if (env.IsDevelopment())
+                        {
+                            var sourceMapFileName = context.File.Name + ".map";
+                            context.Context.Response.Headers.Add("SourceMap", sourceMapFileName);
+                            context.Context.Response.Headers.Add("X-SourceMap", sourceMapFileName);
+                        }
                     }
                 },
             };
