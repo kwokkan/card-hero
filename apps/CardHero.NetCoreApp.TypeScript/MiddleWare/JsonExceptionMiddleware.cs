@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace CardHero.NetCoreApp.TypeScript.MiddleWare
+namespace CardHero.NetCoreApp.TypeScript.Middleware
 {
     public class JsonExceptionMiddleware
     {
