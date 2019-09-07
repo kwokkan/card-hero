@@ -1,4 +1,4 @@
-﻿using CardHero.NetCoreApp.TypeScript.MiddleWare;
+﻿using CardHero.NetCoreApp.TypeScript.Middleware;
 
 namespace Microsoft.AspNetCore.Builder
 {
