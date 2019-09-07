@@ -11,11 +11,18 @@ namespace CardHero.Data.SqlServer
 {
     public class GameRepository : IGameRepository
     {
-        private readonly ICardHeroDataDbContextFactory _factory;
+        private const int DefaultPageSize = 30;
 
-        public GameRepository(ICardHeroDataDbContextFactory factory)
+        private readonly ICardHeroDataDbContextFactory _factory;
+        private readonly IMapper<Game, GameData> _mapper;
+
+        public GameRepository(
+            ICardHeroDataDbContextFactory factory,
+            IMapper<Game, GameData> mapper
+        )
         {
             _factory = factory;
+            _mapper = mapper;
         }
 
         public async Task<GameData> AddGameAsync(GameData game, CancellationToken cancellationToken = default)
@@ -39,6 +46,37 @@ namespace CardHero.Data.SqlServer
                 game.Id = data.GamePk;
 
                 return game;
+            }
+        }
+
+        public async Task<SearchResult<GameData>> FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
+        {
+            using (var context = _factory.Create())
+            {
+                var query = context.Game.AsQueryable();
+
+                if (filter.Type.HasValue)
+                {
+                    query = query.Where(x => x.GameTypeFk == (int)filter.Type);
+                }
+
+                var totalCount = await query.CountAsync();
+
+                query = query.OrderByDescending(x => x.GamePk);
+
+                query = query.Skip(0).Take(DefaultPageSize);
+
+                var results = query.Select(_mapper.Map).ToArray();
+
+                var result = new SearchResult<GameData>
+                {
+                    CurrentPage = 0,
+                    PageSize = DefaultPageSize,
+                    Results = results,
+                    TotalCount = totalCount,
+                };
+
+                return result;
             }
         }
 

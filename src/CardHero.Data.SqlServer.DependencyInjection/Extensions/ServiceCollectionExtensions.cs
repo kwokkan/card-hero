@@ -12,6 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddCardHeroDataSqlServerDbContext(configuration);
 
+            services.AddCardHeroDataSqlServerMappers();
+
             services.AddCardHeroDataSqlServerRepositories();
 
             return services;
@@ -34,11 +36,21 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
+        private static IServiceCollection AddCardHeroDataSqlServerMappers(this IServiceCollection services)
+        {
+            services
+                .AddScoped<IMapper<Game, GameData>, GameMapper>()
+            ;
+
+            return services;
+        }
+
         private static IServiceCollection AddCardHeroDataSqlServerRepositories(this IServiceCollection services)
         {
             services
                 .AddScoped<IGameRepository, GameRepository>()
             ;
+
             return services;
         }
     }

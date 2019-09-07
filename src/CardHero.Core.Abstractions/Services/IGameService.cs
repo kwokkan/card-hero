@@ -28,5 +28,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="filter">The game filter to use.</param>
         /// <returns>A list of games.</returns>
         Task<SearchResult<Game>> GetGamesAsync(GameSearchFilter filter);
+
+        Task<SearchResult<Game>> NewGetGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default);
     }
 }

@@ -32,7 +32,7 @@ namespace CardHero.Core.SqlServer.Services
 
         private async Task<Models.Game> ValidateMoveAsync(Core.Models.Move move)
         {
-            var game = (await _gameService.GetGamesAsync(new GameSearchFilter
+            var game = (await _gameService.GetGamesAsync(new Abstractions.GameSearchFilter
             {
                 GameId = move.GameId,
             })).Results.FirstOrDefault();

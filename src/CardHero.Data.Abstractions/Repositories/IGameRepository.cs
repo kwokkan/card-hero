@@ -7,6 +7,8 @@ namespace CardHero.Data.Abstractions
     {
         Task<GameData> AddGameAsync(GameData game, CancellationToken cancellationToken = default);
 
+        Task<SearchResult<GameData>> FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default);
+
         Task<MoveData[]> GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken = default);
     }
 }

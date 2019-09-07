@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
 
@@ -16,16 +17,19 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly IGameValidator _gameValidator;
         private readonly IGameRepository _gameRepository;
+        private readonly IDataMapper<GameData, Models.Game> _mapper;
 
         public GameService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IGameValidator gameValidator,
-            IGameRepository gameRepository
+            IGameRepository gameRepository,
+            IDataMapper<GameData, Models.Game> mapper
         )
             : base(contextFactory)
         {
             _gameValidator = gameValidator;
             _gameRepository = gameRepository;
+            _mapper = mapper;
         }
 
         public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
@@ -77,7 +81,7 @@ namespace CardHero.Core.SqlServer.Services
             context.Add(newGame);
             await context.SaveChangesAsync();
 
-            var filter = new GameSearchFilter
+            var filter = new Abstractions.GameSearchFilter
             {
                 GameId = newGame.GamePk,
             };
@@ -106,9 +110,9 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        public Task<SearchResult<Core.Models.Game>> GetGamesAsync(GameSearchFilter filter)
+        public Task<Abstractions.SearchResult<Core.Models.Game>> GetGamesAsync(Abstractions.GameSearchFilter filter)
         {
-            var result = new SearchResult<Core.Models.Game>();
+            var result = new Abstractions.SearchResult<Core.Models.Game>();
 
             var context = GetContext();
 
@@ -156,6 +160,25 @@ namespace CardHero.Core.SqlServer.Services
             }
 
             return PaginateAndSortAsync(query, filter, x => x.ToCore());
+        }
+
+        public async Task<Abstractions.SearchResult<Models.Game>> NewGetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken = default)
+        {
+            var result = await _gameRepository.FindGamesAsync(
+                new Data.Abstractions.GameSearchFilter
+                {
+                    Type = (Data.Abstractions.GameType?)(int?)filter.Type,
+                },
+                cancellationToken: cancellationToken
+            );
+
+            var results = new Abstractions.SearchResult<Models.Game>
+            {
+                Count = result.TotalCount,
+                Results = result.Results.Select(_mapper.Map).ToList(),
+            };
+
+            return results;
         }
     }
 }
