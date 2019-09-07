@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class GameService : BaseService, IGameService
     {
-        public GameService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IGameValidator _gameValidator;
+        private readonly IGameRepository _gameRepository;
+
+        public GameService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IGameValidator gameValidator,
+            IGameRepository gameRepository
+        )
             : base(contextFactory)
         {
+            _gameValidator = gameValidator;
+            _gameRepository = gameRepository;
         }
 
         public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
@@ -72,6 +84,26 @@ namespace CardHero.Core.SqlServer.Services
             var result = (await GetGamesAsync(filter)).Results.FirstOrDefault();
 
             return result;
+        }
+
+        public async Task<Models.Game> NewCreateGameAsync(Models.Game game, CancellationToken cancellationToken = default)
+        {
+            await _gameValidator.ValidateGameAsync(game);
+
+            var newGame = new GameData
+            {
+                Columns = game.Columns,
+                Name = game.Name,
+                Rows = game.Rows,
+                StartTime = DateTime.UtcNow,
+                Type = (Data.Abstractions.GameType)(int)game.Type,
+            };
+
+            newGame = await _gameRepository.AddGameAsync(newGame, cancellationToken: cancellationToken);
+
+            game.Id = newGame.Id;
+
+            return game;
         }
 
         public Task<SearchResult<Core.Models.Game>> GetGamesAsync(GameSearchFilter filter)

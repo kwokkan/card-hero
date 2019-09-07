@@ -17,6 +17,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int CurrentUserFk { get; set; }
         public int GameFk { get; set; }
 
+        public virtual Game GameFkNavigation { get; set; }
         public virtual ICollection<Move> Move { get; set; }
     }
 }

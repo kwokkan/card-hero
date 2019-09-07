@@ -41,6 +41,10 @@ namespace CardHero.Core.SqlServer.Web
                 .AddScoped<IUserService, UserService>()
             ;
 
+            services
+                .AddScoped<IGameValidator, GameValidator>()
+            ;
+
             return services;
         }
     }

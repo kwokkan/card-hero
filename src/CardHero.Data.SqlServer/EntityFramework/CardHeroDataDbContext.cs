@@ -15,12 +15,82 @@ namespace CardHero.Data.SqlServer.EntityFramework
         {
         }
 
+        public virtual DbSet<Game> Game { get; set; }
+        public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+
+            modelBuilder.Entity<Game>(entity =>
+            {
+                entity.HasKey(e => e.GamePk);
+
+                entity.HasIndex(e => e.CurrentGameUserFk);
+
+                entity.HasIndex(e => e.GameTypeFk);
+
+                entity.HasIndex(e => e.WinnerFk);
+
+                entity.Property(e => e.GamePk).HasColumnName("Game_PK");
+
+                entity.Property(e => e.Columns).HasDefaultValueSql("((3))");
+
+                entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
+
+                entity.Property(e => e.GameTypeFk)
+                    .HasColumnName("GameType_FK")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.Rows).HasDefaultValueSql("((3))");
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion();
+
+                entity.Property(e => e.StartTime).HasDefaultValueSql("(getutcdate())");
+
+                entity.Property(e => e.WinnerFk).HasColumnName("Winner_FK");
+
+                entity.HasOne(d => d.CurrentGameUserFkNavigation)
+                    .WithMany(p => p.GameCurrentGameUserFkNavigation)
+                    .HasForeignKey(d => d.CurrentGameUserFk)
+                    .HasConstraintName("FK_Game_CurrentUser_FK");
+
+                entity.HasOne(d => d.WinnerFkNavigation)
+                    .WithMany(p => p.GameWinnerFkNavigation)
+                    .HasForeignKey(d => d.WinnerFk)
+                    .HasConstraintName("FK_Game_Winner_FK");
+            });
+
+            modelBuilder.Entity<GameUser>(entity =>
+            {
+                entity.HasKey(e => e.GameUserPk);
+
+                entity.HasIndex(e => e.GameFk);
+
+                entity.HasIndex(e => e.UserFk);
+
+                entity.Property(e => e.GameUserPk).HasColumnName("GameUser_PK");
+
+                entity.Property(e => e.GameFk).HasColumnName("Game_FK");
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion();
+
+                entity.Property(e => e.UserFk).HasColumnName("User_FK");
+
+                entity.HasOne(d => d.GameFkNavigation)
+                    .WithMany(p => p.GameUser)
+                    .HasForeignKey(d => d.GameFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameUser_Game");
+            });
 
             modelBuilder.Entity<Move>(entity =>
             {
@@ -66,6 +136,12 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .IsRowVersion();
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.GameFkNavigation)
+                    .WithMany(p => p.Turn)
+                    .HasForeignKey(d => d.GameFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Turn_Game_FK");
             });
         }
     }

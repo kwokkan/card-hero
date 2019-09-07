@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -73,7 +74,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<Game>> PostAsync([FromBody]Game model)
+        public async Task<ActionResult<Game>> PostAsync([FromBody]Game model, CancellationToken cancellationToken)
         {
             var userId = (await GetUserAsync()).Id;
 
@@ -86,7 +87,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Users = new User[] { new User { Id = userId } },
             };
 
-            var newGame = await _gameService.CreateGameAsync(game);
+            var newGame = await _gameService.NewCreateGameAsync(game, cancellationToken: cancellationToken);
 
             return newGame;
         }

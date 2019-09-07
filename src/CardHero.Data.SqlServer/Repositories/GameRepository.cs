@@ -18,6 +18,30 @@ namespace CardHero.Data.SqlServer
             _factory = factory;
         }
 
+        public async Task<GameData> AddGameAsync(GameData game, CancellationToken cancellationToken = default)
+        {
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                var data = new Game
+                {
+                    Columns = game.Columns,
+                    CurrentGameUserFk = game.CurrentGameUserId,
+                    GameTypeFk = (int)game.Type,
+                    Name = game.Name,
+                    Rows = game.Rows,
+                    StartTime = game.StartTime,
+                };
+
+                context.Game.Add(data);
+
+                await context.SaveChangesAsync();
+
+                game.Id = data.GamePk;
+
+                return game;
+            }
+        }
+
         public async Task<MoveData[]> GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
             using (var context = _factory.Create())

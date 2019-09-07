@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Models;
@@ -18,6 +19,8 @@ namespace CardHero.Core.Abstractions
         /// <exception cref="ArgumentException">When there are no users starting the game.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="game"/> is null.</exception>
         Task<Game> CreateGameAsync(Game game);
+
+        Task<Game> NewCreateGameAsync(Game game, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets a list of games.

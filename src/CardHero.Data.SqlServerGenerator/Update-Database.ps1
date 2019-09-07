@@ -7,5 +7,7 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -Context CardHeroDataDbContext `
 -OutputDir EntityFramework `
 -Tables `
+Game,`
+GameUser,`
 Move,`
 Turn
