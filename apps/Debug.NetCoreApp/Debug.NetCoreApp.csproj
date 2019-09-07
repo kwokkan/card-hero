@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
   </ItemGroup>
 
 </Project>
