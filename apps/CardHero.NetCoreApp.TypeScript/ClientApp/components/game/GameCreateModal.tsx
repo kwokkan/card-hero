@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, Component } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import DeckModel from "../../models/DeckModel";
 import GameType from "../../models/GameType";
 import { nameof } from "../../utils/nameof";
@@ -133,11 +133,13 @@ export default class GameCreateModal extends Component<IGameCreateModalProps, IG
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.onHide}>Close</Button>
-                    <Button
+                    <button type="button" className="btn btn-secondary" onClick={this.props.onHide}>Close</button>
+                    <button
+                        type="button"
+                        className="btn btn-success"
                         onClick={() => this.onCreated()}
                         disabled={!this.state.canSave}
-                    >OK</Button>
+                    >OK</button>
                 </Modal.Footer>
             </Modal>
         );
