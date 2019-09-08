@@ -2,7 +2,7 @@
 
 namespace CardHero.NetCoreApp.TypeScript.Models
 {
-    public class GameViewModel : Game
+    public class GameViewModel : GameModel
     {
         public object Data { get; set; }
 
@@ -10,7 +10,7 @@ namespace CardHero.NetCoreApp.TypeScript.Models
         {
         }
 
-        public GameViewModel(Game game)
+        public GameViewModel(GameModel game)
         {
             this.Deck = game.Deck;
             this.Id = game.Id;

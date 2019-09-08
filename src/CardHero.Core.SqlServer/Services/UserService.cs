@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,13 @@ namespace CardHero.Core.SqlServer.Services
             _newUserOptions = newUserOptions;
         }
 
-        public async Task<Core.Models.User> CreateUserAsync(string identifier, string idp, string name)
+        public async Task<UserModel> CreateUserAsync(string identifier, string idp, string name)
         {
             var user = await GetUserByIdentifierAsync(identifier, idp);
 
             if (user == null)
             {
-                var efUser = new EntityFramework.User
+                var efUser = new User
                 {
                     Identifier = identifier,
                     IdPsource = idp,
@@ -47,7 +48,7 @@ namespace CardHero.Core.SqlServer.Services
             return user;
         }
 
-        public async Task<Core.Models.User> GetUserByIdentifierAsync(string identifier, string idp)
+        public async Task<UserModel> GetUserByIdentifierAsync(string identifier, string idp)
         {
             var context = GetContext();
 

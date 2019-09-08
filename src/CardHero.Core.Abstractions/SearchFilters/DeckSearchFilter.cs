@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
@@ -6,7 +7,7 @@ namespace CardHero.Core.Abstractions
     /// <summary>
     /// Filter for searching decks.
     /// </summary>
-    public class DeckSearchFilter : SearchFilter<Deck>
+    public class DeckSearchFilter : SearchFilter<DeckModel>
     {
         /// <summary>
         /// A list of deck ids to search for.

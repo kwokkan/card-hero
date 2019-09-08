@@ -16,7 +16,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _userService = userService;
         }
 
-        protected async Task<User> GetUserAsync()
+        protected async Task<UserModel> GetUserAsync()
         {
             if (!User.Identity.IsAuthenticated)
             {

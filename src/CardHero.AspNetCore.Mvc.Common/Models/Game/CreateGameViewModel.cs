@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using CardHero.Core.Models;
 
 namespace CardHero.AspNetCore.Mvc.Common.Models
@@ -7,6 +8,6 @@ namespace CardHero.AspNetCore.Mvc.Common.Models
     {
         public IEnumerable<int> PlayerIds { get; set; }
 
-        public IEnumerable<User> Players { get; set; }
+        public IEnumerable<UserModel> Players { get; set; }
     }
 }

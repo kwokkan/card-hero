@@ -17,13 +17,13 @@ namespace CardHero.Core.Abstractions
         /// <returns>A new Game object.</returns>
         /// <exception cref="ArgumentException">When there are no users starting the game.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="game"/> is null.</exception>
-        Task<Game> CreateGameAsync(Game game);
+        Task<GameModel> CreateGameAsync(GameModel game);
 
         /// <summary>
         /// Gets a list of games.
         /// </summary>
         /// <param name="filter">The game filter to use.</param>
         /// <returns>A list of games.</returns>
-        Task<SearchResult<Game>> GetGamesAsync(GameSearchFilter filter);
+        Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter);
     }
 }

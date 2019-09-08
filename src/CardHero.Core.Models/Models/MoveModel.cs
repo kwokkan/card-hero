@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a move by a player.
     /// </summary>
-    public class Move
+    public class MoveModel
     {
         /// <summary>
         /// The game to make a move on.

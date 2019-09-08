@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using CardHero.Core.Models;
 
 namespace CardHero.NetCoreApp.Mvc.Models
 {
     public static class DeckViewModelExtensions
     {
-        public static DeckViewModel FromDeck(this DeckViewModel model, Deck deck)
+        public static DeckViewModel FromDeck(this DeckViewModel model, DeckModel deck)
         {
             if (model == null || deck == null)
             {

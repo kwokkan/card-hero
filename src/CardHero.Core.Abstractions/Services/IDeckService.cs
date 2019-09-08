@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
@@ -14,14 +15,14 @@ namespace CardHero.Core.Abstractions
         /// </summary>
         /// <param name="filter">The filter to use.</param>
         /// <returns></returns>
-        Task<SearchResult<Deck>> GetDecksAsync(DeckSearchFilter filter);
+        Task<SearchResult<DeckModel>> GetDecksAsync(DeckSearchFilter filter);
 
         /// <summary>
         /// Gets a deck by id.
         /// </summary>
         /// <param name="id">The id of the deck.</param>
         /// <returns></returns>
-        Task<Deck> GetDeckByIdAsync(int id);
+        Task<DeckModel> GetDeckByIdAsync(int id);
 
         /// <summary>
         /// Creates a new deck.
@@ -29,7 +30,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="deck">The deck to create.</param>
         /// <param name="userId">The user to create the deck for.</param>
         /// <returns></returns>
-        Task<Deck> CreateDeckAsync(Deck deck, int userId);
+        Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId);
 
         /// <summary>
         /// Updates a deck.
@@ -37,7 +38,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="deckId">The deck tp update.</param>
         /// <param name="deck">The updated deck.</param>
         /// <returns></returns>
-        Task UpdateDeckAsync(int deckId, Deck deck);
+        Task UpdateDeckAsync(int deckId, DeckModel deck);
 
         /// <summary>
         /// Toggles a favourite for a deck.

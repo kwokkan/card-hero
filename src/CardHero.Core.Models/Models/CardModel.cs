@@ -3,7 +3,7 @@
     /// <summary>
     /// Card.
     /// </summary>
-    public class Card : ICardHeroEntity
+    public class CardModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.

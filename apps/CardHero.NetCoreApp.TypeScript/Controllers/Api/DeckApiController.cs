@@ -21,7 +21,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _deckService = deckService;
         }
 
-        public async Task<IEnumerable<Deck>> GetAsync(DeckSearchFilter filter)
+        public async Task<IEnumerable<DeckModel>> GetAsync(DeckSearchFilter filter)
         {
             filter.UserId = (await GetUserAsync())?.Id;
 
@@ -31,9 +31,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost("")]
-        public async Task<Deck> CreateAsync([FromBody]Deck model)
+        public async Task<DeckModel> CreateAsync([FromBody]DeckModel model)
         {
-            var deck = new Deck
+            var deck = new DeckModel
             {
                 Description = model.Description,
                 MaxCards = 5,

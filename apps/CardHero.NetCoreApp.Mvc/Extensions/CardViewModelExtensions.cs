@@ -4,7 +4,7 @@ namespace CardHero.NetCoreApp.Mvc.Models
 {
     public static class CardViewModelExtensions
     {
-        public static CardViewModel FromCard(this CardViewModel model, Card card)
+        public static CardViewModel FromCard(this CardViewModel model, CardModel card)
         {
             if (model == null)
             {

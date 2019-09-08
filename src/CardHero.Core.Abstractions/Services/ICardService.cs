@@ -15,14 +15,14 @@ namespace CardHero.Core.Abstractions
         /// </summary>
         /// <param name="filter">The card filter to use.</param>
         /// <returns>A list of cards. Unknown ids will not be returned.</returns>
-        Task<SearchResult<Card>> GetCardsAsync(CardSearchFilter filter);
+        Task<SearchResult<CardModel>> GetCardsAsync(CardSearchFilter filter);
 
         /// <summary>
         /// Gets all the cards belonging to a player.
         /// </summary>
         /// <param name="filter">The filter to use.</param>
         /// <returns>A list of cards belonging to a player.</returns>
-        Task<SearchResult<CardCollection>> GetCardCollectionAsync(CardCollectionSearchFilter filter);
+        Task<SearchResult<CardCollectionModel>> GetCardCollectionAsync(CardCollectionSearchFilter filter);
 
         /// <summary>
         /// Adds cards to a user's card collection.
@@ -30,7 +30,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="cardIds">The card ids to add.</param>
         /// <param name="userId">The user too add to.</param>
         /// <returns>A list of card collections.</returns>
-        Task<IEnumerable<CardCollection>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId);
+        Task<IEnumerable<CardCollectionModel>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId);
 
         /// <summary>
         /// Toggles a favourite for a card.

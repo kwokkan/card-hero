@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -16,7 +18,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
+        public async Task<GameModel> CreateGameAsync(GameModel game)
         {
             if (game == null)
             {
@@ -44,7 +46,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var users = game.Users.ToList();
             var currentUserId = new Random().Next(0, users.Count());
-            var newGame = new EntityFramework.Game
+            var newGame = new Game
             {
                 CurrentUserFk = users[currentUserId].Id,
                 DeckFk = game.DeckId,
@@ -56,7 +58,7 @@ namespace CardHero.Core.SqlServer.Services
                 Name = game.Name,
             };
 
-            newGame.Turn.Add(new EntityFramework.Turn
+            newGame.Turn.Add(new Turn
             {
                 CurrentUserFk = users[currentUserId].Id,
                 StartTime = DateTime.UtcNow,
@@ -74,9 +76,9 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
-        public Task<SearchResult<Core.Models.Game>> GetGamesAsync(GameSearchFilter filter)
+        public Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter)
         {
-            var result = new SearchResult<Core.Models.Game>();
+            var result = new SearchResult<GameModel>();
 
             var context = GetContext();
 

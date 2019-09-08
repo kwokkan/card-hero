@@ -1,6 +1,8 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.Mvc.Controllers
@@ -14,7 +16,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _userService = userService;
         }
 
-        protected async Task<User> GetUserAsync()
+        protected async Task<UserModel> GetUserAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
