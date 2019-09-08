@@ -16,6 +16,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         }
 
         public virtual DbSet<Deck> Deck { get; set; }
+        public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<Game> Game { get; set; }
         public virtual DbSet<GameDeck> GameDeck { get; set; }
         public virtual DbSet<GameDeckCardCollection> GameDeckCardCollection { get; set; }
@@ -46,6 +47,29 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.Property(e => e.Rowstamp).IsRowVersion();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
+            });
+
+            modelBuilder.Entity<DeckCardCollection>(entity =>
+            {
+                entity.HasKey(e => e.DeckCardCollectionPk);
+
+                entity.HasIndex(e => e.CardCollectionFk);
+
+                entity.HasIndex(e => e.DeckFk);
+
+                entity.Property(e => e.DeckCardCollectionPk).HasColumnName("DeckCardCollection_PK");
+
+                entity.Property(e => e.CardCollectionFk).HasColumnName("CardCollection_FK");
+
+                entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
+
+                entity.Property(e => e.Rowstamp).IsRowVersion();
+
+                entity.HasOne(d => d.DeckFkNavigation)
+                    .WithMany(p => p.DeckCardCollection)
+                    .HasForeignKey(d => d.DeckFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeckCardCollection_Deck_FK");
             });
 
             modelBuilder.Entity<Game>(entity =>

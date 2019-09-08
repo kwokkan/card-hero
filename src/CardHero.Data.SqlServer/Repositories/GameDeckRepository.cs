@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,9 +17,41 @@ namespace CardHero.Data.SqlServer
             _factory = factory;
         }
 
-        public Task<GameDeckData> AddGameDeckAsync(int gameId, int deckId, CancellationToken cancellationToken = default)
+        public async Task<GameDeckData> AddGameDeckAsync(int gameUserId, string name, string description, int[] cardIds, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var gameDeck = new GameDeck
+            {
+                CreatedTime = DateTime.UtcNow,
+                Description = description,
+                GameUserFk = gameUserId,
+                Name = name,
+            };
+
+            if (cardIds != null)
+            {
+                gameDeck.GameDeckCardCollection = cardIds.Select(x => new GameDeckCardCollection
+                {
+                    CardFk = x,
+                }).ToArray();
+            }
+
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                context.GameDeck.Add(gameDeck);
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            var data = new GameDeckData
+            {
+                CreatedTime = gameDeck.CreatedTime,
+                Description = description,
+                GameUserId = gameUserId,
+                Id = gameDeck.GameDeckPk,
+                Name = name,
+            };
+
+            return data;
         }
     }
 }

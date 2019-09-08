@@ -8,6 +8,7 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -OutputDir EntityFramework `
 -Tables `
 Deck,`
+DeckCardCollection,`
 Game,`
 GameDeck,`
 GameDeckCardCollection,`

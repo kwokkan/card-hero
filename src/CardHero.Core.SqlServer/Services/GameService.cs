@@ -76,7 +76,7 @@ namespace CardHero.Core.SqlServer.Services
 
             //TODO: Check if deck actually has all the cards required
 
-            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(id, deckId, cancellationToken: cancellationToken);
+            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, null, cancellationToken: cancellationToken);
 
             return _gameUserMapper.Map(newGameUser);
         }

@@ -9,7 +9,9 @@ namespace CardHero.Data.SqlServer
         {
             return new DeckData
             {
+                Description = source.Description,
                 Id = source.DeckPk,
+                Name = source.Name,
                 UserId = source.UserFk,
             };
         }

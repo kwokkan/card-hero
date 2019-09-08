@@ -9,7 +9,13 @@ namespace CardHero.Core.Abstractions
     {
         public GameUserModel Map(GameUserData from)
         {
-            throw new NotImplementedException();
+            return new GameUserModel
+            {
+                GameId = from.GameId,
+                Id = from.Id,
+                Order = from.Order,
+                UserId = from.UserId,
+            };
         }
 
         public GameUserData Map(GameUserModel from)

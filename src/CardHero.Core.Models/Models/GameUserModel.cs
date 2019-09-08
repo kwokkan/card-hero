@@ -25,9 +25,9 @@ namespace CardHero.Core.Models
         public UserModel User { get; set; }
 
         /// <summary>
-        /// Game deck id.
+        /// Game id.
         /// </summary>
-        public int GameDeckId { get; set; }
+        public int GameId { get; set; }
 
         /// <summary>
         /// Order of the players.
