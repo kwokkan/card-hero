@@ -16,20 +16,67 @@ namespace CardHero.Core.SqlServer.Services
     public class GameService : BaseService, IGameService
     {
         private readonly IGameValidator _gameValidator;
+        private readonly IDeckRepository _deckRepository;
+        private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly IDataMapper<GameData, Models.Game> _mapper;
+        private readonly IGameUserRepository _gameUserRepository;
+        private readonly IDataMapper<GameData, Models.Game> _gameMapper;
+        private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         public GameService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IGameValidator gameValidator,
+            IDeckRepository deckRepository,
+            IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
-            IDataMapper<GameData, Models.Game> mapper
+            IGameUserRepository gameUserRepository,
+            IDataMapper<GameData, Models.Game> gameMapper,
+            IDataMapper<GameUserData, GameUserModel> gameUserMapper
         )
             : base(contextFactory)
         {
             _gameValidator = gameValidator;
+            _deckRepository = deckRepository;
+            _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
-            _mapper = mapper;
+            _gameUserRepository = gameUserRepository;
+            _gameMapper = gameMapper;
+            _gameUserMapper = gameUserMapper;
+        }
+
+        public async Task<GameUserModel> AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetGameByIdAsync(id);
+
+            if (game == null)
+            {
+                throw new InvalidGameException($"Game { id } does not exist.");
+            }
+
+            var gameUsers = await _gameRepository.GetGameUsersAsync(id, cancellationToken: cancellationToken);
+
+            if (gameUsers.Any(x => x.UserId == userId))
+            {
+                throw new InvalidPlayerException($"User { userId } is already in game { id }.");
+            }
+
+            var deck = await _deckRepository.GetDeckByIdAsync(deckId, cancellationToken: cancellationToken);
+
+            if (deck == null)
+            {
+                throw new InvalidDeckException($"Deck { deckId } does not exist.");
+            }
+
+            if (deck.UserId != userId)
+            {
+                throw new InvalidDeckException($"Deck { deckId } does not belong to user { userId }.");
+            }
+
+            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(id, deckId, cancellationToken: cancellationToken);
+
+            var newGameUser = await _gameUserRepository.AddGameUserAsync(id, newGameDeck.Id, cancellationtoken: cancellationToken);
+
+            return _gameUserMapper.Map(newGameUser);
         }
 
         public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
@@ -94,18 +141,19 @@ namespace CardHero.Core.SqlServer.Services
         {
             await _gameValidator.ValidateGameAsync(game);
 
-            var newGame = new GameData
-            {
-                Columns = game.Columns,
-                Name = game.Name,
-                Rows = game.Rows,
-                StartTime = DateTime.UtcNow,
-                Type = (Data.Abstractions.GameType)(int)game.Type,
-            };
+            var newGame = _gameMapper.Map(game);
 
             newGame = await _gameRepository.AddGameAsync(newGame, cancellationToken: cancellationToken);
 
             game.Id = newGame.Id;
+
+            if (game.Users != null)
+            {
+                foreach (var user in game.Users)
+                {
+                    await AddUserToGameAsync(game.Id, user.Id, game.DeckId);
+                }
+            }
 
             return game;
         }
@@ -175,7 +223,7 @@ namespace CardHero.Core.SqlServer.Services
             var results = new Abstractions.SearchResult<Models.Game>
             {
                 Count = result.TotalCount,
-                Results = result.Results.Select(_mapper.Map).ToList(),
+                Results = result.Results.Select(_gameMapper.Map).ToList(),
             };
 
             return results;

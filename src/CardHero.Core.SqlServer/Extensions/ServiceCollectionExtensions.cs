@@ -1,4 +1,5 @@
 ﻿using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Core.SqlServer.Services;
 using CardHero.Data.Abstractions;
@@ -48,6 +49,7 @@ namespace CardHero.Core.SqlServer.Web
 
             services
                 .AddScoped<IDataMapper<GameData, Models.Game>, GameDataMapper>()
+                .AddScoped<IDataMapper<GameUserData, GameUserModel>, GameUserDataMapper>()
             ;
 
             return services;

@@ -1,29 +1,38 @@
-﻿using System;
-
-using CardHero.Core.Models;
+﻿using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.Abstractions
 {
     public class GameDataMapper : IDataMapper<GameData, Game>
     {
-        public Game Map(GameData source)
+        public Game Map(GameData from)
         {
             return new Game
             {
-                Columns = source.Columns,
-                EndTime = source.EndTime,
-                Id = source.Id,
-                Name = source.Name,
-                Rows = source.Rows,
-                StartTime = source.StartTime,
-                Type = (Models.GameType)(int)source.Type,
+                Columns = from.Columns,
+                EndTime = from.EndTime,
+                Id = from.Id,
+                Name = from.Name,
+                Rows = from.Rows,
+                StartTime = from.StartTime,
+                Type = (Models.GameType)(int)from.Type,
             };
         }
 
-        public GameData Map(Game destination)
+        public GameData Map(Game from)
         {
-            throw new NotImplementedException();
+            return new GameData
+            {
+                Columns = from.Columns,
+                CurrentGameUserId = from.CurrentUser?.Id,
+                EndTime = from.EndTime,
+                Id = from.Id,
+                Name = from.Name,
+                Rows = from.Rows,
+                StartTime = from.StartTime,
+                Type = (Data.Abstractions.GameType)(int)from.Type,
+                WinnerId = from.Winner?.Id,
+            };
         }
     }
 }

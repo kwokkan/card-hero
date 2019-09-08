@@ -15,6 +15,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         {
         }
 
+        public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<Game> Game { get; set; }
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
@@ -23,6 +24,27 @@ namespace CardHero.Data.SqlServer.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+
+            modelBuilder.Entity<Deck>(entity =>
+            {
+                entity.HasKey(e => e.DeckPk);
+
+                entity.HasIndex(e => e.UserFk);
+
+                entity.Property(e => e.DeckPk).HasColumnName("Deck_PK");
+
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp).IsRowVersion();
+
+                entity.Property(e => e.UserFk).HasColumnName("User_FK");
+            });
 
             modelBuilder.Entity<Game>(entity =>
             {
