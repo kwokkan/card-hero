@@ -47,7 +47,7 @@
 		"terser-webpack-plugin": "2.0.1",
 		"ts-loader": "6.0.4",
 		"typescript": "3.6.2",
-		"webpack": "5.0.0-alpha.25",
+		"webpack": "5.0.0-alpha.26",
 		"webpack-bundle-analyzer": "3.4.1",
 		"webpack-cli": "3.3.8",
 		"webpack-deep-scope-plugin": "1.7.0"
