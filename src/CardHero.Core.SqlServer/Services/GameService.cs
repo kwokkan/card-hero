@@ -72,9 +72,11 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException($"Deck { deckId } does not belong to user { userId }.");
             }
 
-            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(id, deckId, cancellationToken: cancellationToken);
+            var newGameUser = await _gameUserRepository.AddGameUserAsync(id, userId, cancellationToken: cancellationToken);
 
-            var newGameUser = await _gameUserRepository.AddGameUserAsync(id, newGameDeck.Id, cancellationtoken: cancellationToken);
+            //TODO: Check if deck actually has all the cards required
+
+            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(id, deckId, cancellationToken: cancellationToken);
 
             return _gameUserMapper.Map(newGameUser);
         }

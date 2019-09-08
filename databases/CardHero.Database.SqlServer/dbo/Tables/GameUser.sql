@@ -3,6 +3,7 @@
     [Rowstamp]    ROWVERSION NOT NULL,
     [Game_FK]     INT        NOT NULL,
     [User_FK]     INT        NOT NULL,
+    [JoinedTime]  DATETIME   CONSTRAINT [DF_GameUser_JoinedTime] DEFAULT (getutcdate()) NOT NULL,
     [Order]       INT        NULL,
     CONSTRAINT [PK_GameUser] PRIMARY KEY CLUSTERED ([GameUser_PK] ASC),
     CONSTRAINT [FK_GameUser_Game] FOREIGN KEY ([Game_FK]) REFERENCES [dbo].[Game] ([Game_PK]),

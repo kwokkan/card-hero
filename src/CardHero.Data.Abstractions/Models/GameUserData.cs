@@ -10,7 +10,7 @@ namespace CardHero.Data.Abstractions
 
         public int UserId { get; set; }
 
-        public int GameDeckId { get; set; }
+        public int GameId { get; set; }
 
         public int? Order { get; set; }
     }

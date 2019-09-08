@@ -9,6 +9,8 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -Tables `
 Deck,`
 Game,`
+GameDeck,`
+GameDeckCardCollection,`
 GameUser,`
 Move,`
 Turn

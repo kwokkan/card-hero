@@ -3,14 +3,45 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Data.Abstractions;
+using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
     internal class GameUserRepository : IGameUserRepository
     {
-        public Task<GameUserData> AddGameUserAsync(int gameId, int gameDeckId, CancellationToken cancellationtoken = default)
+        private readonly ICardHeroDataDbContextFactory _factory;
+
+        public GameUserRepository(ICardHeroDataDbContextFactory factory)
         {
-            throw new NotImplementedException();
+            _factory = factory;
+        }
+
+        public async Task<GameUserData> AddGameUserAsync(int gameId, int userId, CancellationToken cancellationToken = default)
+        {
+            var gameUser = new GameUser
+            {
+                GameFk = gameId,
+                JoinedTime = DateTime.UtcNow,
+                UserFk = userId,
+            };
+
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                context.GameUser.Add(gameUser);
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            var newData = new GameUserData
+            {
+                GameId = gameId,
+                Id = gameUser.GameUserPk,
+                JoinedTime = gameUser.JoinedTime,
+                Order = gameUser.Order,
+                UserId = userId,
+            };
+
+            return newData;
         }
     }
 }
