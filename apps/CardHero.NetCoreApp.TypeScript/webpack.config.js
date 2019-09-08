@@ -36,13 +36,27 @@ module.exports = {
         jsonpFunction: "wj"
     },
 
-    cache: true,
+    //cache: true,
+    cache: {
+        // 1. Set cache type to filesystem
+        type: "filesystem",
+
+        buildDependencies: {
+            // 2. Add your config as buildDependency to get cache invalidation on config change
+            config: [__filename]
+
+            // 3. If you have other things the build depends on you can add them here
+            // Note that webpack, loaders and all modules referenced from your config are automatically added
+        }
+    },
 
     bail: true,
 
     //watch: true,
     watchOptions: {
-        ignored: /node_modules/
+        ignored: [
+            "node_modules"
+        ]
     },
 
     recordsPath: path.resolve(__dirname, "records.json"),
@@ -95,7 +109,8 @@ module.exports = {
             //})
         ] : [],
         //concatenateModules: false,
-        moduleIds: "hashed",
+        chunkIds: "deterministic",
+        moduleIds: "deterministic",
         //runtimeChunk: "single",
         runtimeChunk: {
             name: 'shared'
@@ -128,6 +143,7 @@ module.exports = {
     //profile:true,
 
     resolve: {
+        cache: true,
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx"],
 
@@ -140,10 +156,10 @@ module.exports = {
     plugins: [
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin({
-            filename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
-            chunkFilename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
-        }),
+        //new MiniCssExtractPlugin({
+        //    filename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        //    chunkFilename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        //}),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
@@ -178,7 +194,6 @@ module.exports = {
                 include: /ClientApp/,
                 exclude: /node_modules/,
                 use: [
-                    "cache-loader",
                     {
                         loader: "ts-loader"
                     }
@@ -190,7 +205,6 @@ module.exports = {
                 test: /\.js$/,
                 include: /ClientApp/,
                 loader: [
-                    "cache-loader",
                     "source-map-loader"
                 ]
             },
@@ -202,9 +216,9 @@ module.exports = {
                     //"file-loader",
                     //"extract-loader",
                     //"style-loader",
-                    {
-                        loader: MiniCssExtractPlugin.loader
-                    },
+                    //{
+                    //    loader: MiniCssExtractPlugin.loader
+                    //},
                     {
                         loader: "css-loader"
                     },
@@ -219,10 +233,6 @@ module.exports = {
                 ]
             }
         ]
-    },
-
-    node: {
-        fs: 'empty'
     },
 
     // When importing a module whose path matches one of the following, just
