@@ -28,7 +28,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Game>> GetAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<GameModel>> GetAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
         {
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
@@ -74,17 +74,17 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<Game>> PostAsync([FromBody]Game model, CancellationToken cancellationToken)
+        public async Task<ActionResult<GameModel>> PostAsync([FromBody]GameModel model, CancellationToken cancellationToken)
         {
             var userId = (await GetUserAsync()).Id;
 
-            var game = new Game
+            var game = new GameModel
             {
                 DeckId = model.DeckId,
                 Name = model.Name,
                 Type = model.Type,
                 StartTime = DateTime.UtcNow,
-                Users = new User[] { new User { Id = userId } },
+                Users = new UserModel[] { new UserModel { Id = userId } },
             };
 
             var newGame = await _gameService.NewCreateGameAsync(game, cancellationToken: cancellationToken);
@@ -97,7 +97,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
             var user = await GetUserAsync();
 
-            var move = new Move
+            var move = new MoveModel
             {
                 CardCollectionId = model.CardCollectionId,
                 Column = model.Column,

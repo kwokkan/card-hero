@@ -20,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameUserRepository _gameUserRepository;
-        private readonly IDataMapper<GameData, Models.Game> _gameMapper;
+        private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         public GameService(
@@ -30,7 +30,7 @@ namespace CardHero.Core.SqlServer.Services
             IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
             IGameUserRepository gameUserRepository,
-            IDataMapper<GameData, Models.Game> gameMapper,
+            IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameUserData, GameUserModel> gameUserMapper
         )
             : base(contextFactory)
@@ -79,7 +79,7 @@ namespace CardHero.Core.SqlServer.Services
             return _gameUserMapper.Map(newGameUser);
         }
 
-        public async Task<Core.Models.Game> CreateGameAsync(Core.Models.Game game)
+        public async Task<GameModel> CreateGameAsync(GameModel game)
         {
             if (game == null)
             {
@@ -107,7 +107,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var users = game.Users.ToList();
             var currentUserId = new Random().Next(0, users.Count());
-            var newGame = new EntityFramework.Game
+            var newGame = new Game
             {
                 CurrentUserFk = users[currentUserId].Id,
                 DeckFk = game.DeckId,
@@ -119,7 +119,7 @@ namespace CardHero.Core.SqlServer.Services
                 Name = game.Name,
             };
 
-            newGame.Turn.Add(new EntityFramework.Turn
+            newGame.Turn.Add(new Turn
             {
                 CurrentUserFk = users[currentUserId].Id,
                 StartTime = DateTime.UtcNow,
@@ -137,7 +137,7 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
-        public async Task<Models.Game> NewCreateGameAsync(Models.Game game, CancellationToken cancellationToken = default)
+        public async Task<GameModel> NewCreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
         {
             await _gameValidator.ValidateGameAsync(game);
 
@@ -158,9 +158,9 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        public Task<Abstractions.SearchResult<Core.Models.Game>> GetGamesAsync(Abstractions.GameSearchFilter filter)
+        public Task<Abstractions.SearchResult<GameModel>> GetGamesAsync(Abstractions.GameSearchFilter filter)
         {
-            var result = new Abstractions.SearchResult<Core.Models.Game>();
+            var result = new Abstractions.SearchResult<GameModel>();
 
             var context = GetContext();
 
@@ -210,7 +210,7 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore());
         }
 
-        public async Task<Abstractions.SearchResult<Models.Game>> NewGetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken = default)
+        public async Task<Abstractions.SearchResult<GameModel>> NewGetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var result = await _gameRepository.FindGamesAsync(
                 new Data.Abstractions.GameSearchFilter
@@ -220,7 +220,7 @@ namespace CardHero.Core.SqlServer.Services
                 cancellationToken: cancellationToken
             );
 
-            var results = new Abstractions.SearchResult<Models.Game>
+            var results = new Abstractions.SearchResult<GameModel>
             {
                 Count = result.TotalCount,
                 Results = result.Results.Select(_gameMapper.Map).ToList(),

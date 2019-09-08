@@ -3,11 +3,11 @@ using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.Abstractions
 {
-    public class GameDataMapper : IDataMapper<GameData, Game>
+    public class GameDataMapper : IDataMapper<GameData, GameModel>
     {
-        public Game Map(GameData from)
+        public GameModel Map(GameData from)
         {
-            return new Game
+            return new GameModel
             {
                 Columns = from.Columns,
                 EndTime = from.EndTime,
@@ -19,7 +19,7 @@ namespace CardHero.Core.Abstractions
             };
         }
 
-        public GameData Map(Game from)
+        public GameData Map(GameModel from)
         {
             return new GameData
             {

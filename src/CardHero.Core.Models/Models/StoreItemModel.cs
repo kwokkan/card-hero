@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CardHero.Core.Models
 {
     /// <summary>
     /// Store item.
     /// </summary>
-    public class StoreItem : ICardHeroEntity
+    public class StoreItemModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.

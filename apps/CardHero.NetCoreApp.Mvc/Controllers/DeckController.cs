@@ -1,10 +1,13 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.NetCoreApp.Mvc.Extensions;
 using CardHero.NetCoreApp.Mvc.Models;
+
 using KwokKan.Sortable;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -99,7 +102,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var deck = new Deck
+                var deck = new DeckModel
                 {
                     Description = model.Description,
                     MaxCards = 5,

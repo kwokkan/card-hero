@@ -4,7 +4,7 @@ namespace CardHero.NetCoreApp.Mvc.Models
 {
     public static class GameViewModelExtensions
     {
-        public static GameViewModel FromGame(this GameViewModel model, Game game)
+        public static GameViewModel FromGame(this GameViewModel model, GameModel game)
         {
             if (model == null)
             {

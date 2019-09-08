@@ -3,7 +3,7 @@
     /// <summary>
     /// Card collection.
     /// </summary>
-    public class CardCollection : ICardHeroEntity
+    public class CardCollectionModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.
@@ -23,11 +23,11 @@
         /// <summary>
         /// Card.
         /// </summary>
-        public virtual Card Card { get; set; }
+        public virtual CardModel Card { get; set; }
 
         /// <summary>
         /// User.
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual UserModel User { get; set; }
     }
 }

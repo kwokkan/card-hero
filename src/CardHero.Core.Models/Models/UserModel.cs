@@ -5,7 +5,7 @@ namespace CardHero.Core.Models
     /// <summary>
     /// User.
     /// </summary>
-    public class User : ICardHeroEntity
+    public class UserModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.

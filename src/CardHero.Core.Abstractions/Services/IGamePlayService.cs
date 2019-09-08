@@ -27,6 +27,6 @@ namespace CardHero.Core.Abstractions
         /// <exception cref="InvalidPlayerException">The player is invalid.</exception>
         /// <exception cref="InvalidTurnException">The current game turn does not belong to the player.</exception>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task MakeMoveAsync(Move move);
+        Task MakeMoveAsync(MoveModel move);
     }
 }

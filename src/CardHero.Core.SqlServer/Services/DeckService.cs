@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -17,11 +19,11 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<Core.Models.Deck> CreateDeckAsync(Core.Models.Deck deck, int userId)
+        public async Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId)
         {
             using (var context = GetContext())
             {
-                var entity = new EntityFramework.Deck
+                var entity = new Deck
                 {
                     Description = deck.Description,
                     MaxCards = deck.MaxCards,
@@ -36,7 +38,7 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        public Task<Core.Models.Deck> GetDeckByIdAsync(int id)
+        public Task<DeckModel> GetDeckByIdAsync(int id)
         {
             using (var context = GetContext())
             {
@@ -47,7 +49,7 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        public async Task<SearchResult<Core.Models.Deck>> GetDecksAsync(DeckSearchFilter filter)
+        public async Task<SearchResult<DeckModel>> GetDecksAsync(DeckSearchFilter filter)
         {
             var context = GetContext();
 
@@ -162,7 +164,7 @@ namespace CardHero.Core.SqlServer.Services
             context.SaveChanges();
         }
 
-        public Task UpdateDeckAsync(int deckId, Core.Models.Deck deck)
+        public Task UpdateDeckAsync(int deckId, DeckModel deck)
         {
             throw new NotImplementedException();
         }

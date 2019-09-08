@@ -4,7 +4,7 @@ namespace CardHero.NetCoreApp.Mvc.Models
 {
     public static class CardCollectionViewModelExtensions
     {
-        public static CardCollectionViewModel FromCardCollection(this CardCollectionViewModel model, CardCollection cardCollection)
+        public static CardCollectionViewModel FromCardCollection(this CardCollectionViewModel model, CardCollectionModel cardCollection)
         {
             if (model == null)
             {
@@ -18,7 +18,7 @@ namespace CardHero.NetCoreApp.Mvc.Models
             return model;
         }
 
-        public static CardCollectionViewModel FromDeckCard(this CardCollectionViewModel model, DeckCard deckCard)
+        public static CardCollectionViewModel FromDeckCard(this CardCollectionViewModel model, DeckCardModel deckCard)
         {
             if (model == null)
             {

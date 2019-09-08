@@ -22,7 +22,7 @@ namespace CardHero.Core.Models
         /// <summary>
         /// User.
         /// </summary>
-        public User User { get; set; }
+        public UserModel User { get; set; }
 
         /// <summary>
         /// Game deck id.

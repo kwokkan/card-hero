@@ -7,7 +7,7 @@ namespace CardHero.Core.SqlServer
 {
     internal class GameValidator : IGameValidator
     {
-        public Task ValidateGameAsync(Game game)
+        public Task ValidateGameAsync(GameModel game)
         {
             if (game == null)
             {

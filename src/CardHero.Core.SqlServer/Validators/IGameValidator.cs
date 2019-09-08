@@ -6,6 +6,6 @@ namespace CardHero.Core.SqlServer
 {
     public interface IGameValidator
     {
-        Task ValidateGameAsync(Game game);
+        Task ValidateGameAsync(GameModel game);
     }
 }

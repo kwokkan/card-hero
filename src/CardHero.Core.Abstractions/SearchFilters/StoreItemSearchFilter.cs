@@ -1,9 +1,8 @@
-﻿using System;
-using CardHero.Core.Models;
+﻿using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
 {
-    public class StoreItemSearchFilter : SearchFilter<StoreItem>
+    public class StoreItemSearchFilter : SearchFilter<StoreItemModel>
     {
     }
 }

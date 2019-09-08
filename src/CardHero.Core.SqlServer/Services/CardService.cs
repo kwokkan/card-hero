@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -19,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<Models.CardCollection>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
+        public async Task<IEnumerable<CardCollectionModel>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
         {
             if (cardIds == null)
             {
@@ -28,11 +28,11 @@ namespace CardHero.Core.SqlServer.Services
 
             if (!cardIds.Any())
             {
-                return new Models.CardCollection[0];
+                return new CardCollectionModel[0];
             }
 
             var cardCollections = cardIds
-                .Select(x => new EntityFramework.CardCollection
+                .Select(x => new CardCollection
                 {
                     CardFk = x,
                     CreatedTime = DateTime.UtcNow,
@@ -53,9 +53,9 @@ namespace CardHero.Core.SqlServer.Services
             })).Results;
         }
 
-        public Task<SearchResult<Core.Models.CardCollection>> GetCardCollectionAsync(CardCollectionSearchFilter filter)
+        public Task<SearchResult<CardCollectionModel>> GetCardCollectionAsync(CardCollectionSearchFilter filter)
         {
-            var result = new SearchResult<Core.Models.CardCollection>();
+            var result = new SearchResult<CardCollectionModel>();
 
             var context = GetContext();
 
@@ -80,9 +80,9 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
         }
 
-        public Task<SearchResult<Core.Models.Card>> GetCardsAsync(CardSearchFilter filter)
+        public Task<SearchResult<CardModel>> GetCardsAsync(CardSearchFilter filter)
         {
-            var result = new SearchResult<Core.Models.Card>();
+            var result = new SearchResult<CardModel>();
 
             var context = GetContext();
 

@@ -1,11 +1,14 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.NetCoreApp.Mvc.Extensions;
 using CardHero.NetCoreApp.Mvc.Models;
+
 using KwokKan.Sortable;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.Mvc.Controllers
@@ -113,12 +116,12 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var user = await GetUserAsync();
-                var game = new Game
+                var game = new GameModel
                 {
-                    Deck = new Deck { Id = model.SelectedDeckId.Value },
+                    Deck = new DeckModel { Id = model.SelectedDeckId.Value },
                     Name = model.Name,
                     Type = model.Type,
-                    Users = new List<User> { user },
+                    Users = new List<UserModel> { user },
                 };
                 var newGame = await _gameService.CreateGameAsync(game);
 

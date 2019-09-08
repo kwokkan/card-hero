@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
@@ -17,6 +15,6 @@ namespace CardHero.Core.Abstractions
         /// </summary>
         /// <param name="gameId">The game to get moves for.</param>
         /// <returns>A list of moves.</returns>
-        Task<IEnumerable<Move>> GetMovesAsync(int gameId);
+        Task<IEnumerable<MoveModel>> GetMovesAsync(int gameId);
     }
 }

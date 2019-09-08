@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.AspNetCore.Mvc.Common.Models;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +24,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
             _deckService = deckService;
         }
 
-        private async Task<User> GetUserAsync()
+        private async Task<UserModel> GetUserAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -68,9 +70,9 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
 
         [HttpPost]
         [Route("")]
-        public async Task<Deck> PostDeckAsync([FromBody]DeckViewModel model)
+        public async Task<DeckModel> PostDeckAsync([FromBody]DeckViewModel model)
         {
-            var deck = new Deck
+            var deck = new DeckModel
             {
                 Name = model.Name,
                 MaxCards = model.MaxCards,
