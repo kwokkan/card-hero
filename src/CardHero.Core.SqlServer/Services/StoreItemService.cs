@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -19,9 +19,9 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public Task<SearchResult<Models.StoreItem>> GetStoreItemsAsync(StoreItemSearchFilter filter)
+        public Task<SearchResult<StoreItemModel>> GetStoreItemsAsync(StoreItemSearchFilter filter)
         {
-            var result = new SearchResult<Models.StoreItem>();
+            var result = new SearchResult<StoreItemModel>();
 
             var context = GetContext();
 
@@ -33,7 +33,7 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore());
         }
 
-        public Task<IEnumerable<Models.Card>> BuyStoreItemAsync(Models.StoreItem storeItem, int userId)
+        public Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId)
         {
             var context = GetContext();
 

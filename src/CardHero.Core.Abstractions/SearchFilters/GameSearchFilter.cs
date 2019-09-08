@@ -1,9 +1,10 @@
 ﻿using System;
+
 using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
 {
-    public class GameSearchFilter : SearchFilter<Game>
+    public class GameSearchFilter : SearchFilter<GameModel>
     {
         public int? GameId { get; set; }
 

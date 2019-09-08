@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.NetCoreApp.Mvc.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +25,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         public async Task<GameTripleTriadMoveViewModel> Move(int id, [FromBody]GameTripleTriadMoveViewModel model)
         {
             var user = await GetUserAsync();
-            var move = new Move
+            var move = new MoveModel
             {
                 CardCollectionId = model.CardCollectionId.Value,
                 Column = model.Column.Value,

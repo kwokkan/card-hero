@@ -5,7 +5,7 @@ namespace CardHero.Core.Models
     /// <summary>
     /// Deck.
     /// </summary>
-    public class Deck : ICardHeroEntity
+    public class DeckModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.
@@ -35,6 +35,6 @@ namespace CardHero.Core.Models
         /// <summary>
         /// List of cards.
         /// </summary>
-        public IEnumerable<DeckCard> Cards { get; set; }
+        public IEnumerable<DeckCardModel> Cards { get; set; }
     }
 }

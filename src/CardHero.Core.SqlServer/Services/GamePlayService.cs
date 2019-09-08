@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -27,7 +27,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameService = gamseService;
         }
 
-        private async Task<Models.Game> ValidateMoveAsync(Core.Models.Move move)
+        private async Task<GameModel> ValidateMoveAsync(MoveModel move)
         {
             var game = (await _gameService.GetGamesAsync(new GameSearchFilter
             {
@@ -63,7 +63,7 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        public async Task MakeMoveAsync(Core.Models.Move move)
+        public async Task MakeMoveAsync(MoveModel move)
         {
             var game = await ValidateMoveAsync(move);
 
@@ -81,7 +81,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 context.Update(currentTurn);
 
-                var currentMove = new EntityFramework.Move
+                var currentMove = new Move
                 {
                     CardCollectionFk = move.CardCollectionId,
                     Column = move.Column,
@@ -102,7 +102,7 @@ namespace CardHero.Core.SqlServer.Services
                     nextUser = game.Users.First();
                 }
 
-                var newTurn = new EntityFramework.Turn
+                var newTurn = new Turn
                 {
                     CurrentUserFk = nextUser.Id,
                     GameFk = game.Id,

@@ -5,7 +5,7 @@ namespace CardHero.Core.Models
     /// <summary>
     /// Turn.
     /// </summary>
-    public class Turn : ICardHeroEntity
+    public class TurnModel : ICardHeroEntity
     {
         /// <summary>
         /// Id.
@@ -25,11 +25,11 @@ namespace CardHero.Core.Models
         /// <summary>
         /// User.
         /// </summary>
-        public User User { get; set; }
+        public UserModel User { get; set; }
 
         /// <summary>
         /// Game.
         /// </summary>
-        public Game Game { get; set; }
+        public GameModel Game { get; set; }
     }
 }

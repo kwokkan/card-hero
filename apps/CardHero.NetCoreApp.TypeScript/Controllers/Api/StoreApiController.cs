@@ -24,7 +24,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StoreItem>> GetAsync(StoreItemSearchFilter filter)
+        public async Task<IEnumerable<StoreItemModel>> GetAsync(StoreItemSearchFilter filter)
         {
             var result = await _storeItemService.GetStoreItemsAsync(filter);
 
@@ -38,7 +38,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<CardCollection>>> BuyStoreItemAsync([FromBody]StoreItem storeItem)
+        public async Task<ActionResult<IEnumerable<CardCollectionModel>>> BuyStoreItemAsync([FromBody]StoreItemModel storeItem)
         {
             var user = await GetUserAsync();
 

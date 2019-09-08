@@ -15,7 +15,7 @@ namespace CardHero.Core.Abstractions
         /// </summary>
         /// <param name="filter">The store item filter to use.</param>
         /// <returns>A list of store items.</returns>
-        Task<SearchResult<StoreItem>> GetStoreItemsAsync(StoreItemSearchFilter filter);
+        Task<SearchResult<StoreItemModel>> GetStoreItemsAsync(StoreItemSearchFilter filter);
 
         /// <summary>
         /// Buy a store item.
@@ -23,6 +23,6 @@ namespace CardHero.Core.Abstractions
         /// <param name="storeItem">The store item to buy.</param>
         /// <param name="userId">The user to buy for.</param>
         /// <returns>List of items.</returns>
-        Task<IEnumerable<Card>> BuyStoreItemAsync(StoreItem storeItem, int userId);
+        Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId);
     }
 }

@@ -18,7 +18,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
         }
 
-        public async Task<ActionResult<User>> GetAsync()
+        public async Task<ActionResult<UserModel>> GetAsync()
         {
             var user = await GetUserAsync();
 
@@ -27,7 +27,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 return Unauthorized();
             }
 
-            var result = new User
+            var result = new UserModel
             {
                 Coins = user.Coins,
                 FullName = user.FullName,

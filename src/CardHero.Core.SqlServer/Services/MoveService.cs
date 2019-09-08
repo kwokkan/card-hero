@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.Core.SqlServer.EntityFramework;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -19,7 +17,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<Core.Models.Move>> GetMovesAsync(int gameId)
+        public async Task<IEnumerable<Core.Models.MoveModel>> GetMovesAsync(int gameId)
         {
             var context = GetContext();
 
@@ -27,7 +25,7 @@ namespace CardHero.Core.SqlServer.Services
                 .Move
                 .Include(x => x.TurnFkNavigation)
                 .Where(x => x.TurnFkNavigation.GameFk == gameId)
-                .Select(x => new Core.Models.Move
+                .Select(x => new Core.Models.MoveModel
                 {
                     CardCollectionId = x.CardCollectionFk,
                     Column = x.Column,

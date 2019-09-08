@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+
 using CardHero.AspNetCore.Mvc.Common.Models;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.AspNetCore.Mvc.Common.Controllers
@@ -52,11 +54,11 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
                 return View(model);
             }
 
-            var users = model.PlayerIds.Select(x => new User
+            var users = model.PlayerIds.Select(x => new UserModel
             {
                 Id = x,
             }).ToArray();
-            var game = new Game
+            var game = new GameModel
             {
                 Users = users,
             };

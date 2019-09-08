@@ -1,17 +1,19 @@
 ﻿using System.Linq;
 
+using CardHero.Core.Models;
+
 namespace CardHero.Core.SqlServer.EntityFramework
 {
     public static class EntityFrameworkExtensions
     {
-        public static Core.Models.Card ToCore(this Card card, int? userId = null)
+        public static CardModel ToCore(this Card card, int? userId = null)
         {
             if (card == null)
             {
                 return null;
             }
 
-            return new Core.Models.Card
+            return new CardModel
             {
                 Description = card.Description,
                 DownAttack = card.DownAttack,
@@ -30,9 +32,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.CardCollection ToCore(this CardCollection collection, int? userId = null)
+        public static CardCollectionModel ToCore(this CardCollection collection, int? userId = null)
         {
-            return new Core.Models.CardCollection
+            return new CardCollectionModel
             {
                 Card = collection.CardFkNavigation.ToCore(userId),
                 CardId = collection.CardFk,
@@ -42,9 +44,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.Deck ToCore(this Deck deck, int? userId = null)
+        public static DeckModel ToCore(this Deck deck, int? userId = null)
         {
-            return deck == null ? null : new Core.Models.Deck
+            return deck == null ? null : new DeckModel
             {
                 Cards = deck.DeckCardCollection.Select(x => x.ToCore()),
                 Description = deck.Description,
@@ -56,9 +58,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.DeckCard ToCore(this DeckCardCollection deckCard)
+        public static DeckCardModel ToCore(this DeckCardCollection deckCard)
         {
-            return new Core.Models.DeckCard
+            return new DeckCardModel
             {
                 CardCollectionId = deckCard.CardCollectionFk,
                 DownAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.DownAttack,
@@ -75,9 +77,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.Game ToCore(this Game game)
+        public static GameModel ToCore(this Game game)
         {
-            return new Core.Models.Game
+            return new GameModel
             {
                 Columns = game.Columns,
                 CurrentUser = game.CurrentUserFkNavigation.ToCore(),
@@ -94,9 +96,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.StoreItem ToCore(this StoreItem storeItem)
+        public static StoreItemModel ToCore(this StoreItem storeItem)
         {
-            return new Core.Models.StoreItem
+            return new StoreItemModel
             {
                 Cost = storeItem.Cost,
                 Description = storeItem.Description,
@@ -107,9 +109,9 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.Turn ToCore(this Turn turn)
+        public static TurnModel ToCore(this Turn turn)
         {
-            return new Core.Models.Turn
+            return new TurnModel
             {
                 EndTime = turn.EndTime,
                 Game = turn.GameFkNavigation.ToCore(),
@@ -119,14 +121,14 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static Core.Models.User ToCore(this User user)
+        public static UserModel ToCore(this User user)
         {
             if (user == null)
             {
                 return null;
             }
 
-            return new Core.Models.User
+            return new UserModel
             {
                 Coins = user.Coins,
                 CreatedDate = user.CreatedDate,

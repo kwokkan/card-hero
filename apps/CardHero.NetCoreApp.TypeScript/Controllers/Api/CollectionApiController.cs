@@ -21,7 +21,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _cardService = cardService;
         }
 
-        public async Task<IEnumerable<CardCollection>> GetAsync(CardCollectionSearchFilter filter)
+        public async Task<IEnumerable<CardCollectionModel>> GetAsync(CardCollectionSearchFilter filter)
         {
             filter.UserId = (await GetUserAsync())?.Id;
 

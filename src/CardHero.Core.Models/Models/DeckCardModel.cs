@@ -3,7 +3,7 @@
     /// <summary>
     /// Deck caard.
     /// </summary>
-    public class DeckCard : Card
+    public class DeckCardModel : CardModel
     {
         /// <summary>
         /// Card collection id.
