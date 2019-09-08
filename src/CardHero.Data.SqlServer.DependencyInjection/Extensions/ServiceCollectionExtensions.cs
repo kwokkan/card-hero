@@ -40,6 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services
                 .AddScoped<IMapper<Deck, DeckData>, DeckMapper>()
+                .AddScoped<IMapper<DeckCardCollection, DeckCardData>, DeckCardMapper>()
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
                 .AddScoped<IMapper<GameUser, GameUserData>, GameUserMapper>()
             ;

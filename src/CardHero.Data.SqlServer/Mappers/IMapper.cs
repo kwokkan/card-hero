@@ -2,8 +2,8 @@
 {
     public interface IMapper<TSource, TDestination>
     {
-        TDestination Map(TSource source);
+        TDestination Map(TSource from);
 
-        TSource Map(TDestination destination);
+        TSource Map(TDestination from);
     }
 }

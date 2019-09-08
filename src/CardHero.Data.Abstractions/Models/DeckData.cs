@@ -9,5 +9,9 @@
         public string Description { get; set; }
 
         public int UserId { get; set; }
+
+        public int MaxCards { get; set; }
+
+        public DeckCardData[] Cards { get; set; }
     }
 }

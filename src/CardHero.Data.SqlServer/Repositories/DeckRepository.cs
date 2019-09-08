@@ -29,6 +29,8 @@ namespace CardHero.Data.SqlServer
             {
                 var deck = await context
                     .Deck
+                    .Include(x => x.DeckCardCollection)
+                        .ThenInclude(x => x.CardCollectionFkNavigation)
                     .Where(x => x.DeckPk == id)
                     .Select(x => _deckMapper.Map(x))
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);

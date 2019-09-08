@@ -13,6 +13,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int Row { get; set; }
         public int Column { get; set; }
 
+        public virtual CardCollection CardCollectionFkNavigation { get; set; }
         public virtual Turn TurnFkNavigation { get; set; }
     }
 }

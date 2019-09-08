@@ -74,9 +74,14 @@ namespace CardHero.Core.SqlServer.Services
 
             var newGameUser = await _gameUserRepository.AddGameUserAsync(id, userId, cancellationToken: cancellationToken);
 
-            //TODO: Check if deck actually has all the cards required
+            var dc = deck.Cards.Select(x => x.CardId).ToArray();
+            var dcc = dc.Count();
+            if (dcc < deck.MaxCards)
+            {
+                throw new InvalidDeckException($"Deck { deckId } needs { deck.MaxCards } cards. Currently only has { dcc }.");
+            }
 
-            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, null, cancellationToken: cancellationToken);
+            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
 
             return _gameUserMapper.Map(newGameUser);
         }

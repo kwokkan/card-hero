@@ -7,6 +7,8 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -Context CardHeroDataDbContext `
 -OutputDir EntityFramework `
 -Tables `
+Card,`
+CardCollection,`
 Deck,`
 DeckCardCollection,`
 Game,`

@@ -10,6 +10,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int GameDeckFk { get; set; }
         public int CardFk { get; set; }
 
+        public virtual Card CardFkNavigation { get; set; }
         public virtual GameDeck GameDeckFkNavigation { get; set; }
     }
 }

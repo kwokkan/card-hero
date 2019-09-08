@@ -7,19 +7,19 @@ namespace CardHero.Data.SqlServer
 {
     internal class GameUserMapper : IMapper<GameUser, GameUserData>
     {
-        public GameUserData Map(GameUser source)
+        public GameUserData Map(GameUser from)
         {
             return new GameUserData
             {
                 //GameDeckId = source.
-                Id = source.GameUserPk,
+                Id = from.GameUserPk,
                 //JoinedTime = source.c,
-                UserId = source.UserFk,
-                Order = source.Order,
+                UserId = from.UserFk,
+                Order = from.Order,
             };
         }
 
-        public GameUser Map(GameUserData destination)
+        public GameUser Map(GameUserData from)
         {
             throw new NotImplementedException();
         }

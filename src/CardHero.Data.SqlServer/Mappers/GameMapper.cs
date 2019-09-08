@@ -7,23 +7,23 @@ namespace CardHero.Data.SqlServer
 {
     internal class GameMapper : IMapper<Game, GameData>
     {
-        public GameData Map(Game source)
+        public GameData Map(Game from)
         {
             return new GameData
             {
-                Columns = source.Columns,
-                CurrentGameUserId = source.CurrentGameUserFk,
-                EndTime = source.EndTime,
-                Id = source.GamePk,
-                Name = source.Name,
-                Rows = source.Rows,
-                StartTime = source.StartTime,
-                Type = (GameType)source.GameTypeFk,
-                WinnerId = source.WinnerFk,
+                Columns = from.Columns,
+                CurrentGameUserId = from.CurrentGameUserFk,
+                EndTime = from.EndTime,
+                Id = from.GamePk,
+                Name = from.Name,
+                Rows = from.Rows,
+                StartTime = from.StartTime,
+                Type = (GameType)from.GameTypeFk,
+                WinnerId = from.WinnerFk,
             };
         }
 
-        public Game Map(GameData destination)
+        public Game Map(GameData from)
         {
             throw new NotImplementedException();
         }
