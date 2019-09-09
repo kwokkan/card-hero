@@ -87,7 +87,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };
 
-            var newGame = await _gameService.NewCreateGameAsync(game, cancellationToken: cancellationToken);
+            var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
             return newGame;
         }

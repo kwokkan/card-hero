@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -111,7 +112,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
 
         [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GameCreateViewModel model)
+        public async Task<IActionResult> Create(GameCreateViewModel model, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +124,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     Type = model.Type,
                     Users = new List<UserModel> { user },
                 };
-                var newGame = await _gameService.CreateGameAsync(game);
+                var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
                 var url = Url.Action("View", new { id = newGame.Id });
 

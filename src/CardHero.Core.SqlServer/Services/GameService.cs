@@ -86,65 +86,7 @@ namespace CardHero.Core.SqlServer.Services
             return _gameUserMapper.Map(newGameUser);
         }
 
-        public async Task<GameModel> CreateGameAsync(GameModel game)
-        {
-            if (game == null)
-            {
-                throw new ArgumentNullException(nameof(game));
-            }
-
-            if (game.Users == null || !game.Users.Any())
-            {
-                throw new ArgumentException("There must be at least 1 user.");
-            }
-
-            if (game.DeckId <= 0)
-            {
-                throw new ArgumentException("There must be a deck to play.");
-            }
-
-            var context = GetContext();
-
-            var deck = await context.Deck.FirstOrDefaultAsync(x => x.DeckPk == game.DeckId);
-
-            //TODO: Do actual validation on the deck to make sure it belongs to the user
-            //var myUserId = 0;
-            //if (deck == null || deck.UserFk != myUserId)
-            //    throw new InvalidDeckException("The selected deck is invalid.");
-
-            var users = game.Users.ToList();
-            var currentUserId = new Random().Next(0, users.Count());
-            var newGame = new Game
-            {
-                CurrentUserFk = users[currentUserId].Id,
-                DeckFk = game.DeckId,
-                GameUser = users.Select(x => new GameUser
-                {
-                    UserFk = x.Id,
-                }).ToList(),
-                GameTypeFk = (int)game.Type,
-                Name = game.Name,
-            };
-
-            newGame.Turn.Add(new Turn
-            {
-                CurrentUserFk = users[currentUserId].Id,
-                StartTime = DateTime.UtcNow,
-            });
-
-            context.Add(newGame);
-            await context.SaveChangesAsync();
-
-            var filter = new Abstractions.GameSearchFilter
-            {
-                GameId = newGame.GamePk,
-            };
-            var result = (await GetGamesAsync(filter)).Results.FirstOrDefault();
-
-            return result;
-        }
-
-        public async Task<GameModel> NewCreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
+        public async Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
         {
             await _gameValidator.ValidateGameAsync(game);
 

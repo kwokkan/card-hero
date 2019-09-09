@@ -25,12 +25,11 @@ namespace CardHero.Core.Abstractions
         /// Starts a new game with the required users.
         /// </summary>
         /// <param name="game">The game to create.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A new Game object.</returns>
         /// <exception cref="ArgumentException">When there are no users starting the game.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="game"/> is null.</exception>
-        Task<GameModel> CreateGameAsync(GameModel game);
-
-        Task<GameModel> NewCreateGameAsync(GameModel game, CancellationToken cancellationToken = default);
+        Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets a list of games.
