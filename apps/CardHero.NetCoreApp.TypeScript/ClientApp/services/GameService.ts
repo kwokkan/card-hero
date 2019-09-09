@@ -1,6 +1,6 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
 import GameCreateModel from "../models/GameCreateModel";
-import GameModel from "../models/GameModel";
+import GameModel, { GameId } from "../models/GameModel";
 import GameTripleTriadMoveModel from "../models/GameTripleTrialMoveModel";
 
 interface IGameSearchFilter {
@@ -8,7 +8,7 @@ interface IGameSearchFilter {
     activeOnly?: boolean;
     page?: number;
     pageSize?: number;
-    gameId?: number;
+    gameId?: GameId;
 }
 
 export default class GameService {

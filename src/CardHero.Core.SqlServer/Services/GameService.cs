@@ -159,7 +159,7 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore());
         }
 
-        public async Task<Abstractions.SearchResult<GameModel>> NewGetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken = default)
+        public async Task<Abstractions.SearchResult<GameModel>> NewGetGamesAsync(Abstractions.GameSearchFilter filter, int? userId = null, CancellationToken cancellationToken = default)
         {
             var result = await _gameRepository.FindGamesAsync(
                 new Data.Abstractions.GameSearchFilter
@@ -174,6 +174,19 @@ namespace CardHero.Core.SqlServer.Services
                 Count = result.TotalCount,
                 Results = result.Results.Select(_gameMapper.Map).ToList(),
             };
+
+            if (userId.HasValue)
+            {
+                var uid = userId.Value;
+
+                foreach (var game in results.Results)
+                {
+                    //TODO: Fix loop to no make multiple calls
+                    var users = (await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken)).Select(x => x.UserId).ToArray();
+                    game.CanJoin = !game.EndTime.HasValue && users.Count() < game.MaxUsers && !users.Contains(uid);
+                    game.CanPlay = !game.EndTime.HasValue && users.Contains(uid) && game.CurrentUser.Id == uid;
+                }
+            }
 
             return results;
         }

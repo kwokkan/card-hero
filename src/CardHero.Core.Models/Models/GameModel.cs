@@ -72,5 +72,22 @@ namespace CardHero.Core.Models
         /// Deck.
         /// </summary>
         public DeckModel Deck { get; set; }
+
+        /// <summary>
+        /// Maximum number of people who can play the game.
+        /// </summary>
+        public int MaxUsers { get; set; } = 2;
+
+        /// <summary>
+        /// Whether a user can join this game.
+        /// </summary>
+        /// <remarks>Needs to be logged in.</remarks>
+        public bool CanJoin { get; set; }
+
+        /// <summary>
+        /// Whether the user can make their move.
+        /// </summary>
+        /// <remarks>Needs to be logged in.</remarks>
+        public bool CanPlay { get; set; }
     }
 }

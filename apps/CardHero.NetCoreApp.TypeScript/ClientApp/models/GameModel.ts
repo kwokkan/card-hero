@@ -3,8 +3,10 @@ import DeckModel from "./DeckModel";
 import GameTripleTriadModel from "./GameTripleTriadModel";
 import GameType from "./GameType";
 
+export type GameId = number; 
+
 export default class GameModel implements IMapper<GameModel> {
-    id: number;
+    id: GameId;
     name: string;
     type: GameType;
 
@@ -14,6 +16,11 @@ export default class GameModel implements IMapper<GameModel> {
 
     data: GameTripleTriadModel;
 
+    maxUsers: number;
+
+    canJoin: boolean;
+    canPlay: boolean;
+
     from(o?: any): GameModel {
         if (!o) return this;
 
@@ -21,6 +28,11 @@ export default class GameModel implements IMapper<GameModel> {
         this.name = o.name;
         this.type = o.type;
         this.startTime = new Date(o.startTime);
+
+        this.maxUsers = o.maxUsers;
+
+        this.canJoin = o.canJoin;
+        this.canPlay = o.canPlay;
 
         if (o.data) {
             switch (this.type) {

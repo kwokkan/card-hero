@@ -30,10 +30,12 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpGet]
         public async Task<IEnumerable<GameModel>> GetAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
         {
+            var userId = (await GetUserAsync())?.Id;
+
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
 
-            var result = await _gameService.NewGetGamesAsync(filter, cancellationToken: cancellationToken);
+            var result = await _gameService.NewGetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken);
 
             return result.Results;
         }
