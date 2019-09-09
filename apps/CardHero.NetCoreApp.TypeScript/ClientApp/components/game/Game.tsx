@@ -2,7 +2,7 @@
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DeckModel from "../../models/DeckModel";
-import GameModel from "../../models/GameModel";
+import GameModel, { GameId } from "../../models/GameModel";
 import GameService from "../../services/GameService";
 import Layout from "../shared/Layout";
 import GameBoard from "./GameBoard";
@@ -26,7 +26,7 @@ export default class Game extends Component<IGameProps, IGameState> {
         this.state = {};
     }
 
-    private async populateGame(id: number) {
+    private async populateGame(id: GameId) {
         const game = await GameService.getGameById(id);
 
         if (game) {
@@ -38,13 +38,13 @@ export default class Game extends Component<IGameProps, IGameState> {
     }
 
     async componentDidMount() {
-        const gameId = this.props.match.params.id;
+        const gameId: GameId = this.props.match.params.id;
 
         await this.populateGame(gameId);
     }
 
     async componentWillReceiveProps(nextProps: IGameProps) {
-        const gameId = this.props.match.params.id;
+        const gameId: GameId = this.props.match.params.id;
 
         if (nextProps.match.params.id !== gameId) {
             await this.populateGame(gameId);
@@ -59,11 +59,9 @@ export default class Game extends Component<IGameProps, IGameState> {
                 <DndProvider backend={HTML5Backend}>
                     <div className="row">
                         <div className="col-lg-3">
-                            <GameDetailWidget game={game}>
-                            </GameDetailWidget>
+                            <GameDetailWidget game={game} />
 
-                            <GameHistoryWidget game={game}>
-                            </GameHistoryWidget>
+                            <GameHistoryWidget game={game} />
                         </div>
 
                         <div className="col-lg-6">

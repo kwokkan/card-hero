@@ -14,7 +14,7 @@ interface IGameSearchFilter {
 export default class GameService {
     private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/games';
 
-    static async getGameById(id: number) {
+    static async getGameById(id: GameId) {
         let baseUrl = GameService.baseUrl + '/' + id;
 
         const response = await fetch(baseUrl);
@@ -64,7 +64,7 @@ export default class GameService {
         return newDeck;
     }
 
-    static async move(id: number, model: GameTripleTriadMoveModel): Promise<GameTripleTriadMoveModel> {
+    static async move(id: GameId, model: GameTripleTriadMoveModel): Promise<GameTripleTriadMoveModel> {
         let baseUrl = GameService.baseUrl + '/' + id + '/move';
 
         const response = await fetch(baseUrl, {
