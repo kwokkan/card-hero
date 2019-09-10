@@ -1,12 +1,12 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
 import DeckCreateModel from "../models/DeckCreateModel";
-import DeckModel from "../models/DeckModel";
+import DeckModel, { DeckId } from "../models/DeckModel";
 
 interface IDeckSearchFilter {
     name?: string;
     page?: number;
     pageSize?: number;
-    ids?: number[];
+    ids?: DeckId[];
 }
 
 export default class DeckService {

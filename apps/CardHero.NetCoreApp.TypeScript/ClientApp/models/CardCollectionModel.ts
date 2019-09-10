@@ -1,8 +1,12 @@
 ﻿import IMapper from "../utils/mapper";
 import CardModel from "./CardModel";
 
+export interface CardCollectionId extends Number {
+    _cardCollectionIdBrand: number;
+}
+
 export default class CardCollectionModel implements IMapper<CardCollectionModel> {
-    id: number;
+    id: CardCollectionId;
     card: CardModel;
 
     from(o?: any): CardCollectionModel {

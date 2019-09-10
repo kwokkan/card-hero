@@ -1,8 +1,9 @@
 ﻿import IMapper from "../utils/mapper";
+import { CardCollectionId } from "./CardCollectionModel";
 import CardModel from "./CardModel";
 
 export default class DeckCardModel extends CardModel implements IMapper<DeckCardModel> {
-    cardCollectionId: number;
+    cardCollectionId: CardCollectionId;
     isUsable?: boolean = true;
 
     from(o?: any): DeckCardModel {

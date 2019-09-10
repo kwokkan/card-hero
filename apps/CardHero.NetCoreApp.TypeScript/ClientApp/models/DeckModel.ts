@@ -1,8 +1,12 @@
 ﻿import IMapper from "../utils/mapper";
 import DeckCardModel from "./DeckCardModel";
 
+export interface DeckId extends Number {
+    _deckIdBrand: number;
+}
+
 export default class DeckModel implements IMapper<DeckModel> {
-    id: number;
+    id: DeckId;
     name: string;
     description?: string;
     maxCards: number;

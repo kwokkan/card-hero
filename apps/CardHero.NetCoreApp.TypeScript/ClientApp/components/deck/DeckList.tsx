@@ -19,7 +19,7 @@ export default function DeckList(props: IDeckListProps) {
 
                 <tbody>
                     {props.decks.map(d =>
-                        <tr key={d.id}>
+                        <tr key={d.id as any}>
                             <th scope="row">
                                 <Icon icon="star" className={'deck-favourite' + (d.isFavourited ? ' enabled' : '')} data-deck-id={d.id} />
                                 {' '}

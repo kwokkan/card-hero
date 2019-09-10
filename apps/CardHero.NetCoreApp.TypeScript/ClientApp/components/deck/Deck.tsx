@@ -1,6 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import DeckEditModel from "../../models/DeckEditModel";
+import { DeckId } from "../../models/DeckModel";
 import CardCollectionService from "../../services/CardCollectionService";
 import DeckService from "../../services/DeckService";
 import Icon from "../../styles/index";
@@ -32,7 +33,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
         }));
     }
 
-    private async populateDeck(id: number) {
+    private async populateDeck(id: DeckId) {
         const decks = await DeckService.getDecks({
             ids: [
                 id
@@ -50,7 +51,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
     }
 
     async componentDidMount() {
-        const deckId = this.props.match.params.id;
+        const deckId: DeckId = this.props.match.params.id;
 
         await Promise.all([
             this.populateDeck(deckId),
@@ -59,7 +60,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
     }
 
     async componentWillReceiveProps(nextProps: IDeckProps) {
-        const deckId = this.props.match.params.id;
+        const deckId: DeckId = this.props.match.params.id;
 
         if (nextProps.match.params.id !== deckId) {
             await this.populateDeck(deckId);
@@ -109,7 +110,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
                                 <div className="card-text">
                                     <ul id="owned-cards" className="ch-cards droppable">
                                         {ownedCards && ownedCards.map(cc =>
-                                            <li className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
+                                            <li key={cc.id as any} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
                                         )}
                                     </ul>
                                 </div>
@@ -126,7 +127,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
                                 <div className="card-text">
                                     <ul id="used-cards" className="ch-cards droppable" data-max-cards={deck.maxCards}>
                                         {usedCards && usedCards.map(cc =>
-                                            <li className="ch-card draggable" data-card-collection-id={cc.cardCollectionId}>{cc.name}</li>
+                                            <li key={cc.id as any} className="ch-card draggable" data-card-collection-id={cc.cardCollectionId}>{cc.name}</li>
                                         )}
                                     </ul>
                                 </div>
