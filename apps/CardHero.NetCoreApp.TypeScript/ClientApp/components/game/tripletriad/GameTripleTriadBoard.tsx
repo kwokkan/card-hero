@@ -1,5 +1,6 @@
 ﻿import React, { Component } from "react";
 import Constants from "../../../constants/constants";
+import { CardCollectionId } from "../../../models/CardCollectionModel";
 import CardModel from "../../../models/CardModel";
 import GameModel from "../../../models/GameModel";
 import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
@@ -34,12 +35,12 @@ export default class GameTripleTriadBoard extends Component<IGameTripleTriadBoar
         return this.state.data.moves.findIndex(x => x.row == row && x.column == column) > -1;
     }
 
-    private getCardCollectionId(row: number, column: number): number | null {
+    private getCardCollectionId(row: number, column: number): CardCollectionId | null {
         const move = this.state.data.moves.find(x => x.row == row && x.column == column);
         return move ? move.cardCollectionId : null;
     }
 
-    private getCardCollectionCard(cardCollectionId: number): CardModel {
+    private getCardCollectionCard(cardCollectionId: CardCollectionId): CardModel {
         const card = this.props.game.deck.cards.find(x => x.cardCollectionId == cardCollectionId);
         return card;
     }

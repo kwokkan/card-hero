@@ -14,7 +14,7 @@ interface IGameSearchFilter {
 export default class GameService {
     private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/games';
 
-    static async getGameById(id: GameId) {
+    static async getGameById(id: GameId): Promise<GameModel | null> {
         let baseUrl = GameService.baseUrl + '/' + id;
 
         const response = await fetch(baseUrl);

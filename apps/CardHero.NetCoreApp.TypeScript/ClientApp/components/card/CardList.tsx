@@ -33,7 +33,7 @@ export default function CardList(props: ICardListProps) {
 
                 <tbody>
                     {props.cards.map(c =>
-                        <tr key={c.id}>
+                        <tr key={c.id as any}>
                             <th scope="row">
                                 {user &&
                                     <Fragment>
