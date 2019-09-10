@@ -12,7 +12,7 @@ export default function CollectionList(props: ICollectionListProps) {
     return (
         <div className="row">
             {props.collection.map(x =>
-                <div key={x.id} className="col-lg-3">
+                <div key={x.id as any} className="col-lg-3">
                     <CardWidget card={x.card} />
                 </div>
             )}

@@ -1,13 +1,13 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Button, Modal } from "react-bootstrap";
-import DeckModel from "../../models/DeckModel";
+import DeckModel, { DeckId } from "../../models/DeckModel";
 import GameType from "../../models/GameType";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameCreateModalOnCreatedProps {
     name: string;
     type: GameType;
-    deckId: number;
+    deckId: DeckId;
 }
 
 interface IGameCreateModalProps {
@@ -20,7 +20,7 @@ interface IGameCreateModalProps {
 interface IGameCreateModalState {
     name?: string;
     type?: GameType;
-    deckId?: number;
+    deckId?: DeckId;
     canSave: boolean;
 }
 
@@ -119,12 +119,12 @@ export default class GameCreateModal extends Component<IGameCreateModalProps, IG
                                     <select
                                         id="mDeckId"
                                         className="form-control"
-                                        value={this.state.deckId}
+                                        value={this.state.deckId as any}
                                         onChange={(e) => this.onSelectChange(nameof<IGameCreateModalState>('deckId'), e)}
                                     >
                                         <option>Please select</option>
                                         {this.props.decks.map(x =>
-                                            <option value={x.id}>{x.name}</option>
+                                            <option value={x.id as any}>{x.name}</option>
                                         )}
                                     </select>
                                 </div>

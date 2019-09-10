@@ -1,8 +1,12 @@
 ﻿import IMapper from "../utils/mapper";
 import Rarity from "./Rarity";
 
+export interface CardId extends Number {
+    _cardIdBrand: number;
+}
+
 export default class CardModel implements IMapper<CardModel> {
-    id: number;
+    id: CardId;
     name: string;
 
     health: number;
