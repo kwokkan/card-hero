@@ -1,10 +1,10 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
-import CardCollectionModel from "../models/CardCollectionModel";
+import CardCollectionModel, { CardCollectionId } from "../models/CardCollectionModel";
 
 interface ICardCollectionSearchFilter {
     page?: number;
     pageSize?: number;
-    ids?: number[];
+    ids?: CardCollectionId[];
 }
 
 export default class CardCollectionService {

@@ -1,6 +1,6 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
 import CardModel from "../models/CardModel";
-import StoreItemModel from "../models/StoreItemModel";
+import StoreItemModel, { StoreItemId } from "../models/StoreItemModel";
 import StoreItemModelMapper from "../models/StoreItemModelMapper";
 
 export default class StoreService {
@@ -20,7 +20,7 @@ export default class StoreService {
         return null;
     }
 
-    static async buyCardBundle(id: number): Promise<CardModel[] | null> {
+    static async buyCardBundle(id: StoreItemId): Promise<CardModel[] | null> {
         const baseUrl = StoreService.baseUrl;
 
         const body = {

@@ -1,11 +1,11 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
-import CardModel from "../models/CardModel";
+import CardModel, { CardId } from "../models/CardModel";
 
 interface ICardSearchFilter {
     name?: string;
     page?: number;
     pageSize?: number;
-    ids?: number[];
+    ids?: CardId[];
 }
 
 export default class CardService {

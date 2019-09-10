@@ -3,8 +3,12 @@ import DeckModel from "./DeckModel";
 import GameTripleTriadModel from "./GameTripleTriadModel";
 import GameType from "./GameType";
 
+export interface GameId extends Number {
+    _gameIdBrand: number;
+}
+
 export default class GameModel implements IMapper<GameModel> {
-    id: number;
+    id: GameId;
     name: string;
     type: GameType;
 

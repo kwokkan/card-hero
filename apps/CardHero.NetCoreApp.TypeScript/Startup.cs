@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -27,6 +28,9 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var localAuthOptions = Configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
+            localAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
             var githubAuthOptions = Configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
             githubAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
@@ -56,6 +60,7 @@ namespace CardHero.NetCoreApp.TypeScript
                         return Task.CompletedTask;
                     };
                 })
+                .AddLocalAuthentication(localAuthOptions)
                 .AddGitHubAuthentication(githubAuthOptions)
             ;
 
@@ -96,14 +101,7 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
+            app.UseJsonException();
 
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
@@ -119,13 +117,18 @@ namespace CardHero.NetCoreApp.TypeScript
                     {
                         context.Context.Response.Headers.Add("Cache-Control", "public, max-age=31536000, stale-while-revalidate=31536000, stale-if-error=31536000, immutable");
 
-                        var sourceMapFileName = context.File.Name + ".map";
-                        context.Context.Response.Headers.Add("SourceMap", sourceMapFileName);
-                        context.Context.Response.Headers.Add("X-SourceMap", sourceMapFileName);
+                        if (env.IsDevelopment())
+                        {
+                            var sourceMapFileName = context.File.Name + ".map";
+                            context.Context.Response.Headers.Add("SourceMap", sourceMapFileName);
+                            context.Context.Response.Headers.Add("X-SourceMap", sourceMapFileName);
+                        }
                     }
                 },
             };
             app.UseStaticFiles(staticFileOptions);
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             app.UseAuthentication();
 

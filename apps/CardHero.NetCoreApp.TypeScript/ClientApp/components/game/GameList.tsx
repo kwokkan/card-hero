@@ -20,7 +20,7 @@ export default function GameList(props: IGameListProps) {
 
                 <tbody>
                     {props.games.map(g =>
-                        <tr key={g.id}>
+                        <tr key={g.id as any}>
                             <th scope="row">
                                 <Link to={'/' + g.id}>#{g.id}{' '}{g.name}</Link>
                             </th>

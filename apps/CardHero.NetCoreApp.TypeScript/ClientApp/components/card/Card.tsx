@@ -1,6 +1,6 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
-import CardModel from "../../models/CardModel";
+import CardModel, { CardId } from "../../models/CardModel";
 import CardService from "../../services/CardService";
 import Layout from "../shared/Layout";
 
@@ -19,7 +19,7 @@ export default class Card extends PureComponent<ICardProps, ICardState> {
         this.state = {};
     }
 
-    private async populateCard(id: number) {
+    private async populateCard(id: CardId) {
         const cards = await CardService.getCards({
             ids: [
                 id
@@ -32,13 +32,13 @@ export default class Card extends PureComponent<ICardProps, ICardState> {
     }
 
     async componentDidMount() {
-        const cardId = this.props.match.params.id;
+        const cardId: CardId = this.props.match.params.id;
 
         await this.populateCard(cardId);
     }
 
     async componentWillReceiveProps(nextProps: ICardProps) {
-        const cardId = this.props.match.params.id;
+        const cardId: CardId = this.props.match.params.id;
 
         if (nextProps.match.params.id !== cardId) {
             await this.populateCard(cardId);
