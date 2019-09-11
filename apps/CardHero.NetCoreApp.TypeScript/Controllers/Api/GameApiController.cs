@@ -94,6 +94,16 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return newGame;
         }
 
+        [HttpPost("{id:int}/join")]
+        public async Task<ActionResult<GameUserModel>> Join(int id, [FromBody]JoinGameViewModel model, CancellationToken cancellationToken = default)
+        {
+            var user = await GetUserAsync();
+
+            var result = await _gameService.AddUserToGameAsync(id, user.Id, model.DeckId, cancellationToken: cancellationToken);
+
+            return result;
+        }
+
         [HttpPost("{id:int}/move")]
         public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, [FromBody]GameTripleTriadMoveViewModel model)
         {

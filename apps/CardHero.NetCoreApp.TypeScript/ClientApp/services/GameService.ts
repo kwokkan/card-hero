@@ -1,4 +1,5 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
+import { DeckId } from "../models/DeckModel";
 import GameCreateModel from "../models/GameCreateModel";
 import GameModel, { GameId } from "../models/GameModel";
 import GameTripleTriadMoveModel from "../models/GameTripleTrialMoveModel";
@@ -62,6 +63,22 @@ export default class GameService {
         const newDeck = new GameModel().from(data);
 
         return newDeck;
+    }
+
+    static async join(id: GameId, deckId: DeckId): Promise<void> {
+        const baseUrl = GameService.baseUrl + '/' + id + '/join';
+
+        const model = {
+            deckId: deckId
+        };
+
+        await fetch(baseUrl, {
+            body: JSON.stringify(model),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST"
+        });
     }
 
     static async move(id: GameId, model: GameTripleTriadMoveModel): Promise<GameTripleTriadMoveModel> {

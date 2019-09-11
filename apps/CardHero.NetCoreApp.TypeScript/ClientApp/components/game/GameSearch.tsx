@@ -2,12 +2,12 @@
 import Constants from "../../constants/constants";
 import DeckModel from "../../models/DeckModel";
 import GameModel from "../../models/GameModel";
-import DeckService from "../../services/DeckService";
 import GameService from "../../services/GameService";
 import Icon from "../../styles/index";
 import GameCreateModal, { IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
+    decks: DeckModel[];
     onGamesPopulated?: ((games: GameModel[]) => void);
 }
 
@@ -17,7 +17,6 @@ interface IGameSearchState {
     page?: number;
     pageSize?: number;
     modalShown: boolean;
-    decks: DeckModel[];
 }
 
 export default class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
@@ -25,24 +24,12 @@ export default class GameSearch extends Component<IGameSearchProps, IGameSearchS
         super(props);
 
         this.state = {
-            modalShown: false,
-            decks: []
+            modalShown: false
         };
     }
 
     async componentDidMount() {
-        Promise.all([
-            this.getDecks(),
-            this.getGames()
-        ]);
-    }
-
-    async getDecks() {
-        const decks = await DeckService.getDecks();
-
-        this.setState({
-            decks: decks
-        });
+        this.getGames();
     }
 
     async getGames(e?) {
@@ -95,7 +82,7 @@ export default class GameSearch extends Component<IGameSearchProps, IGameSearchS
                 <div className="card">
                     <h4 className="card-header">
                         Games
-                </h4>
+                    </h4>
 
                     <form method="get" className="search-filter game-filter">
                         <div className="card-body">
@@ -134,7 +121,7 @@ export default class GameSearch extends Component<IGameSearchProps, IGameSearchS
                     show={this.state.modalShown}
                     onCreated={(game) => this.onGameCreated(game)}
                     onHide={() => this.setState({ modalShown: false })}
-                    decks={this.state.decks}
+                    decks={this.props.decks}
                 />
             </Fragment>
         );
