@@ -12,7 +12,7 @@ export default class CardCollectionModel implements IMapper<CardCollectionModel>
     from(o?: any): CardCollectionModel {
         if (!o) return this;
 
-        this.id = o.cardCollectionId;
+        this.id = o.id;
 
         this.card = new CardModel();
 

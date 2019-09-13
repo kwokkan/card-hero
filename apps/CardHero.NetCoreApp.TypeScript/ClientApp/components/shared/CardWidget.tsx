@@ -21,8 +21,8 @@ export default function CardWidget(props: ICardWidgetProps) {
 
             <div className="card-footer">
                 <h2 className={'text-center card-rarity-symbols text-rarity_' + Rarity[c.rarity].toLowerCase()} title={Rarity[c.rarity]}>
-                    {Array(c.rarity).fill(0).map(() =>
-                        <Icon icon="star" />
+                    {Array(c.rarity).fill(0).map((_, i) =>
+                        <Icon key={i} icon="star" />
                     )}
                 </h2>
                 <h3 className="text-center" title={c.name}>{c.name}</h3>
