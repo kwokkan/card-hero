@@ -6,6 +6,7 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
 
 const isProd = process.env.NODE_ENV == "production";
@@ -138,6 +139,9 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.EnvironmentPlugin({
+            "NODE_ENV": "production"
+        }),
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({

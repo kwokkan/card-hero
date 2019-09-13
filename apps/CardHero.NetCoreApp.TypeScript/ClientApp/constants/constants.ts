@@ -10,5 +10,5 @@ export default class Constants {
     /**
      * Whether this is debug or not.
      */
-    static Debug: boolean = false;
+    static Debug: boolean = process.env.NODE_ENV === "development";
 }
