@@ -4037,10 +4037,10 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.1.0.tgz#e2a82cea84ff246ad6fb57f9bde5b46621459ec2"
   integrity sha512-8y9YjtM1JBJU/A9Kc+SbaOV4y29sSWckBwMHa+FGtVj5gN/sbnKDf6xJUl+8g7FAij9LVaP8C24DUiH/f/2Z9A==
 
-eslint@6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-6.3.0.tgz#1f1a902f67bfd4c354e7288b81e40654d927eb6a"
-  integrity sha512-ZvZTKaqDue+N8Y9g0kp6UPZtS4FSY3qARxBs7p4f0H0iof381XHduqVerFWtK8DPtKmemqbqCFENWSQgPR/Gow==
+eslint@6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-6.4.0.tgz#5aa9227c3fbe921982b2eda94ba0d7fae858611a"
+  integrity sha512-WTVEzK3lSFoXUovDHEbkJqCVPEPwbhCq4trDktNI6ygs7aO41d4cDT0JFAT5MivzZeVLWlg7vHL+bgrQv/t3vA==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     ajv "^6.10.0"
@@ -4897,9 +4897,9 @@ google-closure-compiler-osx@^20190909.0.0:
   integrity sha512-DvIr6gd7BfIpptSfLihEGwCHKlcwssHC+pt1duagRPfmgezp8GeJvAvbZIS/+Ud77zRFz+wcwQWsTvwyZSwklQ==
 
 google-closure-compiler-windows@^20190909.0.0:
-  version "20190819.0.0"
-  resolved "https://registry.yarnpkg.com/google-closure-compiler-windows/-/google-closure-compiler-windows-20190819.0.0.tgz#acf1246d65aa9e55a7d449e08188458a9da89867"
-  integrity sha512-WglPY706c1oN03KiZF02FUWr/7M0eFoev4CQPncSihfjYXpD5E5PMKJ3ppawhzj60CQ9ceC/Omx7VN7Kp0uOQg==
+  version "20190909.0.0"
+  resolved "https://registry.yarnpkg.com/google-closure-compiler-windows/-/google-closure-compiler-windows-20190909.0.0.tgz#295bb667fe830b71dde6ee88b0af4cd36cf5dbd0"
+  integrity sha512-9N+7ocubt+cNI1q2395ZZ2fQouLeAudLGpYYMLYzNPfrfENvPWX+Zbk7A0gSqUzRLn+tD0SfpRcxmvajw7o2VA==
 
 google-closure-compiler@20190909.0.0:
   version "20190909.0.0"
