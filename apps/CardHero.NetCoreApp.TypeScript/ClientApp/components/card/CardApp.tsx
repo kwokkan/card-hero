@@ -1,5 +1,4 @@
 ﻿import React, { Component } from "react";
-import Constants from "../../constants/constants";
 import CardModel from "../../models/CardModel";
 import Layout from "../shared/Layout";
 import CardList from "./CardList";

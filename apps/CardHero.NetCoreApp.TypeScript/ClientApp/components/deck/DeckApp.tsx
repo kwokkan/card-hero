@@ -1,5 +1,4 @@
 ﻿import React, { Component } from "react";
-import Constants from "../../constants/constants";
 import DeckModel from "../../models/DeckModel";
 import Layout from "../shared/Layout";
 import DeckList from "./DeckList";

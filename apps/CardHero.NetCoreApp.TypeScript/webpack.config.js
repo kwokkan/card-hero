@@ -1,17 +1,20 @@
-﻿const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ClosurePlugin = require('closure-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+﻿const path = require("path");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ClosurePlugin = require("closure-webpack-plugin");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
-const WebpackDeepScopeAnalysisPlugin = require('webpack-deep-scope-plugin').default;
+const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
+const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
 
-const isRealProd = process.env.IS_REAL_PROD == '1';
+const isProd = process.env.NODE_ENV == "production";
+
+const constants = require("./ClientApp/constants/constants.ts");
 
 module.exports = {
-    mode: "production",
+    mode: isProd ? "production" : "development",
 
     // Enable sourcemaps for debugging webpack's output.
     devtool: "hidden-source-map",
@@ -30,9 +33,9 @@ module.exports = {
     },
 
     output: {
-        filename: isRealProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
+        filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
         path: path.resolve(__dirname, "wwwroot/dist"),
-        devtoolModuleFilenameTemplate:"/src/[resource-path]?[loaders]",
+        devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
         jsonpFunction: "wj"
     },
 
@@ -62,8 +65,8 @@ module.exports = {
     recordsPath: path.resolve(__dirname, "records.json"),
 
     optimization: {
-        minimize: isRealProd,
-        minimizer: isRealProd ? [
+        minimize: isProd,
+        minimizer: isProd ? [
             new TerserPlugin({
                 cache: true,
                 parallel: true,
@@ -103,7 +106,7 @@ module.exports = {
             //    //
             //    // for debuging help, try these:
             //    //
-            //    // formatting: 'PRETTY_PRINT'
+            //    // formatting: "PRETTY_PRINT"
             //    // debug: true,
             //    // renaming: false
             //})
@@ -113,7 +116,7 @@ module.exports = {
         moduleIds: "deterministic",
         //runtimeChunk: "single",
         runtimeChunk: {
-            name: 'shared'
+            name: "shared"
         },
         splitChunks: {
             cacheGroups: {
@@ -144,7 +147,7 @@ module.exports = {
 
     resolve: {
         cache: true,
-        // Add '.ts' and '.tsx' as resolvable extensions.
+        // Add ".ts" and ".tsx" as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx"],
 
         //alias: {
@@ -154,16 +157,22 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.EnvironmentPlugin({
+            "NODE_ENV": "production"
+        }),
+        new webpack.DefinePlugin({
+            "Constants": constants
+        }),
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),
         //new MiniCssExtractPlugin({
-        //    filename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
-        //    chunkFilename: isRealProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        //    filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        //    chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         //}),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
-        isRealProd ? new BundleAnalyzerPlugin({
+        isProd ? new BundleAnalyzerPlugin({
             analyzerMode: "static",
             openAnalyzer: false,
             generateStatsFile: true,
@@ -184,7 +193,7 @@ module.exports = {
                 reasons: false
             }
         }) : null,
-        isRealProd ? new WebpackDeepScopeAnalysisPlugin() : null
+        isProd ? new WebpackDeepScopeAnalysisPlugin() : null
     ].filter(Boolean),
 
     module: {
@@ -199,7 +208,7 @@ module.exports = {
                     }
                 ]
             },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            // All output ".js" files will have any sourcemaps re-processed by "source-map-loader".
             {
                 enforce: "pre",
                 test: /\.js$/,
