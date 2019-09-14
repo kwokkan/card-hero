@@ -21,6 +21,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int Rows { get; set; }
         public int Columns { get; set; }
         public int GameTypeFk { get; set; }
+        public int MaxPlayers { get; set; }
 
         public virtual GameUser CurrentGameUserFkNavigation { get; set; }
         public virtual GameUser WinnerFkNavigation { get; set; }

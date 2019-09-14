@@ -15,6 +15,7 @@ namespace CardHero.Data.SqlServer
                 CurrentGameUserId = from.CurrentGameUserFk,
                 EndTime = from.EndTime,
                 Id = from.GamePk,
+                MaxPlayers = from.MaxPlayers,
                 Name = from.Name,
                 Rows = from.Rows,
                 StartTime = from.StartTime,

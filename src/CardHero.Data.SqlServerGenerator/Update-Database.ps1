@@ -16,4 +16,5 @@ GameDeck,`
 GameDeckCardCollection,`
 GameUser,`
 Move,`
-Turn
+Turn,`
+User

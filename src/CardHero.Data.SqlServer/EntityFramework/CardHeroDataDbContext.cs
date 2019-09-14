@@ -25,6 +25,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,6 +83,12 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .HasForeignKey(d => d.CardFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CardCollection_Card_FK");
+
+                entity.HasOne(d => d.UserFkNavigation)
+                    .WithMany(p => p.CardCollection)
+                    .HasForeignKey(d => d.UserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardCollection_User_FK");
             });
 
             modelBuilder.Entity<Deck>(entity =>
@@ -103,6 +110,12 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.Property(e => e.Rowstamp).IsRowVersion();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
+
+                entity.HasOne(d => d.UserFkNavigation)
+                    .WithMany(p => p.Deck)
+                    .HasForeignKey(d => d.UserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Deck_User_FK");
             });
 
             modelBuilder.Entity<DeckCardCollection>(entity =>
@@ -153,6 +166,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.Property(e => e.GameTypeFk)
                     .HasColumnName("GameType_FK")
                     .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.MaxPlayers).HasDefaultValueSql("((2))");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
@@ -259,6 +274,12 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .HasForeignKey(d => d.GameFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GameUser_Game");
+
+                entity.HasOne(d => d.UserFkNavigation)
+                    .WithMany(p => p.GameUser)
+                    .HasForeignKey(d => d.UserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameUser_User");
             });
 
             modelBuilder.Entity<Move>(entity =>
@@ -312,11 +333,41 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
 
+                entity.HasOne(d => d.CurrentUserFkNavigation)
+                    .WithMany(p => p.Turn)
+                    .HasForeignKey(d => d.CurrentUserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Turn_CurrentUser_FK");
+
                 entity.HasOne(d => d.GameFkNavigation)
                     .WithMany(p => p.Turn)
                     .HasForeignKey(d => d.GameFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Turn_Game_FK");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.UserPk);
+
+                entity.HasIndex(e => new { e.Identifier, e.IdPsource })
+                    .HasName("UX_User_Identifier")
+                    .IsUnique();
+
+                entity.Property(e => e.UserPk).HasColumnName("User_PK");
+
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.FullName).HasMaxLength(200);
+
+                entity.Property(e => e.IdPsource)
+                    .IsRequired()
+                    .HasColumnName("IdPSource")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Identifier)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
         }
     }

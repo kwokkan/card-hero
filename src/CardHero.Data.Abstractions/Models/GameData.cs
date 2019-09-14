@@ -21,5 +21,7 @@ namespace CardHero.Data.Abstractions
         public int Columns { get; set; }
 
         public GameType Type { get; set; }
+
+        public int MaxPlayers { get; set; }
     }
 }

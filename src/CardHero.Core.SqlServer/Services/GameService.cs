@@ -60,6 +60,11 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException($"User { userId } is already in game { id }.");
             }
 
+            if (gameUsers.Count() >= game.MaxPlayers)
+            {
+                throw new InvalidPlayerException($"Game { id } is already filled.");
+            }
+
             var deck = await _deckRepository.GetDeckByIdAsync(deckId, cancellationToken: cancellationToken);
 
             if (deck == null)

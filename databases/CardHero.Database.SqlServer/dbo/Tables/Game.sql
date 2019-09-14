@@ -9,6 +9,7 @@
     [Rows]               INT            DEFAULT ((3)) NOT NULL,
     [Columns]            INT            DEFAULT ((3)) NOT NULL,
     [GameType_FK]        INT            DEFAULT ((1)) NOT NULL,
+    [MaxPlayers]         INT            DEFAULT ((2)) NOT NULL,
     CONSTRAINT [PK_Game] PRIMARY KEY CLUSTERED ([Game_PK] ASC),
     CONSTRAINT [CK_Game_Columns] CHECK ([Columns]>(0)),
     CONSTRAINT [CK_Game_Rows] CHECK ([Rows]>(0)),

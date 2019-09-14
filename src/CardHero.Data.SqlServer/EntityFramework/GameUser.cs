@@ -20,6 +20,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int? Order { get; set; }
 
         public virtual Game GameFkNavigation { get; set; }
+        public virtual User UserFkNavigation { get; set; }
         public virtual ICollection<Game> GameCurrentGameUserFkNavigation { get; set; }
         public virtual ICollection<GameDeck> GameDeck { get; set; }
         public virtual ICollection<Game> GameWinnerFkNavigation { get; set; }
