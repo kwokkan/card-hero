@@ -11,6 +11,8 @@ const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").defa
 
 const isProd = process.env.NODE_ENV == "production";
 
+const constants = require("./ClientApp/constants/constants.ts");
+
 module.exports = {
     mode: isProd ? "production" : "development",
 
@@ -141,6 +143,9 @@ module.exports = {
     plugins: [
         new webpack.EnvironmentPlugin({
             "NODE_ENV": "production"
+        }),
+        new webpack.DefinePlugin({
+            "Constants": constants
         }),
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),

@@ -1,14 +1,16 @@
 ﻿/**
  * Constants used in app.
  */
-export default class Constants {
+const Constants = {
     /**
      * The name of the app.
      */
-    static AppName: string = 'Card Hero TS';
+    AppName: '"Card Hero TS"',
 
     /**
      * Whether this is debug or not.
      */
-    static Debug: boolean = process.env.NODE_ENV === "development";
-}
+    Debug: process.env.NODE_ENV === "development",
+};
+
+module.exports = Constants;

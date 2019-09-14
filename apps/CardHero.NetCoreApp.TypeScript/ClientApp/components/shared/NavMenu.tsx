@@ -1,5 +1,4 @@
 import React, { Fragment, PureComponent } from 'react';
-import Constants from '../../constants/constants';
 import { AccountContext } from '../../contexts/AccountContext';
 import AccountModel from '../../models/AccountModel';
 import AccountService from '../../services/AccountService';
