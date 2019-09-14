@@ -55,12 +55,12 @@
 	"eslintConfig": {
 		"extends": "react-app"
 	},
-	"scripts": {
-		"build": "webpack --config webpack.config.js",
-		"build:prod": "cross-env IS_REAL_PROD=1 webpack --config webpack.config.js",
-		"test": "cross-env CI=true react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"lint": "eslint ./src/",
-		"watch": "webpack --watch --info-verbosity verbose"
-	}
+  "scripts": {
+    "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/",
+    "watch": "webpack --watch --info-verbosity verbose"
+  }
 }
