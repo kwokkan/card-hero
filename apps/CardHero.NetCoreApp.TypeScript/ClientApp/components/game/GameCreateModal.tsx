@@ -124,7 +124,7 @@ export default class GameCreateModal extends Component<IGameCreateModalProps, IG
                                     >
                                         <option>Please select</option>
                                         {this.props.decks.map(x =>
-                                            <option value={x.id as any}>{x.name}</option>
+                                            <option key={x.id as any} value={x.id as any}>{x.name}</option>
                                         )}
                                     </select>
                                 </div>

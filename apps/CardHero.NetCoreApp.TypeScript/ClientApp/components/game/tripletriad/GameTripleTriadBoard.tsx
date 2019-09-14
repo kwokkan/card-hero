@@ -1,5 +1,4 @@
 ﻿import React, { Component } from "react";
-import Constants from "../../../constants/constants";
 import { CardCollectionId } from "../../../models/CardCollectionModel";
 import CardModel from "../../../models/CardModel";
 import GameModel from "../../../models/GameModel";

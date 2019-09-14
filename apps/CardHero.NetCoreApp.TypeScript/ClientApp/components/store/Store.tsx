@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from "react";
-import Constants from "../../constants/constants";
 import { AccountContext } from "../../contexts/AccountContext";
 import StoreItemModel from "../../models/StoreItemModel";
 import AccountService from "../../services/AccountService";

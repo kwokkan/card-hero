@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Constants from '../../constants/constants';
 import AppBootstrap from '../shared/appBootstrap';
 
 export function Home() {
