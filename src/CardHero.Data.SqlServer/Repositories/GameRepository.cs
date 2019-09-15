@@ -133,5 +133,32 @@ namespace CardHero.Data.SqlServer
                 return result;
             }
         }
+
+        public async Task<GameData> UpdateGameAsync(int id, GameUpdateData update, CancellationToken cancellationToken = default)
+        {
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                var existingGame = await context.Game.SingleOrDefaultAsync(x => x.GamePk == id, cancellationToken: cancellationToken);
+
+                if (existingGame == null)
+                {
+                    throw new CardHeroDataException($"Game { id } does not exist.");
+                }
+
+                if (update.CurrentGameUserId.IsSet)
+                {
+                    existingGame.CurrentGameUserFk = update.CurrentGameUserId.Value;
+                }
+
+                if (update.WinnerId.IsSet)
+                {
+                    existingGame.WinnerFk = update.WinnerId.Value;
+                }
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            return await GetGameByIdAsync(id, cancellationToken: cancellationToken);
+        }
     }
 }

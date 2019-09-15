@@ -60,7 +60,8 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException($"User { userId } is already in game { id }.");
             }
 
-            if (gameUsers.Count() >= game.MaxPlayers)
+            var gul = gameUsers.Length;
+            if (gul >= game.MaxPlayers)
             {
                 throw new InvalidPlayerException($"Game { id } is already filled.");
             }
@@ -87,6 +88,18 @@ namespace CardHero.Core.SqlServer.Services
             }
 
             var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
+
+            if (gul + 1 == game.MaxPlayers)
+            {
+                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { newGameUser.Id }).ToArray();
+                var currentUserId = new Random().Next(0, allUsers.Length);
+                var updateGame = new GameUpdateData
+                {
+                    CurrentGameUserId = allUsers[currentUserId],
+                };
+
+                await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
+            }
 
             return _gameUserMapper.Map(newGameUser);
         }
