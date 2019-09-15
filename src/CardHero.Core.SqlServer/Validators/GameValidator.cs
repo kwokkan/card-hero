@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Models;
@@ -7,7 +8,7 @@ namespace CardHero.Core.SqlServer
 {
     internal class GameValidator : IGameValidator
     {
-        public Task ValidateGameAsync(GameModel game)
+        Task IGameValidator.ValidateNewGameAsync(GameCreateModel game, CancellationToken cancellationToken)
         {
             if (game == null)
             {

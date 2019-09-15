@@ -5,7 +5,7 @@ namespace CardHero.Data.Abstractions
 {
     public interface IGameRepository
     {
-        Task<GameData> AddGameAsync(GameData game, CancellationToken cancellationToken = default);
+        Task<GameData> AddGameAsync(GameCreateData game, CancellationToken cancellationToken = default);
 
         Task<SearchResult<GameData>> FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default);
 

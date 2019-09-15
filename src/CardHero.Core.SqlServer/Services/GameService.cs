@@ -21,6 +21,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IGameRepository _gameRepository;
         private readonly IGameUserRepository _gameUserRepository;
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
+        private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
         private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         public GameService(
@@ -31,6 +32,7 @@ namespace CardHero.Core.SqlServer.Services
             IGameRepository gameRepository,
             IGameUserRepository gameUserRepository,
             IDataMapper<GameData, GameModel> gameMapper,
+            IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
             IDataMapper<GameUserData, GameUserModel> gameUserMapper
         )
             : base(contextFactory)
@@ -41,6 +43,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameRepository = gameRepository;
             _gameUserRepository = gameUserRepository;
             _gameMapper = gameMapper;
+            _gameCreateMapper = gameCreateMapper;
             _gameUserMapper = gameUserMapper;
         }
 
@@ -104,25 +107,23 @@ namespace CardHero.Core.SqlServer.Services
             return _gameUserMapper.Map(newGameUser);
         }
 
-        public async Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
+        public async Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default)
         {
-            await _gameValidator.ValidateGameAsync(game);
+            await _gameValidator.ValidateNewGameAsync(game, cancellationToken: cancellationToken);
 
-            var newGame = _gameMapper.Map(game);
+            var newGameCreate = _gameCreateMapper.Map(game);
 
-            newGame = await _gameRepository.AddGameAsync(newGame, cancellationToken: cancellationToken);
-
-            game.Id = newGame.Id;
+            var newGame = await _gameRepository.AddGameAsync(newGameCreate, cancellationToken: cancellationToken);
 
             if (game.Users != null)
             {
                 foreach (var user in game.Users)
                 {
-                    await AddUserToGameAsync(game.Id, user.Id, game.DeckId);
+                    await AddUserToGameAsync(newGame.Id, user.Id, game.DeckId);
                 }
             }
 
-            return game;
+            return _gameMapper.Map(newGame);
         }
 
         public Task<Abstractions.SearchResult<GameModel>> GetGamesAsync(Abstractions.GameSearchFilter filter)

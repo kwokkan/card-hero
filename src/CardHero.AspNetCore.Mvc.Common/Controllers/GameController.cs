@@ -59,7 +59,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
             {
                 Id = x,
             }).ToArray();
-            var game = new GameModel
+            var game = new GameCreateModel
             {
                 Users = users,
             };

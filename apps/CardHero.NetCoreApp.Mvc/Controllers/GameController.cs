@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -117,12 +116,12 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var user = await GetUserAsync();
-                var game = new GameModel
+                var game = new GameCreateModel
                 {
-                    Deck = new DeckModel { Id = model.SelectedDeckId.Value },
+                    DeckId = model.SelectedDeckId.Value,
                     Name = model.Name,
                     Type = model.Type,
-                    Users = new List<UserModel> { user },
+                    Users = new UserModel[] { user },
                 };
                 var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 

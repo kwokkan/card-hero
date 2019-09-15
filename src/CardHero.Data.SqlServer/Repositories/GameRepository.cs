@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,28 +29,26 @@ namespace CardHero.Data.SqlServer
             _gameUserMapper = gameUseMapper;
         }
 
-        public async Task<GameData> AddGameAsync(GameData game, CancellationToken cancellationToken = default)
+        public async Task<GameData> AddGameAsync(GameCreateData game, CancellationToken cancellationToken = default)
         {
+            var data = new Game
+            {
+                Columns = game.Columns,
+                CurrentGameUserFk = game.CurrentGameUserId,
+                GameTypeFk = (int)game.Type,
+                Name = game.Name,
+                Rows = game.Rows,
+                StartTime = DateTime.UtcNow,
+            };
+
             using (var context = _factory.Create(trackChanges: true))
             {
-                var data = new Game
-                {
-                    Columns = game.Columns,
-                    CurrentGameUserFk = game.CurrentGameUserId,
-                    GameTypeFk = (int)game.Type,
-                    Name = game.Name,
-                    Rows = game.Rows,
-                    StartTime = game.StartTime,
-                };
-
                 context.Game.Add(data);
 
                 await context.SaveChangesAsync();
-
-                game.Id = data.GamePk;
-
-                return game;
             }
+
+            return await GetGameByIdAsync(data.GamePk, cancellationToken: cancellationToken);
         }
 
         public async Task<SearchResult<GameData>> FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
@@ -68,7 +67,7 @@ namespace CardHero.Data.SqlServer
                     query = query.Where(x => x.GameTypeFk == (int)filter.Type.Value);
                 }
 
-                var totalCount = await query.CountAsync();
+                var totalCount = await query.CountAsync(cancellationToken: cancellationToken);
 
                 query = query.OrderByDescending(x => x.GamePk);
 
