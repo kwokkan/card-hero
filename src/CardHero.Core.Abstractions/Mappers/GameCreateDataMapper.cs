@@ -5,7 +5,7 @@ using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.Abstractions
 {
-    internal class GameCreateDataMapper : IDataMapper<GameCreateData, GameCreateModel>
+    public class GameCreateDataMapper : IDataMapper<GameCreateData, GameCreateModel>
     {
         GameCreateModel IDataMapper<GameCreateData, GameCreateModel>.Map(GameCreateData from)
         {
