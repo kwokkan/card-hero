@@ -87,7 +87,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 EndTime = game.EndTime,
                 Id = game.GamePk,
                 Name = game.Name,
-                Users = game.GameUser.Select(x => x.UserFkNavigation.ToCore()),
+                //Users = game.GameUser.Select(x => x.UserFkNavigation.ToCore()),
                 Rows = game.Rows,
                 StartTime = game.StartTime,
                 Turns = game.Turn.Select(x => x.ToCore()),

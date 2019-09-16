@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace CardHero.Data.SqlServer
 {
     public class GameDeckRepository : IGameDeckRepository
@@ -17,7 +19,7 @@ namespace CardHero.Data.SqlServer
             _factory = factory;
         }
 
-        public async Task<GameDeckData> AddGameDeckAsync(int gameUserId, string name, string description, int[] cardIds, CancellationToken cancellationToken = default)
+        async Task<GameDeckData> IGameDeckRepository.AddGameDeckAsync(int gameUserId, string name, string description, int[] cardIds, CancellationToken cancellationToken)
         {
             var gameDeck = new GameDeck
             {
@@ -52,6 +54,26 @@ namespace CardHero.Data.SqlServer
             };
 
             return data;
+        }
+
+        async Task<GameDeckCardCollectionData[]> IGameDeckRepository.GetGameDeckCardCollectionAsync(int gameDeckId, CancellationToken cancellationToken)
+        {
+            using (var context = _factory.Create())
+            {
+                var deckCards = await context
+                    .GameDeckCardCollection
+                    .Where(x => x.GameDeckFk == gameDeckId)
+                    .Select(x => new GameDeckCardCollectionData
+                    {
+                        CardId = x.CardFk,
+                        GameDeckId = gameDeckId,
+                        Id = x.GameDeckCardCollectionPk,
+                    })
+                    .ToArrayAsync(cancellationToken: cancellationToken)
+                ;
+
+                return deckCards;
+            }
         }
     }
 }

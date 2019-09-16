@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -31,12 +32,9 @@ namespace CardHero.Core.SqlServer.Services
             _gameRepository = gameRepository;
         }
 
-        private async Task<GameModel> ValidateMoveAsync(MoveModel move)
+        private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = (await _gameService.GetGamesAsync(new Abstractions.GameSearchFilter
-            {
-                GameId = move.GameId,
-            })).Results.FirstOrDefault();
+            var game = await _gameService.GetGameByIdAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
 
             if (game == null)
             {
@@ -104,7 +102,7 @@ namespace CardHero.Core.SqlServer.Services
                 context.Add(currentMove);
 
                 var nextUser = game.Users
-                    .SkipWhile(x => x.Id != move.UserId)
+                    .SkipWhile(x => x.UserId != move.UserId)
                     .Skip(1)
                     .FirstOrDefault();
 
@@ -115,7 +113,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 var newTurn = new Turn
                 {
-                    CurrentUserFk = nextUser.Id,
+                    CurrentUserFk = nextUser.UserId,
                     GameFk = game.Id,
                     StartTime = DateTime.UtcNow,
                 };

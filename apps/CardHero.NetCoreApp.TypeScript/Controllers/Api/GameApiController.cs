@@ -41,13 +41,10 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id)
+        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var filter = new GameSearchFilter
-            {
-                GameId = id,
-            };
-            var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
+            var userId = (await GetUserAsync())?.Id;
+            var game = await _gameService.GetGameByIdAsync(id, userId, cancellationToken: cancellationToken);
             var moves = await _moveService.GetMovesAsync(id);
 
             var data = new GameTripleTriadViewModel
@@ -67,11 +64,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Data = data,
             };
 
-            foreach (var card in model.Deck.Cards)
-            {
-                //TODO: add card usable
-            }
-
             return model;
         }
 
@@ -80,12 +72,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
             var userId = (await GetUserAsync()).Id;
 
-            var game = new GameModel
+            var game = new GameCreateModel
             {
                 DeckId = model.DeckId,
                 Name = model.Name,
                 Type = model.Type,
-                StartTime = DateTime.UtcNow,
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };
 

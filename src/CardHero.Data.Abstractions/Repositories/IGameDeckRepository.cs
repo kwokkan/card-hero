@@ -12,5 +12,7 @@ namespace CardHero.Data.Abstractions
             int[] cardIds,
             CancellationToken cancellationToken = default
         );
+
+        Task<GameDeckCardCollectionData[]> GetGameDeckCardCollectionAsync(int gameDeckId, CancellationToken cancellationToken = default);
     }
 }

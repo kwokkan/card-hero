@@ -32,6 +32,15 @@ namespace CardHero.Core.Abstractions
         Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets a game by id.
+        /// </summary>
+        /// <param name="id">The game id</param>
+        /// <param name="userId">The user id.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The game.</returns>
+        Task<GameModel> GetGameByIdAsync(int id, int? userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Gets a list of games.
         /// </summary>
         /// <param name="filter">The game filter to use.</param>

@@ -31,7 +31,7 @@ namespace CardHero.Core.Models
         /// <summary>
         /// Users.
         /// </summary>
-        public IEnumerable<UserModel> Users { get; set; }
+        public IEnumerable<GameUserModel> Users { get; set; }
 
         /// <summary>
         /// Turns.
