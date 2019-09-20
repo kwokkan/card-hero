@@ -27,7 +27,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<GameModel>> GetAsync(GameSearchFilter filter)
+        public async Task<ActionResult<GameModel[]>> GetAsync(GameSearchFilter filter)
         {
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
@@ -73,7 +73,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<GameModel>> PostAsync([FromBody]GameModel model)
+        public async Task<ActionResult<GameModel>> PostAsync(GameModel model)
         {
             var userId = (await GetUserAsync()).Id;
 
@@ -92,7 +92,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost("{id:int}/move")]
-        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, [FromBody]GameTripleTriadMoveViewModel model)
+        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model)
         {
             var user = await GetUserAsync();
 

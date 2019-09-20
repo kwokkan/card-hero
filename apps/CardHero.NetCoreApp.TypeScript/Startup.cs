@@ -69,6 +69,13 @@ namespace CardHero.NetCoreApp.TypeScript
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             ;
 
+            services.AddOpenApiDocument(x =>
+            {
+                x.Description = "Card Hero OpenAPI document.";
+                x.GenerateExamples = true;
+                x.Title = "Card Hero API";
+            });
+
             services
                 .AddWebMarkupMin(x =>
                 {
@@ -135,6 +142,10 @@ namespace CardHero.NetCoreApp.TypeScript
             app.UseWebMarkupMin();
 
             app.UseMvcWithDefaultRoute();
+
+            app.UseOpenApi(); // serve OpenAPI/Swagger documents
+            app.UseSwaggerUi3(); // serve Swagger UI
+            //app.UseReDoc(); // serve ReDoc UI
         }
     }
 }

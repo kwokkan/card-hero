@@ -30,7 +30,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="cardIds">The card ids to add.</param>
         /// <param name="userId">The user too add to.</param>
         /// <returns>A list of card collections.</returns>
-        Task<IEnumerable<CardCollectionModel>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId);
+        Task<CardCollectionModel[]> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId);
 
         /// <summary>
         /// Toggles a favourite for a card.

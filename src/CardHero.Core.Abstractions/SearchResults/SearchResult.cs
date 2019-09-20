@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CardHero.Core.Models;
+﻿using CardHero.Core.Models;
 
 namespace CardHero.Core.Abstractions
 {
@@ -17,6 +16,6 @@ namespace CardHero.Core.Abstractions
         /// <summary>
         /// List of results returned.
         /// </summary>
-        public IEnumerable<T> Results { get; set; }
+        public T[] Results { get; set; }
     }
 }

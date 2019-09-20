@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -21,7 +20,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _cardService = cardService;
         }
 
-        public async Task<IEnumerable<CardCollectionModel>> GetAsync(CardCollectionSearchFilter filter)
+        public async Task<ActionResult<CardCollectionModel[]>> GetAsync(CardCollectionSearchFilter filter)
         {
             filter.UserId = (await GetUserAsync())?.Id;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -21,7 +20,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _deckService = deckService;
         }
 
-        public async Task<IEnumerable<DeckModel>> GetAsync(DeckSearchFilter filter)
+        public async Task<ActionResult<DeckModel[]>> GetAsync(DeckSearchFilter filter)
         {
             filter.UserId = (await GetUserAsync())?.Id;
 
@@ -31,7 +30,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost("")]
-        public async Task<DeckModel> CreateAsync([FromBody]DeckModel model)
+        public async Task<ActionResult<DeckModel>> CreateAsync(DeckModel model)
         {
             var deck = new DeckModel
             {

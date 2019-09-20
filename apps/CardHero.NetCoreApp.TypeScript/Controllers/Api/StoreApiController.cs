@@ -24,21 +24,21 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StoreItemModel>> GetAsync(StoreItemSearchFilter filter)
+        public async Task<ActionResult<StoreItemModel[]>> GetAsync(StoreItemSearchFilter filter)
         {
             var result = await _storeItemService.GetStoreItemsAsync(filter);
 
             var storeItems = result.Results
                 .OrderBy(x => (x.Expiry ?? DateTime.MaxValue))
                 .ThenBy(x => x.Cost)
-                .AsEnumerable()
+                .ToArray()
                 ;
 
             return storeItems;
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<CardCollectionModel>>> BuyStoreItemAsync([FromBody]StoreItemModel storeItem)
+        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem)
         {
             var user = await GetUserAsync();
 
@@ -47,7 +47,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id);
 
-            return Ok(newCards);
+            return newCards;
         }
     }
 }

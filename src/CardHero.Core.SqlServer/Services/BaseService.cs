@@ -8,9 +8,7 @@ using CardHero.Core.SqlServer.EntityFramework;
 
 using KwokKan.Sortable;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -82,7 +80,7 @@ namespace CardHero.Core.SqlServer.Services
                 }
             }
 
-            result.Results = q.ToList();
+            result.Results = q.ToArray();
 
             return Task.FromResult(result);
         }

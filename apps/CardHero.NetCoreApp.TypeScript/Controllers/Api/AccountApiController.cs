@@ -4,7 +4,7 @@ using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
@@ -18,6 +18,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<UserModel>> GetAsync()
         {
             var user = await GetUserAsync();
