@@ -21,7 +21,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesErrorResponseType(typeof(ErrorViewModel))]
         public async Task<ActionResult<CardModel[]>> GetAsync([FromQuery]CardQueryFilter query)
         {
             var filter = new CardSearchFilter
