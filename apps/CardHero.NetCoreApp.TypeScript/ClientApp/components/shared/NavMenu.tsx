@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import { AccountContext } from '../../contexts/AccountContext';
 import AccountModel from '../../models/AccountModel';
 import AccountService from '../../services/AccountService';
+import Icon from '../../styles/index';
 import AppBootstrap from './appBootstrap';
 import CoinFormat from './CoinFormat';
 
@@ -70,6 +71,14 @@ export class NavMenu extends PureComponent<any, INavMenuState> {
                     </ul>
 
                     <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <a className="nav-link" href={u('swagger')}>
+                                <Icon icon="code" />
+                                {' '}
+                                API
+                            </a>
+                        </li>
+
                         {user ?
                             (
                                 <Fragment>
