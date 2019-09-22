@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript.Models;
 
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private static readonly string[] AllowedIdPs = new string[]
@@ -21,7 +23,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
         }
 
         [Route(nameof(SignIn))]
-        public IActionResult SignIn()
+        public ActionResult<SignInViewModel> SignIn()
         {
             var absoluteBaseUri = string.Format(
                 "{0}://{1}{2}",
@@ -50,7 +52,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
 
         [HttpPost(nameof(SignIn))]
         [ValidateAntiForgeryToken]
-        public IActionResult SignIn(string idp, string redirectUri)
+        public ActionResult SignIn(string idp, string redirectUri)
         {
             if (!AllowedIdPs.Contains(idp))
             {
@@ -75,7 +77,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
         }
 
         [Route("SignOut")]
-        public async System.Threading.Tasks.Task<IActionResult> SignOutAsync()
+        public async Task<ActionResult> SignOutAsync()
         {
             await HttpContext.SignOutAsync();
 
