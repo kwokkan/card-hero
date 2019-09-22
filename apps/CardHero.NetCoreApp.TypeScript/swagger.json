@@ -1,0 +1,1216 @@
+﻿{
+  "x-generator": "NSwag v13.0.6.0 (NJsonSchema v10.0.23.0 (Newtonsoft.Json v11.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Card Hero API",
+    "description": "Card Hero OpenAPI document.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/account": {
+      "get": {
+        "tags": [
+          "AccountApi"
+        ],
+        "operationId": "AccountApi_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards": {
+      "get": {
+        "tags": [
+          "CardApi"
+        ],
+        "operationId": "CardApi_Get",
+        "parameters": [
+          {
+            "name": "Ids",
+            "in": "query",
+            "collectionFormat": "multi",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/collections": {
+      "get": {
+        "tags": [
+          "CollectionApi"
+        ],
+        "operationId": "CollectionApi_Get",
+        "parameters": [
+          {
+            "name": "Ids",
+            "in": "query",
+            "collectionFormat": "multi",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardCollectionModel"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/decks": {
+      "get": {
+        "tags": [
+          "DeckApi"
+        ],
+        "operationId": "DeckApi_Get",
+        "parameters": [
+          {
+            "name": "Ids",
+            "in": "query",
+            "collectionFormat": "multi",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeckModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DeckApi"
+        ],
+        "operationId": "DeckApi_Create",
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeckModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeckModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/decks/{id}": {
+      "get": {
+        "tags": [
+          "DeckApi"
+        ],
+        "operationId": "DeckApi_GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeckModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/games": {
+      "get": {
+        "tags": [
+          "GameApi"
+        ],
+        "operationId": "GameApi_Get",
+        "parameters": [
+          {
+            "name": "GameId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "StartTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "EndTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PlayerCount",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          },
+          {
+            "name": "ActiveOnly",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 6
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/GameType"
+                }
+              ]
+            },
+            "x-position": 7
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 8
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 9
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GameModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "GameApi"
+        ],
+        "operationId": "GameApi_Post",
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/games/{id}": {
+      "get": {
+        "tags": [
+          "GameApi"
+        ],
+        "operationId": "GameApi_GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameViewModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/games/{id}/move": {
+      "post": {
+        "tags": [
+          "GameApi"
+        ],
+        "operationId": "GameApi_Move",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameTripleTriadMoveViewModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameTripleTriadMoveViewModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/store": {
+      "get": {
+        "tags": [
+          "StoreApi"
+        ],
+        "operationId": "StoreApi_Get",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StoreItemModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StoreApi"
+        ],
+        "operationId": "StoreApi_BuyStoreItem",
+        "requestBody": {
+          "x-name": "storeItem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreItemModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardCollectionModel"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserModel": {
+        "type": "object",
+        "description": "User.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "Identifier.",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Created date.",
+            "format": "date-time"
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Full name.",
+            "nullable": true
+          },
+          "idPsource": {
+            "type": "string",
+            "description": "Identity provider source.",
+            "nullable": true
+          },
+          "coins": {
+            "type": "integer",
+            "description": "Coins this user has.",
+            "format": "int64"
+          }
+        }
+      },
+      "ErrorViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "stackTrace": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CardModel": {
+        "type": "object",
+        "description": "Card.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description.",
+            "nullable": true
+          },
+          "upAttack": {
+            "type": "integer",
+            "description": "Up attack.",
+            "format": "int32"
+          },
+          "rightAttack": {
+            "type": "integer",
+            "description": "Right attack.",
+            "format": "int32"
+          },
+          "downAttack": {
+            "type": "integer",
+            "description": "Down attack.",
+            "format": "int32"
+          },
+          "leftAttack": {
+            "type": "integer",
+            "description": "Left attack.",
+            "format": "int32"
+          },
+          "health": {
+            "type": "integer",
+            "description": "Health.",
+            "format": "int32"
+          },
+          "attack": {
+            "type": "integer",
+            "description": "Attack.",
+            "format": "int32"
+          },
+          "defence": {
+            "type": "integer",
+            "description": "Defence.",
+            "format": "int32"
+          },
+          "totalStats": {
+            "type": "integer",
+            "description": "Total stats.",
+            "format": "int32"
+          },
+          "isFavourited": {
+            "type": "boolean",
+            "description": "Is favourited."
+          },
+          "rarity": {
+            "description": "Rarity.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Rarity"
+              }
+            ]
+          }
+        }
+      },
+      "Rarity": {
+        "type": "integer",
+        "description": "Rarity.",
+        "x-enumNames": [
+          "Common",
+          "Uncommon",
+          "Rare",
+          "Epic",
+          "Legendary"
+        ],
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "CardCollectionModel": {
+        "type": "object",
+        "description": "Card collection.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "cardId": {
+            "type": "integer",
+            "description": "Card id.",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "User id.",
+            "format": "int32"
+          },
+          "card": {
+            "description": "Card.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CardModel"
+              }
+            ]
+          },
+          "user": {
+            "description": "User.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          }
+        }
+      },
+      "DeckModel": {
+        "type": "object",
+        "description": "Deck.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description.",
+            "nullable": true
+          },
+          "maxCards": {
+            "type": "integer",
+            "description": "Max cards.",
+            "format": "int32"
+          },
+          "isFavourited": {
+            "type": "boolean",
+            "description": "Is favourited."
+          },
+          "cards": {
+            "type": "array",
+            "description": "List of cards.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DeckCardModel"
+            }
+          }
+        }
+      },
+      "DeckCardModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CardModel"
+          },
+          {
+            "type": "object",
+            "description": "Deck caard.",
+            "additionalProperties": false,
+            "properties": {
+              "cardCollectionId": {
+                "type": "integer",
+                "description": "Card collection id.",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "GameModel": {
+        "type": "object",
+        "description": "Game.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Sart time.",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "description": "End time.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "description": "Users.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UserModel"
+            }
+          },
+          "turns": {
+            "type": "array",
+            "description": "Turns.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TurnModel"
+            }
+          },
+          "currentUser": {
+            "description": "Current user.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
+          "winner": {
+            "description": "Winner.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
+          "columns": {
+            "type": "integer",
+            "description": "Columns.",
+            "format": "int32"
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Rows.",
+            "format": "int32"
+          },
+          "type": {
+            "description": "Game type.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameType"
+              }
+            ]
+          },
+          "deckId": {
+            "type": "integer",
+            "description": "Deck id.",
+            "format": "int32"
+          },
+          "deck": {
+            "description": "Deck.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeckModel"
+              }
+            ]
+          }
+        }
+      },
+      "TurnModel": {
+        "type": "object",
+        "description": "Turn.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Start time.",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "description": "End time.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "user": {
+            "description": "User.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
+          "game": {
+            "description": "Game.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameModel"
+              }
+            ]
+          }
+        }
+      },
+      "GameType": {
+        "type": "integer",
+        "description": "Type of game.",
+        "x-enumNames": [
+          "TripleTriad"
+        ],
+        "enum": [
+          1
+        ]
+      },
+      "GameViewModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GameModel"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "data": {
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "GameTripleTriadMoveViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "row": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "column": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardCollectionId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "StoreItemModel": {
+        "type": "object",
+        "description": "Store item.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description.",
+            "nullable": true
+          },
+          "cost": {
+            "type": "integer",
+            "description": "Cost.",
+            "format": "int32"
+          },
+          "itemCount": {
+            "type": "integer",
+            "description": "Item count.",
+            "format": "int32"
+          },
+          "expiry": {
+            "type": "string",
+            "description": "Expiry.",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

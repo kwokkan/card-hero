@@ -19,7 +19,7 @@ namespace CardHero.Core.SqlServer.Web
                 options.ConnectionString = connectionString;
             });
 
-            var newUserOptions = configuration.GetSection("Defaults:NewUser").Get<NewUserOptions>();
+            var newUserOptions = configuration.GetSection("Defaults:NewUser").Get<NewUserOptions>() ?? new NewUserOptions();
             services.AddSingleton(newUserOptions);
 
             // bug in RC2

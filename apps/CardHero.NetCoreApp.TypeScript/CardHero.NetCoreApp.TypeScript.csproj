@@ -21,6 +21,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.0.6" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -49,5 +53,10 @@
     <ProjectReference Include="..\..\src\CardHero.Core.Models\CardHero.Core.Models.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />
   </ItemGroup>
-
+  
+  <Target Name="NSwag" AfterTargets="Build">
+    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+    <Exec Command="$(NSwagExe_Core22) aspnetcore2openapi /assembly:$(TargetPath) /variables:Configuration=$(Configuration) /output:swagger.json" />
+    <RemoveDir Directories="$(OutDir)References" />
+  </Target>
 </Project>
