@@ -28,11 +28,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<StoreItemModel[]>> GetAsync([FromQuery]StoreItemQueryFilter query)
         {
-            var filter = new StoreItemSearchFilter
-            {
-                Page = query.Page,
-                PageSize = query.PageSize,
-            };
+            var filter = query.ToSearchFilter();
 
             var result = await _storeItemService.GetStoreItemsAsync(filter);
 

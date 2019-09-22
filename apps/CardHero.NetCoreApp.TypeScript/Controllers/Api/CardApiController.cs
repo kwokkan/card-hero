@@ -23,13 +23,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CardModel[]>> GetAsync([FromQuery]CardQueryFilter query)
         {
-            var filter = new CardSearchFilter
-            {
-                Ids = query.Ids,
-                Name = query.Name,
-                Page = query.Page,
-                PageSize = query.PageSize,
-            };
+            var filter = query.ToSearchFilter();
             filter.UserId = (await GetUserAsync())?.Id;
 
             var result = await _cardService.GetCardsAsync(filter);
