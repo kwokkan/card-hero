@@ -14,10 +14,10 @@
 		"react-dnd": "9.4.0",
 		"react-dnd-html5-backend": "9.4.0",
 		"react-dom": "16.9.0",
-		"react-router-dom": "5.0.1"
+		"react-router-dom": "5.1.0"
 	},
 	"devDependencies": {
-		"@types/node": "12.7.5",
+		"@types/node": "12.7.7",
 		"@types/react": "16.9.2",
 		"@types/react-dom": "16.9.0",
 		"@types/react-router-dom": "4.3.5",
