@@ -1,5 +1,5 @@
 ﻿using System;
-//using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -132,8 +132,7 @@ namespace CardHero.NetCoreApp.TypeScript
             };
             app.UseStaticFiles(staticFileOptions);
 
-            //TODO: Remove or upgrade???
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             app.UseAuthentication();
 

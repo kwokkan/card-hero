@@ -4,7 +4,7 @@
     <Description>Card Hero ASP.NET Core MVC Tag Helpers.</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Card Hero ASP.NET Core MVC Tag Helpers</AssemblyTitle>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>CardHero.AspNetCore.Mvc.TagHelpers</AssemblyName>
     <PackageId>CardHero.AspNetCore.Mvc.TagHelpers</PackageId>
@@ -20,7 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>

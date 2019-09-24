@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<Authors>Kwok Kan</Authors>
 	<Company>Kwok Kan</Company>
