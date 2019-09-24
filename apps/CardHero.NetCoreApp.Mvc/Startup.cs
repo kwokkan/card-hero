@@ -105,10 +105,7 @@ namespace CardHero.NetCoreApp.Mvc
 
             // Add framework services.
             services
-                .AddMvc(x =>
-                {
-                    x.EnableEndpointRouting = false;
-                })
+                .AddControllersWithViews()
                 .AddJsonOptions(x =>
                 {
                     x.JsonSerializerOptions.IgnoreNullValues = true;
@@ -168,17 +165,20 @@ namespace CardHero.NetCoreApp.Mvc
 
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            app.UseAuthentication();
+            app
+                .UseAuthentication()
+                .UseAuthorization()
+            ;
 
             app.UseWebMarkupMin();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(x =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                x.MapDefaultControllerRoute();
             });
         }
     }

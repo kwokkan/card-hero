@@ -66,10 +66,7 @@ namespace CardHero.NetCoreApp.TypeScript
             ;
 
             services
-                .AddMvc(x =>
-                {
-                    x.EnableEndpointRouting = false;
-                })
+                .AddControllersWithViews()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
@@ -134,11 +131,19 @@ namespace CardHero.NetCoreApp.TypeScript
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            app.UseAuthentication();
+            app.UseRouting();
+
+            app
+                .UseAuthentication()
+                .UseAuthorization()
+            ;
 
             app.UseWebMarkupMin();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseEndpoints(x =>
+            {
+                x.MapDefaultControllerRoute();
+            });
         }
     }
 }
