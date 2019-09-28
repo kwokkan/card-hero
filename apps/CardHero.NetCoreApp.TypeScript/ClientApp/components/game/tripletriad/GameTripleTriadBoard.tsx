@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
+import { CardModel } from "../../../clients/clients";
 import { CardCollectionId } from "../../../models/CardCollectionModel";
-import CardModel from "../../../models/CardModel";
 import GameModel from "../../../models/GameModel";
 import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
 import GameTripleTriadMoveModel from "../../../models/GameTripleTrialMoveModel";

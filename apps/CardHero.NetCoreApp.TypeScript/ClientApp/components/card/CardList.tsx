@@ -1,7 +1,7 @@
 ﻿import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
+import { CardModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import CardModel from "../../models/CardModel";
 import Icon from "../../styles/index";
 
 interface ICardListProps {
@@ -31,7 +31,7 @@ export default function CardList(props: ICardListProps) {
 
                 <tbody>
                     {props.cards.map(c =>
-                        <tr key={c.id as any}>
+                        <tr key={c.id}>
                             <th scope="row">
                                 {user &&
                                     <Fragment>
