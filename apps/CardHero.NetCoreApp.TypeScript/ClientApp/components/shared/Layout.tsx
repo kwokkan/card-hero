@@ -1,6 +1,6 @@
 import React, { PureComponent, ReactNode } from 'react';
+import { UserModel } from '../../clients/clients';
 import { AccountContext } from '../../contexts/AccountContext';
-import AccountModel from '../../models/AccountModel';
 import { NavMenu } from './NavMenu';
 
 interface ILayoutProps {
@@ -8,8 +8,8 @@ interface ILayoutProps {
 }
 
 interface ILayoutState {
-    user?: AccountModel;
-    setUser: (user: AccountModel) => void;
+    user?: UserModel;
+    setUser: (user: UserModel) => void;
 }
 
 export default class Layout extends PureComponent<ILayoutProps, ILayoutState> {

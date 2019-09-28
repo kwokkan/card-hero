@@ -7,14 +7,19 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export class AccountApiClient {
+export interface IAccountApiClient {
+    get(): Promise<UserModel>;
+}
+
+export class AccountApiClient extends CardHeroApiClientBase implements IAccountApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
     get(): Promise<UserModel> {
@@ -61,17 +66,22 @@ export class AccountApiClient {
     }
 }
 
-export class CardApiClient {
+export interface ICardApiClient {
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]>;
+}
+
+export class CardApiClient extends CardHeroApiClientBase implements ICardApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(ids: number[] | null | undefined, name: string | null | undefined, page: number | null | undefined, pageSize: number | null | undefined, sort: string | null | undefined): Promise<CardModel[]> {
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]> {
         let url_ = this.baseUrl + "/api/cards?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
@@ -120,17 +130,22 @@ export class CardApiClient {
     }
 }
 
-export class CollectionApiClient {
+export interface ICollectionApiClient {
+    get(ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]>;
+}
+
+export class CollectionApiClient extends CardHeroApiClientBase implements ICollectionApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(ids: number[] | null | undefined, page: number | null | undefined, pageSize: number | null | undefined, sort: string | null | undefined): Promise<CardCollectionModel[]> {
+    get(ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]> {
         let url_ = this.baseUrl + "/api/collections?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
@@ -184,17 +199,24 @@ export class CollectionApiClient {
     }
 }
 
-export class DeckApiClient {
+export interface IDeckApiClient {
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<DeckModel[]>;
+    create(model: DeckModel): Promise<DeckModel>;
+    getById(id: number): Promise<DeckModel>;
+}
+
+export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(ids: number[] | null | undefined, name: string | null | undefined, page: number | null | undefined, pageSize: number | null | undefined, sort: string | null | undefined): Promise<DeckModel[]> {
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<DeckModel[]> {
         let url_ = this.baseUrl + "/api/decks?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
@@ -346,17 +368,25 @@ export class DeckApiClient {
     }
 }
 
-export class GameApiClient {
+export interface IGameApiClient {
+    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
+    post(model: GameModel): Promise<GameModel>;
+    getById(id: number): Promise<GameViewModel>;
+    move(id: number, model: GameTripleTriadMoveViewModel): Promise<GameTripleTriadMoveViewModel>;
+}
+
+export class GameApiClient extends CardHeroApiClientBase implements IGameApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(gameId: number | null | undefined, name: string | null | undefined, startTime: Date | null | undefined, endTime: Date | null | undefined, playerCount: number | undefined, activeOnly: boolean | undefined, type: GameType | null | undefined, page: number | null | undefined, pageSize: number | null | undefined, sort: string | null | undefined): Promise<GameModel[]> {
+    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]> {
         let url_ = this.baseUrl + "/api/games?";
         if (gameId !== undefined)
             url_ += "GameId=" + encodeURIComponent("" + gameId) + "&"; 
@@ -563,17 +593,23 @@ export class GameApiClient {
     }
 }
 
-export class StoreApiClient {
+export interface IStoreApiClient {
+    get(page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<StoreItemModel[]>;
+    buyStoreItem(storeItem: StoreItemModel): Promise<CardCollectionModel[]>;
+}
+
+export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(page: number | null | undefined, pageSize: number | null | undefined, sort: string | null | undefined): Promise<StoreItemModel[]> {
+    get(page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<StoreItemModel[]> {
         let url_ = this.baseUrl + "/api/store?";
         if (page !== undefined)
             url_ += "Page=" + encodeURIComponent("" + page) + "&"; 
