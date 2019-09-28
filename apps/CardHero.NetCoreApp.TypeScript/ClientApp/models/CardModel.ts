@@ -1,5 +1,5 @@
-﻿import IMapper from "../utils/mapper";
-import Rarity from "./Rarity";
+﻿import { Rarity } from "../clients/clients";
+import IMapper from "../utils/mapper";
 
 export interface CardId extends Number {
     _cardIdBrand: number;
