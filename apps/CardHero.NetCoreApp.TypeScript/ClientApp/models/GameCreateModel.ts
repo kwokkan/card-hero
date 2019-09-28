@@ -1,5 +1,5 @@
-﻿import { DeckId } from "./DeckModel";
-import GameType from "./GameType";
+﻿import { GameType } from "../clients/clients";
+import { DeckId } from "./DeckModel";
 
 export default class GameCreateModel {
     name: string;

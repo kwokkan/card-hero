@@ -1,7 +1,7 @@
-﻿import IMapper from "../utils/mapper";
+﻿import { GameType } from "../clients/clients";
+import IMapper from "../utils/mapper";
 import DeckModel from "./DeckModel";
 import GameTripleTriadModel from "./GameTripleTriadModel";
-import GameType from "./GameType";
 
 export interface GameId extends Number {
     _gameIdBrand: number;
