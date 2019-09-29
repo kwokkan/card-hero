@@ -9585,7 +9585,7 @@ schema-utils@^2.0.0, schema-utils@^2.0.1, schema-utils@^2.1.0:
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
 
-schema-utils@^2.4.1:
+schema-utils@^2.3.0, schema-utils@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.4.1.tgz#e89ade5d056dc8bcaca377574bb4a9c4e1b8be56"
   integrity sha512-RqYLpkPZX5Oc3fw/kHHHyP56fg5Y+XBpIpV8nCg0znIALfq3OH+Ea9Hfeac9BAMwG5IICltiZ0vxFvJQONfA5w==
@@ -11055,10 +11055,10 @@ webpack-sources@1.x, webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sou
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-sources@2.0.0-beta.3:
-  version "2.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-2.0.0-beta.3.tgz#4da69f67f34e3a3d1633a82b6db8a6995f4a7f13"
-  integrity sha512-ncnvMMP5B/DDkqgPVG8eXTFD+Yk1ch6AKcyRRlvB9B/4DL1exaF1Xh78Y7xcTXwhpVsL2051KSEfl8MkP75yzg==
+webpack-sources@2.0.0-beta.4:
+  version "2.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-2.0.0-beta.4.tgz#b92f912e16e5c49ebd3c268edf83b13972a3c8ef"
+  integrity sha512-Xa2Ul5hAlMICQsKN1hjoSTSxJ0UmET4gZXR1e/Sfpos0XNSc2K3fhJHz79CxLyYh0KFEaj6NeoMra9Pp66hRBQ==
   dependencies:
     source-list-map "^2.0.1"
     source-map "~0.6.1"
@@ -11092,10 +11092,10 @@ webpack@4.40.2:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
-webpack@5.0.0-alpha.26:
-  version "5.0.0-alpha.26"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-alpha.26.tgz#846b9e411acc8ff467a6b088a9a5885d279bb7e6"
-  integrity sha512-0pxRLivQ5fjyVhougv66R4GyClC7xUv+eLNmn6EPJCC9OtU/G5DRw+wJIxDDvj0qP2+CbeMDSWMd+xQ2dgTgjw==
+webpack@5.0.0-alpha.28:
+  version "5.0.0-alpha.28"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-alpha.28.tgz#8b70d3ab3408e9d8cd441b5d8e208e7b7a7568de"
+  integrity sha512-Wwj/QpZanJPtTwUFkmkAjHpGnOEUwJtQ1qbpkFlH1nuWDpubC2oViXCIeZS9k/mAy6s1qbtm5X7Y3JEh6ZzwUg==
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"
@@ -11113,11 +11113,11 @@ webpack@5.0.0-alpha.26:
     loader-utils "^1.2.3"
     neo-async "^2.6.1"
     pkg-dir "^4.2.0"
-    schema-utils "^2.1.0"
+    schema-utils "^2.3.0"
     tapable "2.0.0-beta.8"
     terser-webpack-plugin "^1.4.1"
     watchpack "2.0.0-beta.7"
-    webpack-sources "2.0.0-beta.3"
+    webpack-sources "2.0.0-beta.4"
 
 websocket-driver@>=0.5.1:
   version "0.7.3"
