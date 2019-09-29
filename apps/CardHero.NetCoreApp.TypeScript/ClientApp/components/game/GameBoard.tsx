@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
+import { GameType } from "../../clients/clients";
 import GameModel from "../../models/GameModel";
-import GameType from "../../models/GameType";
 import GameTripleTriadBoard from "./tripletriad/GameTripleTriadBoard";
 
 interface IGameBoardProps {

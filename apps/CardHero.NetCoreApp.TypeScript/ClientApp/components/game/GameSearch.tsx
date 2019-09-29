@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
-import DeckModel from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import GameModel from "../../models/GameModel";
 import GameService from "../../services/GameService";
 import Icon from "../../styles/index";

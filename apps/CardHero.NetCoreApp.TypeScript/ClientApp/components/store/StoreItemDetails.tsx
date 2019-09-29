@@ -1,5 +1,5 @@
 ﻿import React, { Fragment } from "react";
-import StoreItemModel from "../../models/StoreItemModel";
+import { StoreItemModel } from "../../clients/clients";
 import CoinFormat from "../shared/CoinFormat";
 import DateFormat from "../shared/DateFormat";
 

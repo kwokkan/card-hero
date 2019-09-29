@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import DeckModel from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import Icon from "../../styles/index";
 
 interface IDeckListProps {
@@ -19,7 +19,7 @@ export default function DeckList(props: IDeckListProps) {
 
                 <tbody>
                     {props.decks.map(d =>
-                        <tr key={d.id as any}>
+                        <tr key={d.id}>
                             <th scope="row">
                                 <Icon icon="star" className={'deck-favourite' + (d.isFavourited ? ' enabled' : '')} data-deck-id={d.id} />
                                 {' '}

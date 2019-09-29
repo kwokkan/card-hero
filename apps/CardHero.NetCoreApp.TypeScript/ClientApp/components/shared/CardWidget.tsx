@@ -1,6 +1,5 @@
 ﻿import React from "react";
-import CardModel from "../../models/CardModel";
-import Rarity from "../../models/Rarity";
+import { CardModel, Rarity } from "../../clients/clients";
 import Icon from "../../styles/index";
 
 interface ICardWidgetProps {

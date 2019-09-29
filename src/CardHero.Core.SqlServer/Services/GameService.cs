@@ -122,7 +122,7 @@ namespace CardHero.Core.SqlServer.Services
             var results = new Abstractions.SearchResult<GameModel>
             {
                 Count = result.TotalCount,
-                Results = result.Results.Select(_gameMapper.Map).ToList(),
+                Results = result.Results.Select(_gameMapper.Map).ToArray(),
             };
 
             if (userId.HasValue)

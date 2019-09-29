@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import CardModel from "../../models/CardModel";
+import { CardModel } from "../../clients/clients";
 import Layout from "../shared/Layout";
 import CardList from "./CardList";
 import CardSearch from "./CardSearch";

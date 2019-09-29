@@ -1,13 +1,12 @@
 ﻿import React, { ChangeEvent, Component } from "react";
-import { Modal } from "react-bootstrap";
-import DeckModel, { DeckId } from "../../models/DeckModel";
-import GameType from "../../models/GameType";
+import { Button, Modal } from "react-bootstrap";
+import { DeckModel, GameType } from "../../clients/clients";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameCreateModalOnCreatedProps {
     name: string;
     type: GameType;
-    deckId: DeckId;
+    deckId: number;
 }
 
 interface IGameCreateModalProps {
@@ -20,7 +19,7 @@ interface IGameCreateModalProps {
 interface IGameCreateModalState {
     name?: string;
     type?: GameType;
-    deckId?: DeckId;
+    deckId?: number;
     canSave: boolean;
 }
 
