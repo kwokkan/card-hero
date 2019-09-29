@@ -586,6 +586,50 @@
         }
       }
     },
+    "/api/games/{id}/join": {
+      "post": {
+        "tags": [
+          "GameApi"
+        ],
+        "operationId": "GameApi_Join",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinGameViewModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameUserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/games/{id}/move": {
       "post": {
         "tags": [
@@ -1025,7 +1069,7 @@
             "description": "Users.",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/UserModel"
+              "$ref": "#/components/schemas/GameUserModel"
             }
           },
           "turns": {
@@ -1085,6 +1129,56 @@
                 "$ref": "#/components/schemas/DeckModel"
               }
             ]
+          },
+          "maxUsers": {
+            "type": "integer",
+            "description": "Maximum number of people who can play the game.",
+            "format": "int32"
+          },
+          "canJoin": {
+            "type": "boolean",
+            "description": "Whether a user can join this game."
+          },
+          "canPlay": {
+            "type": "boolean",
+            "description": "Whether the user can make their move."
+          }
+        }
+      },
+      "GameUserModel": {
+        "type": "object",
+        "description": "User belonging to a game.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Game user id.",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "User id.",
+            "format": "int32"
+          },
+          "user": {
+            "description": "User.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserModel"
+              }
+            ]
+          },
+          "gameId": {
+            "type": "integer",
+            "description": "Game id.",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "description": "Order of the players.",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -1154,6 +1248,16 @@
             }
           }
         ]
+      },
+      "JoinGameViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "deckId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "GameTripleTriadMoveViewModel": {
         "type": "object",
