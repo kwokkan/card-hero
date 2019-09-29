@@ -1,12 +1,12 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
-import DeckModel, { DeckId } from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import GameModel, { GameId } from "../../models/GameModel";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameSelectDeckModalOnJoinedProps {
     gameId: GameId;
-    deckId: DeckId;
+    deckId: number;
 }
 
 interface IGameSelectDeckModalProps {
@@ -18,7 +18,7 @@ interface IGameSelectDeckModalProps {
 }
 
 interface IGameSelectDeckModalState {
-    deckId?: DeckId;
+    deckId?: number;
     canJoin: boolean;
 }
 
@@ -95,12 +95,12 @@ export default class GameSelectDeckModal extends Component<IGameSelectDeckModalP
                                     <select
                                         id="mDeckId"
                                         className="form-control"
-                                        value={this.state.deckId as any}
+                                        value={this.state.deckId}
                                         onChange={(e) => this.onSelectChange(nameof<IGameSelectDeckModalState>('deckId'), e)}
                                     >
                                         <option>Please select</option>
                                         {this.props.decks.map(x =>
-                                            <option key={x.id as any} value={x.id as any}>{x.name}</option>
+                                            <option key={x.id} value={x.id}>{x.name}</option>
                                         )}
                                     </select>
                                 </div>

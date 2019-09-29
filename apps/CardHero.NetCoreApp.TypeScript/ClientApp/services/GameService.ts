@@ -1,5 +1,4 @@
 ﻿import AppBootstrap from "../components/shared/appBootstrap";
-import { DeckId } from "../models/DeckModel";
 import GameCreateModel from "../models/GameCreateModel";
 import GameModel, { GameId } from "../models/GameModel";
 import GameTripleTriadMoveModel from "../models/GameTripleTrialMoveModel";
@@ -65,7 +64,7 @@ export default class GameService {
         return newDeck;
     }
 
-    static async join(id: GameId, deckId: DeckId): Promise<void> {
+    static async join(id: GameId, deckId: number): Promise<void> {
         const baseUrl = GameService.baseUrl + '/' + id + '/join';
 
         const model = {

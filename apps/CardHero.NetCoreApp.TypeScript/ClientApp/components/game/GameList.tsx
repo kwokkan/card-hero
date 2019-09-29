@@ -1,12 +1,11 @@
 ﻿import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { DeckModel, GameType } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import DeckModel from "../../models/DeckModel";
 import GameModel from "../../models/GameModel";
-import GameType from "../../models/GameType";
+import GameService from "../../services/GameService";
 import DateFormat from "../shared/DateFormat";
 import GameSelectDeckModal, { IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
-import GameService from "../../services/GameService";
 
 interface IGameListProps {
     games: GameModel[];
