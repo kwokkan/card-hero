@@ -110,7 +110,7 @@ export default class Deck extends PureComponent<IDeckProps, IDeckState> {
                                 <div className="card-text">
                                     <ul id="owned-cards" className="ch-cards droppable">
                                         {ownedCards && ownedCards.map(cc =>
-                                            <li key={cc.id as any} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
+                                            <li key={cc.id} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
                                         )}
                                     </ul>
                                 </div>
