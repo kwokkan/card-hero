@@ -26,6 +26,29 @@
       744
     ]
   },
+  "mini-css-extract-plugin D:\\Programming\\card-hero\\apps\\CardHero.NetCoreApp.TypeScript\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./ClientApp/styles/index.scss": [
+    {
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 323
+        },
+        "bySource": {},
+        "usedIds": [
+          323
+        ]
+      },
+      "modules": {
+        "byIdentifier": {
+          "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./ClientApp/styles/index.scss": 564,
+          "./node_modules/css-loader/dist/runtime/api.js": 645
+        },
+        "usedIds": [
+          564,
+          645
+        ]
+      }
+    }
+  ],
   "modules": {
     "byIdentifier": {
       "./node_modules/@babel/runtime/helpers/assertThisInitialized.js": 506,
@@ -117,6 +140,7 @@
       "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js": 679,
       "./node_modules/invariant/browser.js": 143,
       "./node_modules/mini-create-react-context/dist/esm/index.js": 523,
+      "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./ClientApp/styles/index.scss": 986,
       "./node_modules/object-assign/index.js": 418,
       "./node_modules/popper.js/dist/esm/popper.js": 575,
       "./node_modules/prop-types-extra/lib/all.js": 391,
@@ -657,7 +681,6 @@
       583,
       584,
       585,
-      586,
       587,
       588,
       590,
@@ -679,7 +702,6 @@
       635,
       638,
       644,
-      645,
       652,
       653,
       654,
@@ -801,6 +823,7 @@
       981,
       982,
       983,
+      986,
       993,
       995,
       998

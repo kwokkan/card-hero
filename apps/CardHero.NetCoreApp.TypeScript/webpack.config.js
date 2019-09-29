@@ -165,10 +165,10 @@ module.exports = {
         }),
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),
-        //new MiniCssExtractPlugin({
-        //    filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
-        //    chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
-        //}),
+        new MiniCssExtractPlugin({
+            filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+            chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        }),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
@@ -225,9 +225,9 @@ module.exports = {
                     //"file-loader",
                     //"extract-loader",
                     //"style-loader",
-                    //{
-                    //    loader: MiniCssExtractPlugin.loader
-                    //},
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
                     {
                         loader: "css-loader"
                     },

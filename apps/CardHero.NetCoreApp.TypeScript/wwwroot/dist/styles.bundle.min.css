@@ -1,0 +1,155 @@
+@charset "UTF-8";
+.card {
+  margin-bottom: 1em;
+}
+
+.card-rarity_common,
+.card-rarity_1 {
+  border-color: brown;
+}
+
+.text-rarity_common,
+.text-rarity_1 {
+  color: brown;
+}
+
+.collection-card.card-rarity_common .card-footer,
+.collection-card.card-rarity_1 .card-footer {
+  background-color: rgba(165, 42, 42, 0.1);
+}
+
+.card-rarity_uncommon,
+.card-rarity_2 {
+  border-color: green;
+}
+
+.text-rarity_uncommon,
+.text-rarity_2 {
+  color: green;
+}
+
+.collection-card.card-rarity_uncommon .card-footer,
+.collection-card.card-rarity_2 .card-footer {
+  background-color: rgba(0, 128, 0, 0.1);
+}
+
+.card-rarity_rare,
+.card-rarity_3 {
+  border-color: blue;
+}
+
+.text-rarity_rare,
+.text-rarity_3 {
+  color: blue;
+}
+
+.collection-card.card-rarity_rare .card-footer,
+.collection-card.card-rarity_3 .card-footer {
+  background-color: rgba(0, 0, 255, 0.1);
+}
+
+.card-rarity_epic,
+.card-rarity_4 {
+  border-color: purple;
+}
+
+.text-rarity_epic,
+.text-rarity_4 {
+  color: purple;
+}
+
+.collection-card.card-rarity_epic .card-footer,
+.collection-card.card-rarity_4 .card-footer {
+  background-color: rgba(128, 0, 128, 0.1);
+}
+
+.card-rarity_legendary,
+.card-rarity_5 {
+  border-color: gold;
+}
+
+.text-rarity_legendary,
+.text-rarity_5 {
+  color: gold;
+}
+
+.collection-card.card-rarity_legendary .card-footer,
+.collection-card.card-rarity_5 .card-footer {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.card-rarity-symbols {
+  margin-top: -1em;
+}
+
+.current-card {
+  cursor: pointer;
+}
+
+.current-card.disabled {
+  cursor: not-allowed;
+}
+
+.pull-right {
+  float: right;
+}
+
+.coin-group {
+  margin: 0.5em;
+}
+
+.coin-gold {
+  color: gold;
+}
+
+.coin-silver {
+  color: silver;
+}
+
+.coin-bronze {
+  color: saddlebrown;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+.body-content {
+  margin-top: 4.5rem;
+}
+
+.card-favourite,
+.deck-favourite {
+  cursor: pointer;
+}
+
+.card-favourite.enabled,
+.deck-favourite.enabled {
+  color: yellow;
+}
+
+.ch-cards {
+  min-height: 1em;
+}
+
+.ch-card {
+  list-style: none;
+  border: 1px solid black;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.ch-cards .ch-card .card-body:empty:after {
+  content: " ";
+}
+
+.draggable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+  cursor: move;
+}
