@@ -45,7 +45,7 @@
 		"source-map-loader": "0.2.4",
 		"style-loader": "1.0.0",
 		"terser-webpack-plugin": "2.1.2",
-		"ts-loader": "6.1.2",
+		"ts-loader": "6.2.0",
 		"typescript": "3.6.3",
 		"webpack": "4.41.0",
 		"webpack-bundle-analyzer": "3.5.2",
@@ -61,6 +61,6 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "watch": "webpack --watch --info-verbosity verbose"
+    "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
   }
 }
