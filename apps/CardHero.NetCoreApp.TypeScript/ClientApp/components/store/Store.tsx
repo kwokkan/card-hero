@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from "react";
+import { StoreItemModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import StoreItemModel from "../../models/StoreItemModel";
 import AccountService from "../../services/AccountService";
 import StoreService from "../../services/StoreService";
 import StoreItemBuyModal from "./StoreItemBuyModal";
@@ -77,7 +77,7 @@ export default class Store extends Component<IStoreProps, IStoreState> {
             <Fragment>
                 <div className="row">
                     {this.state.items.map(x =>
-                        <div key={x.id as any} className="col-lg-4">
+                        <div key={x.id} className="col-lg-4">
                             <StoreItemDetails storeItem={x} onSelectItem={(item) => this.onSelectItem(item)} />
                         </div>
                     )}

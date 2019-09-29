@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
@@ -24,21 +25,27 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<StoreItemModel>> GetAsync(StoreItemSearchFilter filter)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<StoreItemModel[]>> GetAsync([FromQuery]StoreItemQueryFilter query)
         {
+            var filter = query.ToSearchFilter();
+
             var result = await _storeItemService.GetStoreItemsAsync(filter);
 
             var storeItems = result.Results
                 .OrderBy(x => (x.Expiry ?? DateTime.MaxValue))
                 .ThenBy(x => x.Cost)
-                .AsEnumerable()
-                ;
+                .ToArray()
+            ;
 
             return storeItems;
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<CardCollectionModel>>> BuyStoreItemAsync([FromBody]StoreItemModel storeItem)
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem)
         {
             var user = await GetUserAsync();
 
@@ -47,7 +54,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id);
 
-            return Ok(newCards);
+            return new ObjectResult(newCards) { StatusCode = StatusCodes.Status201Created };
         }
     }
 }

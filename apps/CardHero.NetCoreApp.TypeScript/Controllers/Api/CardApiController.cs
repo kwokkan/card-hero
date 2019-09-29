@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
@@ -19,8 +19,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _cardService = cardService;
         }
 
-        public async Task<IEnumerable<CardModel>> GetAsync(CardSearchFilter filter)
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<CardModel[]>> GetAsync([FromQuery]CardQueryFilter query)
         {
+            var filter = query.ToSearchFilter();
             filter.UserId = (await GetUserAsync())?.Id;
 
             var result = await _cardService.GetCardsAsync(filter);

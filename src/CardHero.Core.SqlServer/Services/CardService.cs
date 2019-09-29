@@ -19,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<CardCollectionModel>> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
+        public async Task<CardCollectionModel[]> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
         {
             if (cardIds == null)
             {

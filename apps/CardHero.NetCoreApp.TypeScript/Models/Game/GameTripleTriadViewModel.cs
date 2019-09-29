@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CardHero.NetCoreApp.TypeScript.Models
+namespace CardHero.NetCoreApp.TypeScript
 {
     public class GameTripleTriadViewModel
     {

@@ -1,50 +1,41 @@
-﻿import AppBootstrap from "../components/shared/appBootstrap";
+﻿import { DeckApiClient, DeckModel } from "../clients/clients";
+import AppBootstrap from "../components/shared/appBootstrap";
 import DeckCreateModel from "../models/DeckCreateModel";
-import DeckModel, { DeckId } from "../models/DeckModel";
 
 interface IDeckSearchFilter {
     name?: string;
     page?: number;
     pageSize?: number;
-    ids?: DeckId[];
+    ids?: number[];
 }
 
 export default class DeckService {
-    private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/decks';
-
     static async getDecks(filter?: IDeckSearchFilter): Promise<DeckModel[] | null> {
-        let baseUrl = DeckService.baseUrl;
+        const client = new DeckApiClient(AppBootstrap.baseUrl);
 
-        if (filter != null) {
-            baseUrl += '?' + Object.keys(filter)
-                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(filter[k]))
-                .join('&');
+        if (!filter) {
+            filter = {};
         }
 
-        const response = await fetch(baseUrl);
-        const data = await response.json() as DeckModel[];
+        const model = await client.get(
+            filter.ids,
+            filter.name,
+            filter.page,
+            filter.pageSize
+        );
 
-        if (data) {
-            return data.map(x => new DeckModel().from(x));
-        }
-
-        return null;
+        return model;
     }
 
     static async createDeck(model: DeckCreateModel): Promise<DeckModel> {
-        let baseUrl = DeckService.baseUrl;
+        const client = new DeckApiClient(AppBootstrap.baseUrl);
 
-        const response = await fetch(baseUrl, {
-            body: JSON.stringify(model),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: "POST"
-        });
-        const data = await response.json() as DeckModel;
+        const postModel = new DeckModel();
+        postModel.name = model.name;
+        postModel.description = model.description;
 
-        const newDeck = new DeckModel().from(data);
+        var newModel = await client.create(postModel);
 
-        return newDeck;
+        return newModel;
     }
 }

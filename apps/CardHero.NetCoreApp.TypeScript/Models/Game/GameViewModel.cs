@@ -1,6 +1,6 @@
 ﻿using CardHero.Core.Models;
 
-namespace CardHero.NetCoreApp.TypeScript.Models
+namespace CardHero.NetCoreApp.TypeScript
 {
     public class GameViewModel : GameModel
     {

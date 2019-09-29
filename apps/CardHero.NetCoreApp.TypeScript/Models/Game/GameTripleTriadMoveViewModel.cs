@@ -1,4 +1,4 @@
-﻿namespace CardHero.NetCoreApp.TypeScript.Models
+﻿namespace CardHero.NetCoreApp.TypeScript
 {
     public class GameTripleTriadMoveViewModel
     {
