@@ -9,15 +9,15 @@
 		"@fortawesome/react-fontawesome": "0.1.4",
 		"bootstrap": "4.3.1",
 		"dayjs": "1.8.16",
-		"react": "16.9.0",
+		"react": "16.10.1",
 		"react-bootstrap": "1.0.0-beta.12",
 		"react-dnd": "9.4.0",
 		"react-dnd-html5-backend": "9.4.0",
-		"react-dom": "16.9.0",
-		"react-router-dom": "5.1.0"
+		"react-dom": "16.10.1",
+		"react-router-dom": "5.1.1"
 	},
 	"devDependencies": {
-		"@types/node": "12.7.7",
+		"@types/node": "12.7.8",
 		"@types/react": "16.9.3",
 		"@types/react-dom": "16.9.1",
 		"@types/react-router-dom": "5.1.0",
@@ -27,7 +27,7 @@
 		"closure-webpack-plugin": "2.0.1",
 		"cross-env": "6.0.0",
 		"css-loader": "3.2.0",
-		"eslint": "6.4.0",
+		"eslint": "6.5.0",
 		"eslint-config-react-app": "5.0.2",
 		"eslint-plugin-import": "2.18.2",
 		"eslint-plugin-jsx-a11y": "6.2.3",
@@ -44,11 +44,11 @@
 		"sass-loader": "8.0.0",
 		"source-map-loader": "0.2.4",
 		"style-loader": "1.0.0",
-		"terser-webpack-plugin": "2.1.0",
-		"ts-loader": "6.1.2",
+		"terser-webpack-plugin": "2.1.2",
+		"ts-loader": "6.2.0",
 		"typescript": "3.6.3",
 		"webpack": "4.41.0",
-		"webpack-bundle-analyzer": "3.5.1",
+		"webpack-bundle-analyzer": "3.5.2",
 		"webpack-cli": "3.3.9",
 		"webpack-deep-scope-plugin": "1.7.0"
 	},
@@ -61,6 +61,6 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "watch": "webpack --watch --info-verbosity verbose"
+    "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
   }
 }
