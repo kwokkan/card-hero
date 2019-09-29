@@ -29,13 +29,7 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var localAuthOptions = Configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
-            localAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-            var githubAuthOptions = Configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
-            githubAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-            services
+            var authBuilder = services
                 .AddAuthentication(x =>
                 {
                     x.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -61,14 +55,33 @@ namespace CardHero.NetCoreApp.TypeScript
                         return Task.CompletedTask;
                     };
                 })
-                .AddLocalAuthentication(localAuthOptions)
-                .AddGitHubAuthentication(githubAuthOptions)
             ;
+
+            var localAuthOptions = Configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
+            if (localAuthOptions != null)
+            {
+                localAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authBuilder.AddLocalAuthentication(localAuthOptions);
+            }
+
+            var githubAuthOptions = Configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
+            if (githubAuthOptions != null)
+            {
+                githubAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authBuilder.AddGitHubAuthentication(githubAuthOptions);
+            }
 
             services
                 .AddControllersWithViews()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
+
+            services.AddOpenApiDocument(x =>
+            {
+                x.Description = "Card Hero OpenAPI document.";
+                x.GenerateExamples = true;
+                x.Title = "Card Hero API";
+            });
 
             services
                 .AddWebMarkupMin(x =>
@@ -144,6 +157,10 @@ namespace CardHero.NetCoreApp.TypeScript
             {
                 x.MapDefaultControllerRoute();
             });
+
+            app.UseOpenApi(); // serve OpenAPI/Swagger documents
+            app.UseSwaggerUi3(); // serve Swagger UI
+            //app.UseReDoc(); // serve ReDoc UI
         }
     }
 }

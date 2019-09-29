@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import CardCollectionModel from "../../models/CardCollectionModel";
+import { CardCollectionModel } from "../../clients/clients";
 import Layout from "../shared/Layout";
 import CollectionList from "./CollectionList";
 import CollectionSearch from "./CollectionSearch";

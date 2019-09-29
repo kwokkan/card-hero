@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import StoreItemModel from "../../models/StoreItemModel";
+import { StoreItemModel } from "../../clients/clients";
 
 interface IStoreItemBuyModelProps {
     show: boolean;

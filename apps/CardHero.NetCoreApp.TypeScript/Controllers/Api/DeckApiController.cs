@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 {
     [Route("api/decks")]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class DeckApiController : CardHeroControllerBase
     {
         private readonly IDeckService _deckService;
@@ -21,8 +23,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             _deckService = deckService;
         }
 
-        public async Task<IEnumerable<DeckModel>> GetAsync(DeckSearchFilter filter)
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<DeckModel[]>> GetAsync([FromQuery]DeckQueryFilter query)
         {
+            var filter = query.ToSearchFilter();
             filter.UserId = (await GetUserAsync())?.Id;
 
             var result = await _deckService.GetDecksAsync(filter);
@@ -30,8 +35,25 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return result.Results;
         }
 
-        [HttpPost("")]
-        public async Task<DeckModel> CreateAsync([FromBody]DeckModel model)
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<DeckModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            var result = await _deckService.GetDeckByIdAsync(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<DeckModel>> CreateAsync(DeckModel model)
         {
             var deck = new DeckModel
             {
@@ -43,7 +65,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var userId = (await GetUserAsync()).Id;
             var newDeck = await _deckService.CreateDeckAsync(deck, userId);
 
-            return newDeck;
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }
     }
 }

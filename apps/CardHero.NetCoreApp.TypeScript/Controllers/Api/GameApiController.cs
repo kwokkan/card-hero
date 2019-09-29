@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.NetCoreApp.TypeScript.Models;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
@@ -27,8 +26,10 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IEnumerable<GameModel>> GetAsync(GameSearchFilter filter)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query)
         {
+            var filter = query.ToSearchFilter();
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
 
@@ -38,6 +39,8 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id)
         {
             var filter = new GameSearchFilter
@@ -73,7 +76,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ActionResult<GameModel>> PostAsync([FromBody]GameModel model)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<GameModel>> PostAsync(GameModel model)
         {
             var userId = (await GetUserAsync()).Id;
 
@@ -88,11 +93,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var newGame = await _gameService.CreateGameAsync(game);
 
-            return newGame;
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = newGame.Id }, newGame);
         }
 
         [HttpPost("{id:int}/move")]
-        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, [FromBody]GameTripleTriadMoveViewModel model)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model)
         {
             var user = await GetUserAsync();
 

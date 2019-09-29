@@ -1,31 +1,26 @@
-﻿import AppBootstrap from "../components/shared/appBootstrap";
-import CardCollectionModel, { CardCollectionId } from "../models/CardCollectionModel";
+﻿import { CardCollectionModel, CollectionApiClient } from "../clients/clients";
+import AppBootstrap from "../components/shared/appBootstrap";
 
 interface ICardCollectionSearchFilter {
     page?: number;
     pageSize?: number;
-    ids?: CardCollectionId[];
+    ids?: number[];
 }
 
 export default class CardCollectionService {
-    private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/collections';
-
     static async getCollection(filter?: ICardCollectionSearchFilter): Promise<CardCollectionModel[] | null> {
-        let baseUrl = CardCollectionService.baseUrl;
+        const client = new CollectionApiClient(AppBootstrap.baseUrl);
 
-        if (filter != null) {
-            baseUrl += '?' + Object.keys(filter)
-                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(filter[k]))
-                .join('&');
+        if (!filter) {
+            filter = {};
         }
 
-        const response = await fetch(baseUrl);
-        const data = await response.json() as CardCollectionModel[];
+        const model = await client.get(
+            filter.ids,
+            filter.page,
+            filter.pageSize
+        );
 
-        if (data) {
-            return data.map(x => new CardCollectionModel().from(x));
-        }
-
-        return null;
+        return model;
     }
 }

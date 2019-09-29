@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 {
+    [ApiController]
+    [ProducesErrorResponseType(typeof(ErrorViewModel))]
     public abstract class CardHeroControllerBase : ControllerBase
     {
         private readonly IUserService _userService;
