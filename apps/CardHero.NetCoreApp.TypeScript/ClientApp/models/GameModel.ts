@@ -1,6 +1,5 @@
-﻿import { GameType } from "../clients/clients";
+﻿import { DeckModel, GameType } from "../clients/clients";
 import IMapper from "../utils/mapper";
-import DeckModel from "./DeckModel";
 import GameTripleTriadModel from "./GameTripleTriadModel";
 
 export interface GameId extends Number {
@@ -35,7 +34,7 @@ export default class GameModel implements IMapper<GameModel> {
         }
 
         if (o.deck) {
-            this.deck = new DeckModel().from(o.deck);
+            this.deck = DeckModel.fromJS(o.deck);
         }
 
         return this;

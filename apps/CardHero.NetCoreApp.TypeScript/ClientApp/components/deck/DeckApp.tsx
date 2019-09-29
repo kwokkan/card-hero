@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import DeckModel from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import Layout from "../shared/Layout";
 import DeckList from "./DeckList";
 import DeckSearch from "./DeckSearch";
