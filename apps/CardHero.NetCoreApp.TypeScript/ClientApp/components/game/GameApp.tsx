@@ -18,8 +18,8 @@ export default class GameApp extends Component<any, IGameAppState> {
     onGamesPopulated(games: GameModel[]) {
         if (Constants.Debug) {
             if (games != null) {
-                games.forEach(card => {
-                    console.log(card);
+                games.forEach(game => {
+                    console.log(game);
                 });
             }
         }
