@@ -1,45 +1,22 @@
-﻿import AppBootstrap from "../components/shared/appBootstrap";
-import CardModel from "../models/CardModel";
-import StoreItemModel, { StoreItemId } from "../models/StoreItemModel";
-import StoreItemModelMapper from "../models/StoreItemModelMapper";
+﻿import { CardCollectionModel, StoreApiClient, StoreItemModel } from "../clients/clients";
+import AppBootstrap from "../components/shared/appBootstrap";
 
 export default class StoreService {
-    private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/store';
-
     static async getStoreItems(): Promise<StoreItemModel[] | null> {
-        const baseUrl = StoreService.baseUrl;
+        const client = new StoreApiClient(AppBootstrap.baseUrl);
+        const model = await client.get();
 
-        const response = await fetch(baseUrl);
-        const data = await response.json() as StoreItemModel[];
-
-        if (data) {
-            const mapper = new StoreItemModelMapper();
-            return data.map(x => mapper.from(x));
-        }
-
-        return null;
+        return model;
     }
 
-    static async buyCardBundle(id: StoreItemId): Promise<CardModel[] | null> {
-        const baseUrl = StoreService.baseUrl;
+    static async buyCardBundle(id: number): Promise<CardCollectionModel[] | null> {
+        const client = new StoreApiClient(AppBootstrap.baseUrl);
 
-        const body = {
+        const postModel = new StoreItemModel({
             id: id
-        };
-
-        const response = await fetch(baseUrl, {
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: "POST"
         });
-        const data = await response.json() as CardModel[];
+        const model = await client.buyStoreItem(postModel);
 
-        if (data) {
-            return data.map(x => new CardModel().from(x));
-        }
-
-        return null;
+        return model;
     }
 }

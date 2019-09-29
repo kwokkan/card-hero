@@ -1,7 +1,7 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import DeckModel from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import GameModel, { GameId } from "../../models/GameModel";
 import GameService from "../../services/GameService";
 import Layout from "../shared/Layout";

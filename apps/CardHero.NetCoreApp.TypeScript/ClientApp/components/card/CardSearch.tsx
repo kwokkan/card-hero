@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, Component } from "react";
-import CardModel from "../../models/CardModel";
+import { CardModel } from "../../clients/clients";
 import CardService from "../../services/CardService";
 
 interface ICardSearchProps {

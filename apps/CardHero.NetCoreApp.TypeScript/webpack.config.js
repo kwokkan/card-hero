@@ -123,7 +123,7 @@ module.exports = {
                 shared: {
                     chunks: "all",
                     name: "shared",
-                    test: /[\\/]ClientApp[\\/](components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
+                    test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
                 styles: {
@@ -162,6 +162,9 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             "Constants": constants
+        }),
+        new webpack.ProvidePlugin({
+            CardHeroApiClientBase: path.resolve(__dirname, "./ClientApp/clients/CardHeroApiClientBase.ts")
         }),
         //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),

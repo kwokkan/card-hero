@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import DeckModel from "../../models/DeckModel";
+import { DeckModel } from "../../clients/clients";
 import GameDeckCard from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
@@ -18,7 +18,7 @@ export default function GameDeckWidget(props: IGameDeckWidgetProps) {
                         (
                             <div id="current-deck" className="ch-cards" data-max-cards={props.deck.maxCards}>
                                 {props.deck.cards.map(x =>
-                                    <GameDeckCard key={x.id as any} card={x} />
+                                    <GameDeckCard key={x.id} card={x} />
                                 )}
                             </div>
                         )
