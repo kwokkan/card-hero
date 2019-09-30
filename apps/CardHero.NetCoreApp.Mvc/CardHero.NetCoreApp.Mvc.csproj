@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.0.415" />
-    <PackageReference Include="KwokKan.Cdn.AspNetCore.Mvc.TagHelpers" Version="0.1.0" />
+    <PackageReference Include="KwokKan.Cdn.AspNetCore.Mvc.TagHelpers" Version="2.0.0" />
     <PackageReference Include="KwokKan.Options" Version="0.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.0.0" />
