@@ -23,7 +23,7 @@
 		"module": "esnext",
 		"jsx": "react",
 		"esModuleInterop": true,
-		"outDir": "./wwwroot/dist/",
+		"outDir": "./obj/ts/",
 
 		"allowJs": true,
 		//"checkJs": true,

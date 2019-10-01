@@ -1,13 +1,19 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json;
 using System.Threading.Tasks;
+
 using CardHero.Core.SqlServer.Web;
+
 using KwokKan.Options;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using WebMarkupMin.AspNetCore2;
 
 namespace CardHero.NetCoreApp.Mvc
@@ -16,7 +22,7 @@ namespace CardHero.NetCoreApp.Mvc
     {
         private readonly KwokKanOptions _options;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -99,11 +105,11 @@ namespace CardHero.NetCoreApp.Mvc
 
             // Add framework services.
             services
-                .AddMvc()
+                .AddControllersWithViews()
                 .AddJsonOptions(x =>
                 {
-                    x.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-                    x.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    x.JsonSerializerOptions.IgnoreNullValues = true;
+                    x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
             ;
 
@@ -148,7 +154,7 @@ namespace CardHero.NetCoreApp.Mvc
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -162,17 +168,20 @@ namespace CardHero.NetCoreApp.Mvc
 
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            app.UseAuthentication();
+            app
+                .UseAuthentication()
+                .UseAuthorization()
+            ;
 
             app.UseWebMarkupMin();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(x =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                x.MapDefaultControllerRoute();
             });
         }
     }
