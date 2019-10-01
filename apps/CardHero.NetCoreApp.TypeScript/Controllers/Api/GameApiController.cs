@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -100,7 +101,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model)
+        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync();
 
@@ -112,7 +113,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Row = model.Row,
                 UserId = user.Id,
             };
-            await _gamePlayService.MakeMoveAsync(move);
+            await _gamePlayService.MakeMoveAsync(move, cancellationToken: cancellationToken);
 
             return model;
         }

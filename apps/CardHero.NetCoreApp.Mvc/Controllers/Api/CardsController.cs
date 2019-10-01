@@ -1,9 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.NetCoreApp.Mvc.Models;
 using CardHero.NetCoreApp.Mvc.Models.ChartJs;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +24,13 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         }
 
         [Route("{id:int}")]
-        public async Task<ChartViewModel> GetById(int id, string group = null)
+        public async Task<ChartViewModel> GetById(int id, string group = null, CancellationToken cancellationToken = default)
         {
             var filter = new CardSearchFilter
             {
                 Ids = new[] { id },
             };
-            var card = (await _cardService.GetCardsAsync(filter)).Results.FirstOrDefault();
+            var card = (await _cardService.GetCardsAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
             var cardModel = new CardViewModel().FromCard(card);
 
             var model = new ChartViewModel
@@ -68,11 +71,11 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
 
         [HttpPost("favourite/{id:int}")]
         [Authorize]
-        public async Task<bool> Favourite(int id)
+        public async Task<bool> Favourite(int id, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync();
 
-            var result = await _cardService.ToggleFavouriteAsync(id, user.Id);
+            var result = await _cardService.ToggleFavouriteAsync(id, user.Id, cancellationToken: cancellationToken);
 
             return result;
         }

@@ -1,7 +1,10 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.AspNetCore.Mvc.Common.Models;
 using CardHero.Core.Abstractions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,13 +27,13 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
             return View();
         }
 
-        public async Task<IActionResult> DetailsAsync(int id)
+        public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
         {
             var deck = await _deckService.GetDeckByIdAsync(id);
             var cardFilter = new CardCollectionSearchFilter
             {
             };
-            var ownedCards = await _cardService.GetCardCollectionAsync(cardFilter);
+            var ownedCards = await _cardService.GetCardCollectionAsync(cardFilter, cancellationToken: cancellationToken);
 
             var model = new EditDeckViewModel
             {

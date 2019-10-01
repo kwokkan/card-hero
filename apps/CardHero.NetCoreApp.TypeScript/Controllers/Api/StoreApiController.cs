@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -45,14 +46,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem)
+        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync();
 
             var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id);
             var cardIds = results.Select(x => x.Id).ToArray();
 
-            var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id);
+            var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id, cancellationToken: cancellationToken);
 
             return new ObjectResult(newCards) { StatusCode = StatusCodes.Status201Created };
         }

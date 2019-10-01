@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -49,7 +50,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         }
 
         [Route("{id:int}")]
-        public async Task<IActionResult> View(int id)
+        public async Task<IActionResult> View(int id, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync();
             var filter = new DeckSearchFilter
@@ -65,7 +66,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             {
                 UserId = user?.Id,
             };
-            var cardCollection = await _cardService.GetCardCollectionAsync(cardCollectionFilter);
+            var cardCollection = await _cardService.GetCardCollectionAsync(cardCollectionFilter, cancellationToken: cancellationToken);
 
             var usedCards = deck.Cards.Select(x => new CardCollectionViewModel().FromDeckCard(x));
             var usedCardIds = usedCards.Select(x => x.CardCollectionId);
