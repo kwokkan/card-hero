@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -21,9 +22,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<UserModel>> GetAsync()
+        public async Task<ActionResult<UserModel>> GetAsync(CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             if (user == null)
             {

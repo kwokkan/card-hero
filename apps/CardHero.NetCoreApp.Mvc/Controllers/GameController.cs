@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -30,7 +31,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _sortableHelper = sortableHelper;
         }
 
-        public async Task<IActionResult> Index(GameSearchViewModel model)
+        public async Task<IActionResult> Index(GameSearchViewModel model, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
@@ -39,7 +40,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Type = model.Type,
-                UserId = (await GetUserAsync())?.Id,
+                UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
@@ -111,11 +112,11 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
 
         [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GameCreateViewModel model)
+        public async Task<IActionResult> Create(GameCreateViewModel model, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                var user = await GetUserAsync();
+                var user = await GetUserAsync(cancellationToken: cancellationToken);
                 var game = new GameModel
                 {
                     Deck = new DeckModel { Id = model.SelectedDeckId.Value },

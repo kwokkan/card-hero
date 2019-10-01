@@ -30,14 +30,14 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _sortableHelper = sortableHelper;
         }
 
-        public async Task<IActionResult> Index(DeckSearchViewModel model)
+        public async Task<IActionResult> Index(DeckSearchViewModel model, CancellationToken cancellationToken)
         {
             var filter = new DeckSearchFilter
             {
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Name = model.Name,
-                UserId = (await GetUserAsync())?.Id,
+                UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
@@ -52,7 +52,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> View(int id, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
             var filter = new DeckSearchFilter
             {
                 Ids = new[] { id },
@@ -99,7 +99,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
 
         [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DeckCreateViewModel model)
+        public async Task<IActionResult> Create(DeckCreateViewModel model, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     MaxCards = 5,
                     Name = model.Name,
                 };
-                var userId = (await GetUserAsync()).Id;
+                var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
                 var newDeck = await _deckService.CreateDeckAsync(deck, userId);
 
                 var url = Url.Action("View", new { id = newDeck.Id });

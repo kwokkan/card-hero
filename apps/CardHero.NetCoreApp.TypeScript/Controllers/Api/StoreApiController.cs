@@ -48,7 +48,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id);
             var cardIds = results.Select(x => x.Id).ToArray();

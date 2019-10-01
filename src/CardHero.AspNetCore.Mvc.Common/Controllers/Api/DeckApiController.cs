@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.AspNetCore.Mvc.Common.Models;
@@ -24,20 +25,20 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
             _deckService = deckService;
         }
 
-        private async Task<UserModel> GetUserAsync()
+        private async Task<UserModel> GetUserAsync(CancellationToken cancellationToken)
         {
             if (User.Identity.IsAuthenticated)
             {
                 var sub = User.FindFirst("sub")?.Value;
                 var idp = User.FindFirst("idp")?.Value;
 
-                var user = await _userService.GetUserByIdentifierAsync(sub, idp);
+                var user = await _userService.GetUserByIdentifierAsync(sub, idp, cancellationToken: cancellationToken);
 
                 if (user == null)
                 {
                     var name = User.FindFirst("name")?.Value;
 
-                    user = await _userService.CreateUserAsync(sub, idp, name);
+                    user = await _userService.CreateUserAsync(sub, idp, name, cancellationToken: cancellationToken);
                 }
 
                 return user;
@@ -70,14 +71,14 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
 
         [HttpPost]
         [Route("")]
-        public async Task<DeckModel> PostDeckAsync([FromBody]DeckViewModel model)
+        public async Task<DeckModel> PostDeckAsync([FromBody]DeckViewModel model, CancellationToken cancellationToken)
         {
             var deck = new DeckModel
             {
                 Name = model.Name,
                 MaxCards = model.MaxCards,
             };
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
             var result = await _deckService.CreateDeckAsync(deck, user.Id);
 
             return result;

@@ -28,7 +28,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         public async Task<ActionResult<CardCollectionModel[]>> GetAsync([FromQuery]CardCollectionQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
-            filter.UserId = (await GetUserAsync()).Id;
+            filter.UserId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 
             var result = await _cardService.GetCardCollectionAsync(filter, cancellationToken: cancellationToken);
 

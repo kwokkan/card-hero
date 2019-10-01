@@ -25,7 +25,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         [HttpPost("{id:int}/[action]")]
         public async Task<GameTripleTriadMoveViewModel> Move(int id, [FromBody]GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
             var move = new MoveModel
             {
                 CardCollectionId = model.CardCollectionId.Value,

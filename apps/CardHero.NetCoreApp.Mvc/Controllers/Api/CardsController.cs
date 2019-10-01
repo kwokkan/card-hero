@@ -73,7 +73,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         [Authorize]
         public async Task<bool> Favourite(int id, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             var result = await _cardService.ToggleFavouriteAsync(id, user.Id, cancellationToken: cancellationToken);
 
