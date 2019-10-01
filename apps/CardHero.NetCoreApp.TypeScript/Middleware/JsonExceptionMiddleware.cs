@@ -6,6 +6,7 @@ using CardHero.NetCoreApp.TypeScript.Models;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
@@ -23,10 +24,10 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
         };
 
         private readonly ILogger<JsonExceptionMiddleware> _logger;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly RequestDelegate _next;
 
-        public JsonExceptionMiddleware(ILogger<JsonExceptionMiddleware> logger, IHostingEnvironment environment, RequestDelegate next)
+        public JsonExceptionMiddleware(ILogger<JsonExceptionMiddleware> logger, IWebHostEnvironment environment, RequestDelegate next)
         {
             _logger = logger;
             _environment = environment;

@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
@@ -8,13 +8,16 @@ namespace CardHero.NetCoreApp.TypeScript
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host
                 .CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
                 .ConfigureAppConfiguration(x =>
                 {
                     x.AddEnvironmentVariables("CARD_HERO_");

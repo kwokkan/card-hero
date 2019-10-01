@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 using CardHero.Core.Models;
 
@@ -137,6 +139,22 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Identifier = user.Identifier,
                 IdPsource = user.IdPsource,
             };
+        }
+
+        public static Expression<Func<User, UserModel>> ToCoreExp
+        {
+            get
+            {
+                return user => new UserModel
+                {
+                    Coins = user.Coins,
+                    CreatedDate = user.CreatedDate,
+                    FullName = user.FullName,
+                    Id = user.UserPk,
+                    Identifier = user.Identifier,
+                    IdPsource = user.IdPsource,
+                };
+            }
         }
     }
 }

@@ -54,7 +54,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var user = await context
                 .User
-                .Select(x => x.ToCore())
+                .Select(EntityFrameworkExtensions.ToCoreExp)
                 .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp);
 
             return user;

@@ -67,7 +67,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (!string.IsNullOrEmpty(filter.Name))
             {
-                query = query.Where(x => x.Name.IndexOf(filter.Name, StringComparison.OrdinalIgnoreCase) > -1);
+                query = query.Where(x => x.Name.Contains(filter.Name));
             }
 
             if (filter.UserId.HasValue)

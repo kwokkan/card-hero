@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DefaultItemExcludes>.git\**;node_modules\**;$(DefaultItemExcludes)</DefaultItemExcludes>
     <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
+    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,11 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.1.2" />
     <PackageReference Include="NSwag.MSBuild" Version="13.1.2">
       <PrivateAssets>all</PrivateAssets>
@@ -56,8 +55,8 @@
   
   <Target Name="NSwag" AfterTargets="Build">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
-    <Exec Command="$(NSwagExe_Core22) aspnetcore2openapi /assembly:$(TargetPath) /variables:Configuration=$(Configuration) /output:swagger.json" />
-    <Exec Command="$(NSwagExe_Core22) openapi2tsclient /input:swagger.json /ClientBaseClass:CardHeroApiClientBase /GenerateClientInterfaces:true /GenerateOptionalParameters:true /ImportRequiredTypes:true /MarkOptionalProperties:true /UseGetBaseUrlMethod:true /output:ClientApp\clients\clients.ts" />
+    <Exec Command="$(NSwagExe_Core30) aspnetcore2openapi /assembly:$(TargetPath) /variables:Configuration=$(Configuration) /output:swagger.json" />
+    <Exec Command="$(NSwagExe_Core30) openapi2tsclient /input:swagger.json /ClientBaseClass:CardHeroApiClientBase /GenerateClientInterfaces:true /GenerateOptionalParameters:true /ImportRequiredTypes:true /MarkOptionalProperties:true /UseGetBaseUrlMethod:true /output:ClientApp\clients\clients.ts" />
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
 </Project>
