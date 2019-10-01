@@ -68,6 +68,7 @@ namespace CardHero.Core.SqlServer.Services
             var allCards = context
                 .Card
                 .Include(x => x.RarityFkNavigation)
+                .ToList()
                 .SelectMany(x => Enumerable.Repeat(x, x.RarityFkNavigation.Frequency))
                 .ToArray();
             var acl = allCards.Length;

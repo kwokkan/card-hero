@@ -94,7 +94,7 @@ export default class GameSearch extends Component<IGameSearchProps, IGameSearchS
                 <div className="card">
                     <h4 className="card-header">
                         Games
-                </h4>
+                    </h4>
 
                     <form method="get" className="search-filter game-filter">
                         <div className="card-body">

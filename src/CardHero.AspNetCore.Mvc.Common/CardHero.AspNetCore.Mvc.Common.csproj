@@ -4,7 +4,7 @@
     <Description>Card Hero ASP.NET Core MVC Common.</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Card Hero ASP.NET Core MVC Common</AssemblyTitle>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>CardHero.AspNetCore.Mvc.Common</AssemblyName>
     <PackageId>CardHero.AspNetCore.Mvc.Common</PackageId>
@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\shared\KwokKan.AspNetCore.Mvc.Sortable\KwokKan.AspNetCore.Mvc.Sortable.csproj" />
     <ProjectReference Include="..\CardHero.AspNetCore.Mvc.Helpers\CardHero.AspNetCore.Mvc.Helpers.csproj" />
     <ProjectReference Include="..\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
@@ -27,8 +31,6 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="3.10.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 using WebMarkupMin.AspNetCore2;
 
@@ -71,8 +72,8 @@ namespace CardHero.NetCoreApp.TypeScript
             }
 
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddControllersWithViews()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
             services.AddOpenApiDocument(x =>
@@ -112,7 +113,7 @@ namespace CardHero.NetCoreApp.TypeScript
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseJsonException();
 
@@ -143,11 +144,19 @@ namespace CardHero.NetCoreApp.TypeScript
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            app.UseAuthentication();
+            app.UseRouting();
+
+            app
+                .UseAuthentication()
+                .UseAuthorization()
+            ;
 
             app.UseWebMarkupMin();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseEndpoints(x =>
+            {
+                x.MapDefaultControllerRoute();
+            });
 
             app.UseOpenApi(); // serve OpenAPI/Swagger documents
             app.UseSwaggerUi3(); // serve Swagger UI
