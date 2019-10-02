@@ -44,7 +44,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
-            var result = await _gameService.GetGamesAsync(filter);
+            var result = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
 
             model.Games = result.Results.Select(x => new GameViewModel().FromGame(x));
             model.Total = result.Count;
@@ -59,7 +59,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             {
                 GameId = id,
             };
-            var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
+            var game = (await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
             var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var model = new GameViewModel().FromGame(game);
@@ -124,7 +124,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     Type = model.Type,
                     Users = new List<UserModel> { user },
                 };
-                var newGame = await _gameService.CreateGameAsync(game);
+                var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
                 var url = Url.Action("View", new { id = newGame.Id });
 

@@ -28,13 +28,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query)
+        public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
 
-            var result = await _gameService.GetGamesAsync(filter);
+            var result = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }
@@ -48,7 +48,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             {
                 GameId = id,
             };
-            var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
+            var game = (await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
             var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var data = new GameTripleTriadViewModel
@@ -92,7 +92,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };
 
-            var newGame = await _gameService.CreateGameAsync(game);
+            var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newGame.Id }, newGame);
         }

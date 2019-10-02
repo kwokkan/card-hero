@@ -30,10 +30,11 @@ namespace CardHero.Core.SqlServer.Services
 
         private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = (await _gameService.GetGamesAsync(new GameSearchFilter
+            var game = (await _gameService.GetGamesAsync(
+                new GameSearchFilter
             {
                 GameId = move.GameId,
-            })).Results.FirstOrDefault();
+            }, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             if (game == null)
             {
