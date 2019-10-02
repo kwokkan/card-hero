@@ -68,13 +68,13 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
             return RedirectToAction("Details", new { id = newGame.Id });
         }
 
-        public async Task<IActionResult> DetailsAsync(int id)
+        public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
-            var games = await _gameService.GetGamesAsync(filter);
+            var games = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
             var game = games.Results.FirstOrDefault();
 
             if (game == null)

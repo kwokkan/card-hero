@@ -202,7 +202,7 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        Task<Abstractions.SearchResult<GameModel>> IGameService.GetGamesAsync(Abstractions.GameSearchFilter filter)
+        Task<Abstractions.SearchResult<GameModel>> IGameService.GetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken)
         {
             var result = new Abstractions.SearchResult<GameModel>();
 
@@ -251,7 +251,7 @@ namespace CardHero.Core.SqlServer.Services
                 query = query.Where(x => x.GameTypeFk == (int)filter.Type.Value);
             }
 
-            return PaginateAndSortAsync(query, filter, x => x.ToCore());
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
         }
 
         Task<Abstractions.SearchResult<GameModel>> IGameService.NewGetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)

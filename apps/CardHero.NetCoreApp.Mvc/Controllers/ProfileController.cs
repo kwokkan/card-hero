@@ -1,5 +1,8 @@
+﻿using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +16,9 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         {
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             return View();
         }

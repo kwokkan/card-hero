@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -19,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<CardCollectionModel[]> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId)
+        public async Task<CardCollectionModel[]> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId, CancellationToken cancellationToken = default)
         {
             if (cardIds == null)
             {
@@ -44,7 +45,7 @@ namespace CardHero.Core.SqlServer.Services
 
             await context.CardCollection.AddRangeAsync(cardCollections);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var cardCollectionIds = cardCollections.Select(x => x.CardCollectionPk).ToArray();
             return (await GetCardCollectionAsync(new CardCollectionSearchFilter
@@ -53,7 +54,7 @@ namespace CardHero.Core.SqlServer.Services
             })).Results;
         }
 
-        public Task<SearchResult<CardCollectionModel>> GetCardCollectionAsync(CardCollectionSearchFilter filter)
+        public Task<SearchResult<CardCollectionModel>> GetCardCollectionAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var result = new SearchResult<CardCollectionModel>();
 
@@ -77,10 +78,10 @@ namespace CardHero.Core.SqlServer.Services
                 query = query.Where(x => x.UserFk == filter.UserId.Value);
             }
 
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
         }
 
-        public Task<SearchResult<CardModel>> GetCardsAsync(CardSearchFilter filter)
+        public Task<SearchResult<CardModel>> GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var result = new SearchResult<CardModel>();
 
@@ -103,16 +104,16 @@ namespace CardHero.Core.SqlServer.Services
                 query = query.Where(x => x.Name.Contains(filter.Name));
             }
 
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
         }
 
-        public async Task<bool> ToggleFavouriteAsync(int id, int userId)
+        public async Task<bool> ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
-            var favourite = context
+            var favourite = await context
                 .CardFavourite
-                .SingleOrDefault(x => x.CardFk == id && x.UserFk == userId);
+                .SingleOrDefaultAsync(x => x.CardFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
 
             if (favourite == null)
             {
@@ -124,7 +125,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 context.CardFavourite.Add(newCardFavourite);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
                 return true;
             }
@@ -132,7 +133,7 @@ namespace CardHero.Core.SqlServer.Services
             {
                 context.CardFavourite.Remove(favourite);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
                 return false;
             }

@@ -25,12 +25,12 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<DeckModel[]>> GetAsync([FromQuery]DeckQueryFilter query)
+        public async Task<ActionResult<DeckModel[]>> GetAsync([FromQuery]DeckQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
-            filter.UserId = (await GetUserAsync())?.Id;
+            filter.UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id;
 
-            var result = await _deckService.GetDecksAsync(filter);
+            var result = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }
@@ -40,7 +40,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeckModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _deckService.GetDeckByIdAsync(id);
+            var result = await _deckService.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
             if (result == null)
             {
@@ -53,7 +53,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<DeckModel>> CreateAsync(DeckModel model)
+        public async Task<ActionResult<DeckModel>> CreateAsync(DeckModel model, CancellationToken cancellationToken)
         {
             var deck = new DeckModel
             {
@@ -62,8 +62,8 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Name = model.Name,
             };
 
-            var userId = (await GetUserAsync()).Id;
-            var newDeck = await _deckService.CreateDeckAsync(deck, userId);
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+            var newDeck = await _deckService.CreateDeckAsync(deck, userId, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }

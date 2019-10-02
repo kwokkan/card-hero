@@ -1,7 +1,10 @@
-using System.Linq;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.AspNetCore.Mvc.Common.Models;
 using CardHero.Core.Abstractions;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.AspNetCore.Mvc.Common.Controllers
@@ -15,7 +18,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
             _cardService = cardService;
         }
 
-        public virtual async Task<IActionResult> IndexAsync(SearchCardViewModel model)
+        public virtual async Task<IActionResult> IndexAsync(SearchCardViewModel model, CancellationToken cancellationToken)
         {
             var filter = new CardSearchFilter
             {
@@ -24,7 +27,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
                 Name = model.Name,
             };
             ApplySortable(filter);
-            var cards = await _cardService.GetCardsAsync(filter);
+            var cards = await _cardService.GetCardsAsync(filter, cancellationToken: cancellationToken);
 
             model.Cards = cards.Results.Select(x => new CardViewModel
             {

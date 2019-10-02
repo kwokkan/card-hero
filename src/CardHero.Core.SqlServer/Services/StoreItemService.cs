@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -19,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public Task<SearchResult<StoreItemModel>> GetStoreItemsAsync(StoreItemSearchFilter filter)
+        public Task<SearchResult<StoreItemModel>> GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
             var result = new SearchResult<StoreItemModel>();
 
@@ -30,14 +31,14 @@ namespace CardHero.Core.SqlServer.Services
 
             query = query.Where(x => x.Expiry == null || x.Expiry.Value < DateTime.UtcNow);
 
-            return PaginateAndSortAsync(query, filter, x => x.ToCore());
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
         }
 
-        public Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId)
+        public async Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
-            var bundle = context.StoreItem.FirstOrDefault(x => x.StoreItemPk == storeItem.Id);
+            var bundle = await context.StoreItem.FirstOrDefaultAsync(x => x.StoreItemPk == storeItem.Id, cancellationToken: cancellationToken);
 
             if (bundle == null)
             {
@@ -49,7 +50,7 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidStoreItemException($"Store item { bundle.Name } has expired.");
             }
 
-            var user = context.User.FirstOrDefault(x => x.UserPk == userId);
+            var user = await context.User.FirstOrDefaultAsync(x => x.UserPk == userId, cancellationToken: cancellationToken);
 
             if (user == null)
             {
@@ -65,10 +66,10 @@ namespace CardHero.Core.SqlServer.Services
 
             context.SaveChanges();
 
-            var allCards = context
+            var allCards = (await context
                 .Card
                 .Include(x => x.RarityFkNavigation)
-                .ToList()
+                .ToListAsync(cancellationToken: cancellationToken))
                 .SelectMany(x => Enumerable.Repeat(x, x.RarityFkNavigation.Frequency))
                 .ToArray();
             var acl = allCards.Length;
@@ -82,7 +83,7 @@ namespace CardHero.Core.SqlServer.Services
                 cards[i] = allCards[random.Next(acl)];
             }
 
-            return Task.FromResult(cards.Select(x => x.ToCore(null)));
+            return cards.Select(x => x.ToCore(null));
         }
     }
 }

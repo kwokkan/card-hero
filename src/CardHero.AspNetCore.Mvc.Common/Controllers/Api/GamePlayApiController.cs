@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 using CardHero.AspNetCore.Mvc.Common.Models;
 using CardHero.Core.Abstractions;
@@ -19,7 +20,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
         }
 
         [HttpPost("move")]
-        public async Task MoveAsync([FromBody]MoveViewModel model)
+        public async Task MoveAsync([FromBody]MoveViewModel model, CancellationToken cancellationToken)
         {
             var move = new MoveModel
             {
@@ -29,7 +30,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
                 Row = model.Row,
             };
 
-            await _gamePlayService.MakeMoveAsync(move);
+            await _gamePlayService.MakeMoveAsync(move, cancellationToken: cancellationToken);
         }
     }
 }
