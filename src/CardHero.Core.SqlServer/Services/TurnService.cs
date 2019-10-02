@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -18,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<TurnModel>> GetTurnsAsync(int gameId)
+        public async Task<IEnumerable<TurnModel>> GetTurnsAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
@@ -31,7 +32,7 @@ namespace CardHero.Core.SqlServer.Services
                     Id = x.TurnPk,
                     StartTime = x.StartTime,
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             return result;
         }

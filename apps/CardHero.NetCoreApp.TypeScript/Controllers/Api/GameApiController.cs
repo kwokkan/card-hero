@@ -79,9 +79,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<GameModel>> PostAsync(GameModel model)
+        public async Task<ActionResult<GameModel>> PostAsync(GameModel model, CancellationToken cancellationToken)
         {
-            var userId = (await GetUserAsync()).Id;
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 
             var game = new GameModel
             {
@@ -103,7 +103,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             var move = new MoveModel
             {
