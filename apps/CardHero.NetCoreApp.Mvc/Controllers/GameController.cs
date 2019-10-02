@@ -53,14 +53,14 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         }
 
         [Route("{id:int}")]
-        public async Task<IActionResult> View(int id)
+        public async Task<IActionResult> View(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
             var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
-            var moves = await _moveService.GetMovesAsync(id);
+            var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var model = new GameViewModel().FromGame(game);
             var data = new GameTripleTriadViewModel

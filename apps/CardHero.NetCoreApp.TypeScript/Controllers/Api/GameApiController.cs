@@ -42,14 +42,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id)
+        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
             var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
-            var moves = await _moveService.GetMovesAsync(id);
+            var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var data = new GameTripleTriadViewModel
             {
