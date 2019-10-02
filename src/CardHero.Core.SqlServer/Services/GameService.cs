@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -18,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<GameModel> CreateGameAsync(GameModel game)
+        public async Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
         {
             if (game == null)
             {
@@ -37,7 +38,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var context = GetContext();
 
-            var deck = await context.Deck.FirstOrDefaultAsync(x => x.DeckPk == game.DeckId);
+            var deck = await context.Deck.FirstOrDefaultAsync(x => x.DeckPk == game.DeckId, cancellationToken: cancellationToken);
 
             //TODO: Do actual validation on the deck to make sure it belongs to the user
             //var myUserId = 0;
@@ -65,18 +66,18 @@ namespace CardHero.Core.SqlServer.Services
             });
 
             context.Add(newGame);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var filter = new GameSearchFilter
             {
                 GameId = newGame.GamePk,
             };
-            var result = (await GetGamesAsync(filter)).Results.FirstOrDefault();
+            var result = (await GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             return result;
         }
 
-        public Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter)
+        public Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var result = new SearchResult<GameModel>();
 
@@ -125,7 +126,7 @@ namespace CardHero.Core.SqlServer.Services
                 query = query.Where(x => x.GameTypeFk == (int)filter.Type.Value);
             }
 
-            return PaginateAndSortAsync(query, filter, x => x.ToCore());
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
         }
     }
 }

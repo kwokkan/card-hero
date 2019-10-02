@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.AspNetCore.Mvc.Common.Models;
@@ -45,7 +46,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(CreateGameViewModel model)
+        public async Task<IActionResult> CreateAsync(CreateGameViewModel model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid || model.PlayerIds == null)
             {
@@ -62,18 +63,18 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
             {
                 Users = users,
             };
-            var newGame = await _gameService.CreateGameAsync(game);
+            var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
             return RedirectToAction("Details", new { id = newGame.Id });
         }
 
-        public async Task<IActionResult> DetailsAsync(int id)
+        public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
-            var games = await _gameService.GetGamesAsync(filter);
+            var games = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
             var game = games.Results.FirstOrDefault();
 
             if (game == null)

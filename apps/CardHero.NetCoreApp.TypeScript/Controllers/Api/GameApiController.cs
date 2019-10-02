@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -27,13 +28,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query)
+        public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
 
-            var result = await _gameService.GetGamesAsync(filter);
+            var result = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }
@@ -41,14 +42,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id)
+        public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
-            var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
-            var moves = await _moveService.GetMovesAsync(id);
+            var game = (await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
+            var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var data = new GameTripleTriadViewModel
             {
@@ -78,9 +79,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<GameModel>> PostAsync(GameModel model)
+        public async Task<ActionResult<GameModel>> PostAsync(GameModel model, CancellationToken cancellationToken)
         {
-            var userId = (await GetUserAsync()).Id;
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 
             var game = new GameModel
             {
@@ -91,7 +92,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };
 
-            var newGame = await _gameService.CreateGameAsync(game);
+            var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newGame.Id }, newGame);
         }
@@ -100,9 +101,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model)
+        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
 
             var move = new MoveModel
             {
@@ -112,7 +113,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Row = model.Row,
                 UserId = user.Id,
             };
-            await _gamePlayService.MakeMoveAsync(move);
+            await _gamePlayService.MakeMoveAsync(move, cancellationToken: cancellationToken);
 
             return model;
         }

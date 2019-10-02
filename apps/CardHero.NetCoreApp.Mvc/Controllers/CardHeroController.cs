@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -16,20 +17,20 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _userService = userService;
         }
 
-        protected async Task<UserModel> GetUserAsync()
+        protected async Task<UserModel> GetUserAsync(CancellationToken cancellationToken)
         {
             if (User.Identity.IsAuthenticated)
             {
                 var sub = User.FindFirst("sub")?.Value;
                 var idp = User.FindFirst("idp")?.Value;
 
-                var user = await _userService.GetUserByIdentifierAsync(sub, idp);
+                var user = await _userService.GetUserByIdentifierAsync(sub, idp, cancellationToken: cancellationToken);
 
                 if (user == null)
                 {
                     var name = User.FindFirst("name")?.Value;
 
-                    user = await _userService.CreateUserAsync(sub, idp, name);
+                    user = await _userService.CreateUserAsync(sub, idp, name, cancellationToken: cancellationToken);
                 }
 
                 return user;

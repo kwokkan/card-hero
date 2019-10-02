@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -30,7 +31,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _sortableHelper = sortableHelper;
         }
 
-        public async Task<IActionResult> Index(GameSearchViewModel model)
+        public async Task<IActionResult> Index(GameSearchViewModel model, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
@@ -39,11 +40,11 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Type = model.Type,
-                UserId = (await GetUserAsync())?.Id,
+                UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
-            var result = await _gameService.GetGamesAsync(filter);
+            var result = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
 
             model.Games = result.Results.Select(x => new GameViewModel().FromGame(x));
             model.Total = result.Count;
@@ -52,14 +53,14 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         }
 
         [Route("{id:int}")]
-        public async Task<IActionResult> View(int id)
+        public async Task<IActionResult> View(int id, CancellationToken cancellationToken)
         {
             var filter = new GameSearchFilter
             {
                 GameId = id,
             };
-            var game = (await _gameService.GetGamesAsync(filter)).Results.FirstOrDefault();
-            var moves = await _moveService.GetMovesAsync(id);
+            var game = (await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
+            var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var model = new GameViewModel().FromGame(game);
             var data = new GameTripleTriadViewModel
@@ -83,23 +84,23 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             return View(model);
         }
 
-        private async Task PopulateGameCreateViewModel(GameCreateViewModel model)
+        private async Task PopulateGameCreateViewModel(GameCreateViewModel model, CancellationToken cancellationToken)
         {
             var filter = new DeckSearchFilter
             {
             };
-            var decks = await _deckService.GetDecksAsync(filter);
+            var decks = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
 
             model.Decks = decks.Results.OrderBy(x => x.Name).Select(x => new DeckViewModel().FromDeck(x)).ToList();
         }
 
         [Route("[action]")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
             var model = new GameCreateViewModel
             {
             };
-            await PopulateGameCreateViewModel(model);
+            await PopulateGameCreateViewModel(model, cancellationToken: cancellationToken);
 
             if (Request.IsAjaxRequest())
             {
@@ -111,11 +112,11 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
 
         [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GameCreateViewModel model)
+        public async Task<IActionResult> Create(GameCreateViewModel model, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                var user = await GetUserAsync();
+                var user = await GetUserAsync(cancellationToken: cancellationToken);
                 var game = new GameModel
                 {
                     Deck = new DeckModel { Id = model.SelectedDeckId.Value },
@@ -123,7 +124,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     Type = model.Type,
                     Users = new List<UserModel> { user },
                 };
-                var newGame = await _gameService.CreateGameAsync(game);
+                var newGame = await _gameService.CreateGameAsync(game, cancellationToken: cancellationToken);
 
                 var url = Url.Action("View", new { id = newGame.Id });
 
@@ -133,7 +134,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 });
             }
 
-            await PopulateGameCreateViewModel(model);
+            await PopulateGameCreateViewModel(model, cancellationToken: cancellationToken);
 
             return View(model);
         }

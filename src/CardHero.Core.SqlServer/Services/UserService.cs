@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -7,7 +8,6 @@ using CardHero.Core.SqlServer.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -21,9 +21,9 @@ namespace CardHero.Core.SqlServer.Services
             _newUserOptions = newUserOptions;
         }
 
-        public async Task<UserModel> CreateUserAsync(string identifier, string idp, string name)
+        public async Task<UserModel> CreateUserAsync(string identifier, string idp, string name, CancellationToken cancellationToken = default)
         {
-            var user = await GetUserByIdentifierAsync(identifier, idp);
+            var user = await GetUserByIdentifierAsync(identifier, idp, cancellationToken: cancellationToken);
 
             if (user == null)
             {
@@ -40,7 +40,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 var newUser = await context.User.AddAsync(efUser);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
                 user = newUser.Entity.ToCore();
             }
@@ -48,14 +48,14 @@ namespace CardHero.Core.SqlServer.Services
             return user;
         }
 
-        public async Task<UserModel> GetUserByIdentifierAsync(string identifier, string idp)
+        public async Task<UserModel> GetUserByIdentifierAsync(string identifier, string idp, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
             var user = await context
                 .User
                 .Select(EntityFrameworkExtensions.ToCoreExp)
-                .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp);
+                .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp, cancellationToken: cancellationToken);
 
             return user;
         }
