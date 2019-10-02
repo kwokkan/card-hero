@@ -1,8 +1,12 @@
-using System.Linq;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using CardHero.Core.Abstractions;
 using CardHero.NetCoreApp.Mvc.Models;
+
 using KwokKan.Sortable;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.Mvc.Controllers
@@ -20,18 +24,18 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             _sortableHelper = sortableHelper;
         }
 
-        public async Task<IActionResult> Index(CardSearchViewModel model)
+        public async Task<IActionResult> Index(CardSearchViewModel model, CancellationToken cancellationToken)
         {
             var filter = new CardSearchFilter
             {
                 Page = model.Page,
                 PageSize = model.PageSize,
                 Name = model.Name,
-                UserId = (await GetUserAsync())?.Id,
+                UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id,
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
-            var result = await _cardService.GetCardsAsync(filter);
+            var result = await _cardService.GetCardsAsync(filter, cancellationToken: cancellationToken);
 
             model.Cards = result.Results.Select(x => new CardViewModel().FromCard(x));
             model.Total = result.Count;
@@ -40,15 +44,15 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
         }
 
         [Route("{id:int}")]
-        public async Task<IActionResult> View(int id)
+        public async Task<IActionResult> View(int id, CancellationToken cancellationToken)
         {
             var filter = new CardSearchFilter
             {
                 Ids = new[] { id },
-                UserId = (await GetUserAsync())?.Id,
+                UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id,
             };
 
-            var card = (await _cardService.GetCardsAsync(filter)).Results.FirstOrDefault();
+            var card = (await _cardService.GetCardsAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             var model = new CardViewModel().FromCard(card);
 

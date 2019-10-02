@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -22,9 +23,9 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         }
 
         [HttpPost("{id:int}/[action]")]
-        public async Task<GameTripleTriadMoveViewModel> Move(int id, [FromBody]GameTripleTriadMoveViewModel model)
+        public async Task<GameTripleTriadMoveViewModel> Move(int id, [FromBody]GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
         {
-            var user = await GetUserAsync();
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
             var move = new MoveModel
             {
                 CardCollectionId = model.CardCollectionId.Value,
@@ -33,7 +34,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
                 Row = model.Row.Value,
                 UserId = user.Id,
             };
-            await _gamePlayService.MakeMoveAsync(move);
+            await _gamePlayService.MakeMoveAsync(move, cancellationToken: cancellationToken);
 
             return model;
         }

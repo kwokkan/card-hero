@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -27,12 +28,13 @@ namespace CardHero.Core.SqlServer.Services
             _gameService = gamseService;
         }
 
-        private async Task<GameModel> ValidateMoveAsync(MoveModel move)
+        private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = (await _gameService.GetGamesAsync(new GameSearchFilter
+            var game = (await _gameService.GetGamesAsync(
+                new GameSearchFilter
             {
                 GameId = move.GameId,
-            })).Results.FirstOrDefault();
+            }, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             if (game == null)
             {
@@ -44,11 +46,12 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidTurnException();
             }
 
-            var card = (await _cardService.GetCardCollectionAsync(new CardCollectionSearchFilter
-            {
-                Ids = new int[] { move.CardCollectionId },
-                UserId = move.UserId,
-            })).Results.FirstOrDefault(x => x.Id == move.CardCollectionId);
+            var card = (await _cardService.GetCardCollectionAsync(
+                new CardCollectionSearchFilter
+                {
+                    Ids = new int[] { move.CardCollectionId },
+                    UserId = move.UserId,
+                }, cancellationToken: cancellationToken)).Results.FirstOrDefault(x => x.Id == move.CardCollectionId);
 
             if (card == null)
             {
@@ -63,19 +66,19 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        public async Task MakeMoveAsync(MoveModel move)
+        public async Task MakeMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = await ValidateMoveAsync(move);
+            var game = await ValidateMoveAsync(move, cancellationToken: cancellationToken);
 
             var context = GetContext();
             {
-                var currentTurn = context.Game
+                var currentTurn = await context.Game
                     .Include(x => x.Turn)
                     .Where(x => x.GamePk == game.Id)
                     .SelectMany(x => x.Turn)
                     .Where(x => !x.EndTime.HasValue)
                     .OrderByDescending(x => x.StartTime)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
                 currentTurn.EndTime = DateTime.UtcNow;
 
@@ -111,12 +114,12 @@ namespace CardHero.Core.SqlServer.Services
 
                 context.Add(newTurn);
 
-                var currentGame = context.Game.SingleOrDefault(x => x.GamePk == game.Id);
+                var currentGame = await context.Game.SingleOrDefaultAsync(x => x.GamePk == game.Id, cancellationToken: cancellationToken);
                 currentGame.CurrentUserFk = nextUser.Id;
 
                 context.Update(currentGame);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
             }
         }
     }

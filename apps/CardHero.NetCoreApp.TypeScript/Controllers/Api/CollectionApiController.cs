@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
@@ -24,12 +25,12 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CardCollectionModel[]>> GetAsync([FromQuery]CardCollectionQueryFilter query)
+        public async Task<ActionResult<CardCollectionModel[]>> GetAsync([FromQuery]CardCollectionQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
-            filter.UserId = (await GetUserAsync()).Id;
+            filter.UserId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 
-            var result = await _cardService.GetCardCollectionAsync(filter);
+            var result = await _cardService.GetCardCollectionAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }

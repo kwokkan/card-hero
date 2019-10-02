@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -8,6 +9,7 @@ using CardHero.Core.SqlServer.EntityFramework;
 
 using KwokKan.Sortable;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
@@ -45,12 +47,12 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        protected Task<SearchResult<TResult>> PaginateAndSortAsync<TIn, TResult>(IQueryable<TIn> query, SearchFilter<TResult> filter, Func<TIn, TResult> selector)
+        protected async Task<SearchResult<TResult>> PaginateAndSortAsync<TIn, TResult>(IQueryable<TIn> query, SearchFilter<TResult> filter, Func<TIn, TResult> selector, CancellationToken cancellationToken = default)
             where TResult : class, ICardHeroEntity
         {
             var result = new SearchResult<TResult>
             {
-                Count = query.Count(),
+                Count = await query.CountAsync(cancellationToken: cancellationToken),
             };
 
             var q = query.Select(selector);
@@ -82,7 +84,7 @@ namespace CardHero.Core.SqlServer.Services
 
             result.Results = q.ToArray();
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }
