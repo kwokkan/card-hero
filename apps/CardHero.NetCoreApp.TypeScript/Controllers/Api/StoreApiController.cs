@@ -27,11 +27,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<StoreItemModel[]>> GetAsync([FromQuery]StoreItemQueryFilter query)
+        public async Task<ActionResult<StoreItemModel[]>> GetAsync([FromQuery]StoreItemQueryFilter query, CancellationToken cancellationToken)
         {
             var filter = query.ToSearchFilter();
 
-            var result = await _storeItemService.GetStoreItemsAsync(filter);
+            var result = await _storeItemService.GetStoreItemsAsync(filter, cancellationToken: cancellationToken);
 
             var storeItems = result.Results
                 .OrderBy(x => (x.Expiry ?? DateTime.MaxValue))
@@ -50,7 +50,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 
-            var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id);
+            var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id, cancellationToken: cancellationToken);
             var cardIds = results.Select(x => x.Id).ToArray();
 
             var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id, cancellationToken: cancellationToken);
