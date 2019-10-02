@@ -29,7 +29,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers
 
         public async Task<IActionResult> DetailsAsync(int id, CancellationToken cancellationToken)
         {
-            var deck = await _deckService.GetDeckByIdAsync(id);
+            var deck = await _deckService.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
             var cardFilter = new CardCollectionSearchFilter
             {
             };

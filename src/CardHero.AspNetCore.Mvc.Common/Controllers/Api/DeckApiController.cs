@@ -49,10 +49,10 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
 
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<DeckViewModel>> GetDecksAsync()
+        public async Task<IEnumerable<DeckViewModel>> GetDecksAsync(CancellationToken cancellationToken)
         {
             var filter = new DeckSearchFilter();
-            var decks = await _deckService.GetDecksAsync(filter);
+            var decks = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
             var result = decks.Results.Select(x => new DeckViewModel
             {
                 Id = x.Id,
@@ -79,7 +79,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
                 MaxCards = model.MaxCards,
             };
             var user = await GetUserAsync(cancellationToken: cancellationToken);
-            var result = await _deckService.CreateDeckAsync(deck, user.Id);
+            var result = await _deckService.CreateDeckAsync(deck, user.Id, cancellationToken: cancellationToken);
 
             return result;
         }

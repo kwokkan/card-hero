@@ -26,7 +26,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 
-            var result = _deckService.ToggleFavourite(id, user.Id);
+            var result = await _deckService.ToggleFavouriteAsync(id, user.Id, cancellationToken: cancellationToken);
 
             return result;
         }
@@ -37,7 +37,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 
-            _deckService.UpdateCollection(id, user.Id, cardCollectionIds);
+            await _deckService.UpdateCollectionAsync(id, user.Id, cardCollectionIds, cancellationToken: cancellationToken);
         }
     }
 }

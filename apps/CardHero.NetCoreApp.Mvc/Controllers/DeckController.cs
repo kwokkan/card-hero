@@ -41,7 +41,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             };
             _sortableHelper.ApplySortable(filter, model.Sort, model.SortDir);
 
-            var result = await _deckService.GetDecksAsync(filter);
+            var result = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
 
             model.Decks = result.Results.Select(x => new DeckViewModel().FromDeck(x));
             model.Total = result.Count;
@@ -59,7 +59,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 UserId = user?.Id,
             };
 
-            var deck = (await _deckService.GetDecksAsync(filter)).Results.FirstOrDefault();
+            var deck = (await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
             var deckVm = new DeckViewModel().FromDeck(deck);
 
             var cardCollectionFilter = new CardCollectionSearchFilter
@@ -110,7 +110,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                     Name = model.Name,
                 };
                 var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
-                var newDeck = await _deckService.CreateDeckAsync(deck, userId);
+                var newDeck = await _deckService.CreateDeckAsync(deck, userId, cancellationToken: cancellationToken);
 
                 var url = Url.Action("View", new { id = newDeck.Id });
 

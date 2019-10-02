@@ -30,7 +30,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var filter = query.ToSearchFilter();
             filter.UserId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id;
 
-            var result = await _deckService.GetDecksAsync(filter);
+            var result = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }
@@ -40,7 +40,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeckModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _deckService.GetDeckByIdAsync(id);
+            var result = await _deckService.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
             if (result == null)
             {
@@ -63,7 +63,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             };
 
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
-            var newDeck = await _deckService.CreateDeckAsync(deck, userId);
+            var newDeck = await _deckService.CreateDeckAsync(deck, userId, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }

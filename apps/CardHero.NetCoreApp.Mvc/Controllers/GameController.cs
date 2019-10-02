@@ -84,23 +84,23 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
             return View(model);
         }
 
-        private async Task PopulateGameCreateViewModel(GameCreateViewModel model)
+        private async Task PopulateGameCreateViewModel(GameCreateViewModel model, CancellationToken cancellationToken)
         {
             var filter = new DeckSearchFilter
             {
             };
-            var decks = await _deckService.GetDecksAsync(filter);
+            var decks = await _deckService.GetDecksAsync(filter, cancellationToken: cancellationToken);
 
             model.Decks = decks.Results.OrderBy(x => x.Name).Select(x => new DeckViewModel().FromDeck(x)).ToList();
         }
 
         [Route("[action]")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
             var model = new GameCreateViewModel
             {
             };
-            await PopulateGameCreateViewModel(model);
+            await PopulateGameCreateViewModel(model, cancellationToken: cancellationToken);
 
             if (Request.IsAjaxRequest())
             {
@@ -134,7 +134,7 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 });
             }
 
-            await PopulateGameCreateViewModel(model);
+            await PopulateGameCreateViewModel(model, cancellationToken: cancellationToken);
 
             return View(model);
         }

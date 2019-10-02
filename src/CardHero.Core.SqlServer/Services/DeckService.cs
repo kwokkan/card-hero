@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -19,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId)
+        public async Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId, CancellationToken cancellationToken = default)
         {
             using (var context = GetContext())
             {
@@ -32,24 +33,24 @@ namespace CardHero.Core.SqlServer.Services
                 };
                 context.Deck.Add(entity);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-                return await GetDeckByIdAsync(entity.DeckPk);
+                return await GetDeckByIdAsync(entity.DeckPk, cancellationToken: cancellationToken);
             }
         }
 
-        public Task<DeckModel> GetDeckByIdAsync(int id)
+        public async Task<DeckModel> GetDeckByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             using (var context = GetContext())
             {
-                var query = context.Deck.SingleOrDefault(x => x.DeckPk == id);
+                var query = await context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
                 var result = query.ToCore();
 
-                return Task.FromResult(result);
+                return result;
             }
         }
 
-        public async Task<SearchResult<DeckModel>> GetDecksAsync(DeckSearchFilter filter)
+        public async Task<SearchResult<DeckModel>> GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
@@ -76,18 +77,18 @@ namespace CardHero.Core.SqlServer.Services
                 query = query.Where(x => x.UserFk == filter.UserId.Value);
             }
 
-            var result = await PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId));
+            var result = await PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
 
             return result;
         }
 
-        public bool ToggleFavourite(int id, int userId)
+        public async Task<bool> ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
-            var favourite = context
+            var favourite = await context
                 .DeckFavourite
-                .SingleOrDefault(x => x.DeckFk == id && x.UserFk == userId);
+                .SingleOrDefaultAsync(x => x.DeckFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
 
             if (favourite == null)
             {
@@ -99,7 +100,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 context.DeckFavourite.Add(newDeckFavourite);
 
-                context.SaveChanges();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
                 return true;
             }
@@ -107,19 +108,19 @@ namespace CardHero.Core.SqlServer.Services
             {
                 context.DeckFavourite.Remove(favourite);
 
-                context.SaveChanges();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
                 return false;
             }
         }
 
-        public void UpdateCollection(int id, int userId, IEnumerable<int> cardCollectionIds)
+        public async Task UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken = default)
         {
             var context = GetContext();
 
-            var deck = context
+            var deck = await context
                 .Deck
-                .FirstOrDefault(x => x.DeckPk == id && x.UserFk == userId);
+                .FirstOrDefaultAsync(x => x.DeckPk == id && x.UserFk == userId, cancellationToken: cancellationToken);
 
             if (deck == null)
             {
@@ -132,20 +133,20 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException("Over maximum numer of cards added.");
             }
 
-            var ownedCount = context
+            var ownedCount = await context
                 .CardCollection
                 .Where(x => distincted.Contains(x.CardCollectionPk))
-                .Count();
+                .CountAsync(cancellationToken: cancellationToken);
 
             if (ownedCount != distincted.Count)
             {
                 throw new InvalidCardException("You do not own some of the cards.");
             }
 
-            var existingCards = context
+            var existingCards = await context
                 .DeckCardCollection
                 .Where(x => x.DeckFk == id)
-                .ToList();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             foreach (var ec in existingCards)
             {
@@ -161,10 +162,10 @@ namespace CardHero.Core.SqlServer.Services
                 });
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public Task UpdateDeckAsync(int deckId, DeckModel deck)
+        public Task UpdateDeckAsync(int deckId, DeckModel deck, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
