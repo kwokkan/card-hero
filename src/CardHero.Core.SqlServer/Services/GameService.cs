@@ -19,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
+        public async Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default)
         {
             if (game == null)
             {
