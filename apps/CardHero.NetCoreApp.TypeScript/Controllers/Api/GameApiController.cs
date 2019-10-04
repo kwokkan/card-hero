@@ -73,7 +73,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<GameModel>> PostAsync(GameModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult<GameModel>> PostAsync(GameCreateModel model, CancellationToken cancellationToken)
         {
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 

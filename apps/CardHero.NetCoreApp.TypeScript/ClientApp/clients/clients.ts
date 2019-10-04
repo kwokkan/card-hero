@@ -370,7 +370,7 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
 
 export interface IGameApiClient {
     get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
-    post(model: GameModel): Promise<GameModel>;
+    post(model: GameCreateModel): Promise<GameModel>;
     getById(id: number): Promise<GameViewModel>;
     join(id: number, model: JoinGameViewModel): Promise<GameUserModel>;
     move(id: number, model: GameTripleTriadMoveViewModel): Promise<GameTripleTriadMoveViewModel>;
@@ -449,7 +449,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GameModel[]>(<any>null);
     }
 
-    post(model: GameModel): Promise<GameModel> {
+    post(model: GameCreateModel): Promise<GameModel> {
         let url_ = this.baseUrl + "/api/games";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1473,6 +1473,96 @@ export class GameViewModel extends GameModel implements IGameViewModel {
 
 export interface IGameViewModel extends IGameModel {
     data?: any | undefined;
+}
+
+/** Model for creating a new game. */
+export class GameCreateModel implements IGameCreateModel {
+    /** Name of game. */
+    name?: string | undefined;
+    /** Type of game. */
+    type?: GameType;
+    /** Deck to use. */
+    deckId?: number;
+    /** Users in game. */
+    users?: UserModel[] | undefined;
+    /** Current game user id. */
+    currentGameUserId?: number;
+    /** Max players in game. */
+    maxPlayers?: number;
+    /** Columns in game. */
+    columns?: number;
+    /** Rows in game. */
+    rows?: number;
+
+    constructor(data?: IGameCreateModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.type = data["type"];
+            this.deckId = data["deckId"];
+            if (Array.isArray(data["users"])) {
+                this.users = [] as any;
+                for (let item of data["users"])
+                    this.users!.push(UserModel.fromJS(item));
+            }
+            this.currentGameUserId = data["currentGameUserId"];
+            this.maxPlayers = data["maxPlayers"];
+            this.columns = data["columns"];
+            this.rows = data["rows"];
+        }
+    }
+
+    static fromJS(data: any): GameCreateModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameCreateModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["type"] = this.type;
+        data["deckId"] = this.deckId;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["currentGameUserId"] = this.currentGameUserId;
+        data["maxPlayers"] = this.maxPlayers;
+        data["columns"] = this.columns;
+        data["rows"] = this.rows;
+        return data; 
+    }
+}
+
+/** Model for creating a new game. */
+export interface IGameCreateModel {
+    /** Name of game. */
+    name?: string | undefined;
+    /** Type of game. */
+    type?: GameType;
+    /** Deck to use. */
+    deckId?: number;
+    /** Users in game. */
+    users?: UserModel[] | undefined;
+    /** Current game user id. */
+    currentGameUserId?: number;
+    /** Max players in game. */
+    maxPlayers?: number;
+    /** Columns in game. */
+    columns?: number;
+    /** Rows in game. */
+    rows?: number;
 }
 
 export class JoinGameViewModel implements IJoinGameViewModel {
