@@ -14,9 +14,15 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class GameService : BaseService, IGameService
     {
-        public GameService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IGameValidator _gameValidator;
+
+        public GameService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IGameValidator gameValidator
+        )
             : base(contextFactory)
         {
+            _gameValidator = gameValidator;
         }
 
         public async Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default)
