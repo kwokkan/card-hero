@@ -14,12 +14,18 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class GameService : BaseService, IGameService
     {
-        public GameService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IGameValidator _gameValidator;
+
+        public GameService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IGameValidator gameValidator
+        )
             : base(contextFactory)
         {
+            _gameValidator = gameValidator;
         }
 
-        public async Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default)
+        public async Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default)
         {
             if (game == null)
             {
@@ -75,6 +81,11 @@ namespace CardHero.Core.SqlServer.Services
             var result = (await GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             return result;
+        }
+
+        Task<GameModel> IGameService.GetGameByIdAsync(int id, int? userId, CancellationToken cancellationToken)
+        {
+            return null;
         }
 
         public Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)

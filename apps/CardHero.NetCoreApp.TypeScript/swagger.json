@@ -513,7 +513,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GameModel"
+                "$ref": "#/components/schemas/GameCreateModel"
               }
             }
           },
@@ -1154,6 +1154,59 @@
             }
           }
         ]
+      },
+      "GameCreateModel": {
+        "type": "object",
+        "description": "Model for creating a new game.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of game.",
+            "nullable": true
+          },
+          "type": {
+            "description": "Type of game.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameType"
+              }
+            ]
+          },
+          "deckId": {
+            "type": "integer",
+            "description": "Deck to use.",
+            "format": "int32"
+          },
+          "users": {
+            "type": "array",
+            "description": "Users in game.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UserModel"
+            }
+          },
+          "currentGameUserId": {
+            "type": "integer",
+            "description": "Current game user id.",
+            "format": "int32"
+          },
+          "maxPlayers": {
+            "type": "integer",
+            "description": "Max players in game.",
+            "format": "int32"
+          },
+          "columns": {
+            "type": "integer",
+            "description": "Columns in game.",
+            "format": "int32"
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Rows in game.",
+            "format": "int32"
+          }
+        }
       },
       "GameTripleTriadMoveViewModel": {
         "type": "object",
