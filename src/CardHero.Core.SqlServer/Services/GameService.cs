@@ -83,6 +83,11 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
+        Task<GameModel> IGameService.GetGameByIdAsync(int id, int? userId, CancellationToken cancellationToken)
+        {
+            return null;
+        }
+
         public Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
         {
             var result = new SearchResult<GameModel>();
