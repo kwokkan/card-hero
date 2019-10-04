@@ -25,6 +25,16 @@ namespace CardHero.Core.SqlServer.Services
             _gameValidator = gameValidator;
         }
 
+        private Task<GameUserModel> AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
+        {
+            return null;
+        }
+
+        Task<GameUserModel> IGameService.AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
+        {
+            return AddUserToGameInternalAsync(id, userId, deckId, cancellationToken: cancellationToken);
+        }
+
         public async Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default)
         {
             if (game == null)
