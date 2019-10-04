@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CardHero.Core.Models
+﻿namespace CardHero.Core.Models
 {
     /// <summary>
     /// User belonging to a game.
