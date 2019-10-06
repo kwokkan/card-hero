@@ -76,6 +76,13 @@ namespace CardHero.NetCoreApp.TypeScript
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
+            services
+                .AddResponseCompression(x =>
+                {
+                    x.EnableForHttps = true;
+                })
+            ;
+
             services.AddOpenApiDocument(x =>
             {
                 x.Description = "Card Hero OpenAPI document.";
@@ -122,6 +129,8 @@ namespace CardHero.NetCoreApp.TypeScript
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
             app.UseHttpsRedirection();
+
+            app.UseResponseCompression();
 
             var staticFileOptions = new StaticFileOptions
             {
