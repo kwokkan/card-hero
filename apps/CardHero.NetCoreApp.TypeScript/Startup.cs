@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using WebMarkupMin.AspNetCore2;
+using WebMarkupMin.AspNetCore3;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
