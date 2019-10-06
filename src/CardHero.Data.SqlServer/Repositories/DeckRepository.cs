@@ -32,7 +32,7 @@ namespace CardHero.Data.SqlServer
                     .Include(x => x.DeckCardCollection)
                         .ThenInclude(x => x.CardCollectionFkNavigation)
                     .Where(x => x.DeckPk == id)
-                    .Select(x => _deckMapper.Map(x))
+                    .Select(_deckMapper.Map)
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
                 return deck;

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
@@ -14,23 +16,21 @@ namespace CardHero.Data.SqlServer
             _deckCardMapper = deckCardMapper;
         }
 
-        public DeckData Map(Deck from)
+        Expression<Func<Deck, DeckData>> IMapper<Deck, DeckData>.Map
         {
-            return new DeckData
+            get
             {
-                Description = from.Description,
-                Id = from.DeckPk,
-                MaxCards = from.MaxCards,
-                Name = from.Name,
-                UserId = from.UserFk,
+                return source => new DeckData
+                {
+                    Description = source.Description,
+                    Id = source.DeckPk,
+                    MaxCards = source.MaxCards,
+                    Name = source.Name,
+                    UserId = source.UserFk,
 
-                Cards = from.DeckCardCollection.Select(x => _deckCardMapper.Map(x)).ToArray(),
-            };
-        }
-
-        public Deck Map(DeckData from)
-        {
-            throw new System.NotImplementedException();
+                    Cards = source.DeckCardCollection.AsQueryable().Select(_deckCardMapper.Map).ToArray(),
+                };
+            }
         }
     }
 }

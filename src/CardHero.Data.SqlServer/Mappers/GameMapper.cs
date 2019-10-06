@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
@@ -7,26 +8,24 @@ namespace CardHero.Data.SqlServer
 {
     internal class GameMapper : IMapper<Game, GameData>
     {
-        public GameData Map(Game from)
+        Expression<Func<Game, GameData>> IMapper<Game, GameData>.Map
         {
-            return new GameData
+            get
             {
-                Columns = from.Columns,
-                CurrentGameUserId = from.CurrentGameUserFk,
-                EndTime = from.EndTime,
-                Id = from.GamePk,
-                MaxPlayers = from.MaxPlayers,
-                Name = from.Name,
-                Rows = from.Rows,
-                StartTime = from.StartTime,
-                Type = (GameType)from.GameTypeFk,
-                WinnerId = from.WinnerFk,
-            };
-        }
-
-        public Game Map(GameData from)
-        {
-            throw new NotImplementedException();
+                return source => new GameData
+                {
+                    Columns = source.Columns,
+                    CurrentGameUserId = source.CurrentGameUserFk,
+                    EndTime = source.EndTime,
+                    Id = source.GamePk,
+                    MaxPlayers = source.MaxPlayers,
+                    Name = source.Name,
+                    Rows = source.Rows,
+                    StartTime = source.StartTime,
+                    Type = (GameType)source.GameTypeFk,
+                    WinnerId = source.WinnerFk,
+                };
+            }
         }
     }
 }

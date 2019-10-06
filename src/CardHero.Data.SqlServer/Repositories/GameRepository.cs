@@ -104,7 +104,7 @@ namespace CardHero.Data.SqlServer
                 var result = await context
                     .GameUser
                     .Where(x => x.GameFk == gameId)
-                    .Select(x => _gameUserMapper.Map(x))
+                    .Select(_gameUserMapper.Map)
                     .ToArrayAsync(cancellationToken: cancellationToken);
 
                 return result;

@@ -2,7 +2,7 @@
 
 namespace CardHero.Data.Abstractions
 {
-    public class GameData
+    public class GameData : IData
     {
         public int Id { get; set; }
 

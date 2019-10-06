@@ -1,6 +1,6 @@
 ﻿namespace CardHero.Data.Abstractions
 {
-    public class DeckCardData
+    public class DeckCardData : IData
     {
         public int Id { get; set; }
 
