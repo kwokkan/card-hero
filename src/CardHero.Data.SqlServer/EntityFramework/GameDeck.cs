@@ -15,7 +15,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
-        public int? GameUserFk { get; set; }
+        public int GameUserFk { get; set; }
 
         public virtual GameUser GameUserFkNavigation { get; set; }
         public virtual ICollection<GameDeckCardCollection> GameDeckCardCollection { get; set; }

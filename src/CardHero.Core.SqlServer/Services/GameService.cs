@@ -23,6 +23,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IGameUserRepository _gameUserRepository;
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
+        private readonly IDataMapper<GameDeckData, GameDeckModel> _gameDeckMapper;
         private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         public GameService(
@@ -34,6 +35,7 @@ namespace CardHero.Core.SqlServer.Services
             IGameUserRepository gameUserRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
+            IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
             IDataMapper<GameUserData, GameUserModel> gameUserMapper
         )
             : base(contextFactory)
@@ -45,6 +47,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameUserRepository = gameUserRepository;
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
+            _gameDeckMapper = gameDeckMapper;
             _gameUserMapper = gameUserMapper;
         }
 
@@ -189,13 +192,15 @@ namespace CardHero.Core.SqlServer.Services
             if (userId.HasValue)
             {
                 await PopulateGameUsersAsync(game, userId.Value, cancellationToken: cancellationToken);
+                var gameUser = game.Users.SingleOrDefault(x => x.UserId == userId.Value);
 
-                if (game.Users.Any(x => x.UserId == userId.Value))
+                if (gameUser != null)
                 {
-                    //var deck = await _gameDeckRepository.GetGameDeckCardCollectionAsync(0, cancellationToken: cancellationToken);
-                    game.Deck = new DeckModel
-                    {
-                    };
+                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameUserIdAsync(gameUser.Id, cancellationToken: cancellationToken);
+                    var deckCards = await _gameDeckRepository.GetGameDeckCardCollectionAsync(gameDeck.Id, cancellationToken: cancellationToken);
+
+                    game.GameDeckId = gameDeck.Id;
+                    game.GameDeck = _gameDeckMapper.Map(gameDeck);
                 }
             }
 

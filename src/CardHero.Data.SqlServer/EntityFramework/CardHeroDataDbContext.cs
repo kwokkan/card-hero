@@ -29,8 +29,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
-
             modelBuilder.Entity<Card>(entity =>
             {
                 entity.HasKey(e => e.CardPk);
@@ -215,6 +213,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.HasOne(d => d.GameUserFkNavigation)
                     .WithMany(p => p.GameDeck)
                     .HasForeignKey(d => d.GameUserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GameDeck_GameUser_FK");
             });
 
@@ -296,7 +295,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Rowstamp).HasMaxLength(10);
+                entity.Property(e => e.Rowstamp)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 
@@ -369,6 +370,10 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .IsRequired()
                     .HasMaxLength(50);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

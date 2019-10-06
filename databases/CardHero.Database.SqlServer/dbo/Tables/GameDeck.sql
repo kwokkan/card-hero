@@ -4,7 +4,7 @@
     [Name]        NVARCHAR (100)  NULL,
     [Description] NVARCHAR (1000) NULL,
     [CreatedTime] DATETIME2 (7)   DEFAULT (getutcdate()) NOT NULL,
-    [GameUser_FK] INT             NULL,
+    [GameUser_FK] INT             NOT NULL,
     CONSTRAINT [PK_GameDeck] PRIMARY KEY CLUSTERED ([GameDeck_PK] ASC),
     CONSTRAINT [FK_GameDeck_GameUser_FK] FOREIGN KEY ([GameUser_FK]) REFERENCES [dbo].[GameUser] ([GameUser_PK])
 );

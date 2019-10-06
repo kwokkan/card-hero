@@ -14,9 +14,16 @@ namespace CardHero.Data.SqlServer
     {
         private readonly ICardHeroDataDbContextFactory _factory;
 
-        public GameDeckRepository(ICardHeroDataDbContextFactory factory)
+        private readonly IMapper<GameDeck, GameDeckData> _gameDeckMapper;
+
+        public GameDeckRepository(
+            ICardHeroDataDbContextFactory factory,
+            IMapper<GameDeck, GameDeckData> gameDeckMapper
+        )
         {
             _factory = factory;
+
+            _gameDeckMapper = gameDeckMapper;
         }
 
         async Task<GameDeckData> IGameDeckRepository.AddGameDeckAsync(int gameUserId, string name, string description, int[] cardIds, CancellationToken cancellationToken)
@@ -54,6 +61,20 @@ namespace CardHero.Data.SqlServer
             };
 
             return data;
+        }
+
+        async Task<GameDeckData> IGameDeckRepository.GetGameDeckByGameUserIdAsync(int gameUserId, CancellationToken cancellationToken)
+        {
+            using (var context = _factory.Create())
+            {
+                var gameDeck = await context
+                    .GameDeck
+                    .Where(x => x.GameUserFk == gameUserId)
+                    .Select(x => _gameDeckMapper.Map(x))
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+                return gameDeck;
+            }
         }
 
         async Task<GameDeckCardCollectionData[]> IGameDeckRepository.GetGameDeckCardCollectionAsync(int gameDeckId, CancellationToken cancellationToken)

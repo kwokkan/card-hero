@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
@@ -10,7 +9,14 @@ namespace CardHero.Data.SqlServer
     {
         public GameDeckData Map(GameDeck from)
         {
-            throw new NotImplementedException();
+            return new GameDeckData
+            {
+                CreatedTime = from.CreatedTime,
+                Description = from.Description,
+                GameUserId = from.GameUserFk,
+                Id = from.GameDeckPk,
+                Name = from.Name,
+            };
         }
 
         public GameDeck Map(GameDeckData from)

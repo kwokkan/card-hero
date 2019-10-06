@@ -1130,6 +1130,20 @@
               }
             ]
           },
+          "gameDeckId": {
+            "type": "integer",
+            "description": "Game deck id.",
+            "format": "int32"
+          },
+          "gameDeck": {
+            "description": "Game deck.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameDeckModel"
+              }
+            ]
+          },
           "maxUsers": {
             "type": "integer",
             "description": "Maximum number of people who can play the game.",
@@ -1232,6 +1246,33 @@
         "enum": [
           1
         ]
+      },
+      "GameDeckModel": {
+        "type": "object",
+        "description": "Deck for use within a game.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description.",
+            "nullable": true
+          },
+          "gameUserId": {
+            "type": "integer",
+            "description": "Game user id.",
+            "format": "int32"
+          }
+        }
       },
       "GameViewModel": {
         "allOf": [

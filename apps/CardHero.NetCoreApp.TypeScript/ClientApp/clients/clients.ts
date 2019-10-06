@@ -1191,6 +1191,10 @@ export class GameModel implements IGameModel {
     deckId?: number;
     /** Deck. */
     deck?: DeckModel | undefined;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Game deck. */
+    gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
     /** Whether a user can join this game. */
@@ -1230,6 +1234,8 @@ export class GameModel implements IGameModel {
             this.type = data["type"];
             this.deckId = data["deckId"];
             this.deck = data["deck"] ? DeckModel.fromJS(data["deck"]) : <any>undefined;
+            this.gameDeckId = data["gameDeckId"];
+            this.gameDeck = data["gameDeck"] ? GameDeckModel.fromJS(data["gameDeck"]) : <any>undefined;
             this.maxUsers = data["maxUsers"];
             this.canJoin = data["canJoin"];
             this.canPlay = data["canPlay"];
@@ -1266,6 +1272,8 @@ export class GameModel implements IGameModel {
         data["type"] = this.type;
         data["deckId"] = this.deckId;
         data["deck"] = this.deck ? this.deck.toJSON() : <any>undefined;
+        data["gameDeckId"] = this.gameDeckId;
+        data["gameDeck"] = this.gameDeck ? this.gameDeck.toJSON() : <any>undefined;
         data["maxUsers"] = this.maxUsers;
         data["canJoin"] = this.canJoin;
         data["canPlay"] = this.canPlay;
@@ -1301,6 +1309,10 @@ export interface IGameModel {
     deckId?: number;
     /** Deck. */
     deck?: DeckModel | undefined;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Game deck. */
+    gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
     /** Whether a user can join this game. */
@@ -1440,6 +1452,64 @@ export interface ITurnModel {
 /** Type of game. */
 export enum GameType {
     TripleTriad = 1,
+}
+
+/** Deck for use within a game. */
+export class GameDeckModel implements IGameDeckModel {
+    /** Id. */
+    id?: number;
+    /** Name. */
+    name?: string | undefined;
+    /** Description. */
+    description?: string | undefined;
+    /** Game user id. */
+    gameUserId?: number;
+
+    constructor(data?: IGameDeckModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.gameUserId = data["gameUserId"];
+        }
+    }
+
+    static fromJS(data: any): GameDeckModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameDeckModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["gameUserId"] = this.gameUserId;
+        return data; 
+    }
+}
+
+/** Deck for use within a game. */
+export interface IGameDeckModel {
+    /** Id. */
+    id?: number;
+    /** Name. */
+    name?: string | undefined;
+    /** Description. */
+    description?: string | undefined;
+    /** Game user id. */
+    gameUserId?: number;
 }
 
 export class GameViewModel extends GameModel implements IGameViewModel {
