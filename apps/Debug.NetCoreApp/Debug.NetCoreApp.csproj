@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.3.52" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />
   </ItemGroup>
 
 </Project>

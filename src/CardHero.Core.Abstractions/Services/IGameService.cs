@@ -12,6 +12,16 @@ namespace CardHero.Core.Abstractions
     public interface IGameService
     {
         /// <summary>
+        /// Adds an user to a game.
+        /// </summary>
+        /// <param name="id">The game id.</param>
+        /// <param name="userId">The user id.</param>
+        /// <param name="deckId">The deck id.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>An object containing game user details.</returns>
+        Task<GameUserModel> AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Starts a new game with the required users.
         /// </summary>
         /// <param name="game">The game to create.</param>
@@ -19,7 +29,16 @@ namespace CardHero.Core.Abstractions
         /// <returns>A new Game object.</returns>
         /// <exception cref="ArgumentException">When there are no users starting the game.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="game"/> is null.</exception>
-        Task<GameModel> CreateGameAsync(GameModel game, CancellationToken cancellationToken = default);
+        Task<GameModel> CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Gets a game by id.
+        /// </summary>
+        /// <param name="id">The game id</param>
+        /// <param name="userId">The user id.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The game.</returns>
+        Task<GameModel> GetGameByIdAsync(int id, int? userId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets a list of games.

@@ -30,16 +30,16 @@ export default class GameTripleTriadBoard extends Component<IGameTripleTriadBoar
     }
 
     private isSelected(row: number, column: number): boolean {
-        return this.state.data.moves.findIndex(x => x.row == row && x.column == column) > -1;
+        return this.state.data.moves.findIndex(x => x.row === row && x.column === column) > -1;
     }
 
     private getCardCollectionId(row: number, column: number): number | null {
-        const move = this.state.data.moves.find(x => x.row == row && x.column == column);
+        const move = this.state.data.moves.find(x => x.row === row && x.column === column);
         return move ? move.cardCollectionId : null;
     }
 
     private getCardCollectionCard(cardCollectionId: number): CardModel {
-        const card = this.props.game.deck.cards.find(x => x.cardCollectionId == cardCollectionId);
+        const card = this.props.game.deck.cards.find(x => x.cardCollectionId === cardCollectionId);
         return card;
     }
 
