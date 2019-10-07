@@ -369,7 +369,7 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
 }
 
 export interface IGameApiClient {
-    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
+    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
     post(model: GameCreateModel): Promise<GameModel>;
     getById(id: number): Promise<GameViewModel>;
     move(id: number, model: GameTripleTriadMoveViewModel): Promise<GameTripleTriadMoveViewModel>;
@@ -386,7 +386,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]> {
+    get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]> {
         let url_ = this.baseUrl + "/api/games?";
         if (gameId !== undefined)
             url_ += "GameId=" + encodeURIComponent("" + gameId) + "&"; 
@@ -396,9 +396,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
             url_ += "StartTime=" + encodeURIComponent(startTime ? "" + startTime.toJSON() : "") + "&"; 
         if (endTime !== undefined)
             url_ += "EndTime=" + encodeURIComponent(endTime ? "" + endTime.toJSON() : "") + "&"; 
-        if (playerCount === null)
-            throw new Error("The parameter 'playerCount' cannot be null.");
-        else if (playerCount !== undefined)
+        if (playerCount !== undefined)
             url_ += "PlayerCount=" + encodeURIComponent("" + playerCount) + "&"; 
         if (activeOnly === null)
             throw new Error("The parameter 'activeOnly' cannot be null.");

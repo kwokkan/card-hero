@@ -1,7 +1,5 @@
-﻿import AppBootstrap from "../components/shared/appBootstrap";
-import GameCreateModel from "../models/GameCreateModel";
-import GameModel, { GameId } from "../models/GameModel";
-import GameTripleTriadMoveModel from "../models/GameTripleTrialMoveModel";
+﻿import { GameApiClient, GameCreateModel, GameModel, GameTripleTriadMoveViewModel } from "../clients/clients";
+import AppBootstrap from "../components/shared/appBootstrap";
 
 interface IGameSearchFilter {
     name?: string;
@@ -12,72 +10,48 @@ interface IGameSearchFilter {
 }
 
 export default class GameService {
-    private static readonly baseUrl: string = AppBootstrap.baseUrl + 'api/games';
+    static async getGameById(id: number): Promise<GameModel | null> {
+        const client = new GameApiClient(AppBootstrap.baseUrl);
+        const model = await client.getById(id);
 
-    static async getGameById(id: GameId): Promise<GameModel | null> {
-        let baseUrl = GameService.baseUrl + '/' + id;
-
-        const response = await fetch(baseUrl);
-
-        const data = await response.json() as GameModel;
-
-        if (data) {
-            return new GameModel().from(data);
-        }
-
-        return null;
+        return model;
     }
 
     static async getGames(filter?: IGameSearchFilter): Promise<GameModel[] | null> {
-        let baseUrl = GameService.baseUrl;
+        const client = new GameApiClient(AppBootstrap.baseUrl);
 
-        if (filter != null) {
-            baseUrl += '?' + Object.keys(filter)
-                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(filter[k]))
-                .join('&');
+        if (!filter) {
+            filter = {};
         }
 
-        const response = await fetch(baseUrl);
-        const data = await response.json() as GameModel[];
+        const model = await client.get(
+            filter.gameId,
+            filter.name,
+            undefined,
+            undefined,
+            undefined,
+            filter.activeOnly,
+            undefined,
+            filter.page,
+            filter.pageSize,
+            undefined
+        );
 
-        if (data) {
-            return data.map(x => new GameModel().from(x));
-        }
-
-        return null;
+        return model;
     }
 
     static async createGame(model: GameCreateModel): Promise<GameModel> {
-        let baseUrl = GameService.baseUrl;
+        const client = new GameApiClient(AppBootstrap.baseUrl);
 
-        const response = await fetch(baseUrl, {
-            body: JSON.stringify(model),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: "POST"
-        });
-        const data = await response.json() as GameModel;
+        const newModel = await client.post(model);
 
-        const newDeck = new GameModel().from(data);
-
-        return newDeck;
+        return newModel;
     }
 
-    static async move(id: GameId, model: GameTripleTriadMoveModel): Promise<GameTripleTriadMoveModel> {
-        let baseUrl = GameService.baseUrl + '/' + id + '/move';
+    static async move(id: number, model: GameTripleTriadMoveViewModel): Promise<GameTripleTriadMoveViewModel> {
+        const client = new GameApiClient(AppBootstrap.baseUrl);
+        const newModel = await client.move(id, model);
 
-        const response = await fetch(baseUrl, {
-            body: JSON.stringify(model),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: "POST"
-        });
-        const data = await response.json() as GameTripleTriadMoveModel;
-
-        const newDeck = new GameTripleTriadMoveModel().from(data);
-
-        return newDeck;
+        return newModel;
     }
 }

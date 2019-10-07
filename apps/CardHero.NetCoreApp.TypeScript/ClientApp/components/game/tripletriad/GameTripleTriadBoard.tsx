@@ -1,13 +1,11 @@
 ﻿import React, { Component } from "react";
-import { CardModel } from "../../../clients/clients";
-import GameModel from "../../../models/GameModel";
+import { CardModel, GameViewModel, GameTripleTriadMoveViewModel } from "../../../clients/clients";
 import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
-import GameTripleTriadMoveModel from "../../../models/GameTripleTrialMoveModel";
 import GameService from "../../../services/GameService";
 import GameTripleTriadBoardGrid, { IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
 
 interface IGameTripleTriadBoardProps {
-    game: GameModel;
+    game: GameViewModel;
 }
 
 interface IGameTripleTriadBoardState {
@@ -48,7 +46,7 @@ export default class GameTripleTriadBoard extends Component<IGameTripleTriadBoar
             console.log(data);
         }
 
-        await GameService.move(this.props.game.id, new GameTripleTriadMoveModel().from(data));
+        await GameService.move(this.props.game.id, new GameTripleTriadMoveViewModel(data));
 
         //TODO: update moves array
     }
