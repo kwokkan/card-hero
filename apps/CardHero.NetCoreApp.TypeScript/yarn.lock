@@ -11033,10 +11033,10 @@ webpack@4.41.0:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
-webpack@5.0.0-alpha.29:
-  version "5.0.0-alpha.29"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-alpha.29.tgz#c51f575e8c40e91a3756321160d4202f25a423d7"
-  integrity sha512-kcnbh0isW+admTv7ihdx2kWCurUe/BzwHFi5zv6xg8xdwQSf4pdfjrLBxH/Yt2Loi+kq2J4ydGOgAaX1Snst1A==
+webpack@5.0.0-alpha.30:
+  version "5.0.0-alpha.30"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-alpha.30.tgz#1d4d120d64a37a7e6b4ffe10e5c4e4ec45566c97"
+  integrity sha512-PimaiFbnUsJE5Pks/1qZvzMdlZlH912bD8SqYiv8hhwVPf6bdg+HVaGQ4chiStAyk2e8NlvX3yPXXE6jFiun4A==
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"
