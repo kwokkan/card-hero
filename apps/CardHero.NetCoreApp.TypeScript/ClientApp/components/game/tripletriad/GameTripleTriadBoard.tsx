@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import { CardModel, GameViewModel, GameTripleTriadMoveViewModel } from "../../../clients/clients";
+import { CardModel, GameTripleTriadMoveViewModel, GameViewModel } from "../../../clients/clients";
 import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
 import GameService from "../../../services/GameService";
 import GameTripleTriadBoardGrid, { IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
