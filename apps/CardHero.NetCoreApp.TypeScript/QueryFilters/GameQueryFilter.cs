@@ -15,7 +15,7 @@ namespace CardHero.NetCoreApp.TypeScript
 
         public DateTime? EndTime { get; set; }
 
-        public int PlayerCount { get; set; }
+        public int? PlayerCount { get; set; }
 
         public bool ActiveOnly { get; set; } = true;
 

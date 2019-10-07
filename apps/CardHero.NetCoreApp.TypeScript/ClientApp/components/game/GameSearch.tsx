@@ -1,6 +1,5 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
-import { DeckModel } from "../../clients/clients";
-import GameModel from "../../models/GameModel";
+import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
 import DeckService from "../../services/DeckService";
 import GameService from "../../services/GameService";
 import Icon from "../../styles/index";
@@ -83,7 +82,8 @@ export default class GameSearch extends Component<IGameSearchProps, IGameSearchS
             console.log(game);
         }
 
-        await GameService.createGame(game);
+        const postGame = new GameCreateModel(game);
+        await GameService.createGame(postGame);
 
         await this.getGames();
     }

@@ -14,7 +14,7 @@ namespace CardHero.Core.Abstractions
 
         public DateTime? EndTime { get; set; }
 
-        public int PlayerCount { get; set; }
+        public int? PlayerCount { get; set; }
 
         public bool ActiveOnly { get; set; } = true;
 
