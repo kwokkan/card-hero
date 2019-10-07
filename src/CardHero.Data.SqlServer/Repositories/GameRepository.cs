@@ -34,7 +34,6 @@ namespace CardHero.Data.SqlServer
             var data = new Game
             {
                 Columns = game.Columns,
-                CurrentGameUserFk = game.CurrentGameUserId,
                 GameTypeFk = (int)game.Type,
                 Name = game.Name,
                 Rows = game.Rows,
@@ -45,7 +44,7 @@ namespace CardHero.Data.SqlServer
             {
                 context.Game.Add(data);
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
             }
 
             return await GetGameByIdAsync(data.GamePk, cancellationToken: cancellationToken);
