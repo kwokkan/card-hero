@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import GameModel from "../../models/GameModel";
+import { GameModel } from "../../clients/clients";
 import DateFormat from "../shared/DateFormat";
 
 interface IGameHistoryWidgetProps {

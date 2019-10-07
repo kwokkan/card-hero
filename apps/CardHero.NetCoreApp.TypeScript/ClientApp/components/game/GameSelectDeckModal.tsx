@@ -1,11 +1,10 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
-import { DeckModel } from "../../clients/clients";
-import GameModel, { GameId } from "../../models/GameModel";
+import { DeckModel, GameModel } from "../../clients/clients";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameSelectDeckModalOnJoinedProps {
-    gameId: GameId;
+    gameId: number;
     deckId: number;
 }
 

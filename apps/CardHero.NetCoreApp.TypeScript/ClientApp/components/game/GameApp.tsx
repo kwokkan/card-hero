@@ -1,6 +1,5 @@
 ﻿import React, { Component } from "react";
-import { DeckModel } from "../../clients/clients";
-import GameModel from "../../models/GameModel";
+import { DeckModel, GameModel } from "../../clients/clients";
 import DeckService from "../../services/DeckService";
 import Layout from "../shared/Layout";
 import GameList from "./GameList";

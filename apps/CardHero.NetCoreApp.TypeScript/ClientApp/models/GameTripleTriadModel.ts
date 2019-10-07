@@ -1,10 +1,10 @@
-﻿import IMapper from "../utils/mapper";
-import GameTripleTriadMoveModel from "./GameTripleTrialMoveModel";
+﻿import { GameTripleTriadMoveViewModel } from "../clients/clients";
+import IMapper from "../utils/mapper";
 
 export default class GameTripleTriadModel implements IMapper<GameTripleTriadModel> {
     columns: number;
     rows: number;
-    moves: GameTripleTriadMoveModel[];
+    moves: GameTripleTriadMoveViewModel[];
 
     from(o?: any): GameTripleTriadModel {
         if (!o) return this;
@@ -13,7 +13,7 @@ export default class GameTripleTriadModel implements IMapper<GameTripleTriadMode
         this.rows = o.rows;
 
         if (o.moves) {
-            this.moves = o.moves.map(x => new GameTripleTriadMoveModel().from(x));
+            this.moves = o.moves.map(x => new GameTripleTriadMoveViewModel(x));
         }
 
         return this;

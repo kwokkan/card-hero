@@ -1,8 +1,7 @@
 ﻿import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DeckModel, GameType } from "../../clients/clients";
+import { DeckModel, GameModel, GameType } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import GameModel from "../../models/GameModel";
 import GameService from "../../services/GameService";
 import DateFormat from "../shared/DateFormat";
 import GameSelectDeckModal, { IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
@@ -70,7 +69,7 @@ export default class GameList extends Component<IGameListProps, IGameListState> 
 
                         <tbody>
                             {this.props.games.map(g =>
-                                <tr key={g.id as any}>
+                                <tr key={g.id}>
                                     <th scope="row">
                                         <Link to={'/' + g.id}>#{g.id}{' '}{g.name}</Link>
                                     </th>
