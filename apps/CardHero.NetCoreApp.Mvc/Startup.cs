@@ -140,6 +140,7 @@ namespace CardHero.NetCoreApp.Mvc
             ;
 
             services.AddCardHeroSqlServerDbContext(Configuration);
+
             services.ConfigureTagHelpers(Configuration);
 
             services.Configure<KwokKanCdnOptions>(options =>
