@@ -1,8 +1,7 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DeckModel } from "../../clients/clients";
-import GameModel, { GameId } from "../../models/GameModel";
+import { DeckModel, GameModel } from "../../clients/clients";
 import GameService from "../../services/GameService";
 import Layout from "../shared/Layout";
 import GameBoard from "./GameBoard";
@@ -26,7 +25,7 @@ export default class Game extends Component<IGameProps, IGameState> {
         this.state = {};
     }
 
-    private async populateGame(id: GameId) {
+    private async populateGame(id: number) {
         const game = await GameService.getGameById(id);
 
         if (game) {
@@ -38,13 +37,13 @@ export default class Game extends Component<IGameProps, IGameState> {
     }
 
     async componentDidMount() {
-        const gameId: GameId = this.props.match.params.id;
+        const gameId: number = this.props.match.params.id;
 
         await this.populateGame(gameId);
     }
 
     async componentWillReceiveProps(nextProps: IGameProps) {
-        const gameId: GameId = this.props.match.params.id;
+        const gameId: number = this.props.match.params.id;
 
         if (nextProps.match.params.id !== gameId) {
             await this.populateGame(gameId);

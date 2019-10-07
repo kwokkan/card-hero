@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import GameModel from "../../models/GameModel";
+import { GameModel } from "../../clients/clients";
 import DateFormat from "../shared/DateFormat";
 
 interface IGameListProps {
