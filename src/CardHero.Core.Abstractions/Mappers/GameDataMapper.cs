@@ -10,9 +10,9 @@ namespace CardHero.Core.Abstractions
             return new GameModel
             {
                 Columns = from.Columns,
-                CurrentUser = new UserModel
+                CurrentUser = from.CurrentGameUserId == null ? null : new UserModel
                 {
-                    Id = from.Id,
+                    Id = from.CurrentGameUserId.Value,
                 },
                 EndTime = from.EndTime,
                 Id = from.Id,

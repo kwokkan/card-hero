@@ -41,7 +41,14 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidGameException();
             }
 
-            if (game.CurrentUser.Id != move.UserId)
+            var gameUser = game.Users.SingleOrDefault(x => x.UserId == move.UserId);
+
+            if (gameUser == null)
+            {
+                throw new InvalidPlayerException();
+            }
+
+            if (game.CurrentUser.Id != gameUser.Id)
             {
                 throw new InvalidTurnException();
             }
