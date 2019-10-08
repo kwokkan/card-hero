@@ -17,14 +17,19 @@ namespace CardHero.Core.SqlServer.Services
     public class GameService : BaseService, IGameService
     {
         private readonly IGameValidator _gameValidator;
+
         private readonly IDeckRepository _deckRepository;
         private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameUserRepository _gameUserRepository;
+
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
+        private readonly IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> _gameDeckCardCollectionMapper;
         private readonly IDataMapper<GameDeckData, GameDeckModel> _gameDeckMapper;
         private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
+
+        private readonly ICardService _cardService;
 
         public GameService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
@@ -35,20 +40,27 @@ namespace CardHero.Core.SqlServer.Services
             IGameUserRepository gameUserRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
+            IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
             IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
-            IDataMapper<GameUserData, GameUserModel> gameUserMapper
+            IDataMapper<GameUserData, GameUserModel> gameUserMapper,
+            ICardService cardService
         )
             : base(contextFactory)
         {
             _gameValidator = gameValidator;
+
             _deckRepository = deckRepository;
             _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
             _gameUserRepository = gameUserRepository;
+
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
+            _gameDeckCardCollectionMapper = gameDeckCardCollectionMapper;
             _gameDeckMapper = gameDeckMapper;
             _gameUserMapper = gameUserMapper;
+
+            _cardService = cardService;
         }
 
         private async Task<GameUserModel> AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
@@ -201,6 +213,19 @@ namespace CardHero.Core.SqlServer.Services
 
                     game.GameDeckId = gameDeck.Id;
                     game.GameDeck = _gameDeckMapper.Map(gameDeck);
+                    game.GameDeck.CardCollection = deckCards.Select(_gameDeckCardCollectionMapper.Map).ToArray();
+
+                    //TODO: Replace with data layer
+                    var cardFilter = new CardSearchFilter
+                    {
+                        Ids = deckCards.Select(x => x.CardId).ToArray(),
+                    };
+                    var cards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
+
+                    foreach (var cc in game.GameDeck.CardCollection)
+                    {
+                        cc.Card = cards.Results.SingleOrDefault(x => x.Id == cc.CardId);
+                    }
                 }
             }
 

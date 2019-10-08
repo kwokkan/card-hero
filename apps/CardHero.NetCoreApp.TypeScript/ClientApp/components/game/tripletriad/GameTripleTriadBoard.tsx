@@ -37,7 +37,7 @@ export default class GameTripleTriadBoard extends Component<IGameTripleTriadBoar
     }
 
     private getCardCollectionCard(cardCollectionId: number): CardModel {
-        const card = this.props.game.deck.cards.find(x => x.cardCollectionId === cardCollectionId);
+        const card = this.props.game.gameDeck.cardCollection.find(x => x.id === cardCollectionId);
         return card;
     }
 

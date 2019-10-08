@@ -1462,6 +1462,8 @@ export class GameDeckModel implements IGameDeckModel {
     description?: string | undefined;
     /** Game user id. */
     gameUserId?: number;
+    /** Cards in game deck. */
+    cardCollection?: GameDeckCardCollectionModel[] | undefined;
 
     constructor(data?: IGameDeckModel) {
         if (data) {
@@ -1478,6 +1480,11 @@ export class GameDeckModel implements IGameDeckModel {
             this.name = data["name"];
             this.description = data["description"];
             this.gameUserId = data["gameUserId"];
+            if (Array.isArray(data["cardCollection"])) {
+                this.cardCollection = [] as any;
+                for (let item of data["cardCollection"])
+                    this.cardCollection!.push(GameDeckCardCollectionModel.fromJS(item));
+            }
         }
     }
 
@@ -1494,6 +1501,11 @@ export class GameDeckModel implements IGameDeckModel {
         data["name"] = this.name;
         data["description"] = this.description;
         data["gameUserId"] = this.gameUserId;
+        if (Array.isArray(this.cardCollection)) {
+            data["cardCollection"] = [];
+            for (let item of this.cardCollection)
+                data["cardCollection"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -1508,6 +1520,66 @@ export interface IGameDeckModel {
     description?: string | undefined;
     /** Game user id. */
     gameUserId?: number;
+    /** Cards in game deck. */
+    cardCollection?: GameDeckCardCollectionModel[] | undefined;
+}
+
+/** Card to use within a game deck. */
+export class GameDeckCardCollectionModel implements IGameDeckCardCollectionModel {
+    /** Id. */
+    id?: number;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Card id. */
+    cardId?: number;
+    /** Card. */
+    card?: CardModel | undefined;
+
+    constructor(data?: IGameDeckCardCollectionModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.gameDeckId = data["gameDeckId"];
+            this.cardId = data["cardId"];
+            this.card = data["card"] ? CardModel.fromJS(data["card"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GameDeckCardCollectionModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameDeckCardCollectionModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["gameDeckId"] = this.gameDeckId;
+        data["cardId"] = this.cardId;
+        data["card"] = this.card ? this.card.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Card to use within a game deck. */
+export interface IGameDeckCardCollectionModel {
+    /** Id. */
+    id?: number;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Card id. */
+    cardId?: number;
+    /** Card. */
+    card?: CardModel | undefined;
 }
 
 export class GameViewModel extends GameModel implements IGameViewModel {

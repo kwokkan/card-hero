@@ -1272,6 +1272,45 @@
             "type": "integer",
             "description": "Game user id.",
             "format": "int32"
+          },
+          "cardCollection": {
+            "type": "array",
+            "description": "Cards in game deck.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GameDeckCardCollectionModel"
+            }
+          }
+        }
+      },
+      "GameDeckCardCollectionModel": {
+        "type": "object",
+        "description": "Card to use within a game deck.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "gameDeckId": {
+            "type": "integer",
+            "description": "Game deck id.",
+            "format": "int32"
+          },
+          "cardId": {
+            "type": "integer",
+            "description": "Card id.",
+            "format": "int32"
+          },
+          "card": {
+            "description": "Card.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CardModel"
+              }
+            ]
           }
         }
       },

@@ -24,5 +24,10 @@
         /// Game user id.
         /// </summary>
         public int GameUserId { get; set; }
+
+        /// <summary>
+        /// Cards in game deck.
+        /// </summary>
+        public GameDeckCardCollectionModel[] CardCollection { get; set; }
     }
 }
