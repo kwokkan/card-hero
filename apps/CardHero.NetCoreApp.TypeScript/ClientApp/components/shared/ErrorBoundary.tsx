@@ -5,6 +5,7 @@ interface IErrorBoundatyState {
     hasError: boolean;
     error?: Error;
     errorInfo?: ErrorInfo;
+    currentPage?: string;
 }
 
 export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
@@ -19,7 +20,8 @@ export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
     static getDerivedStateFromError(error): IErrorBoundatyState {
         const newState: IErrorBoundatyState = {
             hasError: true,
-            error: error
+            error: error,
+            currentPage: window.location.href
         };
 
         if (Constants.Debug) {
@@ -37,7 +39,7 @@ export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
 
     render() {
         if (this.state.hasError) {
-            return <ErrorView error={this.state.error} errorInfo={this.state.errorInfo} />;
+            return <ErrorView error={this.state.error} errorInfo={this.state.errorInfo} currentPage={this.state.currentPage} />;
         }
 
         return this.props.children;
