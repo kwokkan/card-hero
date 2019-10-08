@@ -5,16 +5,18 @@ import Icon from "../../styles/index";
 interface IErrorViewProps {
     error: Error;
     errorInfo?: ErrorInfo;
+    currentPage?: string;
 }
 
 export class ErrorView extends PureComponent<IErrorViewProps, any>{
     render() {
         const e = this.props.error;
         const ei = this.props.errorInfo;
+        const cp = this.props.currentPage || 'N/A';
 
         const newIssueUrl = new URL(Constants.NewIssueUrl);
         newIssueUrl.searchParams.append('title', e.name + ': ' + e.message);
-        newIssueUrl.searchParams.append('body', e.stack);
+        newIssueUrl.searchParams.append('body', '### Current page\n' +  cp + '\n\n### Stack trace\n```\n' + e.stack + '\n```');
         newIssueUrl.searchParams.append('labels', 'bug');
 
         return (
