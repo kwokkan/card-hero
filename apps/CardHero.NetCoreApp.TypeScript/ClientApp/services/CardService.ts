@@ -8,7 +8,7 @@ interface ICardSearchFilter {
     ids?: number[];
 }
 
-export default class CardService {
+export class CardService {
     static async getCards(filter?: ICardSearchFilter): Promise<CardModel[] | null> {
         const client = new CardApiClient(AppBootstrap.baseUrl);
         const model = client.get(

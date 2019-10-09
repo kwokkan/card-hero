@@ -1,7 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import { CardModel } from "../../clients/clients";
-import CardService from "../../services/CardService";
+import { CardService } from "../../services/CardService";
 import { Layout } from "../shared/Layout";
 
 interface ICardProps {
