@@ -1,14 +1,14 @@
 ﻿import React, { Component } from "react";
 import { GameModel } from "../../clients/clients";
-import Layout from "../shared/Layout";
-import GameList from "./GameList";
-import GameSearch from "./GameSearch";
+import { Layout } from "../shared/Layout";
+import { GameList } from "./GameList";
+import { GameSearch } from "./GameSearch";
 
 interface IGameAppState {
     games: GameModel[];
 }
 
-export default class GameApp extends Component<any, IGameAppState> {
+export class GameApp extends Component<any, IGameAppState> {
     constructor(props) {
         super(props);
 

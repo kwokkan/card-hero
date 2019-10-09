@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import AppBootstrap from '../shared/appBootstrap';
-import Card from './Card';
-import CardApp from './CardApp';
+import { AppBootstrap } from '../shared/AppBootstrap';
+import { Card } from './Card';
+import { CardApp } from './CardApp';
 
 ReactDOM.render(
     <BrowserRouter basename={AppBootstrap.url('Card')}>

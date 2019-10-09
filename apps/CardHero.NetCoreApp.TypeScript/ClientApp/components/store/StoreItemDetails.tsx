@@ -1,14 +1,14 @@
 ﻿import React, { Fragment } from "react";
 import { StoreItemModel } from "../../clients/clients";
-import CoinFormat from "../shared/CoinFormat";
-import DateFormat from "../shared/DateFormat";
+import { CoinFormat } from "../shared/CoinFormat";
+import { DateFormat } from "../shared/DateFormat";
 
 interface IStoreItemDetailsProps {
     storeItem: StoreItemModel;
     onSelectItem?: (item: StoreItemModel) => void;
 }
 
-export default function StoreItemDetails(props: IStoreItemDetailsProps) {
+export function StoreItemDetails(props: IStoreItemDetailsProps) {
     const si = props.storeItem;
 
     const onSelectItem = () => {

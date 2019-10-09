@@ -1,12 +1,12 @@
 ﻿import React from "react";
 import { DeckModel } from "../../clients/clients";
-import GameDeckCard from "./GameDeckCard";
+import { GameDeckCard } from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
     deck?: DeckModel;
 }
 
-export default function GameDeckWidget(props: IGameDeckWidgetProps) {
+export function GameDeckWidget(props: IGameDeckWidgetProps) {
     return (
         <div className="card">
             <h4 className="card-header">

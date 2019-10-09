@@ -1,20 +1,22 @@
 ﻿import React, { ErrorInfo, PureComponent } from "react";
 import { Rarity } from "../../clients/clients";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface IErrorViewProps {
     error: Error;
     errorInfo?: ErrorInfo;
+    currentPage?: string;
 }
 
 export class ErrorView extends PureComponent<IErrorViewProps, any>{
     render() {
         const e = this.props.error;
         const ei = this.props.errorInfo;
+        const cp = this.props.currentPage || 'N/A';
 
         const newIssueUrl = new URL(Constants.NewIssueUrl);
         newIssueUrl.searchParams.append('title', e.name + ': ' + e.message);
-        newIssueUrl.searchParams.append('body', e.stack);
+        newIssueUrl.searchParams.append('body', '### Current page\n' +  cp + '\n\n### Stack trace\n```\n' + e.stack + '\n```');
         newIssueUrl.searchParams.append('labels', 'bug');
 
         return (
@@ -51,7 +53,7 @@ export class ErrorView extends PureComponent<IErrorViewProps, any>{
                             }
                         </div>
                         <div className="card-footer">
-                            <a href={newIssueUrl.toString()} className="btn btn-primary pull-right" target="_blank">
+                            <a href={newIssueUrl.toString()} className="btn btn-primary pull-right" target="_blank" rel="noreferrer noopener">
                                 <Icon icon="github" />
                                 {' '}
                                 Report an issue

@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import AppBootstrap from '../shared/appBootstrap';
-import Game from './Game';
-import GameApp from './GameApp';
+import { AppBootstrap } from '../shared/AppBootstrap';
+import { Game } from './Game';
+import { GameApp } from './GameApp';
 
 ReactDOM.render(
     <BrowserRouter basename={AppBootstrap.url('Game')}>

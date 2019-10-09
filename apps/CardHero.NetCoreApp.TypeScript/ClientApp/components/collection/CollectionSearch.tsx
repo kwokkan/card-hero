@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { CardCollectionModel } from "../../clients/clients";
-import CardCollectionService from "../../services/CardCollectionService";
+import { CardCollectionService } from "../../services/CardCollectionService";
 
 interface ICollectionSearchProps {
     onCollectionPopulated?: ((cards: CardCollectionModel[]) => void);
@@ -12,7 +12,7 @@ interface ICollectionSearchState  {
     pageSize?: number;
 }
 
-export default class CollectionSearch extends Component<ICollectionSearchProps, ICollectionSearchState> {
+export class CollectionSearch extends Component<ICollectionSearchProps, ICollectionSearchState> {
     constructor(props: ICollectionSearchProps) {
         super(props);
 

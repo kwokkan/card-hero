@@ -1,12 +1,12 @@
 ﻿import React from "react";
 import { CardModel, Rarity } from "../../clients/clients";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface ICardWidgetProps {
     card: CardModel;
 }
 
-export default function CardWidget(props: ICardWidgetProps) {
+export function CardWidget(props: ICardWidgetProps) {
     const c = props.card;
 
     return (

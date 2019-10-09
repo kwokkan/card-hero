@@ -5,7 +5,7 @@ interface IDateFormatProps {
     date: Date;
 }
 
-export default function DateFormat(props: IDateFormatProps) {
+export function DateFormat(props: IDateFormatProps) {
     const d = relativeFromNow(props.date);
 
     return (

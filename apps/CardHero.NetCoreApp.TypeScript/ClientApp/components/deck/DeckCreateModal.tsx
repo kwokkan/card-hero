@@ -19,7 +19,7 @@ interface IDeckCreateModalState {
     canSave: boolean;
 }
 
-export default class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreateModalState> {
+export class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreateModalState> {
     static readonly defaultState: IDeckCreateModalState = {
         name: undefined,
         description: undefined,
