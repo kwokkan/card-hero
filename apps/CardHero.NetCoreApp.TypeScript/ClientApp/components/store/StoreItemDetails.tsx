@@ -8,7 +8,7 @@ interface IStoreItemDetailsProps {
     onSelectItem?: (item: StoreItemModel) => void;
 }
 
-export default function StoreItemDetails(props: IStoreItemDetailsProps) {
+export function StoreItemDetails(props: IStoreItemDetailsProps) {
     const si = props.storeItem;
 
     const onSelectItem = () => {
