@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import { AccountContext } from '../../contexts/AccountContext';
-import AccountService from '../../services/AccountService';
+import { AccountService } from '../../services/AccountService';
 import { Icon } from '../../styles/index';
 import { AppBootstrap } from './AppBootstrap';
 import { CoinFormat } from './CoinFormat';
