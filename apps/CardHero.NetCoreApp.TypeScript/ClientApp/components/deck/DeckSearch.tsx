@@ -2,7 +2,7 @@
 import { DeckModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
-import DeckCreateModal, { IDeckCreateModelOnCreatedProps } from "./DeckCreateModal";
+import { DeckCreateModal, IDeckCreateModelOnCreatedProps } from "./DeckCreateModal";
 
 interface IDeckSearchProps {
     onDecksPopulated?: ((decks: DeckModel[]) => void);
@@ -15,7 +15,7 @@ interface IDeckSearchState  {
     modalShown: boolean;
 }
 
-export default class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
+export class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
     constructor(props: IDeckSearchProps) {
         super(props);
 

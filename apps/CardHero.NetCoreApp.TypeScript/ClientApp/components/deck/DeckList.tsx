@@ -7,7 +7,7 @@ interface IDeckListProps {
     decks: DeckModel[];
 }
 
-export default function DeckList(props: IDeckListProps) {
+export function DeckList(props: IDeckListProps) {
     return (
         <div className="row">
             <table className="table table-striped">

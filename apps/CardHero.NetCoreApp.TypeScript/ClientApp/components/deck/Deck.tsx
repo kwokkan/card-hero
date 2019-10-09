@@ -14,7 +14,7 @@ interface IDeckState {
     edit?: DeckEditModel;
 }
 
-export default class Deck extends PureComponent<IDeckProps, IDeckState> {
+export class Deck extends PureComponent<IDeckProps, IDeckState> {
     constructor(props) {
         super(props);
 

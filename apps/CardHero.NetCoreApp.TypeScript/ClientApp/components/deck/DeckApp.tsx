@@ -1,14 +1,14 @@
 ﻿import React, { Component } from "react";
 import { DeckModel } from "../../clients/clients";
 import { Layout } from "../shared/Layout";
-import DeckList from "./DeckList";
-import DeckSearch from "./DeckSearch";
+import { DeckList } from "./DeckList";
+import { DeckSearch } from "./DeckSearch";
 
 interface IDeckAppState {
     decks: DeckModel[];
 }
 
-export default class DeckApp extends Component<any, IDeckAppState> {
+export class DeckApp extends Component<any, IDeckAppState> {
     constructor(props) {
         super(props);
 
