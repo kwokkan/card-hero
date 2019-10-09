@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
 import { CardCollectionModel } from "../../clients/clients";
-import Layout from "../shared/Layout";
+import { Layout } from "../shared/Layout";
 import CollectionList from "./CollectionList";
 import CollectionSearch from "./CollectionSearch";
 

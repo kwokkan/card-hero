@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { CardModel } from "../../clients/clients";
 import CardService from "../../services/CardService";
-import Layout from "../shared/Layout";
+import { Layout } from "../shared/Layout";
 
 interface ICardProps {
     match?: any;

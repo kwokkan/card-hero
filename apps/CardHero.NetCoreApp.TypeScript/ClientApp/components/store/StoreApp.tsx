@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import Layout from "../shared/Layout";
+import { Layout } from "../shared/Layout";
 import Store from "./Store";
 
 interface IStoreAppProps {

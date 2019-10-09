@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DeckModel, GameModel } from "../../clients/clients";
 import GameService from "../../services/GameService";
-import Layout from "../shared/Layout";
+import { Layout } from "../shared/Layout";
 import GameBoard from "./GameBoard";
 import GameDeckWidget from "./GameDeckWidget";
 import GameDetailWidget from "./GameDetailWidget";

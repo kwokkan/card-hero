@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
 import { GameModel } from "../../clients/clients";
-import Layout from "../shared/Layout";
+import { Layout } from "../shared/Layout";
 import GameList from "./GameList";
 import GameSearch from "./GameSearch";
 
