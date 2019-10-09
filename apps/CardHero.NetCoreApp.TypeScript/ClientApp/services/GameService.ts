@@ -9,7 +9,7 @@ interface IGameSearchFilter {
     gameId?: number;
 }
 
-export default class GameService {
+export class GameService {
     static async getGameById(id: number): Promise<GameModel | null> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
         const model = await client.getById(id);
