@@ -53,7 +53,7 @@ export class ErrorView extends PureComponent<IErrorViewProps, any>{
                             }
                         </div>
                         <div className="card-footer">
-                            <a href={newIssueUrl.toString()} className="btn btn-primary pull-right" target="_blank">
+                            <a href={newIssueUrl.toString()} className="btn btn-primary pull-right" target="_blank" rel="noreferrer noopener">
                                 <Icon icon="github" />
                                 {' '}
                                 Report an issue
