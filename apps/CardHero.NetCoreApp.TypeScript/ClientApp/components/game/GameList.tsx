@@ -2,8 +2,8 @@
 import { Link } from "react-router-dom";
 import { DeckModel, GameModel, GameType } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import GameService from "../../services/GameService";
-import DateFormat from "../shared/DateFormat";
+import { GameService } from "../../services/GameService";
+import { DateFormat } from "../shared/DateFormat";
 import GameSelectDeckModal, { IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
 
 interface IGameListProps {

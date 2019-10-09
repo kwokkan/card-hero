@@ -1,12 +1,12 @@
 ﻿import React from "react";
 import { GameModel } from "../../clients/clients";
-import DateFormat from "../shared/DateFormat";
+import { DateFormat } from "../shared/DateFormat";
 
 interface IGameHistoryWidgetProps {
     game: GameModel;
 }
 
-export default function GameHistoryWidget(props: IGameHistoryWidgetProps) {
+export function GameHistoryWidget(props: IGameHistoryWidgetProps) {
     const game = props.game;
 
     return (

@@ -1,7 +1,7 @@
 ﻿/**
  * Mapping interface.
  */
-export default interface IMapper<T> {
+export interface IMapper<T> {
     /**
      * Map from an object.
      * @param o The object to map from.

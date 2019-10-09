@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
-import Layout from "../shared/Layout";
-import Store from "./Store";
+import { Layout } from "../shared/Layout";
+import { Store } from "./Store";
 
 interface IStoreAppProps {
 }
@@ -8,7 +8,7 @@ interface IStoreAppProps {
 interface IStoreAppState {
 }
 
-export default class StoreApp extends Component<IStoreAppProps, IStoreAppState> {
+export class StoreApp extends Component<IStoreAppProps, IStoreAppState> {
     constructor(props: IStoreAppProps) {
         super(props);
     }

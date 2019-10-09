@@ -1,16 +1,16 @@
 ﻿import React, { Component } from "react";
 import { DeckModel, GameModel } from "../../clients/clients";
-import DeckService from "../../services/DeckService";
-import Layout from "../shared/Layout";
+import { DeckService } from "../../services/DeckService";
+import { Layout } from "../shared/Layout";
 import GameList from "./GameList";
-import GameSearch from "./GameSearch";
+import { GameSearch } from "./GameSearch";
 
 interface IGameAppState {
     games: GameModel[];
     decks: DeckModel[];
 }
 
-export default class GameApp extends Component<any, IGameAppState> {
+export class GameApp extends Component<any, IGameAppState> {
     constructor(props) {
         super(props);
 

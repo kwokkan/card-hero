@@ -1,8 +1,8 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
 import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
-import GameService from "../../services/GameService";
-import Icon from "../../styles/index";
-import GameCreateModal, { IGameCreateModalOnCreatedProps } from "./GameCreateModal";
+import { GameService } from "../../services/GameService";
+import { Icon } from "../../styles/index";
+import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
     decks: DeckModel[];
@@ -17,7 +17,7 @@ interface IGameSearchState {
     modalShown: boolean;
 }
 
-export default class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
+export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
     constructor(props) {
         super(props);
 
