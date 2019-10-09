@@ -6,7 +6,7 @@ interface ICardWidgetProps {
     card: CardModel;
 }
 
-export default function CardWidget(props: ICardWidgetProps) {
+export function CardWidget(props: ICardWidgetProps) {
     const c = props.card;
 
     return (

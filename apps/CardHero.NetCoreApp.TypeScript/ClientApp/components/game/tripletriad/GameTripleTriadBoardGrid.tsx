@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { useDrop } from 'react-dnd';
 import { CardModel } from "../../../clients/clients";
-import CardWidget from "../../shared/CardWidget";
+import { CardWidget } from "../../shared/CardWidget";
 import DragType from "../../shared/DragType";
 
 export interface IGameTripleTriadBoardGridOnDropProps {
