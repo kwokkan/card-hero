@@ -1,14 +1,14 @@
 ﻿import React from "react";
 import { useDrag } from 'react-dnd';
 import { DeckCardModel } from "../../clients/clients";
-import CardWidget from "../shared/CardWidget";
-import DragType from "../shared/DragType";
+import { CardWidget } from "../shared/CardWidget";
+import { DragType } from "../shared/DragType";
 
 interface IGameDeckCardProps {
     card: DeckCardModel;
 }
 
-export default function GameDeckCard(props: IGameDeckCardProps) {
+export function GameDeckCard(props: IGameDeckCardProps) {
     const dc = props.card;
     //TODO: replace later when model has property
     const isUsable = true;

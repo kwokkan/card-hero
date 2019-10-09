@@ -13,7 +13,7 @@ interface ILayoutState {
     setUser: (user: UserModel) => void;
 }
 
-export default class Layout extends PureComponent<ILayoutProps, ILayoutState> {
+export class Layout extends PureComponent<ILayoutProps, ILayoutState> {
     constructor(props) {
         super(props);
 

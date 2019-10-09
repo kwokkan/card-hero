@@ -1,10 +1,10 @@
 ﻿import React, { Component, Fragment } from "react";
 import { StoreItemModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import AccountService from "../../services/AccountService";
-import StoreService from "../../services/StoreService";
-import StoreItemBuyModal from "./StoreItemBuyModal";
-import StoreItemDetails from "./StoreItemDetails";
+import { AccountService } from "../../services/AccountService";
+import { StoreService } from "../../services/StoreService";
+import { StoreItemBuyModal } from "./StoreItemBuyModal";
+import { StoreItemDetails } from "./StoreItemDetails";
 
 interface IStoreProps {
 }
@@ -15,7 +15,7 @@ interface IStoreState {
     modalShown: boolean;
 }
 
-export default class Store extends Component<IStoreProps, IStoreState> {
+export class Store extends Component<IStoreProps, IStoreState> {
     static contextType = AccountContext;
 
     constructor(props: IStoreProps) {

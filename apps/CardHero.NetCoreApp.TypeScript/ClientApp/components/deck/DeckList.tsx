@@ -1,13 +1,13 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
 import { DeckModel } from "../../clients/clients";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface IDeckListProps {
     decks: DeckModel[];
 }
 
-export default function DeckList(props: IDeckListProps) {
+export function DeckList(props: IDeckListProps) {
     return (
         <div className="row">
             <table className="table table-striped">

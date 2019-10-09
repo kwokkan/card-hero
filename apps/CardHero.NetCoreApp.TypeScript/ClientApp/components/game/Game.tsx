@@ -2,12 +2,12 @@
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DeckModel, GameModel } from "../../clients/clients";
-import GameService from "../../services/GameService";
-import Layout from "../shared/Layout";
-import GameBoard from "./GameBoard";
-import GameDeckWidget from "./GameDeckWidget";
-import GameDetailWidget from "./GameDetailWidget";
-import GameHistoryWidget from "./GameHistoryWidget";
+import { GameService } from "../../services/GameService";
+import { Layout } from "../shared/Layout";
+import { GameBoard } from "./GameBoard";
+import { GameDeckWidget } from "./GameDeckWidget";
+import { GameDetailWidget } from "./GameDetailWidget";
+import { GameHistoryWidget } from "./GameHistoryWidget";
 
 interface IGameProps {
     match?: any;
@@ -18,7 +18,7 @@ interface IGameState {
     deck?: DeckModel;
 }
 
-export default class Game extends Component<IGameProps, IGameState> {
+export class Game extends Component<IGameProps, IGameState> {
     constructor(props) {
         super(props);
 

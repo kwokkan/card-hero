@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { CardModel } from "../../clients/clients";
-import CardService from "../../services/CardService";
+import { CardService } from "../../services/CardService";
 
 interface ICardSearchProps {
     onCardsPopulated?: ((cards: CardModel[]) => void);
@@ -12,7 +12,7 @@ interface ICardSearchState  {
     pageSize?: number;
 }
 
-export default class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
+export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
     constructor(props: ICardSearchProps) {
         super(props);
 

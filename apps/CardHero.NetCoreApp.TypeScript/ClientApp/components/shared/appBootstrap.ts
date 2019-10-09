@@ -1,7 +1,7 @@
 ﻿/**
  * Contains code to bootstrap React components.
  */
-export default class AppBootstrap {
+export class AppBootstrap {
     /**
      * Base url of the app.
      */

@@ -1,8 +1,8 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import { CardModel } from "../../clients/clients";
-import CardService from "../../services/CardService";
-import Layout from "../shared/Layout";
+import { CardService } from "../../services/CardService";
+import { Layout } from "../shared/Layout";
 
 interface ICardProps {
     match?: any;
@@ -12,7 +12,7 @@ interface ICardState {
     card?: CardModel;
 }
 
-export default class Card extends PureComponent<ICardProps, ICardState> {
+export class Card extends PureComponent<ICardProps, ICardState> {
     constructor(props: ICardProps) {
         super(props);
 

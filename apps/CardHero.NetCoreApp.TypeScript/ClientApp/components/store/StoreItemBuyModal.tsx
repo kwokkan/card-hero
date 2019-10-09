@@ -9,7 +9,7 @@ interface IStoreItemBuyModelProps {
     onPurchase?: (item: StoreItemModel) => void;
 }
 
-export default class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, any> {
+export class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, any> {
     constructor(props: IStoreItemBuyModelProps) {
         super(props);
     }

@@ -1,6 +1,6 @@
 ﻿import React, { ErrorInfo, PureComponent } from "react";
 import { Rarity } from "../../clients/clients";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface IErrorViewProps {
     error: Error;
