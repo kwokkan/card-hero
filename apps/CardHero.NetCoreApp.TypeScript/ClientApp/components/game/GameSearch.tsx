@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
 import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
-import DeckService from "../../services/DeckService";
+import { DeckService } from "../../services/DeckService";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
 import GameCreateModal, { IGameCreateModalOnCreatedProps } from "./GameCreateModal";

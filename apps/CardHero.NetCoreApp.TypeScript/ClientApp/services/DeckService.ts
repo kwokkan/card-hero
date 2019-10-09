@@ -9,7 +9,7 @@ interface IDeckSearchFilter {
     ids?: number[];
 }
 
-export default class DeckService {
+export class DeckService {
     static async getDecks(filter?: IDeckSearchFilter): Promise<DeckModel[] | null> {
         const client = new DeckApiClient(AppBootstrap.baseUrl);
 
