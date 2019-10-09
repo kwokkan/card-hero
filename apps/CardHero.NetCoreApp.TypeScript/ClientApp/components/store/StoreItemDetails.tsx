@@ -1,7 +1,7 @@
 ﻿import React, { Fragment } from "react";
 import { StoreItemModel } from "../../clients/clients";
 import { CoinFormat } from "../shared/CoinFormat";
-import DateFormat from "../shared/DateFormat";
+import { DateFormat } from "../shared/DateFormat";
 
 interface IStoreItemDetailsProps {
     storeItem: StoreItemModel;
