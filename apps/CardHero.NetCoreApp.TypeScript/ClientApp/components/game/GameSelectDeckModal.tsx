@@ -21,7 +21,7 @@ interface IGameSelectDeckModalState {
     canJoin: boolean;
 }
 
-export default class GameSelectDeckModal extends Component<IGameSelectDeckModalProps, IGameSelectDeckModalState> {
+export class GameSelectDeckModal extends Component<IGameSelectDeckModalProps, IGameSelectDeckModalState> {
     static readonly defaultState: IGameSelectDeckModalState = {
         deckId: undefined,
         canJoin: false

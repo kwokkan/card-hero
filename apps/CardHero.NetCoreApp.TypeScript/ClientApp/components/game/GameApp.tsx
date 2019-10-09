@@ -2,7 +2,7 @@
 import { DeckModel, GameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Layout } from "../shared/Layout";
-import GameList from "./GameList";
+import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
 
 interface IGameAppState {

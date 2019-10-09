@@ -4,7 +4,7 @@ import { DeckModel, GameModel, GameType } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { GameService } from "../../services/GameService";
 import { DateFormat } from "../shared/DateFormat";
-import GameSelectDeckModal, { IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
+import { GameSelectDeckModal, IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
 
 interface IGameListProps {
     games: GameModel[];
@@ -16,7 +16,7 @@ interface IGameListState {
     selectedGame?: GameModel;
 }
 
-export default class GameList extends Component<IGameListProps, IGameListState> {
+export class GameList extends Component<IGameListProps, IGameListState> {
     static contextType = AccountContext;
 
     constructor(props: IGameListProps) {
