@@ -2,7 +2,7 @@
 import { useDrop } from 'react-dnd';
 import { CardModel } from "../../../clients/clients";
 import { CardWidget } from "../../shared/CardWidget";
-import DragType from "../../shared/DragType";
+import { DragType } from "../../shared/DragType";
 
 export interface IGameTripleTriadBoardGridOnDropProps {
     row: number;

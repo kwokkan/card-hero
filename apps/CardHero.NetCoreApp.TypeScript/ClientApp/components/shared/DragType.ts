@@ -1,5 +1,3 @@
-﻿enum DragType {
+﻿export enum DragType {
     Card
 }
-
-export default DragType;
