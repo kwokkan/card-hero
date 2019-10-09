@@ -2,7 +2,7 @@
 import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
 import DeckService from "../../services/DeckService";
 import GameService from "../../services/GameService";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 import GameCreateModal, { IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {

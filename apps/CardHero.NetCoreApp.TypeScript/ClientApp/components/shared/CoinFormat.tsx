@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface ICoinFormatProps {
     coins: number;

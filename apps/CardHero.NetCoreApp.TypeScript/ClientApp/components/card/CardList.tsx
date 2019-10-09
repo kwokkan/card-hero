@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { CardModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
-import Icon from "../../styles/index";
+import { Icon } from "../../styles/index";
 
 interface ICardListProps {
     cards: CardModel[];

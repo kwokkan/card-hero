@@ -21,7 +21,7 @@ interface IIconProps {
     className?: string;
 }
 
-export default function Icon(props: IIconProps) {
+export function Icon(props: IIconProps) {
     return (
         <FontAwesomeIcon icon={props.icon} fixedWidth {...props} />
     );
