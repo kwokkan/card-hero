@@ -23,7 +23,7 @@ interface IGameCreateModalState {
     canSave: boolean;
 }
 
-export default class GameCreateModal extends Component<IGameCreateModalProps, IGameCreateModalState> {
+export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreateModalState> {
     static readonly defaultState: IGameCreateModalState = {
         name: undefined,
         type: GameType.TripleTriad,

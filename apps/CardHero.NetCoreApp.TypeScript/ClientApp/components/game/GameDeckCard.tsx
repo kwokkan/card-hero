@@ -8,7 +8,7 @@ interface IGameDeckCardProps {
     card: DeckCardModel;
 }
 
-export default function GameDeckCard(props: IGameDeckCardProps) {
+export function GameDeckCard(props: IGameDeckCardProps) {
     const dc = props.card;
     //TODO: replace later when model has property
     const isUsable = true;

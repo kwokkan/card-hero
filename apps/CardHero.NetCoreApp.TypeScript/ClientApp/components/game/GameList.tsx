@@ -7,7 +7,7 @@ interface IGameListProps {
     games: GameModel[];
 }
 
-export default function GameList(props: IGameListProps) {
+export function GameList(props: IGameListProps) {
     return (
         <div className="row">
             <table className="table table-striped">

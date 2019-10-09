@@ -2,7 +2,7 @@
 import { CardModel, GameTripleTriadMoveViewModel, GameViewModel } from "../../../clients/clients";
 import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
 import { GameService } from "../../../services/GameService";
-import GameTripleTriadBoardGrid, { IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
+import { GameTripleTriadBoardGrid, IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
 
 interface IGameTripleTriadBoardProps {
     game: GameViewModel;
@@ -12,7 +12,7 @@ interface IGameTripleTriadBoardState {
     data: GameTripleTriadModel;
 }
 
-export default class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, IGameTripleTriadBoardState> {
+export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, IGameTripleTriadBoardState> {
     constructor(props: IGameTripleTriadBoardProps) {
         super(props);
 

@@ -3,7 +3,7 @@ import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
-import GameCreateModal, { IGameCreateModalOnCreatedProps } from "./GameCreateModal";
+import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
     onGamesPopulated?: ((games: GameModel[]) => void);
@@ -18,7 +18,7 @@ interface IGameSearchState {
     decks: DeckModel[];
 }
 
-export default class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
+export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
     constructor(props) {
         super(props);
 

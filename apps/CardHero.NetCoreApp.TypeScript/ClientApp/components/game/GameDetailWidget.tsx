@@ -7,7 +7,7 @@ interface IGameDetailWidgetProps {
     game: GameModel;
 }
 
-export default function GameDetailWidget(props: IGameDetailWidgetProps) {
+export function GameDetailWidget(props: IGameDetailWidgetProps) {
     const game = props.game;
 
     return (

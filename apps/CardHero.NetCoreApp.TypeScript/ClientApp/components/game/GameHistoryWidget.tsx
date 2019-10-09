@@ -6,7 +6,7 @@ interface IGameHistoryWidgetProps {
     game: GameModel;
 }
 
-export default function GameHistoryWidget(props: IGameHistoryWidgetProps) {
+export function GameHistoryWidget(props: IGameHistoryWidgetProps) {
     const game = props.game;
 
     return (

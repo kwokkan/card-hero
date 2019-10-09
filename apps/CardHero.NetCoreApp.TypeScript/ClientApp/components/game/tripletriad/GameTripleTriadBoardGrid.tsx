@@ -19,7 +19,7 @@ interface IGameTripleTriadBoardGridProps {
     onDrop?: (data: IGameTripleTriadBoardGridOnDropProps) => void;
 }
 
-const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> = (props: IGameTripleTriadBoardGridProps) => {
+export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> = (props: IGameTripleTriadBoardGridProps) => {
     const [{ isOver }, drop] = useDrop({
         accept: DragType.Card.toString(),
         drop: (item) => {
@@ -51,5 +51,3 @@ const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> = (prop
         </div>
     );
 };
-
-export default GameTripleTriadBoardGrid;

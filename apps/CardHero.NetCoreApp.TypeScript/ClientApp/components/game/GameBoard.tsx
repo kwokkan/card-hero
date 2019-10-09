@@ -1,12 +1,12 @@
 ﻿import React, { Component } from "react";
 import { GameModel, GameType } from "../../clients/clients";
-import GameTripleTriadBoard from "./tripletriad/GameTripleTriadBoard";
+import { GameTripleTriadBoard } from "./tripletriad/GameTripleTriadBoard";
 
 interface IGameBoardProps {
     game: GameModel;
 }
 
-export default class GameBoard extends Component<IGameBoardProps, any> {
+export class GameBoard extends Component<IGameBoardProps, any> {
     static readonly nullGameBoard = <p>No game selected</p>;
 
     constructor(props: IGameBoardProps) {
