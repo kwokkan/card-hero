@@ -1,5 +1,5 @@
 ﻿import { CardCollectionModel, StoreApiClient, StoreItemModel } from "../clients/clients";
-import AppBootstrap from "../components/shared/appBootstrap";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 export default class StoreService {
     static async getStoreItems(): Promise<StoreItemModel[] | null> {

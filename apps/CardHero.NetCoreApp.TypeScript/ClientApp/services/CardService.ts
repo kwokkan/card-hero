@@ -1,5 +1,5 @@
 ﻿import { CardApiClient, CardModel } from "../clients/clients";
-import AppBootstrap from "../components/shared/appBootstrap";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface ICardSearchFilter {
     name?: string;

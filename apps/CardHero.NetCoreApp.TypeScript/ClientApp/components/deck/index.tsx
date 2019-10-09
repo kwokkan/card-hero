@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import AppBootstrap from "../shared/appBootstrap";
+import { AppBootstrap } from "../shared/AppBootstrap";
 import Deck from "./Deck";
 import DeckApp from "./DeckApp";
 

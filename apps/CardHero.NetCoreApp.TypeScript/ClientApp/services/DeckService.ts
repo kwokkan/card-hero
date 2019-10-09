@@ -1,5 +1,5 @@
 ﻿import { DeckApiClient, DeckModel } from "../clients/clients";
-import AppBootstrap from "../components/shared/appBootstrap";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 import DeckCreateModel from "../models/DeckCreateModel";
 
 interface IDeckSearchFilter {

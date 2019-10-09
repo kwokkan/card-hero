@@ -1,5 +1,5 @@
 ﻿import { CardCollectionModel, CollectionApiClient } from "../clients/clients";
-import AppBootstrap from "../components/shared/appBootstrap";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface ICardCollectionSearchFilter {
     page?: number;

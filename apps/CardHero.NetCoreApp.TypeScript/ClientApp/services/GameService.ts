@@ -1,5 +1,5 @@
 ﻿import { GameApiClient, GameCreateModel, GameModel, GameTripleTriadMoveViewModel } from "../clients/clients";
-import AppBootstrap from "../components/shared/appBootstrap";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface IGameSearchFilter {
     name?: string;

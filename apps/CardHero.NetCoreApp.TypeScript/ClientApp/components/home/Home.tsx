@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import AppBootstrap from '../shared/appBootstrap';
+import { AppBootstrap } from '../shared/AppBootstrap';
 
 export function Home() {
     const l = AppBootstrap.url;
