@@ -2,7 +2,7 @@
 import { StoreItemModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import AccountService from "../../services/AccountService";
-import StoreService from "../../services/StoreService";
+import { StoreService } from "../../services/StoreService";
 import StoreItemBuyModal from "./StoreItemBuyModal";
 import StoreItemDetails from "./StoreItemDetails";
 
