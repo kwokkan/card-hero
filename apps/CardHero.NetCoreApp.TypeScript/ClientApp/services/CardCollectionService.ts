@@ -7,7 +7,7 @@ interface ICardCollectionSearchFilter {
     ids?: number[];
 }
 
-export default class CardCollectionService {
+export class CardCollectionService {
     static async getCollection(filter?: ICardCollectionSearchFilter): Promise<CardCollectionModel[] | null> {
         const client = new CollectionApiClient(AppBootstrap.baseUrl);
 

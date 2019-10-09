@@ -1,7 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import DeckEditModel from "../../models/DeckEditModel";
-import CardCollectionService from "../../services/CardCollectionService";
+import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
 import { Layout } from "../shared/Layout";
