@@ -12,7 +12,7 @@ interface ICollectionSearchState  {
     pageSize?: number;
 }
 
-export default class CollectionSearch extends Component<ICollectionSearchProps, ICollectionSearchState> {
+export class CollectionSearch extends Component<ICollectionSearchProps, ICollectionSearchState> {
     constructor(props: ICollectionSearchProps) {
         super(props);
 
