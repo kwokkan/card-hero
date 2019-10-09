@@ -7,7 +7,7 @@ interface ICoinFormatProps {
     stripEmpty?: boolean;
 }
 
-export default function CoinFormat(props: ICoinFormatProps) {
+export function CoinFormat(props: ICoinFormatProps) {
     if (props.coins < 0) return null;
 
     const c = props.coins;

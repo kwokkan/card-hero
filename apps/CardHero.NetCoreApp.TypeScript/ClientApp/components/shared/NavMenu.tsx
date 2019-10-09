@@ -3,7 +3,7 @@ import { AccountContext } from '../../contexts/AccountContext';
 import AccountService from '../../services/AccountService';
 import { Icon } from '../../styles/index';
 import AppBootstrap from './appBootstrap';
-import CoinFormat from './CoinFormat';
+import { CoinFormat } from './CoinFormat';
 
 export class NavMenu extends PureComponent<any, any> {
     static contextType = AccountContext;
