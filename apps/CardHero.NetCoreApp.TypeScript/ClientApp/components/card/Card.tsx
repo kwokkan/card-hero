@@ -12,7 +12,7 @@ interface ICardState {
     card?: CardModel;
 }
 
-export default class Card extends PureComponent<ICardProps, ICardState> {
+export class Card extends PureComponent<ICardProps, ICardState> {
     constructor(props: ICardProps) {
         super(props);
 

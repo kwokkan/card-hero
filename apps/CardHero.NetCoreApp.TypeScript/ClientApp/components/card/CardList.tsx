@@ -8,7 +8,7 @@ interface ICardListProps {
     cards: CardModel[];
 }
 
-export default function CardList(props: ICardListProps) {
+export function CardList(props: ICardListProps) {
     const context = useContext(AccountContext);
     const user = context.user;
 

@@ -12,7 +12,7 @@ interface ICardSearchState  {
     pageSize?: number;
 }
 
-export default class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
+export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
     constructor(props: ICardSearchProps) {
         super(props);
 
