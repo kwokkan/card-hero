@@ -116,6 +116,8 @@ namespace CardHero.NetCoreApp.TypeScript
                 })
             ;
 
+            services.AddCardHeroDataSqlServer(Configuration);
+
             services.AddCardHeroSqlServerDbContext(Configuration);
         }
 

@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\src\CardHero.AspNetCore.Mvc.TagHelpers\CardHero.AspNetCore.Mvc.TagHelpers.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\CardHero.AspNetCore.Mvc.Helpers\CardHero.AspNetCore.Mvc.Helpers.csproj" />
+    <ProjectReference Include="..\..\src\CardHero.Data.SqlServer.DependencyInjection\CardHero.Data.SqlServer.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>
