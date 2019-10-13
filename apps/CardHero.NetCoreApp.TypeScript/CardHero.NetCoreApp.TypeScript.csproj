@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.Models\CardHero.Core.Models.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />

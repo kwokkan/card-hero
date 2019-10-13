@@ -54,7 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServerGenerator", "src\CardHero.Data.SqlServerGenerator\CardHero.Data.SqlServerGenerator.csproj", "{5DFA6D89-1691-4A77-96A1-958B2D7EF2CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.Data.SqlServer.DependencyInjection", "src\CardHero.Data.SqlServer.DependencyInjection\CardHero.Data.SqlServer.DependencyInjection.csproj", "{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServer.DependencyInjection", "src\CardHero.Data.SqlServer.DependencyInjection\CardHero.Data.SqlServer.DependencyInjection.csproj", "{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.AspNetCore.Authentication.FileSystem", "src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj", "{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +130,10 @@ Global
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{85101338-D3B8-4E4A-9C16-D0C9700D28F6} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{5DFA6D89-1691-4A77-96A1-958B2D7EF2CD} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
+		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6E117CB-BCCA-4426-B653-65D15CEA4F96}

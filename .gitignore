@@ -341,3 +341,4 @@ healthchecksdb
 
 # Custom ignores
 *.eslintcache
+/apps/CardHero.NetCoreApp.TypeScript/data
