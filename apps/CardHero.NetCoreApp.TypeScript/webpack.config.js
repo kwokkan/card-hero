@@ -45,7 +45,9 @@ module.exports = {
 
     //watch: true,
     watchOptions: {
-        ignored: /node_modules/
+        ignored: [
+            "node_modules"
+        ]
     },
 
     recordsPath: path.resolve(__dirname, "records.json"),
@@ -103,6 +105,8 @@ module.exports = {
         runtimeChunk: {
             name: "shared"
         },
+        sideEffects: false,
+        usedExports: true,
         splitChunks: {
             cacheGroups: {
                 shared: {
@@ -234,7 +238,9 @@ module.exports = {
     },
 
     node: {
-        fs: "empty"
+        Buffer: false,
+        fs: "empty",
+        process: false
     },
 
     // When importing a module whose path matches one of the following, just

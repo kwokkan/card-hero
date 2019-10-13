@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
+using CardHero.AspNetCore.Authentication.FileSystem;
 using CardHero.Core.SqlServer.Web;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,19 +14,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
+using WebMarkupMin.AspNet.Common.UrlMatchers;
 using WebMarkupMin.AspNetCore3;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            _configuration = configuration;
+            _environment = environment;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,6 +46,9 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.LogoutPath = "/SignOut";
 
                     x.Cookie.Name = ".ch";
+                    x.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                    x.ExpireTimeSpan = TimeSpan.FromTicks(TimeSpan.TicksPerDay * 28);
+                    x.SlidingExpiration = true;
 
                     x.Events.OnRedirectToLogin = context =>
                     {
@@ -54,17 +63,40 @@ namespace CardHero.NetCoreApp.TypeScript
 
                         return Task.CompletedTask;
                     };
+
+                    if (_environment.IsDevelopment())
+                    {
+                        var baseDirectory = Path.Combine(_environment.ContentRootPath, "data", nameof(JsonFileSystemTicketStore));
+
+                        if (!Directory.Exists(baseDirectory))
+                        {
+                            Directory.CreateDirectory(baseDirectory);
+                        }
+
+                        x.SessionStore = new JsonFileSystemTicketStore(
+                            LoggerFactory.Create(x =>
+                            {
+                                x.AddConfiguration(_configuration);
+                                x.AddDebug();
+                                x.AddConsole();
+                            }).CreateLogger<JsonFileSystemTicketStore>(),  //HACK: create empy logger without DI
+                            new FileSystemTicketStoreOptions
+                            {
+                                BaseDirectory = baseDirectory,
+                            }
+                        );
+                    }
                 })
             ;
 
-            var localAuthOptions = Configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
+            var localAuthOptions = _configuration.GetSection("Authentication:Local").Get<LocalAuthenticationOptions>();
             if (localAuthOptions != null)
             {
                 localAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 authBuilder.AddLocalAuthentication(localAuthOptions);
             }
 
-            var githubAuthOptions = Configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
+            var githubAuthOptions = _configuration.GetSection("Authentication:GitHub").Get<GitHubAuthenticationOptions>();
             if (githubAuthOptions != null)
             {
                 githubAuthOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -113,12 +145,14 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.MinificationSettings.WhitespaceMinificationMode = WebMarkupMin.Core.WhitespaceMinificationMode.Aggressive;
 
                     x.SupportedHttpMethods.Add("POST");
+
+                    x.ExcludedPages.Add(new WildcardUrlMatcher("/swagger/*"));
                 })
             ;
 
-            services.AddCardHeroDataSqlServer(Configuration);
+            services.AddCardHeroDataSqlServer(_configuration);
 
-            services.AddCardHeroSqlServerDbContext(Configuration);
+            services.AddCardHeroSqlServerDbContext(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,8 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using CardHero.NetCoreApp.TypeScript.Models;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -42,13 +40,13 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"Exception occurred at { context.Request.Method } { context.Request.Path }.");
+
                 if (context.Response.HasStarted)
                 {
                     _logger.LogWarning("Skipping " + nameof(JsonExceptionMiddleware) + ". Response has alreaady started.");
-                    throw;
+                    return;
                 }
-
-                _logger.LogError(e, $"Exception occurred at { context.Request.Method } { context.Request.Path }.");
 
                 if (context.Request.Path.StartsWithSegments("/api"))
                 {
