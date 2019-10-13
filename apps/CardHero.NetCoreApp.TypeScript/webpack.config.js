@@ -118,6 +118,9 @@ module.exports = {
         runtimeChunk: {
             name: "shared"
         },
+        sideEffects: false,
+        usedExports: true,
+        innerGraph: true,
         splitChunks: {
             cacheGroups: {
                 shared: {
