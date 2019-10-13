@@ -1,0 +1,25 @@
+{
+  "AuthenticationScheme": "Cookies",
+  "AuthenticationType": null,
+  "ClaimNameType": null,
+  "ClaimRoleType": null,
+  "AuthenticationPropertiesItems": {
+    ".AuthScheme": "Local",
+    ".sessionState": "_fRT5MCXusdngqK0F1vJdTGGHiCaRdAVL0xNQwEz5AU.c0a86de4db1c36c21af2e0d6998fb225",
+    "OpenIdConnect.Code.RedirectUri": "https://localhost:44314/signin-oidc",
+    ".checkSessionIFrame": "https://identity.local.kwokkan.com/connect/checksession",
+    ".issued": "Sat, 12 Oct 2019 15:59:59 GMT",
+    ".expires": "Sat, 26 Oct 2019 15:59:59 GMT"
+  },
+  "AuthenticationPropertiesParameters": {},
+  "Claims": {
+    "sid": "c1a749a6b9d7dca22acdf129000ec470",
+    "sub": "3af2e2e9-663f-42e3-bd52-5548220a8b40",
+    "auth_time": "1570894551",
+    "idp": "local",
+    "family_name": "Kan",
+    "given_name": "Kwok",
+    "name": "Kwok Kan",
+    "amr": "pwd"
+  }
+}
