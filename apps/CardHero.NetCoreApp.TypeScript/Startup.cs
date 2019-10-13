@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using WebMarkupMin.AspNet.Common.UrlMatchers;
 using WebMarkupMin.AspNetCore3;
 
 namespace CardHero.NetCoreApp.TypeScript
@@ -113,8 +114,12 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.MinificationSettings.WhitespaceMinificationMode = WebMarkupMin.Core.WhitespaceMinificationMode.Aggressive;
 
                     x.SupportedHttpMethods.Add("POST");
+
+                    x.ExcludedPages.Add(new WildcardUrlMatcher("/swagger/*"));
                 })
             ;
+
+            services.AddCardHeroDataSqlServer(Configuration);
 
             services.AddCardHeroSqlServerDbContext(Configuration);
         }
