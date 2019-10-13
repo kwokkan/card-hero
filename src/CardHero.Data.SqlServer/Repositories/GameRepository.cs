@@ -120,11 +120,11 @@ namespace CardHero.Data.SqlServer
                     .Where(x => x.TurnFkNavigation.GameFk == gameId)
                     .Select(x => new MoveData
                     {
-                        CardCollectionId = x.CardCollectionFk,
+                        GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
                         Column = x.Column,
                         GameId = x.TurnFkNavigation.GameFk,
                         Row = x.Row,
-                        UserId = x.TurnFkNavigation.CurrentUserFk,
+                        GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
                     })
                     .ToArrayAsync(cancellationToken: cancellationToken);
 

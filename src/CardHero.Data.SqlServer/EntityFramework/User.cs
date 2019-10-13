@@ -10,7 +10,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
             CardCollection = new HashSet<CardCollection>();
             Deck = new HashSet<Deck>();
             GameUser = new HashSet<GameUser>();
-            Turn = new HashSet<Turn>();
         }
 
         public int UserPk { get; set; }
@@ -23,6 +22,5 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public virtual ICollection<CardCollection> CardCollection { get; set; }
         public virtual ICollection<Deck> Deck { get; set; }
         public virtual ICollection<GameUser> GameUser { get; set; }
-        public virtual ICollection<Turn> Turn { get; set; }
     }
 }

@@ -14,10 +14,10 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public byte[] Rowstamp { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public int CurrentUserFk { get; set; }
+        public int CurrentGameUserFk { get; set; }
         public int GameFk { get; set; }
 
-        public virtual User CurrentUserFkNavigation { get; set; }
+        public virtual GameUser CurrentGameUserFkNavigation { get; set; }
         public virtual Game GameFkNavigation { get; set; }
         public virtual ICollection<Move> Move { get; set; }
     }

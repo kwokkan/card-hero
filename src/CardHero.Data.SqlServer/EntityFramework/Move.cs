@@ -9,11 +9,11 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public string Rowstamp { get; set; }
         public DateTime CreatedTime { get; set; }
         public int TurnFk { get; set; }
-        public int CardCollectionFk { get; set; }
+        public int GameDeckCardCollectionFk { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
 
-        public virtual CardCollection CardCollectionFkNavigation { get; set; }
+        public virtual GameDeckCardCollection GameDeckCardCollectionFkNavigation { get; set; }
         public virtual Turn TurnFkNavigation { get; set; }
     }
 }

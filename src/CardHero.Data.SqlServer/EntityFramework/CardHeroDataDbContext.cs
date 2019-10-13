@@ -285,15 +285,15 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.MovePk);
 
-                entity.HasIndex(e => e.CardCollectionFk);
+                entity.HasIndex(e => e.GameDeckCardCollectionFk);
 
                 entity.HasIndex(e => e.TurnFk);
 
                 entity.Property(e => e.MovePk).HasColumnName("Move_PK");
 
-                entity.Property(e => e.CardCollectionFk).HasColumnName("CardCollection_FK");
-
                 entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.GameDeckCardCollectionFk).HasColumnName("GameDeckCardCollection_FK");
 
                 entity.Property(e => e.Rowstamp)
                     .HasMaxLength(10)
@@ -301,9 +301,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 
-                entity.HasOne(d => d.CardCollectionFkNavigation)
+                entity.HasOne(d => d.GameDeckCardCollectionFkNavigation)
                     .WithMany(p => p.Move)
-                    .HasForeignKey(d => d.CardCollectionFk)
+                    .HasForeignKey(d => d.GameDeckCardCollectionFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Move_CardCollection_FK");
 
@@ -318,13 +318,13 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.TurnPk);
 
-                entity.HasIndex(e => e.CurrentUserFk);
+                entity.HasIndex(e => e.CurrentGameUserFk);
 
                 entity.HasIndex(e => e.GameFk);
 
                 entity.Property(e => e.TurnPk).HasColumnName("Turn_PK");
 
-                entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
+                entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
 
                 entity.Property(e => e.GameFk).HasColumnName("Game_FK");
 
@@ -334,9 +334,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
 
-                entity.HasOne(d => d.CurrentUserFkNavigation)
+                entity.HasOne(d => d.CurrentGameUserFkNavigation)
                     .WithMany(p => p.Turn)
-                    .HasForeignKey(d => d.CurrentUserFk)
+                    .HasForeignKey(d => d.CurrentGameUserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Turn_CurrentUser_FK");
 

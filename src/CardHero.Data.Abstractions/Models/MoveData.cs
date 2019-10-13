@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CardHero.Data.Abstractions
+﻿namespace CardHero.Data.Abstractions
 {
     public class MoveData
     {
@@ -14,7 +10,7 @@ namespace CardHero.Data.Abstractions
         /// <summary>
         /// The card to play.
         /// </summary>
-        public int CardCollectionId { get; set; }
+        public int GameDeckCardCollectionId { get; set; }
 
         /// <summary>
         /// Zero based index of the row.
@@ -29,6 +25,6 @@ namespace CardHero.Data.Abstractions
         /// <summary>
         /// The user making the move.
         /// </summary>
-        public int UserId { get; set; }
+        public int GameUserId { get; set; }
     }
 }
