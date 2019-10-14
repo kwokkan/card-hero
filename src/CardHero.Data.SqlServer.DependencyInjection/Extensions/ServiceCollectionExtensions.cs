@@ -56,6 +56,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IGameDeckRepository, GameDeckRepository>()
                 .AddScoped<IGameRepository, GameRepository>()
                 .AddScoped<IGameUserRepository, GameUserRepository>()
+                .AddScoped<IMoveRepository, MoveRepository>()
             ;
 
             return services;

@@ -1744,7 +1744,7 @@ export interface IJoinGameViewModel {
 export class GameTripleTriadMoveViewModel implements IGameTripleTriadMoveViewModel {
     row?: number;
     column?: number;
-    cardCollectionId?: number;
+    gameDeckCardCollectionId?: number;
 
     constructor(data?: IGameTripleTriadMoveViewModel) {
         if (data) {
@@ -1759,7 +1759,7 @@ export class GameTripleTriadMoveViewModel implements IGameTripleTriadMoveViewMod
         if (_data) {
             this.row = _data["row"];
             this.column = _data["column"];
-            this.cardCollectionId = _data["cardCollectionId"];
+            this.gameDeckCardCollectionId = _data["gameDeckCardCollectionId"];
         }
     }
 
@@ -1774,7 +1774,7 @@ export class GameTripleTriadMoveViewModel implements IGameTripleTriadMoveViewMod
         data = typeof data === 'object' ? data : {};
         data["row"] = this.row;
         data["column"] = this.column;
-        data["cardCollectionId"] = this.cardCollectionId;
+        data["gameDeckCardCollectionId"] = this.gameDeckCardCollectionId;
         return data; 
     }
 }
@@ -1782,7 +1782,7 @@ export class GameTripleTriadMoveViewModel implements IGameTripleTriadMoveViewMod
 export interface IGameTripleTriadMoveViewModel {
     row?: number;
     column?: number;
-    cardCollectionId?: number;
+    gameDeckCardCollectionId?: number;
 }
 
 /** Store item. */

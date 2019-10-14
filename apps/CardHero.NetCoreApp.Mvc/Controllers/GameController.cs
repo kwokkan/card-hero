@@ -67,7 +67,8 @@ namespace CardHero.NetCoreApp.Mvc.Controllers
                 Columns = game.Columns,
                 Moves = moves.Select(x => new GameTripleTriadMoveViewModel
                 {
-                    CardCollectionId = x.CardCollectionId,
+#warning Change to game deck
+                    CardCollectionId = x.GameDeckCardCollectionId,
                     Column = x.Column,
                     Row = x.Row,
                 }).ToList(),

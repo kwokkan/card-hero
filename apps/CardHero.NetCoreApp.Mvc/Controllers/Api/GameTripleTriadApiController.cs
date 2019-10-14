@@ -28,7 +28,8 @@ namespace CardHero.NetCoreApp.Mvc.Controllers.Api
             var user = await GetUserAsync(cancellationToken: cancellationToken);
             var move = new MoveModel
             {
-                CardCollectionId = model.CardCollectionId.Value,
+#warning Change to game deck
+                GameDeckCardCollectionId = model.CardCollectionId.Value,
                 Column = model.Column.Value,
                 GameId = id,
                 Row = model.Row.Value,

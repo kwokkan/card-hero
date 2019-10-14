@@ -55,7 +55,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                 Columns = game.Columns,
                 Moves = moves.Select(x => new GameTripleTriadMoveViewModel
                 {
-                    CardCollectionId = x.CardCollectionId,
+                    GameDeckCardCollectionId = x.GameDeckCardCollectionId,
                     Column = x.Column,
                     Row = x.Row,
                 }).ToList(),
@@ -110,7 +110,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var move = new MoveModel
             {
-                CardCollectionId = model.CardCollectionId,
+                GameDeckCardCollectionId = model.GameDeckCardCollectionId,
                 Column = model.Column,
                 GameId = id,
                 Row = model.Row,

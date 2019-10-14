@@ -31,13 +31,13 @@ export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, 
         return this.state.data.moves.findIndex(x => x.row === row && x.column === column) > -1;
     }
 
-    private getCardCollectionId(row: number, column: number): number | null {
+    private getGameDeckCardCollectionId(row: number, column: number): number | null {
         const move = this.state.data.moves.find(x => x.row === row && x.column === column);
-        return move ? move.cardCollectionId : null;
+        return move ? move.gameDeckCardCollectionId : null;
     }
 
-    private getCardCollectionCard(cardCollectionId: number): CardModel {
-        const card = this.props.game.gameDeck.cardCollection.find(x => x.id === cardCollectionId);
+    private getGameDeckCardCollectionCard(gameDeckCardCollectionId: number): CardModel {
+        const card = this.props.game.gameDeck.cardCollection.find(x => x.id === gameDeckCardCollectionId);
         return card;
     }
 
@@ -62,8 +62,8 @@ export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, 
             for (var j = 0; j < data.columns; j++) {
                 key++;
 
-                const cardCollectionId = this.getCardCollectionId(i, j);
-                const card = this.getCardCollectionCard(cardCollectionId);
+                const gameDeckCardCollectionId = this.getGameDeckCardCollectionId(i, j);
+                const card = this.getGameDeckCardCollectionCard(gameDeckCardCollectionId);
 
                 grids.push(
                     <GameTripleTriadBoardGrid

@@ -56,9 +56,10 @@ namespace CardHero.Core.SqlServer.Services
             var card = (await _cardService.GetCardCollectionAsync(
                 new CardCollectionSearchFilter
                 {
-                    Ids = new int[] { move.CardCollectionId },
+#warning Add game deck search
+                    Ids = new int[] { move.GameDeckCardCollectionId },
                     UserId = move.UserId,
-                }, cancellationToken: cancellationToken)).Results.FirstOrDefault(x => x.Id == move.CardCollectionId);
+                }, cancellationToken: cancellationToken)).Results.FirstOrDefault(x => x.Id == move.GameDeckCardCollectionId);
 
             if (card == null)
             {
@@ -100,7 +101,8 @@ namespace CardHero.Core.SqlServer.Services
 
                 var currentMove = new Move
                 {
-                    CardCollectionFk = move.CardCollectionId,
+#warning Change to game deck
+                    CardCollectionFk = move.GameDeckCardCollectionId,
                     Column = move.Column,
                     CreatedTime = DateTime.UtcNow,
                     Row = move.Row,
