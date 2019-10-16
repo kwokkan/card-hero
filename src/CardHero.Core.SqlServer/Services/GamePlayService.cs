@@ -32,9 +32,9 @@ namespace CardHero.Core.SqlServer.Services
         {
             var game = (await _gameService.GetGamesAsync(
                 new GameSearchFilter
-            {
-                GameId = move.GameId,
-            }, cancellationToken: cancellationToken)).Results.FirstOrDefault();
+                {
+                    GameId = move.GameId,
+                }, cancellationToken: cancellationToken)).Results.FirstOrDefault();
 
             if (game == null)
             {
@@ -66,7 +66,7 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        public async Task MakeMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
+        async Task IGamePlayService.MakeMoveAsync(MoveModel move, CancellationToken cancellationToken)
         {
             var game = await ValidateMoveAsync(move, cancellationToken: cancellationToken);
 

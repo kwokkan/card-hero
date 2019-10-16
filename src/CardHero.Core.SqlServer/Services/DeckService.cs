@@ -20,7 +20,18 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId, CancellationToken cancellationToken = default)
+        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
+        {
+            using (var context = GetContext())
+            {
+                var query = await context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
+                var result = query.ToCore();
+
+                return result;
+            }
+        }
+
+        async Task<DeckModel> IDeckService.CreateDeckAsync(DeckModel deck, int userId, CancellationToken cancellationToken)
         {
             using (var context = GetContext())
             {
@@ -35,22 +46,16 @@ namespace CardHero.Core.SqlServer.Services
 
                 await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-                return await GetDeckByIdAsync(entity.DeckPk, cancellationToken: cancellationToken);
+                return await GetDeckByIdInternalAsync(entity.DeckPk, cancellationToken);
             }
         }
 
-        public async Task<DeckModel> GetDeckByIdAsync(int id, CancellationToken cancellationToken = default)
+        Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
         {
-            using (var context = GetContext())
-            {
-                var query = await context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
-                var result = query.ToCore();
-
-                return result;
-            }
+            return GetDeckByIdInternalAsync(id, cancellationToken);
         }
 
-        public async Task<SearchResult<DeckModel>> GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken = default)
+        async Task<SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
@@ -82,7 +87,7 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
-        public async Task<bool> ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken = default)
+        async Task<bool> IDeckService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
@@ -114,7 +119,7 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        public async Task UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken = default)
+        async Task IDeckService.UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
@@ -165,7 +170,7 @@ namespace CardHero.Core.SqlServer.Services
             await context.SaveChangesAsync(cancellationToken: cancellationToken);
         }
 
-        public Task UpdateDeckAsync(int deckId, DeckModel deck, CancellationToken cancellationToken = default)
+        Task IDeckService.UpdateDeckAsync(int deckId, DeckModel deck, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
