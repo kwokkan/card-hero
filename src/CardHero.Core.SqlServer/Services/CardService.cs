@@ -20,7 +20,34 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<CardCollectionModel[]> AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId, CancellationToken cancellationToken = default)
+        private Task<SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
+        {
+            var result = new SearchResult<CardCollectionModel>();
+
+            var context = GetContext();
+
+            var query = context.CardCollection
+                .Include(x => x.CardFkNavigation)
+                .Include(x => x.UserFkNavigation)
+                .AsQueryable();
+
+            if (filter.Ids != null && filter.Ids.Any())
+            {
+                query = query.Where(x => filter.Ids.Contains(x.CardCollectionPk));
+            }
+
+            if (filter.UserId.HasValue)
+            {
+                query = query
+                    .Include(x => x.CardFkNavigation)
+                    .ThenInclude(x => x.CardFavourite);
+                query = query.Where(x => x.UserFk == filter.UserId.Value);
+            }
+
+            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+        }
+
+        async Task<CardCollectionModel[]> ICardService.AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId, CancellationToken cancellationToken)
         {
             if (cardIds == null)
             {
@@ -48,40 +75,17 @@ namespace CardHero.Core.SqlServer.Services
             await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var cardCollectionIds = cardCollections.Select(x => x.CardCollectionPk).ToArray();
-            return (await GetCardCollectionAsync(new CardCollectionSearchFilter
-            {
-                Ids = cardCollectionIds,
-            })).Results;
+            var searchResult = await GetCardCollectionInternalAsync(new CardCollectionSearchFilter { Ids = cardCollectionIds }, cancellationToken);
+
+            return searchResult.Results;
         }
 
-        public Task<SearchResult<CardCollectionModel>> GetCardCollectionAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken = default)
+        Task<SearchResult<CardCollectionModel>> ICardService.GetCardCollectionAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<CardCollectionModel>();
-
-            var context = GetContext();
-
-            var query = context.CardCollection
-                .Include(x => x.CardFkNavigation)
-                .Include(x => x.UserFkNavigation)
-                .AsQueryable();
-
-            if (filter.Ids != null && filter.Ids.Any())
-            {
-                query = query.Where(x => filter.Ids.Contains(x.CardCollectionPk));
-            }
-
-            if (filter.UserId.HasValue)
-            {
-                query = query
-                    .Include(x => x.CardFkNavigation)
-                    .ThenInclude(x => x.CardFavourite);
-                query = query.Where(x => x.UserFk == filter.UserId.Value);
-            }
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+            return GetCardCollectionInternalAsync(filter, cancellationToken);
         }
 
-        public Task<SearchResult<CardModel>> GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken = default)
+        Task<SearchResult<CardModel>> ICardService.GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
         {
             var result = new SearchResult<CardModel>();
 
@@ -107,7 +111,7 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
         }
 
-        public async Task<bool> ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken = default)
+        async Task<bool> ICardService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 

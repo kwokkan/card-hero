@@ -20,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public Task<SearchResult<StoreItemModel>> GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
+        Task<SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
             var result = new SearchResult<StoreItemModel>();
 
@@ -34,7 +34,7 @@ namespace CardHero.Core.SqlServer.Services
             return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
         }
 
-        public async Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
+        async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 

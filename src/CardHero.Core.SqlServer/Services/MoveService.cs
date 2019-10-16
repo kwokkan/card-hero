@@ -18,7 +18,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<Core.Models.MoveModel>> GetMovesAsync(int gameId, CancellationToken cancellationToken = default)
+        async Task<IEnumerable<Core.Models.MoveModel>> IMoveService.GetMovesAsync(int gameId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 

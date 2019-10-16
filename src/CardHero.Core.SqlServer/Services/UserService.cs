@@ -21,9 +21,21 @@ namespace CardHero.Core.SqlServer.Services
             _newUserOptions = newUserOptions;
         }
 
-        public async Task<UserModel> CreateUserAsync(string identifier, string idp, string name, CancellationToken cancellationToken = default)
+        private async Task<UserModel> GetUserByIdentifierInternalAsync(string identifier, string idp, CancellationToken cancellationToken)
         {
-            var user = await GetUserByIdentifierAsync(identifier, idp, cancellationToken: cancellationToken);
+            var context = GetContext();
+
+            var user = await context
+                .User
+                .Select(EntityFrameworkExtensions.ToCoreExp)
+                .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp, cancellationToken: cancellationToken);
+
+            return user;
+        }
+
+        async Task<UserModel> IUserService.CreateUserAsync(string identifier, string idp, string name, CancellationToken cancellationToken)
+        {
+            var user = await GetUserByIdentifierInternalAsync(identifier, idp, cancellationToken);
 
             if (user == null)
             {
@@ -48,16 +60,9 @@ namespace CardHero.Core.SqlServer.Services
             return user;
         }
 
-        public async Task<UserModel> GetUserByIdentifierAsync(string identifier, string idp, CancellationToken cancellationToken = default)
+        Task<UserModel> IUserService.GetUserByIdentifierAsync(string identifier, string idp, CancellationToken cancellationToken)
         {
-            var context = GetContext();
-
-            var user = await context
-                .User
-                .Select(EntityFrameworkExtensions.ToCoreExp)
-                .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp, cancellationToken: cancellationToken);
-
-            return user;
+            return GetUserByIdentifierInternalAsync(identifier, idp, cancellationToken);
         }
     }
 }
