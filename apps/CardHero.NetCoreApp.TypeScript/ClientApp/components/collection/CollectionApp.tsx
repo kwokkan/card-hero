@@ -1,11 +1,11 @@
 ﻿import React, { Component } from "react";
-import { CardCollectionModel } from "../../clients/clients";
+import { ICardCollectionModel } from "../../clients/clients";
 import { Layout } from "../shared/Layout";
 import { CollectionList } from "./CollectionList";
 import { CollectionSearch } from "./CollectionSearch";
 
 interface ICollectionAppState {
-    collection: CardCollectionModel[];
+    collection: ICardCollectionModel[];
 }
 
 export class CollectionApp extends Component<any, ICollectionAppState> {
@@ -15,7 +15,7 @@ export class CollectionApp extends Component<any, ICollectionAppState> {
         this.state = { collection: [] };
     }
 
-    onCollectionPopulated(collection: CardCollectionModel[]) {
+    onCollectionPopulated(collection: ICardCollectionModel[]) {
         if (Constants.Debug) {
             if (collection != null) {
                 collection.forEach(card => {

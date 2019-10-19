@@ -1,4 +1,4 @@
-﻿import { GameApiClient, GameCreateModel, GameModel, GameTripleTriadMoveViewModel, GameUserModel, JoinGameViewModel } from "../clients/clients";
+﻿import { GameApiClient, GameCreateModel, GameTripleTriadMoveViewModel, IGameModel, IGameTripleTriadMoveViewModel, IGameUserModel, JoinGameViewModel } from "../clients/clients";
 import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface IGameSearchFilter {
@@ -10,14 +10,14 @@ interface IGameSearchFilter {
 }
 
 export class GameService {
-    static async getGameById(id: number): Promise<GameModel | null> {
+    static async getGameById(id: number): Promise<IGameModel | null> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
         const model = await client.getById(id);
 
         return model;
     }
 
-    static async getGames(filter?: IGameSearchFilter): Promise<GameModel[] | null> {
+    static async getGames(filter?: IGameSearchFilter): Promise<IGameModel[] | null> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
 
         if (!filter) {
@@ -40,7 +40,7 @@ export class GameService {
         return model;
     }
 
-    static async createGame(model: GameCreateModel): Promise<GameModel> {
+    static async createGame(model: GameCreateModel): Promise<IGameModel> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
 
         const newModel = await client.post(model);
@@ -48,7 +48,7 @@ export class GameService {
         return newModel;
     }
 
-    static async join(id: number, deckId: number): Promise<GameUserModel> {
+    static async join(id: number, deckId: number): Promise<IGameUserModel> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
 
         const postModel = new JoinGameViewModel({
@@ -59,7 +59,7 @@ export class GameService {
         return model;
     }
 
-    static async move(id: number, model: GameTripleTriadMoveViewModel): Promise<GameTripleTriadMoveViewModel> {
+    static async move(id: number, model: GameTripleTriadMoveViewModel): Promise<IGameTripleTriadMoveViewModel> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
         const newModel = await client.move(id, model);
 

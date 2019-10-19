@@ -1,11 +1,11 @@
 ﻿import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import { CardModel } from "../../clients/clients";
+import { ICardModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { Icon } from "../../styles/index";
 
 interface ICardListProps {
-    cards: CardModel[];
+    cards: ICardModel[];
 }
 
 export function CardList(props: ICardListProps) {

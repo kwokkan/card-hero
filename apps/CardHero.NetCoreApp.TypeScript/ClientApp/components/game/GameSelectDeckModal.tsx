@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
-import { DeckModel, GameModel } from "../../clients/clients";
+import { IDeckModel, IGameModel } from "../../clients/clients";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameSelectDeckModalOnJoinedProps {
@@ -12,8 +12,8 @@ interface IGameSelectDeckModalProps {
     show: boolean;
     onJoined?: (model: IGameSelectDeckModalOnJoinedProps) => void;
     onHide?: () => void;
-    decks: DeckModel[];
-    game: GameModel;
+    decks: IDeckModel[];
+    game: IGameModel;
 }
 
 interface IGameSelectDeckModalState {

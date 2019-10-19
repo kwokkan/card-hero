@@ -1,0 +1,1156 @@
+{
+  "program": {
+    "fileInfos": {
+      "../../node_modules/typescript/lib/lib.es5.d.ts": {
+        "version": "354625479304",
+        "signature": "354625479304"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.d.ts": {
+        "version": "57263133672",
+        "signature": "57263133672"
+      },
+      "../../node_modules/typescript/lib/lib.es2016.d.ts": {
+        "version": "28223848289",
+        "signature": "28223848289"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.d.ts": {
+        "version": "53840227334",
+        "signature": "53840227334"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.d.ts": {
+        "version": "47245736171",
+        "signature": "47245736171"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.d.ts": {
+        "version": "26431450050",
+        "signature": "26431450050"
+      },
+      "../../node_modules/typescript/lib/lib.esnext.d.ts": {
+        "version": "36977927630",
+        "signature": "36977927630"
+      },
+      "../../node_modules/typescript/lib/lib.dom.d.ts": {
+        "version": "-1041975536091",
+        "signature": "-1041975536091"
+      },
+      "../../node_modules/typescript/lib/lib.dom.iterable.d.ts": {
+        "version": "-141829355604",
+        "signature": "-141829355604"
+      },
+      "../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts": {
+        "version": "25977327371",
+        "signature": "25977327371"
+      },
+      "../../node_modules/typescript/lib/lib.scripthost.d.ts": {
+        "version": "77035885329",
+        "signature": "77035885329"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.core.d.ts": {
+        "version": "370321249768",
+        "signature": "370321249768"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.collection.d.ts": {
+        "version": "-95997535017",
+        "signature": "-95997535017"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.generator.d.ts": {
+        "version": "10837180865",
+        "signature": "10837180865"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
+        "version": "232404497324",
+        "signature": "232404497324"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.promise.d.ts": {
+        "version": "235321148269",
+        "signature": "235321148269"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
+        "version": "55479865087",
+        "signature": "55479865087"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.reflect.d.ts": {
+        "version": "30748787093",
+        "signature": "30748787093"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.symbol.d.ts": {
+        "version": "9409688441",
+        "signature": "9409688441"
+      },
+      "../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts": {
+        "version": "-67261006573",
+        "signature": "-67261006573"
+      },
+      "../../node_modules/typescript/lib/lib.es2016.array.include.d.ts": {
+        "version": "119533833309",
+        "signature": "119533833309"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.object.d.ts": {
+        "version": "82946158258",
+        "signature": "82946158258"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts": {
+        "version": "62846282571",
+        "signature": "62846282571"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.string.d.ts": {
+        "version": "51939146522",
+        "signature": "51939146522"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.intl.d.ts": {
+        "version": "11221079551",
+        "signature": "11221079551"
+      },
+      "../../node_modules/typescript/lib/lib.es2017.typedarrays.d.ts": {
+        "version": "41616407038",
+        "signature": "41616407038"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts": {
+        "version": "51241506152",
+        "signature": "51241506152"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.asynciterable.d.ts": {
+        "version": "93475548936",
+        "signature": "93475548936"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.intl.d.ts": {
+        "version": "-24236801705",
+        "signature": "-24236801705"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.promise.d.ts": {
+        "version": "37789765127",
+        "signature": "37789765127"
+      },
+      "../../node_modules/typescript/lib/lib.es2018.regexp.d.ts": {
+        "version": "34773577879",
+        "signature": "34773577879"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.array.d.ts": {
+        "version": "-71358693294",
+        "signature": "-71358693294"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.object.d.ts": {
+        "version": "34036784199",
+        "signature": "34036784199"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.string.d.ts": {
+        "version": "57520890077",
+        "signature": "57520890077"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.symbol.d.ts": {
+        "version": "44922806547",
+        "signature": "44922806547"
+      },
+      "../../node_modules/typescript/lib/lib.esnext.intl.d.ts": {
+        "version": "9039739826",
+        "signature": "9039739826"
+      },
+      "../../node_modules/typescript/lib/lib.esnext.bigint.d.ts": {
+        "version": "81374751099",
+        "signature": "81374751099"
+      },
+      "../../node_modules/typescript/lib/lib.esnext.full.d.ts": {
+        "version": "20810800902",
+        "signature": "20810800902"
+      },
+      "../../clientapp/clients/cardheroapiclientbase.ts": {
+        "version": "24475410246",
+        "signature": "-3339093090"
+      },
+      "../../clientapp/clients/clients.ts": {
+        "version": "-88337759014",
+        "signature": "-5647251936"
+      },
+      "../../clientapp/components/card/card.tsx": {
+        "version": "-10214002867",
+        "signature": "-70626955471"
+      },
+      "../../clientapp/components/card/cardapp.tsx": {
+        "version": "-13373971419",
+        "signature": "-41775510920"
+      },
+      "../../clientapp/components/card/cardlist.tsx": {
+        "version": "29699494100",
+        "signature": "667946772"
+      },
+      "../../clientapp/components/card/cardsearch.tsx": {
+        "version": "-135454302026",
+        "signature": "25803978425"
+      },
+      "../../clientapp/components/card/index.tsx": {
+        "version": "-26692992330",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/components/collection/collectionapp.tsx": {
+        "version": "-41456437121",
+        "signature": "-26962513009"
+      },
+      "../../clientapp/components/collection/collectionlist.tsx": {
+        "version": "-44522623964",
+        "signature": "25141581665"
+      },
+      "../../clientapp/components/collection/collectionsearch.tsx": {
+        "version": "-25906333432",
+        "signature": "5562495707"
+      },
+      "../../clientapp/components/collection/index.tsx": {
+        "version": "-31796499663",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/components/deck/deck.tsx": {
+        "version": "-55742894504",
+        "signature": "-1726795938"
+      },
+      "../../clientapp/components/deck/deckapp.tsx": {
+        "version": "8697973749",
+        "signature": "-19571918979"
+      },
+      "../../clientapp/components/deck/deckcreatemodal.tsx": {
+        "version": "56568171838",
+        "signature": "28631795100"
+      },
+      "../../clientapp/components/deck/decklist.tsx": {
+        "version": "-37561128791",
+        "signature": "29118339106"
+      },
+      "../../clientapp/components/deck/decksearch.tsx": {
+        "version": "88658645682",
+        "signature": "21242124851"
+      },
+      "../../clientapp/components/deck/index.tsx": {
+        "version": "-36194180539",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/components/game/game.tsx": {
+        "version": "-7589688925",
+        "signature": "-53159686232"
+      },
+      "../../clientapp/components/game/gameapp.tsx": {
+        "version": "63245263278",
+        "signature": "-10611246838"
+      },
+      "../../clientapp/components/game/gameboard.tsx": {
+        "version": "6191185688",
+        "signature": "14594734861"
+      },
+      "../../clientapp/components/game/gamecreatemodal.tsx": {
+        "version": "146762046926",
+        "signature": "75630417583"
+      },
+      "../../clientapp/components/game/gamedeckcard.tsx": {
+        "version": "-23438712577",
+        "signature": "-4702626250"
+      },
+      "../../clientapp/components/game/gamedeckwidget.tsx": {
+        "version": "74077580830",
+        "signature": "-13157175958"
+      },
+      "../../clientapp/components/game/gamedetailwidget.tsx": {
+        "version": "-958389740",
+        "signature": "7469556826"
+      },
+      "../../clientapp/components/game/gamehistorywidget.tsx": {
+        "version": "14865264844",
+        "signature": "22331032119"
+      },
+      "../../clientapp/components/game/gamelist.tsx": {
+        "version": "152660591510",
+        "signature": "-19528505427"
+      },
+      "../../clientapp/components/game/gamesearch.tsx": {
+        "version": "-127961667043",
+        "signature": "56248396418"
+      },
+      "../../clientapp/components/game/gameselectdeckmodal.tsx": {
+        "version": "-82590198490",
+        "signature": "-17867788972"
+      },
+      "../../clientapp/components/game/index.tsx": {
+        "version": "-12359511850",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": {
+        "version": "81262193238",
+        "signature": "-42946567601"
+      },
+      "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx": {
+        "version": "154018518903",
+        "signature": "-26658438492"
+      },
+      "../../clientapp/components/home/home.tsx": {
+        "version": "64764378441",
+        "signature": "-14926250223"
+      },
+      "../../clientapp/components/home/homeapp.tsx": {
+        "version": "3996894792",
+        "signature": "-31402923466"
+      },
+      "../../clientapp/components/home/index.tsx": {
+        "version": "-979130875",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/components/shared/appbootstrap.ts": {
+        "version": "-20073378423",
+        "signature": "-53278600054"
+      },
+      "../../clientapp/components/shared/cardwidget.tsx": {
+        "version": "60374649149",
+        "signature": "-30893995295"
+      },
+      "../../clientapp/components/shared/coinformat.tsx": {
+        "version": "36640527476",
+        "signature": "3478940330"
+      },
+      "../../clientapp/components/shared/dateformat.tsx": {
+        "version": "-37259551538",
+        "signature": "4731670608"
+      },
+      "../../clientapp/components/shared/dragtype.ts": {
+        "version": "7517776475",
+        "signature": "-10653231504"
+      },
+      "../../clientapp/components/shared/errorboundary.tsx": {
+        "version": "89239806730",
+        "signature": "-2283467610"
+      },
+      "../../clientapp/components/shared/errorview.tsx": {
+        "version": "-155794252858",
+        "signature": "22431179735"
+      },
+      "../../clientapp/components/shared/layout.tsx": {
+        "version": "86462811368",
+        "signature": "-2507684253"
+      },
+      "../../clientapp/components/shared/navmenu.tsx": {
+        "version": "-97097989965",
+        "signature": "22243481883"
+      },
+      "../../clientapp/components/store/store.tsx": {
+        "version": "91066725771",
+        "signature": "-47528004033"
+      },
+      "../../clientapp/components/store/storeapp.tsx": {
+        "version": "6326280860",
+        "signature": "-43907942432"
+      },
+      "../../clientapp/components/store/storeitembuymodal.tsx": {
+        "version": "19376705303",
+        "signature": "-30424295252"
+      },
+      "../../clientapp/components/store/storeitemdetails.tsx": {
+        "version": "35333870788",
+        "signature": "12310486823"
+      },
+      "../../clientapp/components/store/index.tsx": {
+        "version": "18401348848",
+        "signature": "-4882119183"
+      },
+      "../../clientapp/constants/constants.ts": {
+        "version": "-16629239810",
+        "signature": "10777958818"
+      },
+      "../../clientapp/contexts/accountcontext.ts": {
+        "version": "-11772392946",
+        "signature": "12945795290"
+      },
+      "../../clientapp/models/deckcreatemodel.ts": {
+        "version": "11893311633",
+        "signature": "-7970839655"
+      },
+      "../../clientapp/models/deckeditmodel.ts": {
+        "version": "3777388142",
+        "signature": "-6391938593"
+      },
+      "../../clientapp/models/gametripletriadmodel.ts": {
+        "version": "-56544869384",
+        "signature": "-9930417515"
+      },
+      "../../clientapp/services/accountservice.ts": {
+        "version": "-25933008166",
+        "signature": "-43358922272"
+      },
+      "../../clientapp/services/cardcollectionservice.ts": {
+        "version": "-45225121457",
+        "signature": "22570650463"
+      },
+      "../../clientapp/services/cardservice.ts": {
+        "version": "-15214293619",
+        "signature": "-30225528249"
+      },
+      "../../clientapp/services/deckservice.ts": {
+        "version": "-2460643005",
+        "signature": "10349406089"
+      },
+      "../../clientapp/services/gameservice.ts": {
+        "version": "79009462304",
+        "signature": "26019158716"
+      },
+      "../../clientapp/services/storeservice.ts": {
+        "version": "9871815500",
+        "signature": "-18421792735"
+      },
+      "../../clientapp/styles/index.tsx": {
+        "version": "-56150310863",
+        "signature": "13131152502"
+      },
+      "../../clientapp/types/node.d.ts": {
+        "version": "-5140975592",
+        "signature": "-5140975592"
+      },
+      "../../clientapp/utils/date.ts": {
+        "version": "2003293509",
+        "signature": "-12081290165"
+      },
+      "../../clientapp/utils/mapper.ts": {
+        "version": "14252342210",
+        "signature": "-10433743578"
+      },
+      "../../clientapp/utils/nameof.ts": {
+        "version": "-2880952541",
+        "signature": "726582297"
+      },
+      "../../node_modules/@types/anymatch/index.d.ts": {
+        "version": "-30344839671",
+        "signature": "-30344839671"
+      },
+      "../../node_modules/@types/asap/index.d.ts": {
+        "version": "17331630816",
+        "signature": "17331630816"
+      },
+      "../../node_modules/@types/babel__core/index.d.ts": {
+        "version": "-379028018411",
+        "signature": "-379028018411"
+      },
+      "../../node_modules/@types/babel__generator/index.d.ts": {
+        "version": "77724926358",
+        "signature": "77724926358"
+      },
+      "../../node_modules/@types/babel__template/index.d.ts": {
+        "version": "35582705027",
+        "signature": "35582705027"
+      },
+      "../../node_modules/@types/babel__traverse/index.d.ts": {
+        "version": "-588299484967",
+        "signature": "-588299484967"
+      },
+      "../../node_modules/@types/eslint-visitor-keys/index.d.ts": {
+        "version": "-13726536825",
+        "signature": "-13726536825"
+      },
+      "../../node_modules/@types/events/index.d.ts": {
+        "version": "-31174588564",
+        "signature": "-31174588564"
+      },
+      "../../node_modules/@types/glob/index.d.ts": {
+        "version": "-45722071481",
+        "signature": "-45722071481"
+      },
+      "../../node_modules/@types/history/index.d.ts": {
+        "version": "-87209904940",
+        "signature": "-87209904940"
+      },
+      "../../node_modules/@types/hoist-non-react-statics/index.d.ts": {
+        "version": "31830767913",
+        "signature": "31830767913"
+      },
+      "../../node_modules/@types/invariant/index.d.ts": {
+        "version": "15449430815",
+        "signature": "15449430815"
+      },
+      "../../node_modules/@types/istanbul-lib-coverage/index.d.ts": {
+        "version": "-32214232756",
+        "signature": "-32214232756"
+      },
+      "../../node_modules/@types/istanbul-lib-report/index.d.ts": {
+        "version": "-188319475617",
+        "signature": "-188319475617"
+      },
+      "../../node_modules/@types/istanbul-reports/index.d.ts": {
+        "version": "94802659649",
+        "signature": "94802659649"
+      },
+      "../../node_modules/@types/json-schema/index.d.ts": {
+        "version": "-280308604000",
+        "signature": "-280308604000"
+      },
+      "../../node_modules/@types/minimatch/index.d.ts": {
+        "version": "-49622132449",
+        "signature": "-49622132449"
+      },
+      "../../node_modules/@types/node/ts3.2/index.d.ts": {
+        "version": "72217181883",
+        "signature": "72217181883"
+      },
+      "../../node_modules/@types/prop-types/index.d.ts": {
+        "version": "9141501246",
+        "signature": "9141501246"
+      },
+      "../../node_modules/@types/q/index.d.ts": {
+        "version": "101092216377",
+        "signature": "101092216377"
+      },
+      "../../node_modules/@types/react/index.d.ts": {
+        "version": "85127541605",
+        "signature": "85127541605"
+      },
+      "../../node_modules/@types/react-dom/index.d.ts": {
+        "version": "18056987650",
+        "signature": "18056987650"
+      },
+      "../../node_modules/@types/react-router/index.d.ts": {
+        "version": "-49881180686",
+        "signature": "-49881180686"
+      },
+      "../../node_modules/@types/react-router-dom/index.d.ts": {
+        "version": "-66251769001",
+        "signature": "-66251769001"
+      },
+      "../../node_modules/@types/shallowequal/index.d.ts": {
+        "version": "-35956058866",
+        "signature": "-35956058866"
+      },
+      "../../node_modules/@types/source-list-map/index.d.ts": {
+        "version": "62485309923",
+        "signature": "62485309923"
+      },
+      "../../node_modules/@types/stack-utils/index.d.ts": {
+        "version": "17052430753",
+        "signature": "17052430753"
+      },
+      "../../node_modules/@types/tapable/index.d.ts": {
+        "version": "79383239792",
+        "signature": "79383239792"
+      },
+      "../../node_modules/@types/uglify-js/index.d.ts": {
+        "version": "163587837665",
+        "signature": "163587837665"
+      },
+      "../../node_modules/@types/webpack/index.d.ts": {
+        "version": "344084029500",
+        "signature": "344084029500"
+      },
+      "../../node_modules/@types/webpack-sources/index.d.ts": {
+        "version": "-47699925729",
+        "signature": "-47699925729"
+      },
+      "../../node_modules/@types/yargs/index.d.ts": {
+        "version": "431352670081",
+        "signature": "431352670081"
+      },
+      "../../node_modules/@types/yargs-parser/index.d.ts": {
+        "version": "28270649320",
+        "signature": "28270649320"
+      }
+    },
+    "options": {
+      "noEmitOnError": true,
+      "alwaysStrict": true,
+      "noEmitHelpers": true,
+      "noErrorTruncation": true,
+      "noImplicitAny": false,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noResolve": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "strictBindCallApply": true,
+      "strictFunctionTypes": true,
+      "removeComments": true,
+      "sourceMap": true,
+      "target": 99,
+      "incremental": true,
+      "module": 99,
+      "jsx": 2,
+      "esModuleInterop": true,
+      "outDir": "./",
+      "allowJs": true,
+      "forceConsistentCasingInFileNames": true,
+      "configFilePath": "../../tsconfig.json",
+      "skipLibCheck": true,
+      "suppressOutputPathCheck": true
+    },
+    "referencedMap": {
+      "../../clientapp/components/card/card.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/cardservice.ts",
+        "../../clientapp/components/shared/layout.tsx"
+      ],
+      "../../clientapp/components/card/cardapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/card/cardlist.tsx",
+        "../../clientapp/components/card/cardsearch.tsx"
+      ],
+      "../../clientapp/components/card/cardlist.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/contexts/accountcontext.ts",
+        "../../clientapp/styles/index.tsx"
+      ],
+      "../../clientapp/components/card/cardsearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/cardservice.ts"
+      ],
+      "../../clientapp/components/card/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/card/card.tsx",
+        "../../clientapp/components/card/cardapp.tsx"
+      ],
+      "../../clientapp/components/collection/collectionapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/collection/collectionlist.tsx",
+        "../../clientapp/components/collection/collectionsearch.tsx"
+      ],
+      "../../clientapp/components/collection/collectionlist.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/cardwidget.tsx"
+      ],
+      "../../clientapp/components/collection/collectionsearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/cardcollectionservice.ts"
+      ],
+      "../../clientapp/components/collection/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/collection/collectionapp.tsx"
+      ],
+      "../../clientapp/components/deck/deck.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/models/deckeditmodel.ts",
+        "../../clientapp/services/cardcollectionservice.ts",
+        "../../clientapp/services/deckservice.ts",
+        "../../clientapp/styles/index.tsx",
+        "../../clientapp/components/shared/layout.tsx"
+      ],
+      "../../clientapp/components/deck/deckapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/deck/decklist.tsx",
+        "../../clientapp/components/deck/decksearch.tsx"
+      ],
+      "../../clientapp/components/deck/deckcreatemodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/utils/nameof.ts"
+      ],
+      "../../clientapp/components/deck/decklist.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/styles/index.tsx"
+      ],
+      "../../clientapp/components/deck/decksearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/deckservice.ts",
+        "../../clientapp/styles/index.tsx",
+        "../../clientapp/components/deck/deckcreatemodal.tsx"
+      ],
+      "../../clientapp/components/deck/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/deck/deck.tsx",
+        "../../clientapp/components/deck/deckapp.tsx"
+      ],
+      "../../clientapp/components/game/game.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/gameservice.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/game/gameboard.tsx",
+        "../../clientapp/components/game/gamedeckwidget.tsx",
+        "../../clientapp/components/game/gamedetailwidget.tsx",
+        "../../clientapp/components/game/gamehistorywidget.tsx"
+      ],
+      "../../clientapp/components/game/gameapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/deckservice.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/game/gamelist.tsx",
+        "../../clientapp/components/game/gamesearch.tsx"
+      ],
+      "../../clientapp/components/game/gameboard.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx"
+      ],
+      "../../clientapp/components/game/gamecreatemodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/utils/nameof.ts"
+      ],
+      "../../clientapp/components/game/gamedeckcard.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/cardwidget.tsx",
+        "../../clientapp/components/shared/dragtype.ts"
+      ],
+      "../../clientapp/components/game/gamedeckwidget.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/game/gamedeckcard.tsx"
+      ],
+      "../../clientapp/components/game/gamedetailwidget.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/dateformat.tsx"
+      ],
+      "../../clientapp/components/game/gamehistorywidget.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/dateformat.tsx"
+      ],
+      "../../clientapp/components/game/gamelist.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/contexts/accountcontext.ts",
+        "../../clientapp/services/gameservice.ts",
+        "../../clientapp/components/shared/dateformat.tsx",
+        "../../clientapp/components/game/gameselectdeckmodal.tsx"
+      ],
+      "../../clientapp/components/game/gamesearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/services/gameservice.ts",
+        "../../clientapp/styles/index.tsx",
+        "../../clientapp/components/game/gamecreatemodal.tsx"
+      ],
+      "../../clientapp/components/game/gameselectdeckmodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/utils/nameof.ts"
+      ],
+      "../../clientapp/components/game/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../node_modules/@types/react-router-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/game/game.tsx",
+        "../../clientapp/components/game/gameapp.tsx"
+      ],
+      "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/models/gametripletriadmodel.ts",
+        "../../clientapp/services/gameservice.ts",
+        "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx"
+      ],
+      "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/cardwidget.tsx",
+        "../../clientapp/components/shared/dragtype.ts"
+      ],
+      "../../clientapp/components/home/home.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/components/home/homeapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/home/home.tsx"
+      ],
+      "../../clientapp/components/home/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/home/homeapp.tsx"
+      ],
+      "../../clientapp/components/shared/cardwidget.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/styles/index.tsx"
+      ],
+      "../../clientapp/components/shared/coinformat.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/styles/index.tsx"
+      ],
+      "../../clientapp/components/shared/dateformat.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/utils/date.ts"
+      ],
+      "../../clientapp/components/shared/errorboundary.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/shared/errorview.tsx"
+      ],
+      "../../clientapp/components/shared/errorview.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/styles/index.tsx"
+      ],
+      "../../clientapp/components/shared/layout.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/contexts/accountcontext.ts",
+        "../../clientapp/components/shared/errorboundary.tsx",
+        "../../clientapp/components/shared/navmenu.tsx"
+      ],
+      "../../clientapp/components/shared/navmenu.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/contexts/accountcontext.ts",
+        "../../clientapp/services/accountservice.ts",
+        "../../clientapp/styles/index.tsx",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/shared/coinformat.tsx"
+      ],
+      "../../clientapp/components/store/store.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/contexts/accountcontext.ts",
+        "../../clientapp/services/accountservice.ts",
+        "../../clientapp/services/storeservice.ts",
+        "../../clientapp/components/store/storeitembuymodal.tsx",
+        "../../clientapp/components/store/storeitemdetails.tsx"
+      ],
+      "../../clientapp/components/store/storeapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/shared/layout.tsx",
+        "../../clientapp/components/store/store.tsx"
+      ],
+      "../../clientapp/components/store/storeitembuymodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/store/storeitemdetails.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/coinformat.tsx",
+        "../../clientapp/components/shared/dateformat.tsx"
+      ],
+      "../../clientapp/components/store/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/react-dom/index.d.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/components/store/storeapp.tsx"
+      ],
+      "../../clientapp/contexts/accountcontext.ts": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/models/deckeditmodel.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/models/gametripletriadmodel.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/utils/mapper.ts"
+      ],
+      "../../clientapp/services/accountservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/services/cardcollectionservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/services/cardservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/services/deckservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts",
+        "../../clientapp/models/deckcreatemodel.ts"
+      ],
+      "../../clientapp/services/gameservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/services/storeservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/shared/appbootstrap.ts"
+      ],
+      "../../clientapp/styles/index.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../node_modules/@types/babel__core/index.d.ts": [
+        "../../node_modules/@types/babel__generator/index.d.ts",
+        "../../node_modules/@types/babel__traverse/index.d.ts",
+        "../../node_modules/@types/babel__template/index.d.ts"
+      ],
+      "../../node_modules/@types/glob/index.d.ts": [
+        "../../node_modules/@types/events/index.d.ts",
+        "../../node_modules/@types/minimatch/index.d.ts"
+      ],
+      "../../node_modules/@types/hoist-non-react-statics/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../node_modules/@types/istanbul-lib-report/index.d.ts": [
+        "../../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../../node_modules/@types/istanbul-reports/index.d.ts": [
+        "../../node_modules/@types/istanbul-lib-report/index.d.ts",
+        "../../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../../node_modules/@types/node/ts3.2/index.d.ts": [
+        "../../node_modules/@types/node/base.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/globals.d.ts"
+      ],
+      "../../node_modules/@types/react/index.d.ts": [
+        "../../node_modules/@types/prop-types/index.d.ts",
+        "../../node_modules/@types/react/global.d.ts"
+      ],
+      "../../node_modules/@types/react-dom/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../node_modules/@types/react-router/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/history/index.d.ts"
+      ],
+      "../../node_modules/@types/react-router-dom/index.d.ts": [
+        "../../node_modules/@types/react-router/index.d.ts",
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/history/index.d.ts"
+      ],
+      "../../node_modules/@types/webpack/index.d.ts": [
+        "../../node_modules/@types/tapable/index.d.ts",
+        "../../node_modules/@types/uglify-js/index.d.ts",
+        "../../node_modules/@types/anymatch/index.d.ts",
+        "../../node_modules/@types/webpack-sources/index.d.ts"
+      ],
+      "../../node_modules/@types/webpack-sources/index.d.ts": [
+        "../../node_modules/@types/source-list-map/index.d.ts"
+      ],
+      "../../node_modules/@types/yargs/index.d.ts": [
+        "../../node_modules/@types/yargs-parser/index.d.ts"
+      ]
+    },
+    "exportedModulesMap": {
+      "../../clientapp/components/card/card.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/card/cardapp.tsx": [
+        "../../clientapp/clients/clients.ts",
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/card/cardlist.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/card/cardsearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/collection/collectionapp.tsx": [
+        "../../clientapp/clients/clients.ts",
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/collection/collectionlist.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/collection/collectionsearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/deck/deck.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/models/deckeditmodel.ts"
+      ],
+      "../../clientapp/components/deck/deckapp.tsx": [
+        "../../clientapp/clients/clients.ts",
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/deck/deckcreatemodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/deck/decklist.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/deck/decksearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/deck/deckcreatemodal.tsx",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/game.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gameapp.tsx": [
+        "../../clientapp/clients/clients.ts",
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/game/gameboard.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gamecreatemodal.tsx": [
+        "../../clientapp/clients/clients.ts",
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/game/gamedeckcard.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gamedeckwidget.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gamedetailwidget.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gamehistorywidget.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gamelist.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/components/game/gameselectdeckmodal.tsx"
+      ],
+      "../../clientapp/components/game/gamesearch.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/components/game/gamecreatemodal.tsx",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/gameselectdeckmodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/models/gametripletriadmodel.ts"
+      ],
+      "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/home/homeapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/shared/cardwidget.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/shared/errorboundary.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/shared/errorview.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/shared/layout.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/shared/navmenu.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/store/store.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/store/storeapp.tsx": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../clientapp/components/store/storeitembuymodal.tsx": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/components/store/storeitemdetails.tsx": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/contexts/accountcontext.ts": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/models/deckeditmodel.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/models/gametripletriadmodel.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/utils/mapper.ts"
+      ],
+      "../../clientapp/services/accountservice.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/services/cardcollectionservice.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/services/cardservice.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/services/deckservice.ts": [
+        "../../clientapp/clients/clients.ts",
+        "../../clientapp/models/deckcreatemodel.ts"
+      ],
+      "../../clientapp/services/gameservice.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../clientapp/services/storeservice.ts": [
+        "../../clientapp/clients/clients.ts"
+      ],
+      "../../node_modules/@types/babel__core/index.d.ts": [
+        "../../node_modules/@types/babel__generator/index.d.ts",
+        "../../node_modules/@types/babel__traverse/index.d.ts",
+        "../../node_modules/@types/babel__template/index.d.ts"
+      ],
+      "../../node_modules/@types/glob/index.d.ts": [
+        "../../node_modules/@types/events/index.d.ts",
+        "../../node_modules/@types/minimatch/index.d.ts"
+      ],
+      "../../node_modules/@types/hoist-non-react-statics/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../node_modules/@types/istanbul-lib-report/index.d.ts": [
+        "../../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../../node_modules/@types/istanbul-reports/index.d.ts": [
+        "../../node_modules/@types/istanbul-lib-report/index.d.ts",
+        "../../node_modules/@types/istanbul-lib-coverage/index.d.ts"
+      ],
+      "../../node_modules/@types/node/ts3.2/index.d.ts": [
+        "../../node_modules/@types/node/base.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/globals.d.ts"
+      ],
+      "../../node_modules/@types/react/index.d.ts": [
+        "../../node_modules/@types/prop-types/index.d.ts",
+        "../../node_modules/@types/react/global.d.ts"
+      ],
+      "../../node_modules/@types/react-dom/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts"
+      ],
+      "../../node_modules/@types/react-router/index.d.ts": [
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/history/index.d.ts"
+      ],
+      "../../node_modules/@types/react-router-dom/index.d.ts": [
+        "../../node_modules/@types/react-router/index.d.ts",
+        "../../node_modules/@types/react/index.d.ts",
+        "../../node_modules/@types/history/index.d.ts"
+      ],
+      "../../node_modules/@types/webpack/index.d.ts": [
+        "../../node_modules/@types/tapable/index.d.ts",
+        "../../node_modules/@types/uglify-js/index.d.ts",
+        "../../node_modules/@types/anymatch/index.d.ts",
+        "../../node_modules/@types/webpack-sources/index.d.ts"
+      ],
+      "../../node_modules/@types/webpack-sources/index.d.ts": [
+        "../../node_modules/@types/source-list-map/index.d.ts"
+      ],
+      "../../node_modules/@types/yargs/index.d.ts": [
+        "../../node_modules/@types/yargs-parser/index.d.ts"
+      ]
+    },
+    "semanticDiagnosticsPerFile": []
+  },
+  "version": "3.6.4"
+}

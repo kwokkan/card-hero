@@ -1,12 +1,12 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
-import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
+import { GameCreateModel, IDeckModel, IGameModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
 import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
-    decks: DeckModel[];
-    onGamesPopulated?: ((games: GameModel[]) => void);
+    decks: IDeckModel[];
+    onGamesPopulated?: ((games: IGameModel[]) => void);
 }
 
 interface IGameSearchState {

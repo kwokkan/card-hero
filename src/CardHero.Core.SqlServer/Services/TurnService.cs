@@ -19,7 +19,7 @@ namespace CardHero.Core.SqlServer.Services
         {
         }
 
-        public async Task<IEnumerable<TurnModel>> GetTurnsAsync(int gameId, CancellationToken cancellationToken = default)
+        async Task<IEnumerable<TurnModel>> ITurnService.GetTurnsAsync(int gameId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 

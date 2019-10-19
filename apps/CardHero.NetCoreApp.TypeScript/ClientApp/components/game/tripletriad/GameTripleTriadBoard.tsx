@@ -1,11 +1,11 @@
 ﻿import React, { Component } from "react";
-import { CardModel, GameTripleTriadMoveViewModel, GameViewModel } from "../../../clients/clients";
-import GameTripleTriadModel from "../../../models/GameTripleTriadModel";
+import { GameTripleTriadMoveViewModel, ICardModel, IGameViewModel } from "../../../clients/clients";
+import { GameTripleTriadModel } from "../../../models/GameTripleTriadModel";
 import { GameService } from "../../../services/GameService";
 import { GameTripleTriadBoardGrid, IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
 
 interface IGameTripleTriadBoardProps {
-    game: GameViewModel;
+    game: IGameViewModel;
 }
 
 interface IGameTripleTriadBoardState {
@@ -36,7 +36,7 @@ export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, 
         return move ? move.gameDeckCardCollectionId : null;
     }
 
-    private getGameDeckCardCollectionCard(gameDeckCardCollectionId: number): CardModel {
+    private getGameDeckCardCollectionCard(gameDeckCardCollectionId: number): ICardModel {
         const card = this.props.game.gameDeck.cardCollection.find(x => x.id === gameDeckCardCollectionId);
         return card;
     }

@@ -1,13 +1,13 @@
 ﻿import React, { Component } from "react";
-import { DeckModel, GameModel } from "../../clients/clients";
+import { IDeckModel, IGameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Layout } from "../shared/Layout";
 import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
 
 interface IGameAppState {
-    games: GameModel[];
-    decks: DeckModel[];
+    games: IGameModel[];
+    decks: IDeckModel[];
 }
 
 export class GameApp extends Component<any, IGameAppState> {
@@ -40,7 +40,7 @@ export class GameApp extends Component<any, IGameAppState> {
         await this.getDecks();
     }
 
-    onGamesPopulated(games: GameModel[]) {
+    onGamesPopulated(games: IGameModel[]) {
         if (Constants.Debug) {
             if (games != null) {
                 games.forEach(game => {

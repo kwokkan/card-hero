@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { GameDeckModel } from "../../clients/clients";
+import { IGameDeckModel } from "../../clients/clients";
 import { GameDeckCard } from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
-    gameDeck?: GameDeckModel;
+    gameDeck?: IGameDeckModel;
 }
 
 export function GameDeckWidget(props: IGameDeckWidgetProps) {
