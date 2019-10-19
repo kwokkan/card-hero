@@ -1,6 +1,6 @@
 ﻿import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
-import { CardModel } from "../../clients/clients";
+import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
 import { Layout } from "../shared/Layout";
 
@@ -9,7 +9,7 @@ interface ICardProps {
 }
 
 interface ICardState {
-    card?: CardModel;
+    card?: ICardModel;
 }
 
 export class Card extends PureComponent<ICardProps, ICardState> {

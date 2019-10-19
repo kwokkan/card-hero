@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { DeckModel } from "../../clients/clients";
+import { IDeckModel } from "../../clients/clients";
 import { GameDeckCard } from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
-    deck?: DeckModel;
+    deck?: IDeckModel;
 }
 
 export function GameDeckWidget(props: IGameDeckWidgetProps) {

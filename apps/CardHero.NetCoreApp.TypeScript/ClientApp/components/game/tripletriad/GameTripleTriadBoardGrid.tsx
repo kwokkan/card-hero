@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import { useDrop } from 'react-dnd';
-import { CardModel } from "../../../clients/clients";
+import { ICardModel } from "../../../clients/clients";
 import { CardWidget } from "../../shared/CardWidget";
 import { DragType } from "../../shared/DragType";
 
@@ -13,7 +13,7 @@ export interface IGameTripleTriadBoardGridOnDropProps {
 interface IGameTripleTriadBoardGridProps {
     row: number;
     column: number;
-    card: CardModel;
+    card: ICardModel;
     isSelected: boolean;
 
     onDrop?: (data: IGameTripleTriadBoardGridOnDropProps) => void;

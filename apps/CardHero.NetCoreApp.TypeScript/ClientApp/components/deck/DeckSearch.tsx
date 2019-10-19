@@ -1,11 +1,11 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
-import { DeckModel } from "../../clients/clients";
+import { IDeckModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
 import { DeckCreateModal, IDeckCreateModelOnCreatedProps } from "./DeckCreateModal";
 
 interface IDeckSearchProps {
-    onDecksPopulated?: ((decks: DeckModel[]) => void);
+    onDecksPopulated?: ((decks: IDeckModel[]) => void);
 }
 
 interface IDeckSearchState  {

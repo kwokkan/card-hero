@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { UserModel } from "../clients/clients";
+import { IUserModel } from "../clients/clients";
 
 interface IAccountContextProps {
-    user?: UserModel;
-    setUser: (user: UserModel) => void;
+    user?: IUserModel;
+    setUser: (user: IUserModel) => void;
 }
 
-export const AccountContext = React.createContext<IAccountContextProps>({ setUser: (_user: UserModel) => { } });
+export const AccountContext = React.createContext<IAccountContextProps>({ setUser: (_user: IUserModel) => { } });

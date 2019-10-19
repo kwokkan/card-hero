@@ -1,5 +1,5 @@
 ﻿import React, { Component, Fragment } from "react";
-import { StoreItemModel } from "../../clients/clients";
+import { IStoreItemModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { AccountService } from "../../services/AccountService";
 import { StoreService } from "../../services/StoreService";
@@ -10,8 +10,8 @@ interface IStoreProps {
 }
 
 interface IStoreState {
-    items: StoreItemModel[];
-    selectedItem?: StoreItemModel;
+    items: IStoreItemModel[];
+    selectedItem?: IStoreItemModel;
     modalShown: boolean;
 }
 
@@ -41,7 +41,7 @@ export class Store extends Component<IStoreProps, IStoreState> {
         });
     }
 
-    onSelectItem(item: StoreItemModel) {
+    onSelectItem(item: IStoreItemModel) {
         if (Constants.Debug) {
             console.log(item);
         }
@@ -52,7 +52,7 @@ export class Store extends Component<IStoreProps, IStoreState> {
         });
     }
 
-    async onPurchase(item: StoreItemModel) {
+    async onPurchase(item: IStoreItemModel) {
         const items = await StoreService.buyCardBundle(item.id);
 
         if (Constants.Debug) {

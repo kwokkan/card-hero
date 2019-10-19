@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
-import { DeckModel, GameType } from "../../clients/clients";
+import { GameType, IDeckModel } from "../../clients/clients";
 import { nameof } from "../../utils/nameof";
 
 export interface IGameCreateModalOnCreatedProps {
@@ -13,7 +13,7 @@ interface IGameCreateModalProps {
     show: boolean;
     onCreated?: (model: IGameCreateModalOnCreatedProps) => void;
     onHide?: () => void;
-    decks: DeckModel[];
+    decks: IDeckModel[];
 }
 
 interface IGameCreateModalState {

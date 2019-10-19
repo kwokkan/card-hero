@@ -1,9 +1,9 @@
 ﻿import React, { Component } from "react";
-import { GameModel, GameType } from "../../clients/clients";
+import { GameType, IGameModel } from "../../clients/clients";
 import { GameTripleTriadBoard } from "./tripletriad/GameTripleTriadBoard";
 
 interface IGameBoardProps {
-    game: GameModel;
+    game: IGameModel;
 }
 
 export class GameBoard extends Component<IGameBoardProps, any> {
