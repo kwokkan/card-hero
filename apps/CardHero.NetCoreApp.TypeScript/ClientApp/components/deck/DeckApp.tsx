@@ -1,11 +1,11 @@
 ﻿import React, { Component } from "react";
-import { DeckModel } from "../../clients/clients";
+import { IDeckModel } from "../../clients/clients";
 import { Layout } from "../shared/Layout";
 import { DeckList } from "./DeckList";
 import { DeckSearch } from "./DeckSearch";
 
 interface IDeckAppState {
-    decks: DeckModel[];
+    decks: IDeckModel[];
 }
 
 export class DeckApp extends Component<any, IDeckAppState> {
@@ -15,7 +15,7 @@ export class DeckApp extends Component<any, IDeckAppState> {
         this.state = { decks: [] };
     }
 
-    onDecksPopulated(decks: DeckModel[]) {
+    onDecksPopulated(decks: IDeckModel[]) {
         if (Constants.Debug) {
             if (decks != null) {
                 decks.forEach(deck => {

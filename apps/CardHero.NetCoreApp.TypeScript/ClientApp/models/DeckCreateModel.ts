@@ -1,4 +1,4 @@
-﻿export default class DeckCreateModel {
+﻿export class DeckCreateModel {
     name: string;
     description?: string;
 }

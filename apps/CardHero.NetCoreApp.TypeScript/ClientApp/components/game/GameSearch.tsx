@@ -1,12 +1,12 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
-import { DeckModel, GameCreateModel, GameModel } from "../../clients/clients";
+import { GameCreateModel, IDeckModel, IGameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
 import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
-    onGamesPopulated?: ((games: GameModel[]) => void);
+    onGamesPopulated?: ((games: IGameModel[]) => void);
 }
 
 interface IGameSearchState {
@@ -15,7 +15,7 @@ interface IGameSearchState {
     page?: number;
     pageSize?: number;
     modalShown: boolean;
-    decks: DeckModel[];
+    decks: IDeckModel[];
 }
 
 export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {

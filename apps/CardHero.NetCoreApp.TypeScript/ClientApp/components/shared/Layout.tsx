@@ -1,5 +1,5 @@
 import React, { PureComponent, ReactNode } from 'react';
-import { UserModel } from '../../clients/clients';
+import { IUserModel } from '../../clients/clients';
 import { AccountContext } from '../../contexts/AccountContext';
 import { ErrorBoundary } from './ErrorBoundary';
 import { NavMenu } from './NavMenu';
@@ -9,8 +9,8 @@ interface ILayoutProps {
 }
 
 interface ILayoutState {
-    user?: UserModel;
-    setUser: (user: UserModel) => void;
+    user?: IUserModel;
+    setUser: (user: IUserModel) => void;
 }
 
 export class Layout extends PureComponent<ILayoutProps, ILayoutState> {

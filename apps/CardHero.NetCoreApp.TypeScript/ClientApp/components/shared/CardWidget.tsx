@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { CardModel, Rarity } from "../../clients/clients";
+import { ICardModel, Rarity } from "../../clients/clients";
 import { Icon } from "../../styles/index";
 
 interface ICardWidgetProps {
-    card: CardModel;
+    card: ICardModel;
 }
 
 export function CardWidget(props: ICardWidgetProps) {

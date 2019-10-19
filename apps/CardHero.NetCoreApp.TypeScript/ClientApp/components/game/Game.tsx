@@ -1,7 +1,7 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DeckModel, GameModel } from "../../clients/clients";
+import { IDeckModel, IGameModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { Layout } from "../shared/Layout";
 import { GameBoard } from "./GameBoard";
@@ -14,8 +14,8 @@ interface IGameProps {
 }
 
 interface IGameState {
-    game?: GameModel;
-    deck?: DeckModel;
+    game?: IGameModel;
+    deck?: IDeckModel;
 }
 
 export class Game extends Component<IGameProps, IGameState> {

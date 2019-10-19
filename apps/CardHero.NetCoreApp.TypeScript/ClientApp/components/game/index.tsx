@@ -1,11 +1,11 @@
 ﻿import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppBootstrap } from '../shared/AppBootstrap';
 import { Game } from './Game';
 import { GameApp } from './GameApp';
 
-ReactDOM.render(
+render(
     <BrowserRouter basename={AppBootstrap.url('Game')}>
         <Switch>
             <Route path="/" exact component={GameApp} />
