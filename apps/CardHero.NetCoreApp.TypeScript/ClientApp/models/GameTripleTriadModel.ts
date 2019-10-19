@@ -1,7 +1,7 @@
 ﻿import { GameTripleTriadMoveViewModel } from "../clients/clients";
 import { IMapper } from "../utils/mapper";
 
-export default class GameTripleTriadModel implements IMapper<GameTripleTriadModel> {
+export class GameTripleTriadModel implements IMapper<GameTripleTriadModel> {
     columns: number;
     rows: number;
     moves: GameTripleTriadMoveViewModel[];
