@@ -154,115 +154,115 @@
         "signature": "20810800902"
       },
       "../../clientapp/clients/cardheroapiclientbase.ts": {
-        "version": "24475410246",
+        "version": "-15110880697",
         "signature": "-3339093090"
       },
       "../../clientapp/clients/clients.ts": {
-        "version": "-685638866299",
+        "version": "-13676973050",
         "signature": "30673411759"
       },
       "../../clientapp/components/card/card.tsx": {
-        "version": "-10214002867",
+        "version": "-140029441682",
         "signature": "-70626955471"
       },
       "../../clientapp/components/card/cardapp.tsx": {
-        "version": "-13373971419",
+        "version": "48767763878",
         "signature": "-41775510920"
       },
       "../../clientapp/components/card/cardlist.tsx": {
-        "version": "29699494100",
+        "version": "-38799495723",
         "signature": "667946772"
       },
       "../../clientapp/components/card/cardsearch.tsx": {
-        "version": "-135454302026",
+        "version": "-47716115177",
         "signature": "25803978425"
       },
       "../../clientapp/components/card/index.tsx": {
-        "version": "-26692992330",
+        "version": "811154679",
         "signature": "-4882119183"
       },
       "../../clientapp/components/collection/collectionapp.tsx": {
-        "version": "-41456437121",
+        "version": "6775147520",
         "signature": "-26962513009"
       },
       "../../clientapp/components/collection/collectionlist.tsx": {
-        "version": "-44522623964",
+        "version": "12744722533",
         "signature": "25141581665"
       },
       "../../clientapp/components/collection/collectionsearch.tsx": {
-        "version": "-25906333432",
+        "version": "43316514281",
         "signature": "5562495707"
       },
       "../../clientapp/components/collection/index.tsx": {
-        "version": "-31796499663",
+        "version": "44287104498",
         "signature": "-4882119183"
       },
       "../../clientapp/components/deck/deck.tsx": {
-        "version": "-55742894504",
+        "version": "-16704538087",
         "signature": "-1726795938"
       },
       "../../clientapp/components/deck/deckapp.tsx": {
-        "version": "8697973749",
+        "version": "1082390742",
         "signature": "-19571918979"
       },
       "../../clientapp/components/deck/deckcreatemodal.tsx": {
-        "version": "56568171838",
+        "version": "-138264010401",
         "signature": "28631795100"
       },
       "../../clientapp/components/deck/decklist.tsx": {
-        "version": "-37561128791",
+        "version": "72417168522",
         "signature": "29118339106"
       },
       "../../clientapp/components/deck/decksearch.tsx": {
-        "version": "88658645682",
+        "version": "-19678761677",
         "signature": "21242124851"
       },
       "../../clientapp/components/deck/index.tsx": {
-        "version": "-36194180539",
+        "version": "-47344739194",
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/game.tsx": {
-        "version": "-18347176627",
+        "version": "63103457838",
         "signature": "14123748858"
       },
       "../../clientapp/components/game/gameapp.tsx": {
-        "version": "23484503395",
+        "version": "-18490817980",
         "signature": "-6388687272"
       },
       "../../clientapp/components/game/gameboard.tsx": {
-        "version": "6191185688",
+        "version": "-39422677415",
         "signature": "14594734861"
       },
       "../../clientapp/components/game/gamecreatemodal.tsx": {
-        "version": "146762046926",
+        "version": "118259691791",
         "signature": "75630417583"
       },
       "../../clientapp/components/game/gamedeckcard.tsx": {
-        "version": "-23438712577",
+        "version": "-63762308992",
         "signature": "-4702626250"
       },
       "../../clientapp/components/game/gamedeckwidget.tsx": {
-        "version": "62380340017",
+        "version": "-46696299950",
         "signature": "6175190972"
       },
       "../../clientapp/components/game/gamedetailwidget.tsx": {
-        "version": "-958389740",
+        "version": "-20465232907",
         "signature": "7469556826"
       },
       "../../clientapp/components/game/gamehistorywidget.tsx": {
-        "version": "14865264844",
+        "version": "60028167469",
         "signature": "22331032119"
       },
       "../../clientapp/components/game/gamelist.tsx": {
-        "version": "-3394394298",
+        "version": "54166541095",
         "signature": "28000911444"
       },
       "../../clientapp/components/game/gamesearch.tsx": {
-        "version": "28630616766",
+        "version": "180396772703",
         "signature": "23274854676"
       },
       "../../clientapp/components/game/index.tsx": {
-        "version": "-12359511850",
+        "version": "-49279874281",
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": {
@@ -286,31 +286,31 @@
         "signature": "-4882119183"
       },
       "../../clientapp/components/shared/appbootstrap.ts": {
-        "version": "-20073378423",
+        "version": "26620751242",
         "signature": "-53278600054"
       },
       "../../clientapp/components/shared/cardwidget.tsx": {
-        "version": "60374649149",
+        "version": "44435451614",
         "signature": "-30893995295"
       },
       "../../clientapp/components/shared/coinformat.tsx": {
-        "version": "36640527476",
+        "version": "20411120341",
         "signature": "3478940330"
       },
       "../../clientapp/components/shared/dateformat.tsx": {
-        "version": "-37259551538",
+        "version": "-13993125649",
         "signature": "4731670608"
       },
       "../../clientapp/components/shared/dragtype.ts": {
-        "version": "7517776475",
+        "version": "-7772537060",
         "signature": "-10653231504"
       },
       "../../clientapp/components/shared/errorboundary.tsx": {
-        "version": "89239806730",
+        "version": "-83598694133",
         "signature": "-2283467610"
       },
       "../../clientapp/components/shared/errorview.tsx": {
-        "version": "-155794252858",
+        "version": "-75216173881",
         "signature": "22431179735"
       },
       "../../clientapp/components/shared/layout.tsx": {
@@ -322,23 +322,23 @@
         "signature": "22243481883"
       },
       "../../clientapp/components/store/store.tsx": {
-        "version": "91066725771",
+        "version": "-13231959572",
         "signature": "-47528004033"
       },
       "../../clientapp/components/store/storeapp.tsx": {
-        "version": "6326280860",
+        "version": "9182387453",
         "signature": "-43907942432"
       },
       "../../clientapp/components/store/storeitembuymodal.tsx": {
-        "version": "19376705303",
+        "version": "35145960504",
         "signature": "-30424295252"
       },
       "../../clientapp/components/store/storeitemdetails.tsx": {
-        "version": "35333870788",
+        "version": "44053157317",
         "signature": "12310486823"
       },
       "../../clientapp/components/store/index.tsx": {
-        "version": "18401348848",
+        "version": "6168576305",
         "signature": "-4882119183"
       },
       "../../clientapp/constants/constants.ts": {
@@ -346,7 +346,7 @@
         "signature": "10777958818"
       },
       "../../clientapp/contexts/accountcontext.ts": {
-        "version": "-11772392946",
+        "version": "38669188015",
         "signature": "12945795290"
       },
       "../../clientapp/models/deckcreatemodel.ts": {
@@ -362,31 +362,31 @@
         "signature": "-9930417515"
       },
       "../../clientapp/services/accountservice.ts": {
-        "version": "-25933008166",
+        "version": "14349747675",
         "signature": "-43358922272"
       },
       "../../clientapp/services/cardcollectionservice.ts": {
-        "version": "-45225121457",
+        "version": "3009912528",
         "signature": "22570650463"
       },
       "../../clientapp/services/cardservice.ts": {
-        "version": "-15214293619",
+        "version": "-16996233330",
         "signature": "-30225528249"
       },
       "../../clientapp/services/deckservice.ts": {
-        "version": "-2460643005",
+        "version": "19023178692",
         "signature": "10349406089"
       },
       "../../clientapp/services/gameservice.ts": {
-        "version": "-140649524062",
+        "version": "-64304670045",
         "signature": "-33054188391"
       },
       "../../clientapp/services/storeservice.ts": {
-        "version": "9871815500",
+        "version": "-32301709971",
         "signature": "-18421792735"
       },
       "../../clientapp/styles/index.tsx": {
-        "version": "-56150310863",
+        "version": "-21078081550",
         "signature": "13131152502"
       },
       "../../clientapp/types/node.d.ts": {
@@ -394,7 +394,7 @@
         "signature": "-5140975592"
       },
       "../../clientapp/utils/date.ts": {
-        "version": "2003293509",
+        "version": "5799872454",
         "signature": "-12081290165"
       },
       "../../clientapp/utils/mapper.ts": {
@@ -402,7 +402,7 @@
         "signature": "-10433743578"
       },
       "../../clientapp/utils/nameof.ts": {
-        "version": "-2880952541",
+        "version": "-17619928668",
         "signature": "726582297"
       },
       "../../node_modules/@types/anymatch/index.d.ts": {
