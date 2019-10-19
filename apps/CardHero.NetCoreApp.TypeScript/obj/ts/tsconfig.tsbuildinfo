@@ -162,15 +162,15 @@
         "signature": "30673411759"
       },
       "../../clientapp/components/card/card.tsx": {
-        "version": "-10214002867",
+        "version": "-140029441682",
         "signature": "-70626955471"
       },
       "../../clientapp/components/card/cardapp.tsx": {
-        "version": "-13373971419",
+        "version": "48767763878",
         "signature": "-41775510920"
       },
       "../../clientapp/components/card/cardlist.tsx": {
-        "version": "29699494100",
+        "version": "-38799495723",
         "signature": "667946772"
       },
       "../../clientapp/components/card/cardsearch.tsx": {
@@ -182,7 +182,7 @@
         "signature": "-4882119183"
       },
       "../../clientapp/components/collection/collectionapp.tsx": {
-        "version": "-41456437121",
+        "version": "6775147520",
         "signature": "-26962513009"
       },
       "../../clientapp/components/collection/collectionlist.tsx": {
@@ -198,11 +198,11 @@
         "signature": "-4882119183"
       },
       "../../clientapp/components/deck/deck.tsx": {
-        "version": "-55742894504",
+        "version": "-16704538087",
         "signature": "-1726795938"
       },
       "../../clientapp/components/deck/deckapp.tsx": {
-        "version": "8697973749",
+        "version": "1082390742",
         "signature": "-19571918979"
       },
       "../../clientapp/components/deck/deckcreatemodal.tsx": {
@@ -222,11 +222,11 @@
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/game.tsx": {
-        "version": "-18347176627",
+        "version": "63103457838",
         "signature": "14123748858"
       },
       "../../clientapp/components/game/gameapp.tsx": {
-        "version": "23484503395",
+        "version": "-18490817980",
         "signature": "-6388687272"
       },
       "../../clientapp/components/game/gameboard.tsx": {
@@ -266,7 +266,7 @@
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": {
-        "version": "-21027118721",
+        "version": "-46001771298",
         "signature": "-73307530131"
       },
       "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx": {
@@ -314,19 +314,19 @@
         "signature": "22431179735"
       },
       "../../clientapp/components/shared/layout.tsx": {
-        "version": "31474678061",
-        "signature": "-31956232216"
+        "version": "86462811368",
+        "signature": "-2507684253"
       },
       "../../clientapp/components/shared/navmenu.tsx": {
         "version": "-97097989965",
         "signature": "22243481883"
       },
       "../../clientapp/components/store/store.tsx": {
-        "version": "91066725771",
+        "version": "-13231959572",
         "signature": "-47528004033"
       },
       "../../clientapp/components/store/storeapp.tsx": {
-        "version": "6326280860",
+        "version": "9182387453",
         "signature": "-43907942432"
       },
       "../../clientapp/components/store/storeitembuymodal.tsx": {
@@ -346,8 +346,8 @@
         "signature": "10777958818"
       },
       "../../clientapp/contexts/accountcontext.ts": {
-        "version": "11889909226",
-        "signature": "-16617409953"
+        "version": "38669188015",
+        "signature": "12945795290"
       },
       "../../clientapp/models/deckcreatemodel.ts": {
         "version": "11893311633",
