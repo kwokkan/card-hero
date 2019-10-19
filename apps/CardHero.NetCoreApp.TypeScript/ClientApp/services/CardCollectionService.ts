@@ -1,4 +1,4 @@
-﻿import { CardCollectionModel, CollectionApiClient } from "../clients/clients";
+﻿import { CollectionApiClient, ICardCollectionModel } from "../clients/clients";
 import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface ICardCollectionSearchFilter {
@@ -8,7 +8,7 @@ interface ICardCollectionSearchFilter {
 }
 
 export class CardCollectionService {
-    static async getCollection(filter?: ICardCollectionSearchFilter): Promise<CardCollectionModel[] | null> {
+    static async getCollection(filter?: ICardCollectionSearchFilter): Promise<ICardCollectionModel[] | null> {
         const client = new CollectionApiClient(AppBootstrap.baseUrl);
 
         if (!filter) {

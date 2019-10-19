@@ -162,36 +162,36 @@
         "signature": "30673411759"
       },
       "../../clientapp/components/card/card.tsx": {
-        "version": "55952377275",
-        "signature": "-57284094913"
+        "version": "-10214002867",
+        "signature": "-70626955471"
       },
       "../../clientapp/components/card/cardapp.tsx": {
-        "version": "40321790186",
-        "signature": "-29917383683"
+        "version": "-13373971419",
+        "signature": "-41775510920"
       },
       "../../clientapp/components/card/cardlist.tsx": {
-        "version": "-40701089470",
-        "signature": "1815859746"
+        "version": "29699494100",
+        "signature": "667946772"
       },
       "../../clientapp/components/card/cardsearch.tsx": {
-        "version": "-152944049724",
-        "signature": "30378429127"
+        "version": "-135454302026",
+        "signature": "25803978425"
       },
       "../../clientapp/components/card/index.tsx": {
         "version": "-26692992330",
         "signature": "-4882119183"
       },
       "../../clientapp/components/collection/collectionapp.tsx": {
-        "version": "23668495172",
-        "signature": "-48838797644"
+        "version": "-41456437121",
+        "signature": "-26962513009"
       },
       "../../clientapp/components/collection/collectionlist.tsx": {
-        "version": "-22780617966",
-        "signature": "-10580970065"
+        "version": "-44522623964",
+        "signature": "25141581665"
       },
       "../../clientapp/components/collection/collectionsearch.tsx": {
-        "version": "65110986902",
-        "signature": "-11708027287"
+        "version": "-25906333432",
+        "signature": "5562495707"
       },
       "../../clientapp/components/collection/index.tsx": {
         "version": "-31796499663",
@@ -202,72 +202,72 @@
         "signature": "-1726795938"
       },
       "../../clientapp/components/deck/deckapp.tsx": {
-        "version": "-54353583174",
-        "signature": "-25437902558"
+        "version": "8697973749",
+        "signature": "-19571918979"
       },
       "../../clientapp/components/deck/deckcreatemodal.tsx": {
         "version": "56568171838",
         "signature": "28631795100"
       },
       "../../clientapp/components/deck/decklist.tsx": {
-        "version": "45281536023",
-        "signature": "11348281424"
+        "version": "-37561128791",
+        "signature": "29118339106"
       },
       "../../clientapp/components/deck/decksearch.tsx": {
-        "version": "124097878816",
-        "signature": "8766521185"
+        "version": "88658645682",
+        "signature": "21242124851"
       },
       "../../clientapp/components/deck/index.tsx": {
         "version": "-36194180539",
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/game.tsx": {
-        "version": "-37469441015",
-        "signature": "-25147669514"
+        "version": "-18347176627",
+        "signature": "14123748858"
       },
       "../../clientapp/components/game/gameapp.tsx": {
-        "version": "-18616213080",
-        "signature": "-27610754083"
+        "version": "23484503395",
+        "signature": "-6388687272"
       },
       "../../clientapp/components/game/gameboard.tsx": {
-        "version": "120293494854",
-        "signature": "-5868038597"
+        "version": "6191185688",
+        "signature": "14594734861"
       },
       "../../clientapp/components/game/gamecreatemodal.tsx": {
-        "version": "-188993230244",
-        "signature": "30950163677"
+        "version": "146762046926",
+        "signature": "75630417583"
       },
       "../../clientapp/components/game/gamedeckcard.tsx": {
-        "version": "-35689627923",
-        "signature": "-33647075388"
+        "version": "-23438712577",
+        "signature": "-4702626250"
       },
       "../../clientapp/components/game/gamedeckwidget.tsx": {
-        "version": "3847958335",
-        "signature": "11962906858"
+        "version": "62380340017",
+        "signature": "6175190972"
       },
       "../../clientapp/components/game/gamedetailwidget.tsx": {
-        "version": "-45877943326",
-        "signature": "36824606472"
+        "version": "-958389740",
+        "signature": "7469556826"
       },
       "../../clientapp/components/game/gamehistorywidget.tsx": {
-        "version": "-13320802470",
-        "signature": "-11346554011"
+        "version": "14865264844",
+        "signature": "22331032119"
       },
       "../../clientapp/components/game/gamelist.tsx": {
-        "version": "37539952180",
-        "signature": "16824135522"
+        "version": "-3394394298",
+        "signature": "28000911444"
       },
       "../../clientapp/components/game/gamesearch.tsx": {
-        "version": "17649493338",
-        "signature": "-38921047440"
+        "version": "28630616766",
+        "signature": "23274854676"
       },
       "../../clientapp/components/game/index.tsx": {
         "version": "-12359511850",
         "signature": "-4882119183"
       },
       "../../clientapp/components/game/tripletriad/gametripletriadboard.tsx": {
-        "version": "-83007339956",
-        "signature": "-7858010629"
+        "version": "-21027118721",
+        "signature": "-73307530131"
       },
       "../../clientapp/components/game/tripletriad/gametripletriadboardgrid.tsx": {
         "version": "27635221285",
@@ -290,8 +290,8 @@
         "signature": "-53278600054"
       },
       "../../clientapp/components/shared/cardwidget.tsx": {
-        "version": "3700623723",
-        "signature": "-18158612049"
+        "version": "60374649149",
+        "signature": "-30893995295"
       },
       "../../clientapp/components/shared/coinformat.tsx": {
         "version": "36640527476",
@@ -322,20 +322,20 @@
         "signature": "22243481883"
       },
       "../../clientapp/components/store/store.tsx": {
-        "version": "31123333470",
-        "signature": "-19943853870"
+        "version": "91066725771",
+        "signature": "-47528004033"
       },
       "../../clientapp/components/store/storeapp.tsx": {
         "version": "6326280860",
         "signature": "-43907942432"
       },
       "../../clientapp/components/store/storeitembuymodal.tsx": {
-        "version": "-102169409156",
-        "signature": "-29124055247"
+        "version": "19376705303",
+        "signature": "-30424295252"
       },
       "../../clientapp/components/store/storeitemdetails.tsx": {
-        "version": "-61898581367",
-        "signature": "-25263746964"
+        "version": "35333870788",
+        "signature": "12310486823"
       },
       "../../clientapp/components/store/index.tsx": {
         "version": "18401348848",
@@ -354,36 +354,36 @@
         "signature": "-7970839655"
       },
       "../../clientapp/models/deckeditmodel.ts": {
-        "version": "-4109297608",
-        "signature": "-14014637111"
+        "version": "3777388142",
+        "signature": "-6391938593"
       },
       "../../clientapp/models/gametripletriadmodel.ts": {
-        "version": "-16816694087",
-        "signature": "20680434787"
+        "version": "-56544869384",
+        "signature": "-9930417515"
       },
       "../../clientapp/services/accountservice.ts": {
-        "version": "-11055898680",
-        "signature": "-17977362770"
+        "version": "-25933008166",
+        "signature": "-43358922272"
       },
       "../../clientapp/services/cardcollectionservice.ts": {
-        "version": "-6265423363",
-        "signature": "-41045509619"
+        "version": "-45225121457",
+        "signature": "22570650463"
       },
       "../../clientapp/services/cardservice.ts": {
-        "version": "-13197553061",
-        "signature": "8624197909"
+        "version": "-15214293619",
+        "signature": "-30225528249"
       },
       "../../clientapp/services/deckservice.ts": {
-        "version": "-9659837772",
-        "signature": "-20349430194"
+        "version": "-2460643005",
+        "signature": "10349406089"
       },
       "../../clientapp/services/gameservice.ts": {
-        "version": "31031037375",
-        "signature": "-66340336842"
+        "version": "-140649524062",
+        "signature": "-33054188391"
       },
       "../../clientapp/services/storeservice.ts": {
-        "version": "15917689679",
-        "signature": "8319949085"
+        "version": "9871815500",
+        "signature": "-18421792735"
       },
       "../../clientapp/styles/index.tsx": {
         "version": "-56150310863",

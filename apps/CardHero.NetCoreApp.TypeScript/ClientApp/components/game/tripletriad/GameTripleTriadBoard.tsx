@@ -1,11 +1,11 @@
 ﻿import React, { Component } from "react";
-import { CardModel, GameTripleTriadMoveViewModel, GameViewModel } from "../../../clients/clients";
+import { CardModel, GameTripleTriadMoveViewModel, IGameViewModel } from "../../../clients/clients";
 import { GameTripleTriadModel } from "../../../models/GameTripleTriadModel";
 import { GameService } from "../../../services/GameService";
 import { GameTripleTriadBoardGrid, IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
 
 interface IGameTripleTriadBoardProps {
-    game: GameViewModel;
+    game: IGameViewModel;
 }
 
 interface IGameTripleTriadBoardState {

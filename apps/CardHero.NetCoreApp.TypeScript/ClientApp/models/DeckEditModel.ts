@@ -1,7 +1,7 @@
-﻿import { CardCollectionModel, DeckCardModel, DeckModel } from "../clients/clients";
+﻿import { ICardCollectionModel, IDeckCardModel, IDeckModel } from "../clients/clients";
 
 export class DeckEditModel {
-    deck: DeckModel;
-    ownedCards: CardCollectionModel[];
-    usedCards: DeckCardModel[];
+    deck: IDeckModel;
+    ownedCards: ICardCollectionModel[];
+    usedCards: IDeckCardModel[];
 }

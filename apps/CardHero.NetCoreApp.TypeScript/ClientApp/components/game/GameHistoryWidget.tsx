@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { GameModel } from "../../clients/clients";
+import { IGameModel } from "../../clients/clients";
 import { DateFormat } from "../shared/DateFormat";
 
 interface IGameHistoryWidgetProps {
-    game: GameModel;
+    game: IGameModel;
 }
 
 export function GameHistoryWidget(props: IGameHistoryWidgetProps) {

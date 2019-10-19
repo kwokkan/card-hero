@@ -1,9 +1,9 @@
 ﻿import React, { ChangeEvent, Component } from "react";
-import { CardModel } from "../../clients/clients";
+import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
 
 interface ICardSearchProps {
-    onCardsPopulated?: ((cards: CardModel[]) => void);
+    onCardsPopulated?: ((cards: ICardModel[]) => void);
 }
 
 interface ICardSearchState  {

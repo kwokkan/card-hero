@@ -1,10 +1,10 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import { DeckModel } from "../../clients/clients";
+import { IDeckModel } from "../../clients/clients";
 import { Icon } from "../../styles/index";
 
 interface IDeckListProps {
-    decks: DeckModel[];
+    decks: IDeckModel[];
 }
 
 export function DeckList(props: IDeckListProps) {

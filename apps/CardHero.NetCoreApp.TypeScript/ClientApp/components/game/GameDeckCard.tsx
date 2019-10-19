@@ -1,11 +1,11 @@
 ﻿import React from "react";
 import { useDrag } from 'react-dnd';
-import { DeckCardModel } from "../../clients/clients";
+import { IDeckCardModel } from "../../clients/clients";
 import { CardWidget } from "../shared/CardWidget";
 import { DragType } from "../shared/DragType";
 
 interface IGameDeckCardProps {
-    card: DeckCardModel;
+    card: IDeckCardModel;
 }
 
 export function GameDeckCard(props: IGameDeckCardProps) {

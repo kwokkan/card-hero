@@ -1,12 +1,12 @@
 ﻿import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import { StoreItemModel } from "../../clients/clients";
+import { IStoreItemModel } from "../../clients/clients";
 
 interface IStoreItemBuyModelProps {
     show: boolean;
     onHide?: () => void;
-    storeItem?: StoreItemModel;
-    onPurchase?: (item: StoreItemModel) => void;
+    storeItem?: IStoreItemModel;
+    onPurchase?: (item: IStoreItemModel) => void;
 }
 
 export class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, any> {

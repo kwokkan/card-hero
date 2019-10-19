@@ -1,11 +1,11 @@
 ﻿import React, { Component } from "react";
-import { GameModel } from "../../clients/clients";
+import { IGameModel } from "../../clients/clients";
 import { Layout } from "../shared/Layout";
 import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
 
 interface IGameAppState {
-    games: GameModel[];
+    games: IGameModel[];
 }
 
 export class GameApp extends Component<any, IGameAppState> {
@@ -15,7 +15,7 @@ export class GameApp extends Component<any, IGameAppState> {
         this.state = { games: [] };
     }
 
-    onGamesPopulated(games: GameModel[]) {
+    onGamesPopulated(games: IGameModel[]) {
         if (Constants.Debug) {
             if (games != null) {
                 games.forEach(game => {

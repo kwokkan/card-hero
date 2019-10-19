@@ -1,10 +1,10 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import { GameModel, GameType } from "../../clients/clients";
+import { GameType, IGameModel } from "../../clients/clients";
 import { DateFormat } from "../shared/DateFormat";
 
 interface IGameDetailWidgetProps {
-    game: GameModel;
+    game: IGameModel;
 }
 
 export function GameDetailWidget(props: IGameDetailWidgetProps) {
