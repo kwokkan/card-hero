@@ -15,21 +15,26 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class GamePlayService : BaseService, IGamePlayService
     {
-        private readonly ICardService _cardService;
         private readonly IGameService _gameService;
+
+        private readonly IGameDeckCardCollectionRepository _gameDeckCardCollectionRepository;
         private readonly IGameRepository _gameRepository;
+        private readonly IMoveRepository _moveRepository;
 
         public GamePlayService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
-            ICardService cardService,
             IGameService gamseService,
-            IGameRepository gameRepository
+            IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
+            IGameRepository gameRepository,
+            IMoveRepository moveRepository
         )
             : base(contextFactory)
         {
-            _cardService = cardService;
             _gameService = gamseService;
+
+            _gameDeckCardCollectionRepository = gameDeckCardCollectionRepository;
             _gameRepository = gameRepository;
+            _moveRepository = moveRepository;
         }
 
         private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
@@ -53,13 +58,12 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidTurnException();
             }
 
-            var card = (await _cardService.GetCardCollectionAsync(
-                new CardCollectionSearchFilter
+            var card = (await _gameDeckCardCollectionRepository.SearchAsync(
+                new GameDeckCardCollectionSearchFilter
                 {
-#warning Add game deck search
                     Ids = new int[] { move.GameDeckCardCollectionId },
                     UserId = move.UserId,
-                }, cancellationToken: cancellationToken)).Results.FirstOrDefault(x => x.Id == move.GameDeckCardCollectionId);
+                }, cancellationToken: cancellationToken)).SingleOrDefault(x => x.Id == move.GameDeckCardCollectionId);
 
             if (card == null)
             {
@@ -99,17 +103,15 @@ namespace CardHero.Core.SqlServer.Services
 
                 context.Update(currentTurn);
 
-                var currentMove = new Move
+                var currentMove = new MoveData
                 {
-#warning Change to game deck
-                    CardCollectionFk = move.GameDeckCardCollectionId,
+                    GameDeckCardCollectionId = move.GameDeckCardCollectionId,
                     Column = move.Column,
-                    CreatedTime = DateTime.UtcNow,
                     Row = move.Row,
-                    TurnFk = currentTurn.TurnPk,
+                    TurnId = currentTurn.TurnPk,
                 };
 
-                context.Add(currentMove);
+                await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
                 var nextUser = game.Users
                     .SkipWhile(x => x.UserId != move.UserId)

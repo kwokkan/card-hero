@@ -26,5 +26,10 @@
         /// The user making the move.
         /// </summary>
         public int GameUserId { get; set; }
+
+        /// <summary>
+        /// The turn.
+        /// </summary>
+        public int TurnId { get; set; }
     }
 }

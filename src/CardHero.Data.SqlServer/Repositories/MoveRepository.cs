@@ -20,6 +20,27 @@ namespace CardHero.Data.SqlServer
             _factory = factory;
         }
 
+        async Task<MoveData> IMoveRepository.AddMoveAsync(MoveData move, CancellationToken cancellationToken)
+        {
+            var newMove = new Move
+            {
+                GameDeckCardCollectionFk = move.GameDeckCardCollectionId,
+                Column = move.Column,
+                CreatedTime = DateTime.UtcNow,
+                Row = move.Row,
+                TurnFk = move.TurnId,
+            };
+
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                context.Move.Add(newMove);
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            return move;
+        }
+
         async Task<ReadOnlyCollection<MoveData>> IMoveRepository.GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())

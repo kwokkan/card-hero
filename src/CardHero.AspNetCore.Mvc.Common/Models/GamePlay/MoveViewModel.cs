@@ -4,7 +4,7 @@
     {
         public int GameId { get; set; }
 
-        public int CardCollectionId { get; set; }
+        public int GameDeckCardCollectionId { get; set; }
 
         public int Row { get; set; }
 

@@ -24,8 +24,7 @@ namespace CardHero.AspNetCore.Mvc.Common.Controllers.Api
         {
             var move = new MoveModel
             {
-#warning Change to game deck
-                GameDeckCardCollectionId = model.CardCollectionId,
+                GameDeckCardCollectionId = model.GameDeckCardCollectionId,
                 Column = model.Column,
                 GameId = model.GameId,
                 Row = model.Row,
