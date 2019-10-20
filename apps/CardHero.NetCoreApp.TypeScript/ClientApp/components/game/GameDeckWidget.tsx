@@ -18,7 +18,7 @@ export function GameDeckWidget(props: IGameDeckWidgetProps) {
                         (
                             <div id="current-deck" className="ch-cards">
                                 {props.gameDeck.cardCollection.map(x =>
-                                    <GameDeckCard key={x.id} card={x.card} />
+                                    <GameDeckCard key={x.id} card={x} />
                                 )}
                             </div>
                         )

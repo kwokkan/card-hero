@@ -40,8 +40,11 @@ namespace CardHero.Data.SqlServer
 
                 if (filter.UserId.HasValue)
                 {
-                    query = query.Include(x => x.GameDeckFkNavigation);
-                    query = query.Where(x => x.GameDeckFkNavigation.GameUserFk == filter.UserId.Value);
+                    query = query
+                        .Include(x => x.GameDeckFkNavigation)
+                        .ThenInclude(x => x.GameUserFkNavigation)
+                    ;
+                    query = query.Where(x => x.GameDeckFkNavigation.GameUserFkNavigation.UserFk == filter.UserId.Value);
                 }
 
                 var result = query.Select(_gameDeckCardCollectionMapper.Map).ToArray();
