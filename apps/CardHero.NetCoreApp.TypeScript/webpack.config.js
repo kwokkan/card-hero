@@ -211,9 +211,9 @@ module.exports = {
                 use: [
                     {
                         loader: "ts-loader",
-                        options: {
-                            experimentalWatchApi: true
-                        }
+                        //options: {
+                        //    experimentalWatchApi: true
+                        //}
                     }
                 ]
             },
