@@ -418,8 +418,8 @@
         "signature": "-379028018411"
       },
       "../../node_modules/@types/babel__generator/index.d.ts": {
-        "version": "77724926358",
-        "signature": "77724926358"
+        "version": "-104335602437",
+        "signature": "-104335602437"
       },
       "../../node_modules/@types/babel__template/index.d.ts": {
         "version": "35582705027",
@@ -478,8 +478,8 @@
         "signature": "72217181883"
       },
       "../../node_modules/@types/prop-types/index.d.ts": {
-        "version": "9141501246",
-        "signature": "9141501246"
+        "version": "74488408595",
+        "signature": "74488408595"
       },
       "../../node_modules/@types/q/index.d.ts": {
         "version": "101092216377",
@@ -494,8 +494,8 @@
         "signature": "18056987650"
       },
       "../../node_modules/@types/react-router/index.d.ts": {
-        "version": "-49881180686",
-        "signature": "-49881180686"
+        "version": "-118646421389",
+        "signature": "-118646421389"
       },
       "../../node_modules/@types/react-router-dom/index.d.ts": {
         "version": "-66251769001",
@@ -522,16 +522,16 @@
         "signature": "163587837665"
       },
       "../../node_modules/@types/webpack/index.d.ts": {
-        "version": "344084029500",
-        "signature": "344084029500"
+        "version": "26251533325",
+        "signature": "26251533325"
       },
       "../../node_modules/@types/webpack-sources/index.d.ts": {
         "version": "-47699925729",
         "signature": "-47699925729"
       },
       "../../node_modules/@types/yargs/index.d.ts": {
-        "version": "431352670081",
-        "signature": "431352670081"
+        "version": "260978529719",
+        "signature": "260978529719"
       },
       "../../node_modules/@types/yargs-parser/index.d.ts": {
         "version": "28270649320",
