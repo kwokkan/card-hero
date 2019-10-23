@@ -197,9 +197,9 @@ module.exports = {
                     "cache-loader",
                     {
                         loader: "ts-loader",
-                        options: {
-                            experimentalWatchApi: true
-                        }
+                        //options: {
+                        //    experimentalWatchApi: true
+                        //}
                     }
                 ]
             },
