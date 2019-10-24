@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CardHero.AspNetCore.Mvc.Helpers\CardHero.AspNetCore.Mvc.Helpers.csproj" />
     <ProjectReference Include="..\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
   </ItemGroup>
 
