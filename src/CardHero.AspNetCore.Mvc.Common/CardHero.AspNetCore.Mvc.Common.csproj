@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\shared\KwokKan.AspNetCore.Mvc.Sortable\KwokKan.AspNetCore.Mvc.Sortable.csproj" />
     <ProjectReference Include="..\CardHero.AspNetCore.Mvc.Helpers\CardHero.AspNetCore.Mvc.Helpers.csproj" />
     <ProjectReference Include="..\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
   </ItemGroup>
