@@ -8,7 +8,6 @@ using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
@@ -137,12 +136,11 @@ namespace CardHero.Core.SqlServer.Services
 
                 await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
 
-                var currentGame = await context.Game.SingleOrDefaultAsync(x => x.GamePk == game.Id, cancellationToken: cancellationToken);
-                currentGame.CurrentUserFk = nextUser.Id;
-
-                context.Update(currentGame);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+                var gameUpdate = new GameUpdateData
+                {
+                    CurrentGameUserId = nextUser.Id,
+                };
+                await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
             }
         }
     }
