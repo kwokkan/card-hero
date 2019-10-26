@@ -242,59 +242,7 @@ namespace CardHero.Core.SqlServer.Services
             return game;
         }
 
-        Task<Abstractions.SearchResult<GameModel>> IGameService.GetGamesAsync(Abstractions.GameSearchFilter filter, CancellationToken cancellationToken)
-        {
-            var result = new Abstractions.SearchResult<GameModel>();
-
-            var context = GetContext();
-
-            var query = context.Game
-                .Include(x => x.CurrentUserFkNavigation)
-                .Include(x => x.DeckFkNavigation)
-                    .ThenInclude(x => x.DeckCardCollection)
-                        .ThenInclude(x => x.CardCollectionFkNavigation)
-                            .ThenInclude(x => x.CardFkNavigation)
-                .Include(x => x.GameUser)
-                    .ThenInclude(x => x.GameFkNavigation)
-                .Include(x => x.GameUser)
-                    .ThenInclude(x => x.UserFkNavigation)
-                .Include(x => x.WinnerFkNavigation)
-                .AsQueryable();
-
-            if (filter.GameId.HasValue)
-            {
-                query = query.Where(x => x.GamePk == filter.GameId.Value);
-            }
-
-            if (!string.IsNullOrWhiteSpace(filter.Name))
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-
-            if (filter.StartTime.HasValue)
-            {
-                query = query.Where(x => x.StartTime >= filter.StartTime.Value);
-            }
-
-            if (filter.EndTime.HasValue)
-            {
-                query = query.Where(x => x.EndTime <= filter.EndTime.Value);
-            }
-
-            if (filter.ActiveOnly)
-            {
-                query = query.Where(x => !x.EndTime.HasValue);
-            }
-
-            if (filter.Type.HasValue)
-            {
-                query = query.Where(x => x.GameTypeFk == (int)filter.Type.Value);
-            }
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
-        }
-
-        Task<Abstractions.SearchResult<GameModel>> IGameService.NewGetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)
+        Task<Abstractions.SearchResult<GameModel>> IGameService.GetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)
         {
             return GetGamesInternalAsync(filter, userId: userId, cancellationToken: cancellationToken);
         }

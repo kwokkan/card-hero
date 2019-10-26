@@ -298,7 +298,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DeckModel"
+                "$ref": "#/components/schemas/DeckCreateModel"
               }
             }
           },
@@ -1038,6 +1038,23 @@
             }
           }
         ]
+      },
+      "DeckCreateModel": {
+        "type": "object",
+        "description": "Model for creating a new deck.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of deck.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of deck.",
+            "nullable": true
+          }
+        }
       },
       "GameModel": {
         "type": "object",

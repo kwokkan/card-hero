@@ -67,7 +67,15 @@ export class NavMenu extends PureComponent<any, any> {
 
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href={u('swagger')}>
+                            <a className="nav-link" href="https://github.com/kwokkan/card-hero" target="_blank">
+                                <Icon icon="github" />
+                                {' '}
+                                Fork me
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link" href={u('swagger')} target="_blank">
                                 <Icon icon="code" />
                                 {' '}
                                 API

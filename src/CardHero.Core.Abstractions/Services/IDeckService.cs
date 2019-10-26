@@ -34,7 +34,7 @@ namespace CardHero.Core.Abstractions
         /// <param name="userId">The user to create the deck for.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns></returns>
-        Task<DeckModel> CreateDeckAsync(DeckModel deck, int userId, CancellationToken cancellationToken = default);
+        Task<DeckModel> CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a deck.
