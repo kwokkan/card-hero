@@ -11,9 +11,14 @@
         public int GameId { get; set; }
 
         /// <summary>
+        /// The card id played.
+        /// </summary>
+        public int CardId { get; set; }
+
+        /// <summary>
         /// The card to play.
         /// </summary>
-        public int CardCollectionId { get; set; }
+        public int GameDeckCardCollectionId { get; set; }
 
         /// <summary>
         /// Zero based index of the row.

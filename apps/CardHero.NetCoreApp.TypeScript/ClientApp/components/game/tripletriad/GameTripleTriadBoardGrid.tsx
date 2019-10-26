@@ -7,7 +7,7 @@ import { DragType } from "../../shared/DragType";
 export interface IGameTripleTriadBoardGridOnDropProps {
     row: number;
     column: number;
-    cardCollectionId: number;
+    gameDeckCardCollectionId: number;
 }
 
 interface IGameTripleTriadBoardGridProps {
@@ -27,7 +27,7 @@ export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> 
                 props.onDrop({
                     row: props.row,
                     column: props.column,
-                    cardCollectionId: item.cardCollectionId
+                    gameDeckCardCollectionId: item.gameDeckCardCollectionId
                 });
             }
         },

@@ -46,6 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\shared\KwokKan.Sortable\KwokKan.Sortable.csproj" />
     <ProjectReference Include="..\CardHero.Core.Models\CardHero.Core.Models.csproj" />
+    <ProjectReference Include="..\CardHero.Data.Abstractions\CardHero.Data.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

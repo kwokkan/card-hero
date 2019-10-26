@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+using CardHero.Core.Models;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
@@ -9,5 +12,7 @@ namespace CardHero.NetCoreApp.TypeScript
         public int Columns { get; set; }
 
         public IEnumerable<GameTripleTriadMoveViewModel> Moves { get; set; }
+
+        public ReadOnlyCollection<CardModel> PlayedCards { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +17,6 @@ namespace CardHero.Core.Abstractions
         /// <param name="gameId">The game to get moves for.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A list of moves.</returns>
-        Task<IEnumerable<MoveModel>> GetMovesAsync(int gameId, CancellationToken cancellationToken = default);
+        Task<ReadOnlyCollection<MoveModel>> GetMovesAsync(int gameId, CancellationToken cancellationToken = default);
     }
 }

@@ -8,6 +8,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public Card()
         {
             CardCollection = new HashSet<CardCollection>();
+            GameDeckCardCollection = new HashSet<GameDeckCardCollection>();
         }
 
         public int CardPk { get; set; }
@@ -25,5 +26,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int TotalStats { get; set; }
 
         public virtual ICollection<CardCollection> CardCollection { get; set; }
+        public virtual ICollection<GameDeckCardCollection> GameDeckCardCollection { get; set; }
     }
 }

@@ -9,6 +9,10 @@ interface ICardWidgetProps {
 export function CardWidget(props: ICardWidgetProps) {
     const c = props.card;
 
+    if (!c) {
+        return null;
+    }
+
     return (
         <div className={'card collection-card card-rarity_' + Rarity[c.rarity].toLowerCase()}>
             <div className="card-body">

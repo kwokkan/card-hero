@@ -12,6 +12,9 @@ CardCollection,`
 Deck,`
 DeckCardCollection,`
 Game,`
+GameDeck,`
+GameDeckCardCollection,`
+GameUser,`
 Move,`
 Turn,`
 User

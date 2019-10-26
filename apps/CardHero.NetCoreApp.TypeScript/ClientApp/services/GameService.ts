@@ -1,4 +1,4 @@
-﻿import { GameApiClient, GameCreateModel, GameTripleTriadMoveViewModel, IGameModel, IGameTripleTriadMoveViewModel } from "../clients/clients";
+﻿import { GameApiClient, GameCreateModel, GameTripleTriadMoveViewModel, IGameModel, IGameTripleTriadMoveViewModel, IGameUserModel, JoinGameViewModel } from "../clients/clients";
 import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface IGameSearchFilter {
@@ -46,6 +46,17 @@ export class GameService {
         const newModel = await client.post(model);
 
         return newModel;
+    }
+
+    static async join(id: number, deckId: number): Promise<IGameUserModel> {
+        const client = new GameApiClient(AppBootstrap.baseUrl);
+
+        const postModel = new JoinGameViewModel({
+            deckId: deckId
+        });
+        const model = await client.join(id, postModel);
+
+        return model;
     }
 
     static async move(id: number, model: GameTripleTriadMoveViewModel): Promise<IGameTripleTriadMoveViewModel> {
