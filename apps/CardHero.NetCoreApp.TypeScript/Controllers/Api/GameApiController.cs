@@ -14,13 +14,15 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
     [Route("api/games")]
     public class GameApiController : CardHeroControllerBase
     {
+        private readonly ICardService _cardService;
         private readonly IGamePlayService _gamePlayService;
         private readonly IGameService _gameService;
         private readonly IMoveService _moveService;
 
-        public GameApiController(IUserService userService, IGamePlayService gamePlayService, IGameService gameService, IMoveService moveService)
+        public GameApiController(IUserService userService, ICardService cardService, IGamePlayService gamePlayService, IGameService gameService, IMoveService moveService)
             : base(userService)
         {
+            _cardService = cardService;
             _gamePlayService = gamePlayService;
             _gameService = gameService;
             _moveService = moveService;
@@ -50,15 +52,23 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var game = await _gameService.GetGameByIdAsync(id, userId, cancellationToken: cancellationToken);
             var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
+            var cardFilter = new CardSearchFilter
+            {
+                Ids = moves.Select(x => x.CardId).ToArray(),
+            };
+            var playedCards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
+
             var data = new GameTripleTriadViewModel
             {
                 Columns = game.Columns,
                 Moves = moves.Select(x => new GameTripleTriadMoveViewModel
                 {
+                    CardId = x.CardId,
                     GameDeckCardCollectionId = x.GameDeckCardCollectionId,
                     Column = x.Column,
                     Row = x.Row,
                 }).ToList(),
+                PlayedCards = Array.AsReadOnly(playedCards.Results),
                 Rows = game.Rows,
             };
 

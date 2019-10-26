@@ -47,10 +47,12 @@ namespace CardHero.Data.SqlServer
             {
                 var result = await context
                     .Move
+                    .Include(x => x.GameDeckCardCollectionFkNavigation)
                     .Include(x => x.TurnFkNavigation)
                     .Where(x => x.TurnFkNavigation.GameFk == gameId)
                     .Select(x => new MoveData
                     {
+                        CardId = x.GameDeckCardCollectionFkNavigation.CardFk,
                         GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
                         Column = x.Column,
                         GameId = x.TurnFkNavigation.GameFk,

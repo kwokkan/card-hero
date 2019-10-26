@@ -1405,6 +1405,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "cardId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "gameDeckCardCollectionId": {
             "type": "integer",
             "format": "int32"

@@ -9,6 +9,7 @@ namespace CardHero.Core.Abstractions
         {
             return new MoveModel
             {
+                CardId = from.CardId,
                 Column = from.Column,
                 GameDeckCardCollectionId = from.GameDeckCardCollectionId,
                 GameId = from.GameId,
