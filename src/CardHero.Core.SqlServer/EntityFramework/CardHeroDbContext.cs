@@ -14,7 +14,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
-        public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<StoreItem> StoreItem { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
@@ -254,21 +253,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.TurnFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Move_Turn_FK");
-            });
-
-            modelBuilder.Entity<Player>(entity =>
-            {
-                entity.HasKey(e => e.PlayerPk);
-
-                entity.Property(e => e.PlayerPk).HasColumnName("Player_PK");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
             });
 
             modelBuilder.Entity<Rarity>(entity =>
