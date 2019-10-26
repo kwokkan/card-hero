@@ -12,7 +12,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
-        public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<StoreItem> StoreItem { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
@@ -196,37 +195,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeckFavourite_User_FK");
-            });
-
-            modelBuilder.Entity<Move>(entity =>
-            {
-                entity.HasKey(e => e.MovePk);
-
-                entity.HasIndex(e => e.CardCollectionFk);
-
-                entity.HasIndex(e => e.TurnFk);
-
-                entity.Property(e => e.MovePk).HasColumnName("Move_PK");
-
-                entity.Property(e => e.CardCollectionFk).HasColumnName("CardCollection_FK");
-
-                entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Rowstamp).HasMaxLength(10);
-
-                entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
-
-                entity.HasOne(d => d.CardCollectionFkNavigation)
-                    .WithMany(p => p.Move)
-                    .HasForeignKey(d => d.CardCollectionFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Move_CardCollection_FK");
-
-                entity.HasOne(d => d.TurnFkNavigation)
-                    .WithMany(p => p.Move)
-                    .HasForeignKey(d => d.TurnFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Move_Turn_FK");
             });
 
             modelBuilder.Entity<Rarity>(entity =>
