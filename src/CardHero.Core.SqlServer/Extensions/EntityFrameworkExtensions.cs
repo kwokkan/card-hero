@@ -79,25 +79,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static GameModel ToCore(this Game game)
-        {
-            return new GameModel
-            {
-                Columns = game.Columns,
-                CurrentUser = game.CurrentUserFkNavigation.ToCore(),
-                Deck = game.DeckFkNavigation.ToCore(),
-                EndTime = game.EndTime,
-                Id = game.GamePk,
-                Name = game.Name,
-                //Users = game.GameUser.Select(x => x.UserFkNavigation.ToCore()),
-                Rows = game.Rows,
-                StartTime = game.StartTime,
-                Turns = game.Turn.Select(x => x.ToCore()),
-                Type = (Models.GameType)game.GameTypeFk,
-                Winner = game.WinnerFk.HasValue ? game.WinnerFkNavigation.ToCore() : null,
-            };
-        }
-
         public static StoreItemModel ToCore(this StoreItem storeItem)
         {
             return new StoreItemModel
@@ -108,18 +89,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Id = storeItem.StoreItemPk,
                 ItemCount = storeItem.ItemCount,
                 Name = storeItem.Name,
-            };
-        }
-
-        public static TurnModel ToCore(this Turn turn)
-        {
-            return new TurnModel
-            {
-                EndTime = turn.EndTime,
-                Game = turn.GameFkNavigation.ToCore(),
-                Id = turn.TurnPk,
-                User = turn.CurrentUserFkNavigation.ToCore(),
-                StartTime = turn.StartTime,
             };
         }
 
