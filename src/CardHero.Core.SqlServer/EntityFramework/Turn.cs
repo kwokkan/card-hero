@@ -7,7 +7,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
     {
         public Turn()
         {
-            Move = new HashSet<Move>();
         }
 
         public int TurnPk { get; set; }
@@ -18,7 +17,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int GameFk { get; set; }
 
         public virtual User CurrentUserFkNavigation { get; set; }
-        public virtual Game GameFkNavigation { get; set; }
         public virtual ICollection<Move> Move { get; set; }
     }
 }

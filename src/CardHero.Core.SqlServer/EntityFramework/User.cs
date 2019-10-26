@@ -11,9 +11,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
             CardFavourite = new HashSet<CardFavourite>();
             Deck = new HashSet<Deck>();
             DeckFavourite = new HashSet<DeckFavourite>();
-            GameCurrentUserFkNavigation = new HashSet<Game>();
             GameUser = new HashSet<GameUser>();
-            GameWinnerFkNavigation = new HashSet<Game>();
             Turn = new HashSet<Turn>();
         }
 
@@ -28,9 +26,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual ICollection<CardFavourite> CardFavourite { get; set; }
         public virtual ICollection<Deck> Deck { get; set; }
         public virtual ICollection<DeckFavourite> DeckFavourite { get; set; }
-        public virtual ICollection<Game> GameCurrentUserFkNavigation { get; set; }
         public virtual ICollection<GameUser> GameUser { get; set; }
-        public virtual ICollection<Game> GameWinnerFkNavigation { get; set; }
         public virtual ICollection<Turn> Turn { get; set; }
     }
 }

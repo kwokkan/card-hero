@@ -7,13 +7,10 @@ namespace CardHero.Core.SqlServer.EntityFramework
     {
         public GameType()
         {
-            Game = new HashSet<Game>();
         }
 
         public int GameTypePk { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public virtual ICollection<Game> Game { get; set; }
     }
 }
