@@ -1,42 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class MoveService : BaseService, IMoveService
     {
-        public MoveService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IMoveRepository _moveRepository;
+
+        private readonly IDataMapper<MoveData, MoveModel> _moveDataMapper;
+
+        public MoveService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IMoveRepository moveRepository,
+            IDataMapper<MoveData, MoveModel> moveDataMapper
+        )
             : base(contextFactory)
         {
+            _moveRepository = moveRepository;
+
+            _moveDataMapper = moveDataMapper;
         }
 
-        async Task<IEnumerable<Core.Models.MoveModel>> IMoveService.GetMovesAsync(int gameId, CancellationToken cancellationToken)
+        async Task<ReadOnlyCollection<MoveModel>> IMoveService.GetMovesAsync(int gameId, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var moves = await _moveRepository.GetMovesByGameIdAsync(gameId, cancellationToken: cancellationToken);
 
-            var result = await context
-                .Move
-                .Include(x => x.TurnFkNavigation)
-                .Where(x => x.TurnFkNavigation.GameFk == gameId)
-                .Select(x => new Core.Models.MoveModel
-                {
-                    CardCollectionId = x.CardCollectionFk,
-                    Column = x.Column,
-                    GameId = x.TurnFkNavigation.GameFk,
-                    Row = x.Row,
-                    UserId = x.TurnFkNavigation.CurrentUserFk,
-                })
-                .ToListAsync(cancellationToken: cancellationToken);
+            var models = moves.Select(_moveDataMapper.Map).ToList();
 
-            return result;
+            return new ReadOnlyCollection<MoveModel>(models);
         }
     }
 }

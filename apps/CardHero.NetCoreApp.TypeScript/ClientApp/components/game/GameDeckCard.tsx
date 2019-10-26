@@ -1,11 +1,11 @@
 ﻿import React from "react";
 import { useDrag } from 'react-dnd';
-import { IDeckCardModel } from "../../clients/clients";
+import { IGameDeckCardCollectionModel } from "../../clients/clients";
 import { CardWidget } from "../shared/CardWidget";
 import { DragType } from "../shared/DragType";
 
 interface IGameDeckCardProps {
-    card: IDeckCardModel;
+    card: IGameDeckCardCollectionModel;
 }
 
 export function GameDeckCard(props: IGameDeckCardProps) {
@@ -16,7 +16,7 @@ export function GameDeckCard(props: IGameDeckCardProps) {
     const [{ isDragging }, drag] = useDrag({
         item: {
             type: DragType.Card.toString(),
-            cardCollectionId: dc.cardCollectionId
+            gameDeckCardCollectionId: dc.id
         },
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
@@ -27,9 +27,9 @@ export function GameDeckCard(props: IGameDeckCardProps) {
         <div
             ref={drag}
             className={'current-card' + (isUsable ? '' : ' bg-secondary text-white disabled') + (isDragging ? ' bg-primary' : '')}
-            data-card-collection-id={dc.cardCollectionId}
+            data-game-deck-card-collection-id={dc.id}
         >
-            <CardWidget card={dc} />
+            <CardWidget card={dc.card} />
         </div>
     );
 }

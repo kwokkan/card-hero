@@ -6,6 +6,8 @@
 
         public int Column { get; set; }
 
-        public int CardCollectionId { get; set; }
+        public int CardId { get; set; }
+
+        public int GameDeckCardCollectionId { get; set; }
     }
 }

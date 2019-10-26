@@ -1,11 +1,11 @@
 ﻿import React, { ChangeEvent, Component, Fragment } from "react";
 import { GameCreateModel, IDeckModel, IGameModel } from "../../clients/clients";
-import { DeckService } from "../../services/DeckService";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
 import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
+    decks: IDeckModel[];
     onGamesPopulated?: ((games: IGameModel[]) => void);
 }
 
@@ -15,7 +15,6 @@ interface IGameSearchState {
     page?: number;
     pageSize?: number;
     modalShown: boolean;
-    decks: IDeckModel[];
 }
 
 export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
@@ -23,24 +22,12 @@ export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
         super(props);
 
         this.state = {
-            modalShown: false,
-            decks: []
+            modalShown: false
         };
     }
 
     async componentDidMount() {
-        Promise.all([
-            this.getDecks(),
-            this.getGames()
-        ]);
-    }
-
-    async getDecks() {
-        const decks = await DeckService.getDecks();
-
-        this.setState({
-            decks: decks
-        });
+        this.getGames();
     }
 
     async getGames(e?) {
@@ -133,7 +120,7 @@ export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
                     show={this.state.modalShown}
                     onCreated={(game) => this.onGameCreated(game)}
                     onHide={() => this.setState({ modalShown: false })}
-                    decks={this.state.decks}
+                    decks={this.props.decks}
                 />
             </Fragment>
         );

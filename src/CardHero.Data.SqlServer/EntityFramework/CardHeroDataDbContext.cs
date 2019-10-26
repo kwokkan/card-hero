@@ -20,6 +20,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<Game> Game { get; set; }
+        public virtual DbSet<GameDeck> GameDeck { get; set; }
+        public virtual DbSet<GameDeckCardCollection> GameDeckCardCollection { get; set; }
+        public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -175,21 +178,122 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getutcdate())");
 
                 entity.Property(e => e.WinnerFk).HasColumnName("Winner_FK");
+
+                entity.HasOne(d => d.CurrentGameUserFkNavigation)
+                    .WithMany(p => p.GameCurrentGameUserFkNavigation)
+                    .HasForeignKey(d => d.CurrentGameUserFk)
+                    .HasConstraintName("FK_Game_CurrentUser_FK");
+
+                entity.HasOne(d => d.WinnerFkNavigation)
+                    .WithMany(p => p.GameWinnerFkNavigation)
+                    .HasForeignKey(d => d.WinnerFk)
+                    .HasConstraintName("FK_Game_Winner_FK");
+            });
+
+            modelBuilder.Entity<GameDeck>(entity =>
+            {
+                entity.HasKey(e => e.GameDeckPk);
+
+                entity.HasIndex(e => e.GameUserFk);
+
+                entity.Property(e => e.GameDeckPk).HasColumnName("GameDeck_PK");
+
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getutcdate())");
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.GameUserFk).HasColumnName("GameUser_FK");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion();
+
+                entity.HasOne(d => d.GameUserFkNavigation)
+                    .WithMany(p => p.GameDeck)
+                    .HasForeignKey(d => d.GameUserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameDeck_GameUser_FK");
+            });
+
+            modelBuilder.Entity<GameDeckCardCollection>(entity =>
+            {
+                entity.HasKey(e => e.GameDeckCardCollectionPk);
+
+                entity.HasIndex(e => e.CardFk);
+
+                entity.HasIndex(e => e.GameDeckFk);
+
+                entity.Property(e => e.GameDeckCardCollectionPk).HasColumnName("GameDeckCardCollection_PK");
+
+                entity.Property(e => e.CardFk).HasColumnName("Card_FK");
+
+                entity.Property(e => e.GameDeckFk).HasColumnName("GameDeck_FK");
+
+                entity.Property(e => e.Rowstamp).IsRowVersion();
+
+                entity.HasOne(d => d.CardFkNavigation)
+                    .WithMany(p => p.GameDeckCardCollection)
+                    .HasForeignKey(d => d.CardFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameDeckCardCollection_Card_FK");
+
+                entity.HasOne(d => d.GameDeckFkNavigation)
+                    .WithMany(p => p.GameDeckCardCollection)
+                    .HasForeignKey(d => d.GameDeckFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameDeckCardCollection_GameDeck_FK");
+            });
+
+            modelBuilder.Entity<GameUser>(entity =>
+            {
+                entity.HasKey(e => e.GameUserPk);
+
+                entity.HasIndex(e => e.GameFk);
+
+                entity.HasIndex(e => e.UserFk);
+
+                entity.Property(e => e.GameUserPk).HasColumnName("GameUser_PK");
+
+                entity.Property(e => e.GameFk).HasColumnName("Game_FK");
+
+                entity.Property(e => e.JoinedTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getutcdate())");
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion();
+
+                entity.Property(e => e.UserFk).HasColumnName("User_FK");
+
+                entity.HasOne(d => d.GameFkNavigation)
+                    .WithMany(p => p.GameUser)
+                    .HasForeignKey(d => d.GameFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameUser_Game");
+
+                entity.HasOne(d => d.UserFkNavigation)
+                    .WithMany(p => p.GameUser)
+                    .HasForeignKey(d => d.UserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GameUser_User");
             });
 
             modelBuilder.Entity<Move>(entity =>
             {
                 entity.HasKey(e => e.MovePk);
 
-                entity.HasIndex(e => e.CardCollectionFk);
+                entity.HasIndex(e => e.GameDeckCardCollectionFk);
 
                 entity.HasIndex(e => e.TurnFk);
 
                 entity.Property(e => e.MovePk).HasColumnName("Move_PK");
 
-                entity.Property(e => e.CardCollectionFk).HasColumnName("CardCollection_FK");
-
                 entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.GameDeckCardCollectionFk).HasColumnName("GameDeckCardCollection_FK");
 
                 entity.Property(e => e.Rowstamp)
                     .HasMaxLength(10)
@@ -197,9 +301,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 
-                entity.HasOne(d => d.CardCollectionFkNavigation)
+                entity.HasOne(d => d.GameDeckCardCollectionFkNavigation)
                     .WithMany(p => p.Move)
-                    .HasForeignKey(d => d.CardCollectionFk)
+                    .HasForeignKey(d => d.GameDeckCardCollectionFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Move_CardCollection_FK");
 
@@ -214,13 +318,13 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.TurnPk);
 
-                entity.HasIndex(e => e.CurrentUserFk);
+                entity.HasIndex(e => e.CurrentGameUserFk);
 
                 entity.HasIndex(e => e.GameFk);
 
                 entity.Property(e => e.TurnPk).HasColumnName("Turn_PK");
 
-                entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
+                entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
 
                 entity.Property(e => e.GameFk).HasColumnName("Game_FK");
 
@@ -230,9 +334,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
 
-                entity.HasOne(d => d.CurrentUserFkNavigation)
+                entity.HasOne(d => d.CurrentGameUserFkNavigation)
                     .WithMany(p => p.Turn)
-                    .HasForeignKey(d => d.CurrentUserFk)
+                    .HasForeignKey(d => d.CurrentGameUserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Turn_CurrentUser_FK");
 

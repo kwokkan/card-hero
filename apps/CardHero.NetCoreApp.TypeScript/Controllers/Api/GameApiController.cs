@@ -14,13 +14,15 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
     [Route("api/games")]
     public class GameApiController : CardHeroControllerBase
     {
+        private readonly ICardService _cardService;
         private readonly IGamePlayService _gamePlayService;
         private readonly IGameService _gameService;
         private readonly IMoveService _moveService;
 
-        public GameApiController(IUserService userService, IGamePlayService gamePlayService, IGameService gameService, IMoveService moveService)
+        public GameApiController(IUserService userService, ICardService cardService, IGamePlayService gamePlayService, IGameService gameService, IMoveService moveService)
             : base(userService)
         {
+            _cardService = cardService;
             _gamePlayService = gamePlayService;
             _gameService = gameService;
             _moveService = moveService;
@@ -30,11 +32,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<GameModel[]>> GetAsync([FromQuery]GameQueryFilter query, CancellationToken cancellationToken)
         {
+            var userId = (await GetUserAsync(cancellationToken))?.Id;
+
             var filter = query.ToSearchFilter();
             filter.Sort = x => x.Id;
             filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
 
-            var result = await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken);
+            var result = await _gameService.NewGetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken);
 
             return result.Results;
         }
@@ -44,22 +48,27 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GameViewModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var filter = new GameSearchFilter
-            {
-                GameId = id,
-            };
-            var game = (await _gameService.GetGamesAsync(filter, cancellationToken: cancellationToken)).Results.FirstOrDefault();
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id;
+            var game = await _gameService.GetGameByIdAsync(id, userId, cancellationToken: cancellationToken);
             var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
+
+            var cardFilter = new CardSearchFilter
+            {
+                Ids = moves.Select(x => x.CardId).ToArray(),
+            };
+            var playedCards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
 
             var data = new GameTripleTriadViewModel
             {
                 Columns = game.Columns,
                 Moves = moves.Select(x => new GameTripleTriadMoveViewModel
                 {
-                    CardCollectionId = x.CardCollectionId,
+                    CardId = x.CardId,
+                    GameDeckCardCollectionId = x.GameDeckCardCollectionId,
                     Column = x.Column,
                     Row = x.Row,
                 }).ToList(),
+                PlayedCards = Array.AsReadOnly(playedCards.Results),
                 Rows = game.Rows,
             };
 
@@ -67,11 +76,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             {
                 Data = data,
             };
-
-            foreach (var card in model.Deck.Cards)
-            {
-                //TODO: add card usable
-            }
 
             return model;
         }
@@ -96,6 +100,16 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newGame.Id }, newGame);
         }
 
+        [HttpPost("{id:int}/join")]
+        public async Task<ActionResult<GameUserModel>> Join(int id, [FromBody]JoinGameViewModel model, CancellationToken cancellationToken = default)
+        {
+            var user = await GetUserAsync(cancellationToken: cancellationToken);
+
+            var result = await _gameService.AddUserToGameAsync(id, user.Id, model.DeckId, cancellationToken: cancellationToken);
+
+            return result;
+        }
+
         [HttpPost("{id:int}/move")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -106,7 +120,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var move = new MoveModel
             {
-                CardCollectionId = model.CardCollectionId,
+                GameDeckCardCollectionId = model.GameDeckCardCollectionId,
                 Column = model.Column,
                 GameId = id,
                 Row = model.Row,

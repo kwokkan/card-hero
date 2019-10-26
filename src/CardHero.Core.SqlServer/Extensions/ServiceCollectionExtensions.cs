@@ -1,6 +1,8 @@
 ﻿using CardHero.Core.Abstractions;
+using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Core.SqlServer.Services;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +45,15 @@ namespace CardHero.Core.SqlServer.Web
 
             services
                 .AddScoped<IGameValidator, GameValidator>()
+            ;
+
+            services
+                .AddScoped<IDataMapper<GameData, GameModel>, GameDataMapper>()
+                .AddScoped<IDataMapper<GameCreateData, GameCreateModel>, GameCreateDataMapper>()
+                .AddScoped<IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel>, GameDeckCardCollectionMapper>()
+                .AddScoped<IDataMapper<GameDeckData, GameDeckModel>, GameDeckDataMapper>()
+                .AddScoped<IDataMapper<GameUserData, GameUserModel>, GameUserDataMapper>()
+                .AddScoped<IDataMapper<MoveData, MoveModel>, MoveDataMapper>()
             ;
 
             return services;

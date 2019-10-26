@@ -1,7 +1,7 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { IDeckModel, IGameModel } from "../../clients/clients";
+import { IGameDeckModel, IGameModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { Layout } from "../shared/Layout";
 import { GameBoard } from "./GameBoard";
@@ -15,7 +15,7 @@ interface IGameProps {
 
 interface IGameState {
     game?: IGameModel;
-    deck?: IDeckModel;
+    gameDeck?: IGameDeckModel;
 }
 
 export class Game extends Component<IGameProps, IGameState> {
@@ -31,7 +31,7 @@ export class Game extends Component<IGameProps, IGameState> {
         if (game) {
             this.setState({
                 game: game,
-                deck: game.deck
+                gameDeck: game.gameDeck
             });
         }
     }
@@ -70,7 +70,7 @@ export class Game extends Component<IGameProps, IGameState> {
 
                         <div className="col-lg-3">
                             <GameDeckWidget
-                                deck={this.state.deck}
+                                gameDeck={this.state.gameDeck}
                             />
                         </div>
                     </div>

@@ -99,6 +99,8 @@
     <PostDeploy Include="Scripts\PostDeployment\PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Data\Rarity.sql" />
     <None Include="Scripts\PostDeployment\Data\GameType.sql" />
+    <Build Include="dbo\Tables\GameDeckCardCollection.sql" />
+    <Build Include="dbo\Tables\GameDeck.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Local.publish.xml" />
