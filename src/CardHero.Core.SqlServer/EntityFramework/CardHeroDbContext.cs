@@ -12,7 +12,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
-        public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<StoreItem> StoreItem { get; set; }
@@ -197,31 +196,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeckFavourite_User_FK");
-            });
-
-            modelBuilder.Entity<GameUser>(entity =>
-            {
-                entity.HasKey(e => e.GameUserPk);
-
-                entity.HasIndex(e => e.GameFk);
-
-                entity.HasIndex(e => e.UserFk);
-
-                entity.Property(e => e.GameUserPk).HasColumnName("GameUser_PK");
-
-                entity.Property(e => e.GameFk).HasColumnName("Game_FK");
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
-
-                entity.Property(e => e.UserFk).HasColumnName("User_FK");
-
-                entity.HasOne(d => d.UserFkNavigation)
-                    .WithMany(p => p.GameUser)
-                    .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GameUser_User");
             });
 
             modelBuilder.Entity<Move>(entity =>
