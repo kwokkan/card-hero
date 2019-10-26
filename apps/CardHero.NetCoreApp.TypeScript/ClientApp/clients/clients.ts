@@ -201,7 +201,7 @@ export class CollectionApiClient extends CardHeroApiClientBase implements IColle
 
 export interface IDeckApiClient {
     get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<DeckModel[]>;
-    create(model: DeckModel): Promise<DeckModel>;
+    create(model: DeckCreateModel): Promise<DeckModel>;
     getById(id: number): Promise<DeckModel>;
 }
 
@@ -271,7 +271,7 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
         return Promise.resolve<DeckModel[]>(<any>null);
     }
 
-    create(model: DeckModel): Promise<DeckModel> {
+    create(model: DeckCreateModel): Promise<DeckModel> {
         let url_ = this.baseUrl + "/api/decks";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1159,6 +1159,52 @@ export class DeckCardModel extends CardModel implements IDeckCardModel {
 export interface IDeckCardModel extends ICardModel {
     /** Card collection id. */
     cardCollectionId?: number;
+}
+
+/** Model for creating a new deck. */
+export class DeckCreateModel implements IDeckCreateModel {
+    /** Name of deck. */
+    name?: string | undefined;
+    /** Description of deck. */
+    description?: string | undefined;
+
+    constructor(data?: IDeckCreateModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): DeckCreateModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeckCreateModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data; 
+    }
+}
+
+/** Model for creating a new deck. */
+export interface IDeckCreateModel {
+    /** Name of deck. */
+    name?: string | undefined;
+    /** Description of deck. */
+    description?: string | undefined;
 }
 
 /** Game. */

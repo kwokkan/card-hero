@@ -53,17 +53,10 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<DeckModel>> CreateAsync(DeckModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult<DeckModel>> CreateAsync(DeckCreateModel model, CancellationToken cancellationToken)
         {
-            var deck = new DeckModel
-            {
-                Description = model.Description,
-                MaxCards = 5,
-                Name = model.Name,
-            };
-
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
-            var newDeck = await _deckService.CreateDeckAsync(deck, userId, cancellationToken: cancellationToken);
+            var newDeck = await _deckService.CreateDeckAsync(model, userId, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }

@@ -31,14 +31,14 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        async Task<DeckModel> IDeckService.CreateDeckAsync(DeckModel deck, int userId, CancellationToken cancellationToken)
+        async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
         {
             using (var context = GetContext())
             {
                 var entity = new Deck
                 {
                     Description = deck.Description,
-                    MaxCards = deck.MaxCards,
+                    MaxCards = 5,
                     Name = deck.Name,
                     UserFk = userId,
                 };
