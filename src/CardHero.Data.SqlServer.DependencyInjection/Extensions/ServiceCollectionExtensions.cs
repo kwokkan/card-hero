@@ -45,6 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IMapper<GameDeck, GameDeckData>, GameDeckMapper>()
                 .AddScoped<IMapper<GameDeckCardCollection, GameDeckCardCollectionData>, GameDeckCardCollectionMapper>()
                 .AddScoped<IMapper<GameUser, GameUserData>, GameUserMapper>()
+                .AddScoped<IMapper<Turn, TurnData>, TurnMapper>()
             ;
 
             return services;
@@ -59,6 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IGameRepository, GameRepository>()
                 .AddScoped<IGameUserRepository, GameUserRepository>()
                 .AddScoped<IMoveRepository, MoveRepository>()
+                .AddScoped<ITurnRepository, TurnRepository>()
             ;
 
             return services;

@@ -20,13 +20,15 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IGameDeckCardCollectionRepository _gameDeckCardCollectionRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IMoveRepository _moveRepository;
+        private readonly ITurnRepository _turnRepository;
 
         public GamePlayService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IGameService gamseService,
             IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
             IGameRepository gameRepository,
-            IMoveRepository moveRepository
+            IMoveRepository moveRepository,
+            ITurnRepository turnRepository
         )
             : base(contextFactory)
         {
@@ -35,6 +37,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameDeckCardCollectionRepository = gameDeckCardCollectionRepository;
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
+            _turnRepository = turnRepository;
         }
 
         private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
@@ -91,24 +94,26 @@ namespace CardHero.Core.SqlServer.Services
 
             var context = GetContext();
             {
-                var currentTurn = await context.Game
-                    .Include(x => x.Turn)
-                    .Where(x => x.GamePk == game.Id)
-                    .SelectMany(x => x.Turn)
+                var turns = await _turnRepository.GetTurnsByGameIdAsync(game.Id, cancellationToken: cancellationToken);
+
+                var currentTurn = turns
                     .Where(x => !x.EndTime.HasValue)
                     .OrderByDescending(x => x.StartTime)
-                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+                    .FirstOrDefault();
 
-                currentTurn.EndTime = DateTime.UtcNow;
+                var turnUpdate = new TurnUpdateData
+                {
+                    EndTime = DateTime.UtcNow,
+                };
 
-                context.Update(currentTurn);
+                await _turnRepository.UpdateTurnAsync(currentTurn.Id, turnUpdate, cancellationToken: cancellationToken);
 
                 var currentMove = new MoveData
                 {
                     GameDeckCardCollectionId = move.GameDeckCardCollectionId,
                     Column = move.Column,
                     Row = move.Row,
-                    TurnId = currentTurn.TurnPk,
+                    TurnId = currentTurn.Id,
                 };
 
                 await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
@@ -123,14 +128,14 @@ namespace CardHero.Core.SqlServer.Services
                     nextUser = game.Users.First();
                 }
 
-                var newTurn = new Turn
+                var newTurn = new TurnData
                 {
-                    CurrentUserFk = nextUser.UserId,
-                    GameFk = game.Id,
+                    CurrentGameUserId = nextUser.Id,
+                    GameId = game.Id,
                     StartTime = DateTime.UtcNow,
                 };
 
-                context.Add(newTurn);
+                await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
 
                 var currentGame = await context.Game.SingleOrDefaultAsync(x => x.GamePk == game.Id, cancellationToken: cancellationToken);
                 currentGame.CurrentUserFk = nextUser.Id;

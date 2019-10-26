@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +21,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IGameUserRepository _gameUserRepository;
+        private readonly ITurnRepository _turnRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
@@ -38,6 +38,7 @@ namespace CardHero.Core.SqlServer.Services
             IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
             IGameUserRepository gameUserRepository,
+            ITurnRepository turnRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
             IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
@@ -53,6 +54,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
             _gameUserRepository = gameUserRepository;
+            _turnRepository = turnRepository;
 
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
@@ -111,13 +113,21 @@ namespace CardHero.Core.SqlServer.Services
             if (gul + 1 == game.MaxPlayers)
             {
                 var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { newGameUser.Id }).ToArray();
-                var currentUserId = new Random().Next(0, allUsers.Length);
+                var currentUserIdx = new Random().Next(0, allUsers.Length);
+                var currentGameUserId = allUsers[currentUserIdx];
                 var updateGame = new GameUpdateData
                 {
-                    CurrentGameUserId = allUsers[currentUserId],
+                    CurrentGameUserId = currentGameUserId,
                 };
 
                 await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
+
+                var newTurn = new TurnData
+                {
+                    CurrentGameUserId = currentGameUserId,
+                    GameId = game.Id,
+                };
+                await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
             }
 
             return _gameUserMapper.Map(newGameUser);
