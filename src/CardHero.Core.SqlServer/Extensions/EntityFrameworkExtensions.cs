@@ -92,17 +92,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
             };
         }
 
-        public static TurnModel ToCore(this Turn turn)
-        {
-            return new TurnModel
-            {
-                EndTime = turn.EndTime,
-                Id = turn.TurnPk,
-                User = turn.CurrentUserFkNavigation.ToCore(),
-                StartTime = turn.StartTime,
-            };
-        }
-
         public static UserModel ToCore(this User user)
         {
             if (user == null)

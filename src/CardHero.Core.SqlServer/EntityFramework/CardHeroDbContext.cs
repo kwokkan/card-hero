@@ -14,7 +14,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<StoreItem> StoreItem { get; set; }
-        public virtual DbSet<Turn> Turn { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -229,33 +228,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
                     .IsRowVersion();
-            });
-
-            modelBuilder.Entity<Turn>(entity =>
-            {
-                entity.HasKey(e => e.TurnPk);
-
-                entity.HasIndex(e => e.CurrentUserFk);
-
-                entity.HasIndex(e => e.GameFk);
-
-                entity.Property(e => e.TurnPk).HasColumnName("Turn_PK");
-
-                entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
-
-                entity.Property(e => e.GameFk).HasColumnName("Game_FK");
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
-
-                entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
-
-                entity.HasOne(d => d.CurrentUserFkNavigation)
-                    .WithMany(p => p.Turn)
-                    .HasForeignKey(d => d.CurrentUserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Turn_CurrentUser_FK");
             });
 
             modelBuilder.Entity<User>(entity =>
