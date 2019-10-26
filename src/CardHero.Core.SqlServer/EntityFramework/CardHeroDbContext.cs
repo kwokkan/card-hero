@@ -12,7 +12,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
-        public virtual DbSet<GameType> GameType { get; set; }
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
         public virtual DbSet<Player> Player { get; set; }
@@ -199,19 +198,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeckFavourite_User_FK");
-            });
-
-            modelBuilder.Entity<GameType>(entity =>
-            {
-                entity.HasKey(e => e.GameTypePk);
-
-                entity.Property(e => e.GameTypePk).HasColumnName("GameType_PK");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<GameUser>(entity =>
