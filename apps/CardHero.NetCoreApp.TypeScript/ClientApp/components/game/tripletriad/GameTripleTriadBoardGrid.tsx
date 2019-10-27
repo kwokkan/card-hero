@@ -39,15 +39,13 @@ export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> 
     return (
         <div
             ref={drop}
-            className={'card col-4 d-inline-block ch-card game-card' + (props.isSelected ? ' selected' : '') + (isOver ? ' bg-primary' : '')}
+            className={'game-card' + (props.isSelected ? ' selected' : '') + (isOver ? ' bg-primary' : '')}
             data-row={props.row}
             data-column={props.column}
         >
-            <div className="card-body">
-                {props.card &&
-                    <CardWidget card={props.card} />
-                }
-            </div>
+            {props.card &&
+                <CardWidget card={props.card} />
+            }
         </div>
     );
 };

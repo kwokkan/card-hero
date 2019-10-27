@@ -1,6 +1,6 @@
 ﻿import React, { Component } from "react";
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DndProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 import { IGameDeckModel, IGameModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { Layout } from "../shared/Layout";
@@ -57,7 +57,7 @@ export class Game extends Component<IGameProps, IGameState> {
             <Layout>
                 <DndProvider backend={HTML5Backend}>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                             <GameDetailWidget game={game} />
 
                             <GameHistoryWidget game={game} />
@@ -68,7 +68,7 @@ export class Game extends Component<IGameProps, IGameState> {
                             </GameBoard>
                         </div>
 
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                             <GameDeckWidget
                                 gameDeck={this.state.gameDeck}
                             />

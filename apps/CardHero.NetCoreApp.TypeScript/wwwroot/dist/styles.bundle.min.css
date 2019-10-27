@@ -110,6 +110,36 @@
   color: saddlebrown;
 }
 
+.game-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 1em;
+}
+
+.game-cards::before {
+  content: "";
+  width: 0;
+  padding-bottom: 100%;
+  grid-row: 1/1;
+  grid-column: 1/1;
+}
+
+.game-cards > *:first-child {
+  grid-row: 1/1;
+  grid-column: 1/1;
+}
+
+.game-card:empty {
+  background-color: #f7f7f7;
+  border: 1px dashed black;
+  border-radius: 0.25rem;
+}
+
+.game-card .card {
+  margin-bottom: auto;
+}
+
 body {
   overflow-y: scroll;
 }

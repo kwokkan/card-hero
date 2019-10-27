@@ -29,12 +29,6 @@ export class GameBoard extends Component<IGameBoardProps, any> {
     render() {
         const gameBoard = this.getGameBoard();
 
-        return (
-            <div className="card">
-                <div className="card-body">
-                    {gameBoard}
-                </div>
-            </div>
-        );
+        return gameBoard;
     }
 }
