@@ -1221,6 +1221,8 @@ export class GameModel implements IGameModel {
     users?: GameUserModel[] | undefined;
     /** Turns. */
     turns?: TurnModel[] | undefined;
+    /** Current game user id. */
+    currentGameUserId?: number | undefined;
     /** Current user. */
     currentUser?: UserModel | undefined;
     /** Winner. */
@@ -1271,6 +1273,7 @@ export class GameModel implements IGameModel {
                 for (let item of _data["turns"])
                     this.turns!.push(TurnModel.fromJS(item));
             }
+            this.currentGameUserId = _data["currentGameUserId"];
             this.currentUser = _data["currentUser"] ? UserModel.fromJS(_data["currentUser"]) : <any>undefined;
             this.winner = _data["winner"] ? UserModel.fromJS(_data["winner"]) : <any>undefined;
             this.columns = _data["columns"];
@@ -1309,6 +1312,7 @@ export class GameModel implements IGameModel {
             for (let item of this.turns)
                 data["turns"].push(item.toJSON());
         }
+        data["currentGameUserId"] = this.currentGameUserId;
         data["currentUser"] = this.currentUser ? this.currentUser.toJSON() : <any>undefined;
         data["winner"] = this.winner ? this.winner.toJSON() : <any>undefined;
         data["columns"] = this.columns;
@@ -1339,6 +1343,8 @@ export interface IGameModel {
     users?: GameUserModel[] | undefined;
     /** Turns. */
     turns?: TurnModel[] | undefined;
+    /** Current game user id. */
+    currentGameUserId?: number | undefined;
     /** Current user. */
     currentUser?: UserModel | undefined;
     /** Winner. */

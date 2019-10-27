@@ -5,7 +5,7 @@ import { GameType, IGameDeckModel, IGameViewModel } from "../../clients/clients"
 import { GameTripleTriadModel } from "../../models/GameTripleTriadModel";
 import { GameService } from "../../services/GameService";
 import { Layout } from "../shared/Layout";
-import { GameBoard } from "./GameBoard";
+import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
 import { GameDetailWidget } from "./GameDetailWidget";
 import { GameHistoryWidget } from "./GameHistoryWidget";
@@ -51,6 +51,10 @@ export class Game extends Component<IGameProps, IGameState> {
         }
     }
 
+    onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {
+        await this.populateGame(event.game.id);
+    };
+
     render() {
         const game = this.state.game;
         let playedGdccIds: number[];
@@ -74,8 +78,10 @@ export class Game extends Component<IGameProps, IGameState> {
                         </div>
 
                         <div className="col-lg-6">
-                            <GameBoard game={game}>
-                            </GameBoard>
+                            <GameBoard
+                                game={game}
+                                onUpdated={this.onGameBoardUpdated}
+                            />
                         </div>
 
                         <div className="col-lg-2">

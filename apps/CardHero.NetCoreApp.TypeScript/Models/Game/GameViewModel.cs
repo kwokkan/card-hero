@@ -13,6 +13,7 @@ namespace CardHero.NetCoreApp.TypeScript
         public GameViewModel(GameModel game)
         {
             this.Columns = game.Columns;
+            this.CurrentGameUserId = game.CurrentGameUserId;
             this.CurrentUser = game.CurrentUser;
             this.Deck = game.Deck;
             this.DeckId = game.DeckId;
