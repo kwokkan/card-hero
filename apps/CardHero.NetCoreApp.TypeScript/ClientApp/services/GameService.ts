@@ -1,4 +1,4 @@
-﻿import { GameApiClient, GameCreateModel, GameTripleTriadMoveViewModel, IGameModel, IGameTripleTriadMoveViewModel, IGameUserModel, JoinGameViewModel } from "../clients/clients";
+﻿import { GameApiClient, GameCreateModel, GameTripleTriadMoveViewModel, IGameModel, IGameTripleTriadMoveViewModel, IGameUserModel, IGameViewModel, JoinGameViewModel } from "../clients/clients";
 import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface IGameSearchFilter {
@@ -10,7 +10,7 @@ interface IGameSearchFilter {
 }
 
 export class GameService {
-    static async getGameById(id: number): Promise<IGameModel | null> {
+    static async getGameById(id: number): Promise<IGameViewModel | null> {
         const client = new GameApiClient(AppBootstrap.baseUrl);
         const model = await client.getById(id);
 

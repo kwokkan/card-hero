@@ -1348,6 +1348,10 @@
             "properties": {
               "data": {
                 "nullable": true
+              },
+              "lastActivity": {
+                "type": "string",
+                "format": "date-time"
               }
             }
           }

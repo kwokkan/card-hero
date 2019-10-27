@@ -1636,6 +1636,7 @@ export interface IGameDeckCardCollectionModel {
 
 export class GameViewModel extends GameModel implements IGameViewModel {
     data?: any | undefined;
+    lastActivity?: Date;
 
     constructor(data?: IGameViewModel) {
         super(data);
@@ -1645,6 +1646,7 @@ export class GameViewModel extends GameModel implements IGameViewModel {
         super.init(_data);
         if (_data) {
             this.data = _data["data"];
+            this.lastActivity = _data["lastActivity"] ? new Date(_data["lastActivity"].toString()) : <any>undefined;
         }
     }
 
@@ -1658,6 +1660,7 @@ export class GameViewModel extends GameModel implements IGameViewModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["data"] = this.data;
+        data["lastActivity"] = this.lastActivity ? this.lastActivity.toISOString() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -1665,6 +1668,7 @@ export class GameViewModel extends GameModel implements IGameViewModel {
 
 export interface IGameViewModel extends IGameModel {
     data?: any | undefined;
+    lastActivity?: Date;
 }
 
 /** Model for creating a new game. */

@@ -17,23 +17,31 @@ interface IGameProps {
 interface IGameState {
     game?: IGameViewModel;
     gameDeck?: IGameDeckModel;
+    lastUpdate: Date;
 }
 
 export class Game extends Component<IGameProps, IGameState> {
+    private _interval: number;
+
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            lastUpdate: new Date(0)
+        };
     }
 
     private async populateGame(id: number) {
         const game = await GameService.getGameById(id);
 
         if (game) {
-            this.setState({
-                game: game,
-                gameDeck: game.gameDeck
-            });
+            if (this.state.lastUpdate < game.lastActivity) {
+                this.setState({
+                    game: game,
+                    gameDeck: game.gameDeck,
+                    lastUpdate: game.lastActivity
+                });
+            }
         }
     }
 
@@ -41,6 +49,10 @@ export class Game extends Component<IGameProps, IGameState> {
         const gameId: number = this.props.match.params.id;
 
         await this.populateGame(gameId);
+
+        this._interval = setInterval(async () => {
+            await this.populateGame(gameId);
+        }, 5000);
     }
 
     async componentWillReceiveProps(nextProps: IGameProps) {
@@ -49,6 +61,10 @@ export class Game extends Component<IGameProps, IGameState> {
         if (nextProps.match.params.id !== gameId) {
             await this.populateGame(gameId);
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this._interval);
     }
 
     onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {
