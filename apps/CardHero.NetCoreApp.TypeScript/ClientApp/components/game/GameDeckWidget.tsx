@@ -4,9 +4,12 @@ import { GameDeckCard } from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
     gameDeck?: IGameDeckModel;
+    excludeGameDeckCardCollectionIds?: number[];
 }
 
 export function GameDeckWidget(props: IGameDeckWidgetProps) {
+    const egdccIds = props.excludeGameDeckCardCollectionIds;
+
     return (
         <div className="card">
             <h4 className="card-header">
@@ -17,7 +20,9 @@ export function GameDeckWidget(props: IGameDeckWidgetProps) {
                     {props.gameDeck ?
                         (
                             <div id="current-deck" className="ch-cards">
-                                {props.gameDeck.cardCollection.map(x =>
+                                {props.gameDeck.cardCollection.filter(x =>
+                                    !!egdccIds === false || egdccIds.indexOf(x.id) === -1
+                                ).map(x =>
                                     <GameDeckCard key={x.id} card={x} />
                                 )}
                             </div>

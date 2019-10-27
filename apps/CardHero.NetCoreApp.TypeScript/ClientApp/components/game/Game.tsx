@@ -1,7 +1,8 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import { IGameDeckModel, IGameModel } from "../../clients/clients";
+import { GameType, IGameDeckModel, IGameViewModel } from "../../clients/clients";
+import { GameTripleTriadModel } from "../../models/GameTripleTriadModel";
 import { GameService } from "../../services/GameService";
 import { Layout } from "../shared/Layout";
 import { GameBoard } from "./GameBoard";
@@ -14,7 +15,7 @@ interface IGameProps {
 }
 
 interface IGameState {
-    game?: IGameModel;
+    game?: IGameViewModel;
     gameDeck?: IGameDeckModel;
 }
 
@@ -52,6 +53,15 @@ export class Game extends Component<IGameProps, IGameState> {
 
     render() {
         const game = this.state.game;
+        let playedGdccIds: number[];
+
+        if (game && game.type == GameType.TripleTriad) {
+            const data = game.data as GameTripleTriadModel;
+
+            if (data) {
+                playedGdccIds = data.moves.map(x => x.gameDeckCardCollectionId);
+            }
+        }
 
         return (
             <Layout>
@@ -71,6 +81,7 @@ export class Game extends Component<IGameProps, IGameState> {
                         <div className="col-lg-2">
                             <GameDeckWidget
                                 gameDeck={this.state.gameDeck}
+                                excludeGameDeckCardCollectionIds={playedGdccIds}
                             />
                         </div>
                     </div>
