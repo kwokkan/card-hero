@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { useDrag } from 'react-dnd';
+import { useDrag } from "react-dnd";
 import { IGameDeckCardCollectionModel } from "../../clients/clients";
 import { CardWidget } from "../shared/CardWidget";
 import { DragType } from "../shared/DragType";

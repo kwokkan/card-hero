@@ -1,10 +1,14 @@
-﻿using CardHero.Core.Models;
+﻿using System;
+
+using CardHero.Core.Models;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
     public class GameViewModel : GameModel
     {
         public object Data { get; set; }
+
+        public DateTime LastActivity { get; set; }
 
         public GameViewModel()
         {
@@ -13,6 +17,7 @@ namespace CardHero.NetCoreApp.TypeScript
         public GameViewModel(GameModel game)
         {
             this.Columns = game.Columns;
+            this.CurrentGameUserId = game.CurrentGameUserId;
             this.CurrentUser = game.CurrentUser;
             this.Deck = game.Deck;
             this.DeckId = game.DeckId;

@@ -1,9 +1,14 @@
 ﻿import React, { Component } from "react";
-import { GameType, IGameModel } from "../../clients/clients";
-import { GameTripleTriadBoard } from "./tripletriad/GameTripleTriadBoard";
+import { GameType, IGameViewModel } from "../../clients/clients";
+import { GameTripleTriadBoard, IGameTripleTriadBoardOnUpdatedProps } from "./tripletriad/GameTripleTriadBoard";
+
+export interface IGameBoardOnUpdatedProps {
+    game: IGameViewModel;
+}
 
 interface IGameBoardProps {
-    game: IGameModel;
+    game: IGameViewModel;
+    onUpdated?: (event: IGameBoardOnUpdatedProps) => void;
 }
 
 export class GameBoard extends Component<IGameBoardProps, any> {
@@ -13,28 +18,34 @@ export class GameBoard extends Component<IGameBoardProps, any> {
         super(props);
     }
 
-    getGameBoard(): JSX.Element {
-        if (!this.props.game) {
+    private onGameTripleTriadBoardUpdated = (event: IGameTripleTriadBoardOnUpdatedProps) => {
+        if (this.props.onUpdated) {
+            this.props.onUpdated({
+                game: event.game
+            });
+        }
+    };
+
+    private getGameBoard(game: IGameViewModel): JSX.Element {
+        if (!game) {
             return GameBoard.nullGameBoard;
         }
 
-        switch (this.props.game.type) {
+        switch (game.type) {
             case GameType.TripleTriad:
-                return <GameTripleTriadBoard game={this.props.game} />;
+                return <GameTripleTriadBoard
+                    game={game}
+                    onUpdated={this.onGameTripleTriadBoardUpdated}
+                />;
             default:
                 return GameBoard.nullGameBoard;
         }
     }
 
     render() {
-        const gameBoard = this.getGameBoard();
+        const game = this.props.game;
+        const gameBoard = this.getGameBoard(game);
 
-        return (
-            <div className="card">
-                <div className="card-body">
-                    {gameBoard}
-                </div>
-            </div>
-        );
+        return gameBoard;
     }
 }

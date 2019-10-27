@@ -75,6 +75,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var model = new GameViewModel(game)
             {
                 Data = data,
+                LastActivity = game.StartTime.AddSeconds(data.Moves.Count()),
             };
 
             return model;

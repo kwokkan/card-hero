@@ -1098,6 +1098,12 @@
               "$ref": "#/components/schemas/TurnModel"
             }
           },
+          "currentGameUserId": {
+            "type": "integer",
+            "description": "Current game user id.",
+            "format": "int32",
+            "nullable": true
+          },
           "currentUser": {
             "description": "Current user.",
             "nullable": true,
@@ -1342,6 +1348,10 @@
             "properties": {
               "data": {
                 "nullable": true
+              },
+              "lastActivity": {
+                "type": "string",
+                "format": "date-time"
               }
             }
           }

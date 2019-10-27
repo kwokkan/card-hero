@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { useDrop } from 'react-dnd';
+import { useDrop } from "react-dnd";
 import { ICardModel } from "../../../clients/clients";
 import { CardWidget } from "../../shared/CardWidget";
 import { DragType } from "../../shared/DragType";
@@ -15,6 +15,7 @@ interface IGameTripleTriadBoardGridProps {
     column: number;
     card: ICardModel;
     isSelected: boolean;
+    gameDeckCardCollectionId?: number;
 
     onDrop?: (data: IGameTripleTriadBoardGridOnDropProps) => void;
 }
@@ -39,15 +40,14 @@ export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> 
     return (
         <div
             ref={drop}
-            className={'card col-4 d-inline-block ch-card game-card' + (props.isSelected ? ' selected' : '') + (isOver ? ' bg-primary' : '')}
+            className={'game-card' + (props.isSelected ? ' selected' : '') + (isOver ? ' bg-primary' : '')}
             data-row={props.row}
             data-column={props.column}
+            data-game-deck-card-collection-id={props.gameDeckCardCollectionId}
         >
-            <div className="card-body">
-                {props.card &&
-                    <CardWidget card={props.card} />
-                }
-            </div>
+            {props.card &&
+                <CardWidget card={props.card} />
+            }
         </div>
     );
 };
