@@ -75,7 +75,7 @@ export class Game extends Component<IGameProps, IGameState> {
         const game = this.state.game;
         let playedGdccIds: number[];
 
-        if (game && game.type == GameType.TripleTriad) {
+        if (game && game.type === GameType.TripleTriad) {
             const data = game.data as GameTripleTriadModel;
 
             if (data) {
