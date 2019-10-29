@@ -28,7 +28,7 @@ export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, 
     }
 
     private getCard(cardId: number): ICardModel {
-        const card = this.props.game.data.playedCards.find(x => x.id == cardId);
+        const card = this.props.game.data.playedCards.find(x => x.id === cardId);
         return card;
     }
 

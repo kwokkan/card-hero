@@ -67,7 +67,7 @@ export class NavMenu extends PureComponent<any, any> {
 
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href="https://github.com/kwokkan/card-hero" target="_blank">
+                            <a className="nav-link" href="https://github.com/kwokkan/card-hero" target="_blank" rel="noreferrer noopener">
                                 <Icon icon="github" />
                                 {' '}
                                 Fork me
@@ -75,7 +75,7 @@ export class NavMenu extends PureComponent<any, any> {
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href={u('swagger')} target="_blank">
+                            <a className="nav-link" href={u('swagger')} target="_blank" rel="noreferrer noopener">
                                 <Icon icon="code" />
                                 {' '}
                                 API
