@@ -9,6 +9,7 @@ import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
 import { GameDetailWidget } from "./GameDetailWidget";
 import { GameHistoryWidget } from "./GameHistoryWidget";
+import { GameUsersWidget } from "./GameUsersWidget";
 
 interface IGameProps {
     match?: any;
@@ -85,14 +86,19 @@ export class Game extends Component<IGameProps, IGameState> {
 
         return (
             <Layout>
-                <DndProvider backend={HTML5Backend}>
-                    <div className="row">
-                        <div className="col-lg-2">
-                            <GameDetailWidget game={game} />
+                <div className="row">
+                    <div className="col-lg-2">
+                        <GameDetailWidget game={game} />
 
-                            <GameHistoryWidget game={game} />
-                        </div>
+                        <GameUsersWidget
+                            currentGameUserId={game ? game.currentGameUserId : null}
+                            users={game ? game.users : null}
+                        />
 
+                        <GameHistoryWidget game={game} />
+                    </div>
+
+                    <DndProvider backend={HTML5Backend}>
                         <div className="col-lg-6">
                             <GameBoard
                                 game={game}
@@ -106,8 +112,8 @@ export class Game extends Component<IGameProps, IGameState> {
                                 excludeGameDeckCardCollectionIds={playedGdccIds}
                             />
                         </div>
-                    </div>
-                </DndProvider>
+                    </DndProvider>
+                </div>
             </Layout>
         );
     }
