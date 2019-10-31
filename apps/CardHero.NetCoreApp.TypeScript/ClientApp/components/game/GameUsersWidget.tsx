@@ -1,5 +1,5 @@
 ﻿import React, { useContext } from "react";
-import { IGameUserModel, IUserModel } from "../../clients/clients";
+import { IGameUserModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 
 interface IGameUsersWidgetProps {
@@ -10,26 +10,7 @@ interface IGameUsersWidgetProps {
 export function GameUsersWidget(props: IGameUsersWidgetProps) {
     const context = useContext(AccountContext);
 
-    const getCurrentGameUserId = (currentUser: IUserModel, users: IGameUserModel[]): number | null => {
-        if (currentUser) {
-            return null;
-        }
-
-        if (!users) {
-            return null;
-        }
-
-        const user = users.find(x => x.userId == currentUser.id);
-
-        if (!user) {
-            return null;
-        }
-
-        return user.id;
-    };
-
     const user = context.user;
-    const currentGameUserId = getCurrentGameUserId(user, props.users);
 
     return (
         <div className="card">
@@ -38,7 +19,7 @@ export function GameUsersWidget(props: IGameUsersWidgetProps) {
             </h4>
             {props.users && props.users.length > 0 ?
                 (
-                    <ul className="list-group list-group-flush" data-current-game-user-id={currentGameUserId} data-xxx={props.currentGameUserId}>
+                    <ul className="list-group list-group-flush" >
                         {props.users.map(x =>
                             <li key={x.id} className={'list-group-item' + (props.currentGameUserId === x.id ? ' current' : '') + (user && user.id === x.userId ? ' you' : '')}>
                                 {props.currentGameUserId === x.id ?
