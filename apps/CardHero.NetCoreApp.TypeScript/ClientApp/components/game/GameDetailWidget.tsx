@@ -19,28 +19,26 @@ export function GameDetailWidget(props: IGameDetailWidgetProps) {
                     (<span>Unknown</span>)
                 }
             </h4>
-            <div className="card-body">
-                <div className="card-text">
-                    <div>
-                        <strong>Type:</strong>
-                        {' '}
-                        {game ?
-                            (<span>{GameType[game.type]}</span>)
-                            :
-                            (<span>Unknown</span>)
-                        }
-                    </div>
-                    <div>
-                        <strong>Start Time:</strong>
-                        {' '}
-                        {game ?
-                            (<DateFormat date={game.startTime} />)
-                            :
-                            (<span>Unknown</span>)
-                        }
-                    </div>
-                </div>
-            </div>
+            <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                    <strong>Type:</strong>
+                    {' '}
+                    {game ?
+                        (<span>{GameType[game.type]}</span>)
+                        :
+                        (<span>Unknown</span>)
+                    }
+                </li>
+                <li className="list-group-item">
+                    <strong>Start Time:</strong>
+                    {' '}
+                    {game ?
+                        (<DateFormat date={game.startTime} />)
+                        :
+                        (<span>Unknown</span>)
+                    }
+                </li>
+            </ul>
         </div>
     );
 }
