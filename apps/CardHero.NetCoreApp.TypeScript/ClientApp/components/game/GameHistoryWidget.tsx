@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { Fragment } from "react";
 import { IGameModel } from "../../clients/clients";
 import { DateFormat } from "../shared/DateFormat";
 
@@ -14,19 +14,15 @@ export function GameHistoryWidget(props: IGameHistoryWidgetProps) {
             <h4 id="history-heading" className="card-header">
                 <a href="#history-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="history-collapse">History</a>
             </h4>
-            <div className="card-body">
-                <div className="card-text">
-                    <div id="history-collapse" className="collapse show" role="tabpanel" aria-labelledby="history-heading">
-                        <ul>
-                            {game ?
-                                (<li>Game Started at <DateFormat date={game.startTime} /></li>)
-                                :
-                                (<li>Unknown</li>)
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <ul id="history-collapse" className="collapse show list-group list-group-flush" role="tabpanel" aria-labelledby="history-heading">
+                <li className="list-group-item">
+                    {game ?
+                        (<Fragment>Game Started <DateFormat date={game.startTime} /></Fragment>)
+                        :
+                        'Unknown'
+                    }
+                </li>
+            </ul>
         </div>
     );
 }

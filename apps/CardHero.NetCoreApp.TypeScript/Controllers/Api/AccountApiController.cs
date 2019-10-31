@@ -19,6 +19,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         {
         }
 
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesDefaultResponseType]
@@ -35,6 +36,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             {
                 Coins = user.Coins,
                 FullName = user.FullName,
+                Id = user.Id,
                 Identifier = user.Identifier,
             };
 

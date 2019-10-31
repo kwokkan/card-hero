@@ -10,6 +10,7 @@ namespace CardHero.Core.Abstractions
             return new GameModel
             {
                 Columns = from.Columns,
+                CurrentGameUserId = from.CurrentGameUserId,
                 CurrentUser = from.CurrentGameUserId == null ? null : new UserModel
                 {
                     Id = from.CurrentGameUserId.Value,

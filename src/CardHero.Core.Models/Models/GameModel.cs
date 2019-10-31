@@ -39,6 +39,11 @@ namespace CardHero.Core.Models
         public IEnumerable<TurnModel> Turns { get; set; }
 
         /// <summary>
+        /// Current game user id.
+        /// </summary>
+        public int? CurrentGameUserId { get; set; }
+
+        /// <summary>
         /// Current user.
         /// </summary>
         public UserModel CurrentUser { get; set; }
