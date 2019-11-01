@@ -166,6 +166,8 @@ namespace CardHero.NetCoreApp.TypeScript
 
             app.UseResponseCompression();
 
+            app.UseCardHeroHttpHeaders();
+
             var staticFileOptions = new StaticFileOptions
             {
                 OnPrepareResponse = (context) =>
