@@ -1,5 +1,12 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "group:definitelyTyped",
+    "group:fortawesome",
+    "group:linters",
+    "group:reactMonorepo"
+  ],
+  "labels": [
+    "library"
   ]
 }
