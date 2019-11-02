@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
 {
+    [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     public class CollectionController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             var model = new ReactAppViewModel
