@@ -17,13 +17,13 @@
 
                         x.AddScriptSrc()
                             .Self()
-                            .From("https://cdnjs.cloudflare.com")
-                            .WithHashTagHelper();
+                            //.From("https://cdnjs.cloudflare.com")
+                        ;
 
                         x.AddStyleSrc()
                             .Self()
-                            .From("https://cdnjs.cloudflare.com")
-                            .WithHashTagHelper();
+                            //.From("https://cdnjs.cloudflare.com")
+                        ;
                     })
                     .AddFeaturePolicy(x =>
                     {
