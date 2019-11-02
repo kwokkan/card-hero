@@ -17,10 +17,10 @@ export function GameUsersWidget(props: IGameUsersWidgetProps) {
             <h4 className="card-header">
                 Players
             </h4>
-            {props.users && props.users.length > 0 ?
-                (
-                    <ul className="list-group list-group-flush" >
-                        {props.users.map(x =>
+            <ul className="list-group list-group-flush" >
+                {props.users && props.users.length > 0 ?
+                    (
+                        props.users.map(x =>
                             <li key={x.id} className={'list-group-item' + (props.currentGameUserId === x.id ? ' current' : '') + (user && user.id === x.userId ? ' you' : '')}>
                                 {props.currentGameUserId === x.id ?
                                     <strong title="Current player">{x.id}</strong>
@@ -29,14 +29,14 @@ export function GameUsersWidget(props: IGameUsersWidgetProps) {
                                 }
                                 {user && user.id === x.userId ? ' (You)' : ''}
                             </li>
-                        )}
-                    </ul>
-                )
-                :
-                (
-                    <p>No players</p>
-                )
-            }
+                        )
+                    )
+                    :
+                    (
+                        <li className="list-group-item">No players</li>
+                    )
+                }
+            </ul>
         </div>
     );
 }
