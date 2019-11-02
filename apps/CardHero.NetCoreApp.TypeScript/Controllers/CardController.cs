@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CardHero.NetCoreApp.TypeScript.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
@@ -10,7 +8,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new ReactAppViewModel
+            {
+                Title = "Cards",
+                AppScript = "card",
+            };
+
+            return View(model);
         }
     }
 }
