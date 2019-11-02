@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CardHero.NetCoreApp.TypeScript.Models;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
@@ -8,7 +10,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new ReactAppViewModel
+            {
+                Title = "Collection",
+                AppScript = "collection",
+            };
+
+            return View(model);
         }
     }
 }

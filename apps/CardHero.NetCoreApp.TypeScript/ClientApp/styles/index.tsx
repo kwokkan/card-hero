@@ -1,8 +1,12 @@
-﻿import { library } from '@fortawesome/fontawesome-svg-core';
+﻿import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+
+// fixes some CSP issues
+// https://fontawesome.com/how-to-use/on-the-web/other-topics/security
+config.autoAddCss = false;
 
 // redefine prefixes so that the Icon function is easier to use
 faGithub.prefix = "fas";

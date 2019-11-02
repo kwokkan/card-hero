@@ -16,7 +16,13 @@ namespace CardHero.NetCoreApp.TypeScript
                 .CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .ConfigureKestrel(x =>
+                        {
+                            x.AddServerHeader = false;
+                        })
+                    ;
                 })
                 .ConfigureAppConfiguration(x =>
                 {
