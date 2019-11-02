@@ -17,6 +17,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
             GitHubAuthenticationOptions.DefaultAuthenticationScheme,
         };
 
+        [HttpGet]
         public IActionResult Index()
         {
             var model = new ReactAppViewModel
