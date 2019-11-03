@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CardHero.NetCoreApp.TypeScript.Models;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
 {
+    [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     public class CollectionController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var model = new ReactAppViewModel
+            {
+                Title = "Collection",
+                AppScript = "collection",
+            };
+
+            return View(model);
         }
     }
 }

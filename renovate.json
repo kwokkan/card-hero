@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "config:base",
+    "group:definitelyTyped",
+    "group:fortawesome",
+    "group:linters",
+    "group:reactMonorepo"
+  ],
+  "labels": [
+    "library"
+  ],
+  "postUpdateOptions": [
+    "yarnDedupeHighest"
+  ],
+  "prHourlyLimit": 0,
+  "rebaseStalePrs": true,
+  "schedule": [
+    "after 7pm and before 7am"
+  ]
+}

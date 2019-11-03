@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CardHero.NetCoreApp.TypeScript.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers
 {
+    [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class StoreController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var model = new ReactAppViewModel
+            {
+                Title = "Store",
+                AppScript = "store",
+            };
+
+            return View(model);
         }
     }
 }

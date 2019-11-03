@@ -20,14 +20,32 @@ module.exports = {
     devtool: "hidden-source-map",
 
     entry: {
-        "app.home": "./ClientApp/components/home/index.tsx",
-        "app.card": "./ClientApp/components/card/index.tsx",
-        "app.collection": "./ClientApp/components/collection/index.tsx",
-        "app.deck": "./ClientApp/components/deck/index.tsx",
-        "app.game": "./ClientApp/components/game/index.tsx",
-        "app.store": "./ClientApp/components/store/index.tsx",
+        "app.home": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/home/index.tsx"
+        ],
+        "app.card": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/card/index.tsx"
+        ],
+        "app.collection": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/collection/index.tsx"
+        ],
+        "app.deck": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/deck/index.tsx"
+        ],
+        "app.game": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/game/index.tsx"
+        ],
+        "app.store": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/components/store/index.tsx"
+        ],
         "styles.shared": [
-            "./ClientApp/styles/index.tsx",
+            //"./ClientApp/styles/index.tsx",
             "./ClientApp/styles/index.scss"
         ]
     },
