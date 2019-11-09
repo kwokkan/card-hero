@@ -12,6 +12,7 @@ jobs:
   dotnet-build:
     executor: win/vs2019
     steps:
+      - run: dir
       - run:
           name: dotnet-build/dotnet build CardHero.sln --configuration Release --no-restore
           command: dotnet build CardHero.sln --configuration Release --no-restore
