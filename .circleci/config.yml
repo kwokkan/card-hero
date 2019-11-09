@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   win: circleci/windows@1.0.0
 jobs:
-  dotnet-build:
+  dotnet-restore:
     executor: win/vs2019
     steps:
       - checkout
