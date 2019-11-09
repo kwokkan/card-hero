@@ -1,0 +1,8 @@
+language: csharp
+solution: CardHero.sln
+mono: none
+dotnet: 3.0.100
+install:
+ - dotnet restore CardHero.sln
+script:
+ - dotnet build CardHero.sln --configuration Release --no-restore
