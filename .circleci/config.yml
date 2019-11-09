@@ -1,0 +1,12 @@
+version: 2.1
+orbs:
+  win: circleci/windows@1.0.0
+jobs:
+  restore:
+    executor: win/vs2019
+    steps:
+      - dotnet restore CardHero.sln
+  build:
+    executor: win/vs2019
+    steps:
+      - dotnet build CardHero.sln --configuration Release --no-restore
