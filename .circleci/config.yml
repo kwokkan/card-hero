@@ -6,11 +6,9 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      - run: dir
       - run:
           name: dotnet-restore/dotnet restore CardHero.sln
           command: dotnet restore CardHero.sln
-      - run: dir
       - run:
           name: dotnet-build/dotnet build CardHero.sln --configuration Release --no-restore
           command: dotnet build CardHero.sln --configuration Release --no-restore
