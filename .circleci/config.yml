@@ -21,4 +21,6 @@ workflows:
   dotnet-run:
     jobs:
       - dotnet-restore
-      - dotnet-build
+      - dotnet-build:
+          requires:
+            - dotnet-restore
