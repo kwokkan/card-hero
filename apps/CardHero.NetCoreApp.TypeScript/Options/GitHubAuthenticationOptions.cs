@@ -18,7 +18,7 @@ namespace CardHero.NetCoreApp.TypeScript
 
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
-        public ISet<string> Scopes { get; set; }
+        public IEnumerable<string> Scopes { get; set; }
 
         public string SignInScheme { get; set; }
     }

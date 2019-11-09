@@ -1,15 +1,23 @@
 ﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
-@model ReactAppViewModel
 @{
     var useExternal = false;
     var isDev = Microsoft.Extensions.Hosting.HostEnvironmentEnvExtensions.IsDevelopment(env);
+
+    var title = ViewData["Title"];
+    string appScript = null;
+
+    if (Model is ReactAppViewModel m)
+    {
+        title = m.Title;
+        appScript = m.AppScript;
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
 
-    <title>@Model.Title - CardHero.NetCoreApp.TypeScript</title>
+    <title>@title - CardHero.NetCoreApp.TypeScript</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
@@ -49,9 +57,9 @@
     <script defer asp-src-include="~/dist/vendor.*.min.js" asp-append-version="@isDev"></script>
     <script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="@isDev"></script>
 
-    @if (!string.IsNullOrWhiteSpace(Model.AppScript))
+    @if (!string.IsNullOrWhiteSpace(appScript))
     {
-        <script defer asp-src-include="~/dist/app.@(Model.AppScript).*.min.js" asp-append-version="@isDev"></script>
+        <script defer asp-src-include="~/dist/app.@(appScript).*.min.js" asp-append-version="@isDev"></script>
     }
 
     @RenderSection("scripts", false)
