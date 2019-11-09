@@ -3,6 +3,7 @@ orbs:
   win: circleci/windows@2.2.0
 jobs:
   dotnet-build:
+    executor: default
     steps:
       - checkout
       - run: dir
