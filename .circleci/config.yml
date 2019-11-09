@@ -2,11 +2,22 @@ version: 2.1
 orbs:
   win: circleci/windows@1.0.0
 jobs:
-  restore:
+  dotnet-restore:
     executor: win/vs2019
     steps:
-      - dotnet restore CardHero.sln
-  build:
+      - checkout
+      - run:
+        name: [dotnet-restore] dotnet restore CardHero.sln
+        command: dotnet restore CardHero.sln
+  dotnet-build:
     executor: win/vs2019
     steps:
-      - dotnet build CardHero.sln --configuration Release --no-restore
+      - run:
+        name: [dotnet-build] dotnet build CardHero.sln --configuration Release --no-restore
+        command: dotnet build CardHero.sln --configuration Release --no-restore
+workflows:
+  version: 2
+  dotnet-run:
+    jobs:
+      - dotnet-restore
+      - dotnet-build
