@@ -7,13 +7,13 @@ jobs:
     steps:
       - checkout
       - run:
-        name: [dotnet-restore] dotnet restore CardHero.sln
+        name: @dotnet-restore dotnet restore CardHero.sln
         command: dotnet restore CardHero.sln
   dotnet-build:
     executor: win/vs2019
     steps:
       - run:
-        name: [dotnet-build] dotnet build CardHero.sln --configuration Release --no-restore
+        name: @dotnet-build dotnet build CardHero.sln --configuration Release --no-restore
         command: dotnet build CardHero.sln --configuration Release --no-restore
 workflows:
   version: 2
