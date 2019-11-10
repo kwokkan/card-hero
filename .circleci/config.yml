@@ -18,15 +18,12 @@ jobs:
       - checkout
       - run: dir
       - run:
-          name: cd apps/CardHero.NetCoreApp.TypeScript
-          command: cd apps/CardHero.NetCoreApp.TypeScript
-      - run: dir
-      - run:
-          name: yarn install
-          command: yarn install
-      - run:
-          name: npm run build:prod
-          command: npm run build:prod
+          name: Webpack build
+          command: |
+            cd apps/CardHero.NetCoreApp.TypeScript
+            dir
+            yarn install
+            npm run build:prod
 workflows:
   version: 2
   build-all:
