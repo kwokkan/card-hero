@@ -1,4 +1,8 @@
 version: 2.1
+parameters:
+  node-project:
+    type: string
+    default: "apps/CardHero.NetCoreApp.TypeScript"
 orbs:
   win: circleci/windows@2.2.0
 jobs:
@@ -14,22 +18,22 @@ jobs:
           command: dotnet build CardHero.sln --configuration Release --no-restore
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - apps/CardHero.NetCoreApp.TypeScript/node_modules
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm build
           command: |
-            cd apps/CardHero.NetCoreApp.TypeScript
+            cd << pipeline.parameters.node-project >>
             yarn install
             npm run build:prod
       - save_cache:
-          key: yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - apps/CardHero.NetCoreApp.TypeScript/node_modules
       - run:
-          name: dotnet publish apps\CardHero.NetCoreApp.TypeScript --configuration Release --no-build --output publish
-          command: dotnet publish apps\CardHero.NetCoreApp.TypeScript --configuration Release --no-build --output publish
+          name: dotnet publish << pipeline.parameters.node-project >> --configuration Release --no-build --output publish
+          command: dotnet publish << pipeline.parameters.node-project >> --configuration Release --no-build --output publish
       - store_artifacts:
           path: publish
   npm-lint:
@@ -38,22 +42,22 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - apps/CardHero.NetCoreApp.TypeScript/node_modules
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm lint
           command: |
-            cd apps/CardHero.NetCoreApp.TypeScript
+            cd << pipeline.parameters.node-project >>
             yarn install
             npm run lint
       - save_cache:
-          key: yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - apps/CardHero.NetCoreApp.TypeScript/node_modules
+            - << pipeline.parameters.node-project >>/node_modules
 workflows:
   version: 2
-  build-all:
+  run-all:
     jobs:
       - dotnet-publish
       - npm-lint
