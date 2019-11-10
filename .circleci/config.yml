@@ -14,7 +14,7 @@ jobs:
           command: dotnet build CardHero.sln --configuration Release --no-restore
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "yarn.lock" }}
+            - yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
           paths:
             - apps/CardHero.NetCoreApp.TypeScript/node_modules
       - run:
@@ -24,7 +24,7 @@ jobs:
             yarn install
             npm run build:prod
       - save_cache:
-          key: yarn-cache-{{ checksum "yarn.lock" }}
+          key: yarn-cache-{{ checksum "apps/CardHero.NetCoreApp.TypeScript/yarn.lock" }}
           paths:
             - apps/CardHero.NetCoreApp.TypeScript/node_modules
       - run:
