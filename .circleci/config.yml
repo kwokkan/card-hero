@@ -16,9 +16,11 @@ jobs:
     executor: win/default
     steps:
       - checkout
+      - run: dir
       - run:
           name: cd apps/CardHero.NetCoreApp.TypeScript
           command: cd apps/CardHero.NetCoreApp.TypeScript
+      - run: dir
       - run:
           name: yarn install
           command: yarn install
