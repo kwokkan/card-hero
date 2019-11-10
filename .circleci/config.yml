@@ -27,7 +27,7 @@ jobs:
           command: npm run build:prod
 workflows:
   version: 2
-  dotnet-run:
+  build-all:
     jobs:
       - dotnet-build
       - node-build
