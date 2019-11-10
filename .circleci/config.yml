@@ -12,8 +12,22 @@ jobs:
       - run:
           name: dotnet-build/dotnet build CardHero.sln --configuration Release --no-restore
           command: dotnet build CardHero.sln --configuration Release --no-restore
+  node-build:
+    executor: win/default
+    steps:
+      - checkout
+      - run:
+          name: cd apps/CardHero.NetCoreApp.TypeScript
+          command: cd apps/CardHero.NetCoreApp.TypeScript
+      - run:
+          name: yarn install
+          command: yarn install
+      - run:
+          name: npm run build:prod
+          command: npm run build:prod
 workflows:
   version: 2
   dotnet-run:
     jobs:
       - dotnet-build
+      - node-build
