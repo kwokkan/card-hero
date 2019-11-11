@@ -1,8 +1,5 @@
 version: 2.1
 parameters:
-  ci:
-    type: env_var_name
-    default: CI
   configuration:
     type: string
     default: "Release"
@@ -17,6 +14,10 @@ orbs:
 jobs:
   dotnet-publish:
     executor: win/default
+    parameters:
+      ci:
+        type: env_var_name
+        default: CI
     steps:
       - checkout
       - run:
@@ -41,7 +42,7 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - unless:
-          condition: << pipeline.parameters.ci >>
+          condition: << parameters.ci >>
           steps:
             - run:
                 name: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
