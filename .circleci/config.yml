@@ -67,9 +67,29 @@ jobs:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-project >>/node_modules
+  npm-test:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+      - run:
+          name: npm test
+          command: |
+            cd << pipeline.parameters.node-project >>
+            yarn install
+            npm run lint
+      - save_cache:
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
 workflows:
   version: 2
   run-all:
     jobs:
       - dotnet-publish
       - npm-lint
+      - npm-test
