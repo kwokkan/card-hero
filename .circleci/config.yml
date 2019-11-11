@@ -1,5 +1,8 @@
 version: 2.1
 parameters:
+  ci:
+    type: env_var_name
+    default: CI
   configuration:
     type: string
     default: "Release"
@@ -38,7 +41,7 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - unless:
-          condition: ${CI}
+          condition: << pipeline.parameters.ci >>
           steps:
             - run:
                 name: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
