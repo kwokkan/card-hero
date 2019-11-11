@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.6.0",
+    "@babel/plugin-transform-react-jsx": "7.7.0",
     "@svgr/webpack": "4.3.2",
     "@types/node": "12.12.7",
     "@types/react": "16.9.11",
@@ -110,7 +111,7 @@
   },
   "jest": {
     "roots": [
-      "<rootDir>/src"
+      "<rootDir>/ClientApp"
     ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -121,8 +122,8 @@
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      "<rootDir>/ClientApp/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/ClientApp/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {
