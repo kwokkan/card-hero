@@ -1,19 +1,96 @@
 version: 2.1
+parameters:
+  configuration:
+    type: string
+    default: "Release"
+  node-project:
+    type: string
+    default: "apps/CardHero.NetCoreApp.TypeScript"
+  solution:
+    type: string
+    default: "CardHero.sln"
 orbs:
   win: circleci/windows@2.2.0
 jobs:
-  dotnet-build:
+  dotnet-publish:
     executor: win/default
+    parameters:
+      ci:
+        type: env_var_name
+        default: CI
     steps:
       - checkout
       - run:
-          name: dotnet-restore/dotnet restore CardHero.sln
-          command: dotnet restore CardHero.sln
+          name: dotnet restore << pipeline.parameters.solution >>
+          command: dotnet restore << pipeline.parameters.solution >>
       - run:
-          name: dotnet-build/dotnet build CardHero.sln --configuration Release --no-restore
-          command: dotnet build CardHero.sln --configuration Release --no-restore
+          name: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+          command: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+      - run:
+          name: npm build:prod
+          command: |
+            cd << pipeline.parameters.node-project >>
+            yarn install
+            npm run build:prod
+      - save_cache:
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+      - unless:
+          condition: << parameters.ci >>
+          steps:
+            - run:
+                name: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
+                command: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
+            - store_artifacts:
+                path: publish
+  npm-lint:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+      - run:
+          name: npm lint
+          command: |
+            cd << pipeline.parameters.node-project >>
+            yarn install
+            npm run lint
+      - save_cache:
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+  npm-test:
+    executor: win/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
+      - run:
+          name: npm test
+          command: |
+            cd << pipeline.parameters.node-project >>
+            yarn install
+            npm run test
+      - save_cache:
+          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
 workflows:
   version: 2
-  dotnet-run:
+  run-all:
     jobs:
-      - dotnet-build
+      - dotnet-publish
+      - npm-lint
+      - npm-test
