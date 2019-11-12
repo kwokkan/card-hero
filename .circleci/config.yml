@@ -15,9 +15,9 @@ jobs:
   dotnet-publish:
     executor: win/default
     parameters:
-      ci:
+      merge-request:
         type: env_var_name
-        default: CI
+        default: CIRCLE_PULL_REQUEST
     steps:
       - checkout
       - run:
@@ -29,6 +29,7 @@ jobs:
       - restore_cache:
           keys:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
@@ -42,7 +43,7 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - unless:
-          condition: << parameters.ci >>
+          condition: << parameters.merge-request >>
           steps:
             - run:
                 name: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
@@ -56,6 +57,7 @@ jobs:
       - restore_cache:
           keys:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
@@ -75,6 +77,7 @@ jobs:
       - restore_cache:
           keys:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
