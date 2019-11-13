@@ -15,3 +15,9 @@ jobs:
         dotnet-version: 3.0.100
     - name: Build with dotnet
       run: dotnet build CardHero.sln --configuration Release
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+      with:
+        node-version: '13.x'
+    - run: yarn install
+    - run: npm run build:prod
