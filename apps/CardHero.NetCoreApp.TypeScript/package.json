@@ -43,7 +43,7 @@
     "closure-webpack-plugin": "2.0.1",
     "cross-env": "6.0.3",
     "css-loader": "3.2.0",
-    "dotenv": "6.2.0",
+    "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "6.6.0",
     "eslint-config-react-app": "5.0.2",
@@ -93,8 +93,8 @@
     "webpack-bundle-analyzer": "3.6.0",
     "webpack-cli": "3.3.10",
     "webpack-deep-scope-plugin": "1.7.0",
-    "webpack-dev-server": "3.2.1",
-    "webpack-manifest-plugin": "2.1.1",
+    "webpack-dev-server": "3.9.0",
+    "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
   "eslintConfig": {
