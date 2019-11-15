@@ -31,17 +31,17 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
       - run:
           name: npm build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install
+            yarn install --frozen-lockfile
             npm run build:prod
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
       - unless:
           condition: << parameters.merge-request >>
           steps:
@@ -59,17 +59,17 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
       - run:
           name: npm lint
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install
+            yarn install --frozen-lockfile
             npm run lint
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
   npm-test:
     executor: win/default
     steps:
@@ -79,17 +79,17 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
       - run:
           name: npm test
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install
+            yarn install --frozen-lockfile
             npm run test
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - ~/.cache/yarn
 workflows:
   version: 2
   run-all:
