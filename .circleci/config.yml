@@ -66,11 +66,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      steps:
-        - run: |
-            dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
-        - store_artifacts:
-            path: publish
+      - run: |
+          dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
+      - store_artifacts:
+          path: publish
   npm-build:
     executor: win/default
     steps:
