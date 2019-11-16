@@ -88,12 +88,13 @@ jobs:
     executor: win/default
     steps:
       - attach_workspace:
-          at: src
+          at: .
       - run:
           name: npm test
           command: |
             dir
             dir src
+            dir src/src
             cd src/<< pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run test
