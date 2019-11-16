@@ -3,9 +3,6 @@ parameters:
   configuration:
     type: string
     default: "Release"
-  node-cache:
-    type: string
-    default: "apps/CardHero.NetCoreApp.TypeScript/.node-cache"
   node-project:
     type: string
     default: "apps/CardHero.NetCoreApp.TypeScript"
@@ -41,7 +38,7 @@ jobs:
       - save_cache:
           key: yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-cache >>/yarn
+            - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
   dotnet-build:
     executor: win/default
@@ -54,10 +51,6 @@ jobs:
           dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
   dotnet-publish:
     executor: win/default
-    parameters:
-      merge-request:
-        type: env_var_name
-        default: CIRCLE_PULL_REQUEST
     steps:
       - attach_workspace:
           at: .
@@ -138,4 +131,5 @@ workflows:
             - npm-test
           filters:
             branches:
-              - master
+              only:
+                - master
