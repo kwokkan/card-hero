@@ -70,17 +70,8 @@ jobs:
         type: env_var_name
         default: CIRCLE_PULL_REQUEST
     steps:
-      - checkout
-      - run:
-          name: dotnet restore << pipeline.parameters.solution >>
-          command: dotnet restore << pipeline.parameters.solution >>
-      - run:
-          name: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
-          command: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
-      - restore_cache:
-          keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+      - attach_workspace:
+          at: .
       - run:
           name: npm build:prod
           command: |
@@ -100,6 +91,16 @@ jobs:
                 command: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
             - store_artifacts:
                 path: publish
+  npm-build:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: npm build:prod
+          command: |
+            cd << pipeline.parameters.node-project >>
+            npm run build:prod
   npm-lint:
     executor: win/default
     steps:
@@ -134,6 +135,9 @@ workflows:
       - dotnet-build:
           requires:
             - init-workspace
+      - npm-build:
+          requires:
+            - init-node
       - npm-lint:
           requires:
              - init-node
