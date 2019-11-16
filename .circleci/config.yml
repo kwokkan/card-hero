@@ -30,8 +30,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-
       - run:
           name: node install
           command: |
@@ -72,8 +72,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-
       - run:
           name: npm build:prod
           command: |
@@ -90,8 +90,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-
       - run:
           name: npm lint
           command: |
@@ -104,14 +104,11 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-
       - run:
           name: npm test
           command: |
-            dir
-            dir src
-            dir src/src
             cd << pipeline.parameters.node-project >>
             npm run test
 workflows:
