@@ -1,4 +1,6 @@
 version: 2.1
+environment:
+  YARN_CACHE_FOLDER: apps/CardHero.NetCoreApp.TypeScript/.cache/yarn
 parameters:
   configuration:
     type: string
@@ -31,7 +33,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
       - run:
           name: npm build:prod
           command: |
@@ -41,7 +43,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
       - unless:
           condition: << parameters.merge-request >>
           steps:
@@ -59,7 +61,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
       - run:
           name: npm lint
           command: |
@@ -69,7 +71,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
   npm-test:
     executor: win/default
     steps:
@@ -79,7 +81,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
       - run:
           name: npm test
           command: |
@@ -90,7 +92,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ./.cache/yarn
 workflows:
   version: 2
   run-all:
