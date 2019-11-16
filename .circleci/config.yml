@@ -25,7 +25,7 @@ jobs:
             - yarn-cache-{{ checksum "src/<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
       - persist_to_workspace:
-          root: /tmp/.workspace
+          root: src
           paths:
             - src/*
   dotnet-publish:
