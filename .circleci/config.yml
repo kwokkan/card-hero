@@ -3,6 +3,9 @@ parameters:
   configuration:
     type: string
     default: "Release"
+  node-cache:
+    type: string
+    default: "apps/CardHero.NetCoreApp.TypeScript/.node-cache"
   node-project:
     type: string
     default: "apps/CardHero.NetCoreApp.TypeScript"
@@ -30,17 +33,16 @@ jobs:
           keys:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
-          paths:
-            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile --production
+            yarn install --frozen-lockfile --cache-folder << pipeline.parameters.node-cache >>/yarn
             npm run build:prod
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
+            - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
       - unless:
           condition: << parameters.merge-request >>
@@ -58,17 +60,16 @@ jobs:
           keys:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
-          paths:
-            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm lint
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile --production
+            yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run lint
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
+            - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
   npm-test:
     executor: win/default
@@ -76,19 +77,18 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
-          paths:
-            - << pipeline.parameters.node-project >>/node_modules
+            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-
       - run:
           name: npm test
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile --production
+            yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run test
       - save_cache:
-          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
+            - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
 workflows:
   version: 2
