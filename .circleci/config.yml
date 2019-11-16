@@ -84,6 +84,7 @@ jobs:
           name: npm test
           command: |
             cd << pipeline.parameters.node-project >>
+            yarn cache dir
             yarn install --frozen-lockfile
             npm run test
       - save_cache:
