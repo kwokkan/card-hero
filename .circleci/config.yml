@@ -136,3 +136,6 @@ workflows:
             - dotnet-build
             - npm-build
             - npm-test
+          filters:
+            branches:
+              - master
