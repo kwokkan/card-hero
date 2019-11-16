@@ -92,7 +92,7 @@ jobs:
       - run:
           name: npm test
           command: |
-            ls
+            dir
             cd src/<< pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run test
