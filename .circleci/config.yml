@@ -23,7 +23,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - buildsrc
+            - .
   init-node:
     executor: win/default
     steps:
