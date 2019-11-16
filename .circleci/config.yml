@@ -27,16 +27,15 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v2-
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: node install
           command: |
-            dir
             cd << pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
       - save_cache:
-          key: yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
@@ -65,8 +64,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v2-
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm build:prod
           command: |
@@ -83,8 +82,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v2-
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm lint
           command: |
@@ -97,8 +96,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v2-
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm test
           command: |
