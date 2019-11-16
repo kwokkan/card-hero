@@ -95,11 +95,11 @@ jobs:
             dir
             dir src
             dir src/src
-            cd src/<< pipeline.parameters.node-project >>
+            cd << pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run test
       - save_cache:
-          key: yarn-cache-v2-{{ checksum "src/<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
