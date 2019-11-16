@@ -52,6 +52,17 @@ jobs:
           paths:
             - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
+  dotnet-build:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: dotnet restore << pipeline.parameters.solution >>
+          command: dotnet restore << pipeline.parameters.solution >>
+      - run:
+          name: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+          command: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
   dotnet-publish:
     executor: win/default
     parameters:
@@ -117,10 +128,10 @@ workflows:
   run-all:
     jobs:
       - init-workspace
-      - dotnet-publish:
+      - init-node:
           requires:
             - init-workspace
-      - init-node:
+      - dotnet-build:
           requires:
             - init-workspace
       - npm-lint:
@@ -129,3 +140,7 @@ workflows:
       - npm-test:
           requires:
             - init-node
+      - dotnet-publish:
+          requires:
+            - dotnet-build
+            - npm-test
