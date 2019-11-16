@@ -1,6 +1,4 @@
 version: 2.1
-environment:
-  YARN_CACHE_FOLDER: apps/CardHero.NetCoreApp.TypeScript/.cache/yarn
 parameters:
   configuration:
     type: string
@@ -33,7 +31,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm build:prod
           command: |
@@ -43,7 +41,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
       - unless:
           condition: << parameters.merge-request >>
           steps:
@@ -61,7 +59,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm lint
           command: |
@@ -71,7 +69,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
   npm-test:
     executor: win/default
     steps:
@@ -81,7 +79,7 @@ jobs:
             - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm test
           command: |
@@ -92,7 +90,7 @@ jobs:
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ./.cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
 workflows:
   version: 2
   run-all:
