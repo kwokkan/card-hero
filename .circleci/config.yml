@@ -18,8 +18,7 @@ jobs:
   init-workspace:
     executor: win/default
     steps:
-      - checkout:
-          path: buildsrc
+      - checkout
       - persist_to_workspace:
           root: .
           paths:
