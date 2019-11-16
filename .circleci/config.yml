@@ -19,6 +19,15 @@ jobs:
     executor: win/default
     steps:
       - checkout
+          path: src
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ checksum "src/<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-
+      - persist_to_workspace:
+          root: .workspace
+          paths:
+            - src/*
   dotnet-publish:
     executor: win/default
     parameters:
@@ -78,19 +87,16 @@ jobs:
   npm-test:
     executor: win/default
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v2-
+      - attach_workspace
+          at: .workspace
       - run:
           name: npm test
           command: |
-            cd << pipeline.parameters.node-project >>
+            cd src/<< pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
             npm run test
       - save_cache:
-          key: yarn-cache-v2-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v2-{{ checksum "src/<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
@@ -98,6 +104,13 @@ workflows:
   version: 2
   run-all:
     jobs:
+      - init-workspace
       - dotnet-publish
+          requires:
+            init-workspace
       - npm-lint
+          requires:
+            init-workspace
       - npm-test
+          requires:
+            init-workspace
