@@ -48,7 +48,7 @@ jobs:
             - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
       - persist_to_workspace:
-          root: src
+          root: .
           paths:
             - << pipeline.parameters.node-cache >>/yarn
             - << pipeline.parameters.node-project >>/node_modules
