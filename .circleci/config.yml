@@ -76,8 +76,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v1-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
@@ -88,7 +88,7 @@ jobs:
             yarn install --frozen-lockfile
             npm run test
       - save_cache:
-          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v1-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-project >>/node_modules
 workflows:
