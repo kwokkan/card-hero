@@ -36,7 +36,7 @@ jobs:
           name: npm build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
+            yarn install --frozen-lockfile --production
             npm run build:prod
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
@@ -64,7 +64,7 @@ jobs:
           name: npm lint
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
+            yarn install --frozen-lockfile --production
             npm run lint
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
@@ -84,7 +84,7 @@ jobs:
           name: npm test
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
+            yarn install --frozen-lockfile --production
             npm run test
       - save_cache:
           key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
