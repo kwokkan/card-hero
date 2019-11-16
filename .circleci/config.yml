@@ -87,7 +87,7 @@ jobs:
   npm-test:
     executor: win/default
     steps:
-      - attach_workspace
+      - attach_workspace:
           at: .workspace
       - run:
           name: npm test
@@ -105,12 +105,12 @@ workflows:
   run-all:
     jobs:
       - init-workspace
-      - dotnet-publish
+      - dotnet-publish:
           requires:
             init-workspace
-      - npm-lint
+      - npm-lint:
           requires:
             init-workspace
-      - npm-test
+      - npm-test:
           requires:
             init-workspace
