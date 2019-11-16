@@ -19,8 +19,6 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      - run: |
-          rd -r .git
       - persist_to_workspace:
           root: .
           paths:
