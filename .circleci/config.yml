@@ -40,6 +40,7 @@ jobs:
       - run:
           name: node install
           command: |
+            dir
             cd << pipeline.parameters.node-project >>
             yarn install --frozen-lockfile --cache-folder .node-cache/yarn
       - save_cache:
