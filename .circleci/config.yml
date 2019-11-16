@@ -107,10 +107,10 @@ workflows:
       - init-workspace
       - dotnet-publish:
           requires:
-            init-workspace
+            - init-workspace
       - npm-lint:
           requires:
-            init-workspace
+             - init-workspace
       - npm-test:
           requires:
-            init-workspace
+            - init-workspace
