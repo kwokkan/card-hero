@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          rd /s /q .git
+          rd -r .git
       - persist_to_workspace:
           root: .
           paths:
