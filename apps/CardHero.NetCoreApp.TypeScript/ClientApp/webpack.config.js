@@ -10,7 +10,7 @@ const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").defa
 const isProd = process.env.NODE_ENV == "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
-const constants = require("./ClientApp/constants/constants.ts");
+const constants = require("./src/constants/constants.ts");
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -20,38 +20,38 @@ module.exports = {
 
     entry: {
         "app.home": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/home/index.tsx"
+            "./src/globals.ts",
+            "./src/components/home/index.tsx"
         ],
         "app.card": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/card/index.tsx"
+            "./src/globals.ts",
+            "./src/components/card/index.tsx"
         ],
         "app.collection": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/collection/index.tsx"
+            "./src/globals.ts",
+            "./src/components/collection/index.tsx"
         ],
         "app.deck": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/deck/index.tsx"
+            "./src/globals.ts",
+            "./src/components/deck/index.tsx"
         ],
         "app.game": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/game/index.tsx"
+            "./src/globals.ts",
+            "./src/components/game/index.tsx"
         ],
         "app.store": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/store/index.tsx"
+            "./src/globals.ts",
+            "./src/components/store/index.tsx"
         ],
         "styles.shared": [
-            //"./ClientApp/styles/index.tsx",
-            "./ClientApp/styles/index.scss"
+            //"./src/styles/index.tsx",
+            "./src/styles/index.scss"
         ]
     },
 
     output: {
         filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
-        path: path.resolve(__dirname, "wwwroot/dist"),
+        path: path.resolve(__dirname, "../wwwroot/dist"),
         devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
         jsonpFunction: "wj"
     },
@@ -109,7 +109,7 @@ module.exports = {
                 shared: {
                     chunks: "all",
                     name: "shared",
-                    test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
+                    test: /[\\/]src[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
                 styles: {
@@ -149,7 +149,7 @@ module.exports = {
             "Constants": constants
         }),
         new webpack.ProvidePlugin({
-            CardHeroApiClientBase: path.resolve(__dirname, "./ClientApp/clients/CardHeroApiClientBase.ts")
+            CardHeroApiClientBase: path.resolve(__dirname, "./src/clients/CardHeroApiClientBase.ts")
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -187,7 +187,7 @@ module.exports = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     "cache-loader",
@@ -203,7 +203,7 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                include: /ClientApp/,
+                include: /src/,
                 loader: [
                     "cache-loader",
                     "source-map-loader"
@@ -211,7 +211,7 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     //"file-loader",

@@ -29,9 +29,9 @@
 		//"checkJs": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": [
-		"./ClientApp/**/*"
-	],
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "wwwroot"

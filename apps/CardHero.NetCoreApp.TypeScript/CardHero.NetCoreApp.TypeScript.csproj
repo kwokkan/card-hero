@@ -41,13 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="package.json" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="wwwroot\favicon.ico" />
-    <None Include="wwwroot\manifest.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.Models\CardHero.Core.Models.csproj" />
