@@ -12,88 +12,123 @@ parameters:
 orbs:
   win: circleci/windows@2.2.0
 jobs:
-  dotnet-publish:
+  init-workspace:
     executor: win/default
-    parameters:
-      merge-request:
-        type: env_var_name
-        default: CIRCLE_PULL_REQUEST
     steps:
       - checkout
-      - run:
-          name: dotnet restore << pipeline.parameters.solution >>
-          command: dotnet restore << pipeline.parameters.solution >>
-      - run:
-          name: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
-          command: dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  init-node:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
+      - run:
+          name: node install
+          command: |
+            cd << pipeline.parameters.node-project >>
+            yarn install --frozen-lockfile --cache-folder .node-cache/yarn
+      - save_cache:
+          key: yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - << pipeline.parameters.node-project >>/.node-cache/yarn
+            - << pipeline.parameters.node-project >>/node_modules
+  dotnet-build:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          dotnet restore << pipeline.parameters.solution >>
+      - run: |
+          dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+  dotnet-publish:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --output publish
+      - store_artifacts:
+          path: publish
+  npm-build:
+    executor: win/default
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
             npm run build:prod
-      - save_cache:
-          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+      - persist_to_workspace:
+          root: .
           paths:
-            - ~/.cache/yarn
-      - unless:
-          condition: << parameters.merge-request >>
-          steps:
-            - run:
-                name: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
-                command: dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --no-build --output publish
-            - store_artifacts:
-                path: publish
+            - << pipeline.parameters.node-project >>/wwwroot
   npm-lint:
     executor: win/default
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
-          paths:
-            - ~/.cache/yarn
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm lint
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
             npm run lint
-      - save_cache:
-          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
   npm-test:
     executor: win/default
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-
-          paths:
-            - ~/.cache/yarn
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
       - run:
           name: npm test
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile
             npm run test
-      - save_cache:
-          key: yarn-cache-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
 workflows:
   version: 2
   run-all:
     jobs:
-      - dotnet-publish
-      - npm-lint
-      - npm-test
+      - init-workspace
+      - init-node:
+          requires:
+            - init-workspace
+      - dotnet-build:
+          requires:
+            - init-workspace
+      - npm-build:
+          requires:
+            - init-node
+      - npm-lint:
+          requires:
+             - init-node
+      - npm-test:
+          requires:
+            - init-node
+      - dotnet-publish:
+          requires:
+            - dotnet-build
+            - npm-build
+            - npm-test
+          filters:
+            branches:
+              only:
+                - master

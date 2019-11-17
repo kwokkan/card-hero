@@ -29,28 +29,7 @@ namespace CardHero.Data.SqlServer
             _gameUserMapper = gameUseMapper;
         }
 
-        public async Task<GameData> AddGameAsync(GameCreateData game, CancellationToken cancellationToken = default)
-        {
-            var data = new Game
-            {
-                Columns = game.Columns,
-                GameTypeFk = (int)game.Type,
-                Name = game.Name,
-                Rows = game.Rows,
-                StartTime = DateTime.UtcNow,
-            };
-
-            using (var context = _factory.Create(trackChanges: true))
-            {
-                context.Game.Add(data);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-            }
-
-            return await GetGameByIdAsync(data.GamePk, cancellationToken: cancellationToken);
-        }
-
-        public async Task<SearchResult<GameData>> FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken = default)
+        private async Task<SearchResult<GameData>> FindGamesInternalAsync(GameSearchFilter filter, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {
@@ -86,17 +65,49 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        public async Task<GameData> GetGameByIdAsync(int id, CancellationToken cancellationToken = default)
+        private async Task<GameData> GetGameByIdInternalAsync(int id, CancellationToken cancellationToken)
         {
-            var games = await FindGamesAsync(new GameSearchFilter
+            var filter = new GameSearchFilter
             {
                 GameId = id,
-            });
+            };
+            var games = await FindGamesInternalAsync(filter, cancellationToken);
 
             return games.Results.FirstOrDefault();
         }
 
-        public async Task<GameUserData[]> GetGameUsersAsync(int gameId, CancellationToken cancellationToken = default)
+        async Task<GameData> IGameRepository.AddGameAsync(GameCreateData game, CancellationToken cancellationToken)
+        {
+            var data = new Game
+            {
+                Columns = game.Columns,
+                GameTypeFk = (int)game.Type,
+                Name = game.Name,
+                Rows = game.Rows,
+                StartTime = DateTime.UtcNow,
+            };
+
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                context.Game.Add(data);
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+
+            return await GetGameByIdInternalAsync(data.GamePk, cancellationToken: cancellationToken);
+        }
+
+        Task<SearchResult<GameData>> IGameRepository.FindGamesAsync(GameSearchFilter filter, CancellationToken cancellationToken)
+        {
+            return FindGamesInternalAsync(filter, cancellationToken);
+        }
+
+        Task<GameData> IGameRepository.GetGameByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return GetGameByIdInternalAsync(id, cancellationToken);
+        }
+
+        async Task<GameUserData[]> IGameRepository.GetGameUsersAsync(int gameId, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {
@@ -110,7 +121,7 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        public async Task<MoveData[]> GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken = default)
+        async Task<MoveData[]> IGameRepository.GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {
@@ -132,7 +143,7 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        public async Task<GameData> UpdateGameAsync(int id, GameUpdateData update, CancellationToken cancellationToken = default)
+        async Task<GameData> IGameRepository.UpdateGameAsync(int id, GameUpdateData update, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create(trackChanges: true))
             {
@@ -156,7 +167,7 @@ namespace CardHero.Data.SqlServer
                 await context.SaveChangesAsync(cancellationToken: cancellationToken);
             }
 
-            return await GetGameByIdAsync(id, cancellationToken: cancellationToken);
+            return await GetGameByIdInternalAsync(id, cancellationToken: cancellationToken);
         }
     }
 }

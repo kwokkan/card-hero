@@ -1,8 +1,6 @@
 ﻿const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const ClosurePlugin = require("closure-webpack-plugin");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -10,6 +8,7 @@ const webpack = require("webpack");
 const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
 
 const isProd = process.env.NODE_ENV == "production";
+const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./ClientApp/constants/constants.ts");
 
@@ -17,7 +16,7 @@ module.exports = {
     mode: isProd ? "production" : "development",
 
     // Enable sourcemaps for debugging webpack's output.
-    devtool: "hidden-source-map",
+    devtool: isProd ? false : "hidden-source-map",
 
     entry: {
         "app.home": [
@@ -108,26 +107,6 @@ module.exports = {
                     }
                 }
             })
-            //new ClosurePlugin({
-            //    mode: "STANDARD",
-            //    //platform: "javascript"
-            //    childCompilations: true
-            //    //options: {
-            //    //}
-            //}, {
-            //    applyInputSourceMaps: false,
-            //    compilationLevel: "SIMPLE_OPTIMIZATIONS",
-            //    languageIn: "ECMASCRIPT_NEXT",
-            //    languageOut: "ECMASCRIPT_NEXT",
-            //    rewritePolyfills: false
-            //    // compiler flags here
-            //    //
-            //    // for debuging help, try these:
-            //    //
-            //    // formatting: "PRETTY_PRINT"
-            //    // debug: true,
-            //    // renaming: false
-            //})
         ] : [],
         //concatenateModules: false,
         chunkIds: "deterministic",
@@ -187,7 +166,6 @@ module.exports = {
         new webpack.ProvidePlugin({
             CardHeroApiClientBase: path.resolve(__dirname, "./ClientApp/clients/CardHeroApiClientBase.ts")
         }),
-        //new HardSourceWebpackPlugin(),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
@@ -196,7 +174,7 @@ module.exports = {
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
-        isProd ? new BundleAnalyzerPlugin({
+        chAnalyse ? new BundleAnalyzerPlugin({
             analyzerMode: "static",
             openAnalyzer: false,
             generateStatsFile: true,

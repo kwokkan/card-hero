@@ -16,7 +16,7 @@ namespace CardHero.Data.SqlServer
             _factory = factory;
         }
 
-        public async Task<GameUserData> AddGameUserAsync(int gameId, int userId, CancellationToken cancellationToken = default)
+        async Task<GameUserData> IGameUserRepository.AddGameUserAsync(int gameId, int userId, CancellationToken cancellationToken)
         {
             var gameUser = new GameUser
             {

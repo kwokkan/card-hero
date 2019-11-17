@@ -157,14 +157,14 @@ namespace CardHero.Core.SqlServer.Services
                 foreach (var game in results.Results)
                 {
                     //TODO: Fix loop to no make multiple calls
-                    await PopulateGameUsersAsync(game, uid, cancellationToken: cancellationToken);
+                    await PopulateGameUsersInternalAsync(game, uid, cancellationToken: cancellationToken);
                 }
             }
 
             return results;
         }
 
-        private async Task PopulateGameUsersAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
+        private async Task PopulateGameUsersInternalAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
         {
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
             var userIds = users.Select(x => x.UserId).ToArray();
@@ -213,7 +213,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (userId.HasValue)
             {
-                await PopulateGameUsersAsync(game, userId.Value, cancellationToken: cancellationToken);
+                await PopulateGameUsersInternalAsync(game, userId.Value, cancellationToken: cancellationToken);
                 var gameUser = game.Users.SingleOrDefault(x => x.UserId == userId.Value);
 
                 if (gameUser != null)

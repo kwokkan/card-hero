@@ -49,6 +49,29 @@
       }
     }
   ],
+  "mini-css-extract-plugin d:\\Programming\\card-hero\\apps\\CardHero.NetCoreApp.TypeScript\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./ClientApp/styles/index.scss": [
+    {
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 323
+        },
+        "bySource": {},
+        "usedIds": [
+          323
+        ]
+      },
+      "modules": {
+        "byIdentifier": {
+          "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./ClientApp/styles/index.scss": 564,
+          "./node_modules/css-loader/dist/runtime/api.js": 645
+        },
+        "usedIds": [
+          564,
+          645
+        ]
+      }
+    }
+  ],
   "modules": {
     "byIdentifier": {
       "./node_modules/@babel/runtime/helpers/assertThisInitialized.js": 1506,

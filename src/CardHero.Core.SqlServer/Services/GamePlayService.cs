@@ -39,7 +39,7 @@ namespace CardHero.Core.SqlServer.Services
             _turnRepository = turnRepository;
         }
 
-        private async Task<GameModel> ValidateMoveAsync(MoveModel move, CancellationToken cancellationToken = default)
+        private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
             var game = await _gameService.GetGameByIdAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
 
@@ -89,7 +89,7 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task IGamePlayService.MakeMoveAsync(MoveModel move, CancellationToken cancellationToken)
         {
-            var game = await ValidateMoveAsync(move, cancellationToken: cancellationToken);
+            var game = await ValidateMoveInternalAsync(move, cancellationToken: cancellationToken);
 
             var context = GetContext();
             {
