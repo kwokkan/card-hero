@@ -1,7 +1,6 @@
 ﻿const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const ClosurePlugin = require("closure-webpack-plugin");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
@@ -96,26 +95,6 @@ module.exports = {
                     }
                 }
             })
-            //new ClosurePlugin({
-            //    mode: "STANDARD",
-            //    //platform: "javascript"
-            //    childCompilations: true
-            //    //options: {
-            //    //}
-            //}, {
-            //    applyInputSourceMaps: false,
-            //    compilationLevel: "SIMPLE_OPTIMIZATIONS",
-            //    languageIn: "ECMASCRIPT_NEXT",
-            //    languageOut: "ECMASCRIPT_NEXT",
-            //    rewritePolyfills: false
-            //    // compiler flags here
-            //    //
-            //    // for debuging help, try these:
-            //    //
-            //    // formatting: "PRETTY_PRINT"
-            //    // debug: true,
-            //    // renaming: false
-            //})
         ] : [],
         //concatenateModules: false,
         moduleIds: "hashed",
