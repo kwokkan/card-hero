@@ -75,12 +75,12 @@
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "test": "cross-env CI=true node scripts/test.js --env=jsdom",
-    "lint": "eslint ./ClientApp/ --cache --ext .ts,.tsx",
+    "lint": "eslint ./src/ --cache --ext .ts,.tsx",
     "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
   },
   "jest": {
     "roots": [
-      "<rootDir>/ClientApp"
+      "<rootDir>/src"
     ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -91,8 +91,8 @@
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [
-      "<rootDir>/ClientApp/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/ClientApp/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {
