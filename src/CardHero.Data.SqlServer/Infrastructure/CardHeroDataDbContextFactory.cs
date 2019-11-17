@@ -11,7 +11,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             _options = options;
         }
 
-        public CardHeroDataDbContext Create(bool trackChanges = false)
+        CardHeroDataDbContext ICardHeroDataDbContextFactory.Create(bool trackChanges)
         {
             var optionsBuilder = new DbContextOptionsBuilder<CardHeroDataDbContext>();
             optionsBuilder.UseSqlServer(_options.ConnectionString);

@@ -5,7 +5,7 @@ namespace CardHero.Core.Abstractions
 {
     public class GameDataMapper : IDataMapper<GameData, GameModel>
     {
-        public GameModel Map(GameData from)
+        GameModel IDataMapper<GameData, GameModel>.Map(GameData from)
         {
             return new GameModel
             {
@@ -24,7 +24,7 @@ namespace CardHero.Core.Abstractions
             };
         }
 
-        public GameData Map(GameModel from)
+        GameData IDataMapper<GameData, GameModel>.Map(GameModel from)
         {
             return new GameData
             {

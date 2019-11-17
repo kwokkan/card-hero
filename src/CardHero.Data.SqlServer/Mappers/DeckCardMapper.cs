@@ -7,7 +7,7 @@ namespace CardHero.Data.SqlServer
 {
     internal class DeckCardMapper : IMapper<DeckCardCollection, DeckCardData>
     {
-        public DeckCardData Map(DeckCardCollection from)
+        DeckCardData IMapper<DeckCardCollection, DeckCardData>.Map(DeckCardCollection from)
         {
             return new DeckCardData
             {
@@ -17,7 +17,7 @@ namespace CardHero.Data.SqlServer
             };
         }
 
-        public DeckCardCollection Map(DeckCardData from)
+        DeckCardCollection IMapper<DeckCardCollection, DeckCardData>.Map(DeckCardData from)
         {
             throw new NotImplementedException();
         }

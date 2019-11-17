@@ -23,7 +23,7 @@ namespace CardHero.Data.SqlServer
             _deckMapper = deckMapper;
         }
 
-        public async Task<DeckData> GetDeckByIdAsync(int id, CancellationToken cancellationToken = default)
+        async Task<DeckData> IDeckRepository.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {

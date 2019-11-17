@@ -7,7 +7,7 @@ namespace CardHero.Core.Abstractions
 {
     public class GameUserDataMapper : IDataMapper<GameUserData, GameUserModel>
     {
-        public GameUserModel Map(GameUserData from)
+        GameUserModel IDataMapper<GameUserData, GameUserModel>.Map(GameUserData from)
         {
             return new GameUserModel
             {
@@ -18,7 +18,7 @@ namespace CardHero.Core.Abstractions
             };
         }
 
-        public GameUserData Map(GameUserModel from)
+        GameUserData IDataMapper<GameUserData, GameUserModel>.Map(GameUserModel from)
         {
             throw new NotImplementedException();
         }

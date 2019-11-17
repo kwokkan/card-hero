@@ -7,7 +7,7 @@ namespace CardHero.Data.SqlServer
 {
     internal class GameMapper : IMapper<Game, GameData>
     {
-        public GameData Map(Game from)
+        GameData IMapper<Game, GameData>.Map(Game from)
         {
             return new GameData
             {
@@ -24,7 +24,7 @@ namespace CardHero.Data.SqlServer
             };
         }
 
-        public Game Map(GameData from)
+        Game IMapper<Game, GameData>.Map(GameData from)
         {
             throw new NotImplementedException();
         }

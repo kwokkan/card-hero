@@ -13,7 +13,7 @@ namespace CardHero.Core.SqlServer.EntityFramework
             _options = options.Value;
         }
 
-        public CardHeroDbContext CreateDbContext(string[] args)
+        CardHeroDbContext IDesignTimeDbContextFactory<CardHeroDbContext>.CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<CardHeroDbContext>();
             optionsBuilder.UseSqlServer(_options.ConnectionString);
