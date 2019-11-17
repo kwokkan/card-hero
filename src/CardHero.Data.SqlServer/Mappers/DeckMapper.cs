@@ -14,7 +14,7 @@ namespace CardHero.Data.SqlServer
             _deckCardMapper = deckCardMapper;
         }
 
-        public DeckData Map(Deck from)
+        DeckData IMapper<Deck, DeckData>.Map(Deck from)
         {
             return new DeckData
             {
@@ -28,7 +28,7 @@ namespace CardHero.Data.SqlServer
             };
         }
 
-        public Deck Map(DeckData from)
+        Deck IMapper<Deck, DeckData>.Map(DeckData from)
         {
             throw new System.NotImplementedException();
         }
