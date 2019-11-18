@@ -1,0 +1,10 @@
+{
+  "extends": "react-app",
+  "rules": {
+    "complexity": [
+      "error",
+      10
+    ],
+    "unicode-bom": "off"
+  }
+}
