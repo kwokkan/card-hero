@@ -29,7 +29,7 @@ export function CoinFormat(props: ICoinFormatProps) {
 
     return (
         <span title={props.title}>
-            {coinRender("coin-golds", gold, se)}
+            {coinRender("coin-gold", gold, se)}
 
             {coinRender("coin-silver", silver, se)}
 
