@@ -63,12 +63,6 @@
     "webpack-deep-scope-plugin": "1.7.0",
     "webpack-manifest-plugin": "2.2.0"
   },
-  "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "unicode-bom": "off"
-    }
-  },
   "scripts": {
     "analyse": "cross-env NODE_ENV=development CH_ANALYSE=true webpack --config webpack.config.js",
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config webpack.config.js",

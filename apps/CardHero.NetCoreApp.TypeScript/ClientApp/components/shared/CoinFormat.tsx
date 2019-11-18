@@ -7,6 +7,15 @@ interface ICoinFormatProps {
     stripEmpty?: boolean;
 }
 
+const coinRender = (className: string, value: number, stripEmpty: boolean): JSX.Element => {
+    return (!stripEmpty || (stripEmpty && value)) &&
+        (<span className="coin-group">
+            <Icon icon="coins" className={className} />
+            {' '}
+            {value}
+        </span>)
+};
+
 export function CoinFormat(props: ICoinFormatProps) {
     if (props.coins < 0) return null;
 
@@ -20,29 +29,11 @@ export function CoinFormat(props: ICoinFormatProps) {
 
     return (
         <span title={props.title}>
-            {(!se || (se && gold)) &&
-                <span className="coin-group">
-                    <Icon icon="coins" className="coin-gold" />
-                    {' '}
-                    {gold}
-                </span>
-            }
+            {coinRender("coin-golds", gold, se)}
 
-            {(!se || (se && silver)) &&
-                <span className="coin-group">
-                    <Icon icon="coins" className="coin-silver" />
-                    {' '}
-                    {silver}
-                </span>
-            }
+            {coinRender("coin-silver", silver, se)}
 
-            {(!se || (se && bronze)) &&
-                <span className="coin-group">
-                    <Icon icon="coins" className="coin-bronze" />
-                    {' '}
-                    {bronze}
-                </span>
-            }
+            {coinRender("coin-bronze", bronze, se)}
         </span>
     );
 }
