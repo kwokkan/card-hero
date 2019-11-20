@@ -13,7 +13,8 @@ orbs:
   win: circleci/windows@2.2.0
 jobs:
   init-workspace:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.1
     steps:
       - checkout
       - persist_to_workspace:
@@ -40,7 +41,8 @@ jobs:
             - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
   dotnet-build:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.1
     steps:
       - attach_workspace:
           at: .
