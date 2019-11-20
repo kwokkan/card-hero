@@ -14,7 +14,7 @@ orbs:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - checkout
       - persist_to_workspace:
@@ -42,7 +42,7 @@ jobs:
             - << pipeline.parameters.node-project >>/node_modules
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.1
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
