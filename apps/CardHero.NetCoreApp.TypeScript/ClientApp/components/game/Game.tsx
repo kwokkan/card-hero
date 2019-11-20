@@ -32,6 +32,20 @@ export class Game extends Component<IGameProps, IGameState> {
         };
     }
 
+    private getPlayedGameDeckCardCollectionIds(game?: IGameViewModel): number[] {
+        let playedGdccIds: number[];
+
+        if (game && game.type === GameType.TripleTriad) {
+            const data = game.data as GameTripleTriadModel;
+
+            if (data) {
+                playedGdccIds = data.moves.map(x => x.gameDeckCardCollectionId);
+            }
+        }
+
+        return playedGdccIds;
+    }
+
     private async populateGame(id: number) {
         const game = await GameService.getGameById(id);
 
@@ -74,15 +88,7 @@ export class Game extends Component<IGameProps, IGameState> {
 
     render() {
         const game = this.state.game;
-        let playedGdccIds: number[];
-
-        if (game && game.type === GameType.TripleTriad) {
-            const data = game.data as GameTripleTriadModel;
-
-            if (data) {
-                playedGdccIds = data.moves.map(x => x.gameDeckCardCollectionId);
-            }
-        }
+        const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(game);
 
         return (
             <Layout>

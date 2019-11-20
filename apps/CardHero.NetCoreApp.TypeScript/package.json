@@ -13,7 +13,7 @@
     "jquery": "3.4.1",
     "popper.js": "1.16.0",
     "react": "16.12.0",
-    "react-bootstrap": "1.0.0-beta.14",
+    "react-bootstrap": "1.0.0-beta.16",
     "react-dnd": "9.4.0",
     "react-dnd-html5-backend": "9.4.0",
     "react-dom": "16.12.0",
@@ -23,12 +23,12 @@
 		"@babel/core": "7.7.2",
 		"@babel/plugin-transform-react-jsx": "7.7.0",
 		"@types/jest": "24.0.23",
-		"@types/node": "12.12.8",
+		"@types/node": "12.12.11",
 		"@types/react": "16.9.11",
 		"@types/react-dom": "16.9.4",
 		"@types/react-router-dom": "5.1.2",
-		"@typescript-eslint/eslint-plugin": "2.7.0",
-		"@typescript-eslint/parser": "2.7.0",
+		"@typescript-eslint/eslint-plugin": "2.8.0",
+		"@typescript-eslint/parser": "2.8.0",
 		"babel-eslint": "10.0.3",
 		"babel-jest": "24.9.0",
 		"babel-preset-react-app": "9.0.2",
@@ -51,7 +51,7 @@
 		"prettier": "1.19.1",
 		"prettier-webpack-plugin": "1.2.0",
 		"react-app-polyfill": "1.0.4",
-		"sass": "1.23.6",
+		"sass": "1.23.7",
 		"sass-loader": "8.0.0",
 		"source-map-loader": "0.2.4",
 		"terser-webpack-plugin": "2.2.1",
@@ -63,12 +63,6 @@
 		"webpack-deep-scope-plugin": "1.7.0",
 		"webpack-manifest-plugin": "2.2.0"
 	},
-  "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "unicode-bom": "off"
-    }
-  },
   "scripts": {
     "analyse": "cross-env NODE_ENV=development CH_ANALYSE=true webpack --config webpack.config.js",
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config webpack.config.js",
