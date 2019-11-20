@@ -51,7 +51,7 @@
     "prettier": "1.19.1",
     "prettier-webpack-plugin": "1.2.0",
     "react-app-polyfill": "1.0.4",
-    "sass": "1.23.6",
+    "sass": "1.23.7",
     "sass-loader": "8.0.0",
     "source-map-loader": "0.2.4",
     "terser-webpack-plugin": "2.2.1",
