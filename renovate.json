@@ -9,6 +9,12 @@
   "labels": [
     "library"
   ],
+  "packageRules": [
+    {
+      "packagePatterns": "^Microsoft.EntityFrameworkCore",
+      "groupName": ["Microsoft.EntityFrameworkCore monorepo"]
+    }
+  ],
   "postUpdateOptions": [
     "yarnDedupeHighest"
   ],
