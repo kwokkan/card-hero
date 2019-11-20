@@ -13,7 +13,7 @@
     "jquery": "3.4.1",
     "popper.js": "1.16.0",
     "react": "16.12.0",
-    "react-bootstrap": "1.0.0-beta.15",
+    "react-bootstrap": "1.0.0-beta.16",
     "react-dnd": "9.4.0",
     "react-dnd-html5-backend": "9.4.0",
     "react-dom": "16.12.0",
