@@ -11,7 +11,12 @@
   ],
   "packageRules": [
     {
-      "packagePatterns": "^Microsoft.EntityFrameworkCore",
+      "packageNames": [
+        "Microsoft.EntityFrameworkCore"
+      ],
+      "packagePatterns": [
+        "^Microsoft\.EntityFrameworkCore\..+$"
+      ],
       "groupName": ["Microsoft.EntityFrameworkCore monorepo"]
     }
   ],
