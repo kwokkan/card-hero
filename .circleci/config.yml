@@ -14,7 +14,7 @@ orbs:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.1
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.1-buster
     steps:
       - checkout
       - persist_to_workspace:
