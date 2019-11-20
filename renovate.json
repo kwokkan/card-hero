@@ -15,7 +15,7 @@
         "Microsoft.EntityFrameworkCore"
       ],
       "packagePatterns": [
-        "^Microsoft\.EntityFrameworkCore\..+$"
+        "^Microsoft\\.EntityFrameworkCore\\..+$"
       ],
       "groupName": ["Microsoft.EntityFrameworkCore monorepo"]
     }
