@@ -22,7 +22,8 @@ jobs:
           paths:
             - .
   init-node:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
@@ -51,7 +52,8 @@ jobs:
       - run: |
           dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
   dotnet-publish:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
@@ -60,7 +62,8 @@ jobs:
       - store_artifacts:
           path: publish
   npm-build:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
@@ -78,7 +81,8 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/wwwroot
   npm-lint:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
@@ -92,7 +96,8 @@ jobs:
             cd << pipeline.parameters.node-project >>
             npm run lint
   npm-test:
-    executor: win/default
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
     steps:
       - attach_workspace:
           at: .
