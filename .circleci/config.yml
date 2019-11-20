@@ -9,8 +9,6 @@ parameters:
   solution:
     type: string
     default: "CardHero.sln"
-orbs:
-  win: circleci/windows@2.2.0
 jobs:
   init-workspace:
     docker:
@@ -23,7 +21,7 @@ jobs:
             - .
   init-node:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -63,7 +61,7 @@ jobs:
           path: publish
   npm-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -82,7 +80,7 @@ jobs:
             - << pipeline.parameters.node-project >>/wwwroot
   npm-lint:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -97,7 +95,7 @@ jobs:
             npm run lint
   npm-test:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
