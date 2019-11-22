@@ -21,7 +21,7 @@ jobs:
             - .
   init-node:
     docker:
-      - image: node:13.1.0-alpine
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -61,7 +61,7 @@ jobs:
           path: publish
   npm-build:
     docker:
-      - image: node:13.1.0-alpine
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -80,7 +80,7 @@ jobs:
             - << pipeline.parameters.node-project >>/wwwroot
   npm-lint:
     docker:
-      - image: node:13.1.0-alpine
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -95,7 +95,7 @@ jobs:
             npm run lint
   npm-test:
     docker:
-      - image: node:13.1.0-alpine
+      - image: node:13.1.0-buster
     steps:
       - attach_workspace:
           at: .
