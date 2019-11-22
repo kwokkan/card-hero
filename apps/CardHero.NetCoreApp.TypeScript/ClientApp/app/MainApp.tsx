@@ -6,7 +6,7 @@ import { CardApp } from "../components/card/CardApp";
 import { CollectionApp } from "../components/collection/CollectionApp";
 import { DeckApp } from "../components/deck/DeckApp";
 import { GameApp } from "../components/game/GameApp";
-import { Home } from "../components/home/Home";
+import { HomeApp } from "../components/home/HomeApp";
 import { ErrorBoundary } from "../components/shared/ErrorBoundary";
 import { NavMenu } from "../components/shared/NavMenu";
 import { StoreApp } from "../components/store/StoreApp";
@@ -50,29 +50,34 @@ export class MainApp extends Component<{}, IMainAppState> {
                 <AccountContext.Provider value={this.state}>
                     <BrowserRouter>
                         <NavMenu user={this.state.user} />
-                        <Switch>
-                            <Route exact path="/">
-                                <Home />
-                            </Route>
-                            <Route path="/Card">
-                                <CardApp />
-                            </Route>
-                            <Route path="/Card/:id">
-                                <Card />
-                            </Route>
-                            <Route path="/Game">
-                                <GameApp />
-                            </Route>
-                            <Route path="/Store">
-                                <StoreApp />
-                            </Route>
-                            <Route path="/Collection">
-                                <CollectionApp />
-                            </Route>
-                            <Route path="/Deck">
-                                <DeckApp />
-                            </Route>
-                        </Switch>
+
+                        <div className="container-fluid body-content">
+                            <div className="row">
+                                <Switch>
+                                    <Route exact path="/">
+                                        <HomeApp />
+                                    </Route>
+                                    <Route path="/Card">
+                                        <CardApp />
+                                    </Route>
+                                    <Route path="/Card/:id">
+                                        <Card />
+                                    </Route>
+                                    <Route path="/Game">
+                                        <GameApp />
+                                    </Route>
+                                    <Route path="/Store">
+                                        <StoreApp />
+                                    </Route>
+                                    <Route path="/Collection">
+                                        <CollectionApp />
+                                    </Route>
+                                    <Route path="/Deck">
+                                        <DeckApp />
+                                    </Route>
+                                </Switch>
+                            </div>
+                        </div>
                     </BrowserRouter>
                 </AccountContext.Provider>
             </ErrorBoundary>

@@ -1,6 +1,5 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { IDeckModel } from "../../clients/clients";
-import { Layout } from "../shared/Layout";
 import { DeckList } from "./DeckList";
 import { DeckSearch } from "./DeckSearch";
 
@@ -31,13 +30,15 @@ export class DeckApp extends Component<any, IDeckAppState> {
 
     render() {
         return (
-            <Layout
-                sideContent={<DeckSearch
-                    onDecksPopulated={(x) => this.onDecksPopulated(x)} />
-                }
-            >
-                <DeckList decks={this.state.decks} />
-            </Layout>
+            <Fragment>
+                <div className="col-lg-2">
+                    <DeckSearch
+                        onDecksPopulated={(x) => this.onDecksPopulated(x)} />
+                </div>
+                <div className="col-lg-10">
+                    <DeckList decks={this.state.decks} />
+                </div>
+            </Fragment>
         );
     }
 }
