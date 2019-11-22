@@ -19,6 +19,12 @@
         "^Microsoft\\.EntityFrameworkCore\\..+$"
       ],
       "groupName": "Microsoft.EntityFrameworkCore monorepo"
+    },
+    {
+      "groupName": "NSwag monorepo",
+      "sourceUrlPrefixes": [
+        "https://github.com/RicoSuter/NSwag"
+      ]
     }
   ],
   "postUpdateOptions": [
