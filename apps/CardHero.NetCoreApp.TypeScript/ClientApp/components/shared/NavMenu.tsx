@@ -1,30 +1,25 @@
 import React, { Fragment, PureComponent } from 'react';
+import { Link } from 'react-router-dom';
+import { IUserModel } from '../../clients/clients';
 import { AccountContext } from '../../contexts/AccountContext';
-import { AccountService } from '../../services/AccountService';
 import { Icon } from '../../styles/index';
 import { AppBootstrap } from './AppBootstrap';
 import { CoinFormat } from './CoinFormat';
 
-export class NavMenu extends PureComponent<any, any> {
+interface INavMenuProps {
+    user?: IUserModel;
+}
+
+export class NavMenu extends PureComponent<INavMenuProps, any> {
     static contextType = AccountContext;
 
     constructor(props) {
         super(props);
-
-        this.state = {};
-    }
-
-    async componentDidMount() {
-        const user = await AccountService.getAccount();
-
-        if (user) {
-            this.context.setUser(user);
-        }
     }
 
     render() {
         const u = AppBootstrap.url;
-        const user = this.context.user;
+        const user = this.props.user;
 
         return (
             <nav className="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
@@ -32,34 +27,34 @@ export class NavMenu extends PureComponent<any, any> {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <a href={u()} className="navbar-brand">
+                <Link to={u()} className="navbar-brand">
                     <img src={u('favicon.ico')} className="d-inline-block align-top" width="32" height="32" alt={Constants.AppName} />
                     {' '}
                     {Constants.AppName}
-                </a>
+                </Link>
 
                 <div className="collapse navbar-collapse" id="navbar-header">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href={u('Card')}>Cards</a>
+                            <Link className="nav-link" to={u('Card')}>Cards</Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href={u('Game')}>Games</a>
+                            <Link className="nav-link" to={u('Game')}>Games</Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href={u('Store')}>Store</a>
+                            <Link className="nav-link" to={u('Store')}>Store</Link>
                         </li>
 
                         {user &&
                             <Fragment>
                                 <li className="nav-item">
-                                    <a className="nav-link" href={u('Collection')}>Collection</a>
+                                    <Link className="nav-link" to={u('Collection')}>Collection</Link>
                                 </li>
 
                                 <li className="nav-item">
-                                    <a className="nav-link" href={u('Deck')}>Decks</a>
+                                    <Link className="nav-link" to={u('Deck')}>Decks</Link>
                                 </li>
                             </Fragment>
                         }

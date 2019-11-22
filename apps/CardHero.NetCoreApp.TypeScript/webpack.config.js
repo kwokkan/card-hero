@@ -19,6 +19,10 @@ module.exports = {
     devtool: isProd ? false : "hidden-source-map",
 
     entry: {
+        "app.main": [
+            "./ClientApp/globals.ts",
+            "./ClientApp/app/index.tsx"
+        ],
         "app.home": [
             "./ClientApp/globals.ts",
             "./ClientApp/components/home/index.tsx"

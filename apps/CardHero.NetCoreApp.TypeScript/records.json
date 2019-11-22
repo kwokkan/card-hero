@@ -26,7 +26,8 @@
       "multi ./ClientApp/globals.ts ./ClientApp/components/game/index.tsx": 5,
       "multi ./ClientApp/components/store/index.tsx": 6,
       "multi ./ClientApp/styles/index.scss": 0,
-      "multi ./ClientApp/globals.ts ./ClientApp/components/store/index.tsx": 6
+      "multi ./ClientApp/globals.ts ./ClientApp/components/store/index.tsx": 6,
+      "multi ./ClientApp/globals.ts ./ClientApp/app/index.tsx": 7
     },
     "usedIds": {
       "0": 0,
@@ -35,7 +36,8 @@
       "3": 3,
       "4": 4,
       "5": 5,
-      "6": 6
+      "6": 6,
+      "7": 7
     }
   },
   "chunks": {

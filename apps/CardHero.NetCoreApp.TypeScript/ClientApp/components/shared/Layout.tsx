@@ -1,8 +1,5 @@
 import React, { PureComponent, ReactNode } from 'react';
 import { IUserModel } from '../../clients/clients';
-import { AccountContext } from '../../contexts/AccountContext';
-import { ErrorBoundary } from './ErrorBoundary';
-import { NavMenu } from './NavMenu';
 
 interface ILayoutProps {
     sideContent?: ReactNode;
@@ -31,25 +28,19 @@ export class Layout extends PureComponent<ILayoutProps, ILayoutState> {
         var mainCol = hasSideContent ? 10 : 12;
 
         return (
-            <ErrorBoundary>
-                <AccountContext.Provider value={this.state}>
-                    <NavMenu />
-
-                    <div className="container-fluid body-content">
-                        <div className="row">
-                            {hasSideContent &&
-                                <div className="col-lg-2">
-                                    {this.props.sideContent}
-                                </div>
-                            }
-
-                            <div className={'col-lg-' + mainCol}>
-                                {this.props.children}
-                            </div>
+            <div className="container-fluid body-content">
+                <div className="row">
+                    {hasSideContent &&
+                        <div className="col-lg-2">
+                            {this.props.sideContent}
                         </div>
+                    }
+
+                    <div className={'col-lg-' + mainCol}>
+                        {this.props.children}
                     </div>
-                </AccountContext.Provider>
-            </ErrorBoundary>
+                </div>
+            </div>
         );
     }
 }
