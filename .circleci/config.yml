@@ -12,7 +12,7 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
     steps:
       - checkout
       - persist_to_workspace:
@@ -41,7 +41,7 @@ jobs:
             - << pipeline.parameters.node-project >>/node_modules
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
     steps:
       - attach_workspace:
           at: .
@@ -51,7 +51,7 @@ jobs:
           dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
     steps:
       - attach_workspace:
           at: .
