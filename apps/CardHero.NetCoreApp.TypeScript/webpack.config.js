@@ -39,10 +39,6 @@ module.exports = {
             "./ClientApp/globals.ts",
             "./ClientApp/components/game/index.tsx"
         ],
-        "app.store": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/store/index.tsx"
-        ],
         "styles.shared": [
             //"./ClientApp/styles/index.tsx",
             "./ClientApp/styles/index.scss"
