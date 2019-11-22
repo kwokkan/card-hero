@@ -23,10 +23,6 @@ module.exports = {
             "./ClientApp/globals.ts",
             "./ClientApp/app/index.tsx"
         ],
-        "app.home": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/home/index.tsx"
-        ],
         "app.card": [
             "./ClientApp/globals.ts",
             "./ClientApp/components/card/index.tsx"

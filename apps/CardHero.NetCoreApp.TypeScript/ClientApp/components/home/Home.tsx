@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { AppBootstrap } from '../shared/AppBootstrap';
 
 export function Home() {
@@ -18,7 +19,7 @@ export function Home() {
                         <div className="card-body">
                             <h4 className="card-title">Cards</h4>
                             <p className="card-text">Discover over 1000 cards.</p>
-                            <a className="btn btn-primary" href={l("Card")}>View Cards</a>
+                            <Link className="btn btn-primary" to={l("Card")}>View Cards</Link>
                         </div>
                     </div>
                 </div>
@@ -28,7 +29,7 @@ export function Home() {
                         <div className="card-body">
                             <h4 className="card-title">Decks</h4>
                             <p className="card-text">Create you own decks.</p>
-                            <a className="btn btn-primary" href={l("Deck")}>View Decks</a>
+                            <Link className="btn btn-primary" to={l("Deck")}>View Decks</Link>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,7 @@ export function Home() {
                         <div className="card-body">
                             <h4 className="card-title">Battle</h4>
                             <p className="card-text">Battle against other players.</p>
-                            <a className="btn btn-primary" href={l("Game")}>View Games</a>
+                            <Link className="btn btn-primary" to={l("Game")}>View Games</Link>
                         </div>
                     </div>
                 </div>
