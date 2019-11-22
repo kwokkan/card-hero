@@ -27,10 +27,6 @@ module.exports = {
             "./ClientApp/globals.ts",
             "./ClientApp/components/card/index.tsx"
         ],
-        "app.collection": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/collection/index.tsx"
-        ],
         "app.deck": [
             "./ClientApp/globals.ts",
             "./ClientApp/components/deck/index.tsx"
