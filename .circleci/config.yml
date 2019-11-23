@@ -60,6 +60,10 @@ jobs:
           at: .
       - run: |
           dotnet test << pipeline.parameters.solution >> --collect:"XPlat Code Coverage" /p:CollectCoverage=true
+      - persist_to_workspace:
+          root: .
+          paths:
+            - tests
   dotnet-publish:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
