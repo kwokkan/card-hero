@@ -145,10 +145,10 @@ jobs:
       - run:
           name: dotnet coverage
           command: >
-            for entry in "$tests"/*
+            for entry in "$tests"/*;
             do
             echo "$entry";
-            done
+            done;
 workflows:
   version: 2
   run-all:
