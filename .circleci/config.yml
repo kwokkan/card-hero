@@ -63,7 +63,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet test CardHero.sln --no-build --collect:"XPlat Code Coverage" /p:CollectCoverage=true
+          dotnet test CardHero.sln --no-restore --collect:"XPlat Code Coverage" /p:CollectCoverage=true
   dotnet-publish:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
