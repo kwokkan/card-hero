@@ -1,4 +1,4 @@
 flags:
   npm:
-    paths:
-      - apps/CardHero.NetCoreApp.TypeScript/ClientApp
+    fixes:
+      - "/::apps/CardHero.NetCoreApp.TypeScript/ClientApp"
