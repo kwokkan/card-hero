@@ -4,12 +4,16 @@ import { DeckService } from "../../services/DeckService";
 import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
 
+interface IGameAppProps {
+    routePrefix: string;
+}
+
 interface IGameAppState {
     games: IGameModel[];
     decks: IDeckModel[];
 }
 
-export class GameApp extends Component<any, IGameAppState> {
+export class GameApp extends Component<IGameAppProps, IGameAppState> {
     constructor(props) {
         super(props);
 
@@ -65,6 +69,7 @@ export class GameApp extends Component<any, IGameAppState> {
                     <GameList
                         games={this.state.games}
                         decks={this.state.decks}
+                        routePrefix={this.props.routePrefix}
                     />
                 </div>
             </Fragment>

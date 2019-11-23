@@ -9,11 +9,24 @@ import { GameSelectDeckModal, IGameSelectDeckModalOnJoinedProps } from "./GameSe
 interface IGameListProps {
     games: IGameModel[];
     decks: IDeckModel[];
+    routePrefix: string;
 }
 
 interface IGameListState {
     modalShown: boolean;
     selectedGame?: IGameModel;
+}
+
+const getRoutePrefix = (prefix?: string): string => {
+    if (!prefix) {
+        return "/";
+    }
+
+    if (prefix.endsWith("/")) {
+        return prefix;
+    }
+
+    return prefix + "/";
 }
 
 export class GameList extends Component<IGameListProps, IGameListState> {
@@ -51,6 +64,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
 
     render() {
         const user = this.context.user;
+        const routePrefix = getRoutePrefix(this.props.routePrefix);
 
         return (
             <>
@@ -71,7 +85,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
                             {this.props.games.map(g =>
                                 <tr key={g.id}>
                                     <th scope="row">
-                                        <Link to={'/' + g.id}>#{g.id}{' '}{g.name}</Link>
+                                        <Link to={routePrefix + g.id}>#{g.id}{' '}{g.name}</Link>
                                     </th>
                                     <td>{GameType[g.type]}</td>
                                     <td><DateFormat date={g.startTime} /></td>

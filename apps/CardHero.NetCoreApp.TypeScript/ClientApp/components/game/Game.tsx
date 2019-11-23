@@ -4,7 +4,6 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { GameType, IGameDeckModel, IGameViewModel } from "../../clients/clients";
 import { GameTripleTriadModel } from "../../models/GameTripleTriadModel";
 import { GameService } from "../../services/GameService";
-import { Layout } from "../shared/Layout";
 import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
 import { GameDetailWidget } from "./GameDetailWidget";
@@ -12,7 +11,7 @@ import { GameHistoryWidget } from "./GameHistoryWidget";
 import { GameUsersWidget } from "./GameUsersWidget";
 
 interface IGameProps {
-    match?: any;
+    id: number;
 }
 
 interface IGameState {
@@ -61,7 +60,7 @@ export class Game extends Component<IGameProps, IGameState> {
     }
 
     async componentDidMount() {
-        const gameId: number = this.props.match.params.id;
+        const gameId: number = this.props.id;
 
         await this.populateGame(gameId);
 
@@ -71,9 +70,9 @@ export class Game extends Component<IGameProps, IGameState> {
     }
 
     async componentWillReceiveProps(nextProps: IGameProps) {
-        const gameId: number = this.props.match.params.id;
+        const gameId: number = this.props.id;
 
-        if (nextProps.match.params.id !== gameId) {
+        if (nextProps.id !== gameId) {
             await this.populateGame(gameId);
         }
     }
@@ -91,7 +90,7 @@ export class Game extends Component<IGameProps, IGameState> {
         const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(game);
 
         return (
-            <Layout>
+            <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-2">
                         <GameDetailWidget game={game} />
@@ -120,7 +119,7 @@ export class Game extends Component<IGameProps, IGameState> {
                         </div>
                     </DndProvider>
                 </div>
-            </Layout>
+            </div>
         );
     }
 }

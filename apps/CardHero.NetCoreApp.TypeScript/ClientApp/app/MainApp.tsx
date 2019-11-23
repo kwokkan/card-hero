@@ -69,8 +69,8 @@ export class MainApp extends Component<{}, IMainAppState> {
                                                 </Route>
 
                                                 <Route path={`${path}/:id`}
-                                                    render={({ match: { params } }) => (
-                                                        <Route exact path={`${path}/:id`}>
+                                                    render={({ match: { params, url } }) => (
+                                                        <Route exact path={url}>
                                                             <Card id={params.id as number} />
                                                         </Route>
                                                     )}>
@@ -84,11 +84,15 @@ export class MainApp extends Component<{}, IMainAppState> {
                                         render={({ match: { path } }) => (
                                             <Fragment>
                                                 <Route exact path={`${path}/`}>
-                                                    <GameApp />
+                                                    <GameApp routePrefix={path} />
                                                 </Route>
 
-                                                <Route path={`${path}/:id`}>
-                                                    <Game />
+                                                <Route path={`${path}/:id`}
+                                                    render={({ match: { params, url } }) => (
+                                                        <Route exact path={url}>
+                                                            <Game id={params.id as number} />
+                                                        </Route>
+                                                    )}>
                                                 </Route>
                                             </Fragment>
                                         )}>
@@ -110,8 +114,8 @@ export class MainApp extends Component<{}, IMainAppState> {
                                                 </Route>
 
                                                 <Route path={`${path}/:id`}
-                                                    render={({ match: { params } }) => (
-                                                        <Route exact path={`${path}/:id`}>
+                                                    render={({ match: { params, url } }) => (
+                                                        <Route exact path={url}>
                                                             <Deck id={params.id as number} />
                                                         </Route>
                                                     )}>
