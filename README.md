@@ -11,6 +11,8 @@ The best card game ever.
 ## Coverage Charts
 
 [![codecov sunburst](https://codecov.io/gh/kwokkan/card-hero/branch/master/graphs/sunburst.svg)](https://codecov.io/gh/kwokkan/card-hero)
-[![codecov icicle](https://codecov.io/gh/kwokkan/card-hero/branch/master/graphs/icicle.svg)](https://codecov.io/gh/kwokkan/card-hero)
 [![codecov tree](https://codecov.io/gh/kwokkan/card-hero/branch/master/graphs/tree.svg)](https://codecov.io/gh/kwokkan/card-hero)
+
+[![codecov icicle](https://codecov.io/gh/kwokkan/card-hero/branch/master/graphs/icicle.svg)](https://codecov.io/gh/kwokkan/card-hero)
+
 [![codecov commits](https://codecov.io/gh/kwokkan/card-hero/branch/master/graphs/commits.svg)](https://codecov.io/gh/kwokkan/card-hero)
