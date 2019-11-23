@@ -104,6 +104,10 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             npm run coverage
+      - run:
+          name: dotnet coverage
+          command: |
+            foreach ($file in Get-ChildItem tests/*/coverage.json) { $p = Resolve-Path -Relative $file.FullName; npx codecov -f $p -p ../.. -F dotnet }
   npm-lint:
     docker:
       - image: node:13.1.0-buster
