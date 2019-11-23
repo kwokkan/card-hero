@@ -113,7 +113,7 @@ jobs:
           command: >
             for entry in "$tests"/*
             do
-              echo "$entry"
+            echo "$entry"
             done
   npm-lint:
     docker:
