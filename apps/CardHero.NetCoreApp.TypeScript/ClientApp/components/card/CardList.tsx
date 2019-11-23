@@ -5,12 +5,26 @@ import { AccountContext } from "../../contexts/AccountContext";
 import { Icon } from "../../styles/index";
 
 interface ICardListProps {
+    routePrefix: string;
     cards: ICardModel[];
+}
+
+const getRoutePrefix = (prefix?: string): string => {
+    if (!prefix) {
+        return "/";
+    }
+
+    if (prefix.endsWith("/")) {
+        return prefix;
+    }
+
+    return prefix + "/";
 }
 
 export function CardList(props: ICardListProps) {
     const context = useContext(AccountContext);
     const user = context.user;
+    const routePrefix = getRoutePrefix(props.routePrefix);
 
     return (
         <div className="row">
@@ -39,7 +53,7 @@ export function CardList(props: ICardListProps) {
                                         {' '}
                                     </Fragment>
                                 }
-                                <Link to={'/' + c.id}>{c.name}</Link>
+                                <Link to={routePrefix + c.id}>{c.name}</Link>
                             </th>
                             <td>{c.health}</td>
                             <td>{c.attack}</td>

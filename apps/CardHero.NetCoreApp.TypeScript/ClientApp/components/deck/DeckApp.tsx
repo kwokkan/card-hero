@@ -3,11 +3,15 @@ import { IDeckModel } from "../../clients/clients";
 import { DeckList } from "./DeckList";
 import { DeckSearch } from "./DeckSearch";
 
+interface IDeckAppProps {
+    routePrefix?: string;
+}
+
 interface IDeckAppState {
     decks: IDeckModel[];
 }
 
-export class DeckApp extends Component<any, IDeckAppState> {
+export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
     constructor(props) {
         super(props);
 
@@ -36,7 +40,7 @@ export class DeckApp extends Component<any, IDeckAppState> {
                         onDecksPopulated={(x) => this.onDecksPopulated(x)} />
                 </div>
                 <div className="col-lg-10">
-                    <DeckList decks={this.state.decks} />
+                    <DeckList decks={this.state.decks} routePrefix={this.props.routePrefix} />
                 </div>
             </Fragment>
         );

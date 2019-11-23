@@ -1,12 +1,15 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { IUserModel } from "../clients/clients";
 import { Card } from "../components/card/Card";
 import { CardApp } from "../components/card/CardApp";
 import { CollectionApp } from "../components/collection/CollectionApp";
+import { Deck } from "../components/deck/Deck";
 import { DeckApp } from "../components/deck/DeckApp";
+import { Game } from "../components/game/Game";
 import { GameApp } from "../components/game/GameApp";
 import { HomeApp } from "../components/home/HomeApp";
+import { AppBootstrap } from "../components/shared/AppBootstrap";
 import { ErrorBoundary } from "../components/shared/ErrorBoundary";
 import { NavMenu } from "../components/shared/NavMenu";
 import { StoreApp } from "../components/store/StoreApp";
@@ -48,7 +51,7 @@ export class MainApp extends Component<{}, IMainAppState> {
         return (
             <ErrorBoundary>
                 <AccountContext.Provider value={this.state}>
-                    <BrowserRouter>
+                    <BrowserRouter basename={AppBootstrap.url()}>
                         <NavMenu user={this.state.user} />
 
                         <div className="container-fluid body-content">
@@ -57,23 +60,64 @@ export class MainApp extends Component<{}, IMainAppState> {
                                     <Route exact path="/">
                                         <HomeApp />
                                     </Route>
-                                    <Route path="/Card">
-                                        <CardApp />
+
+                                    <Route path="/Card"
+                                        render={({ match: { path } }) => (
+                                            <Fragment>
+                                                <Route exact path={`${path}/`}>
+                                                    <CardApp routePrefix={path} />
+                                                </Route>
+
+                                                <Route path={`${path}/:id`}
+                                                    render={({ match: { params } }) => (
+                                                        <Route exact path={`${path}/:id`}>
+                                                            <Card id={params.id as number} />
+                                                        </Route>
+                                                    )}>
+                                                </Route>
+                                            </Fragment>
+                                        )}>
                                     </Route>
-                                    <Route path="/Card/:id">
-                                        <Card />
+
+
+                                    <Route path="/Game"
+                                        render={({ match: { path } }) => (
+                                            <Fragment>
+                                                <Route exact path={`${path}/`}>
+                                                    <GameApp />
+                                                </Route>
+
+                                                <Route path={`${path}/:id`}>
+                                                    <Game />
+                                                </Route>
+                                            </Fragment>
+                                        )}>
                                     </Route>
-                                    <Route path="/Game">
-                                        <GameApp />
-                                    </Route>
+
                                     <Route path="/Store">
                                         <StoreApp />
                                     </Route>
+
                                     <Route path="/Collection">
                                         <CollectionApp />
                                     </Route>
-                                    <Route path="/Deck">
-                                        <DeckApp />
+
+                                    <Route path="/Deck"
+                                        render={({ match: { path } }) => (
+                                            <Fragment>
+                                                <Route exact path={`${path}/`}>
+                                                    <DeckApp routePrefix={path} />
+                                                </Route>
+
+                                                <Route path={`${path}/:id`}
+                                                    render={({ match: { params } }) => (
+                                                        <Route exact path={`${path}/:id`}>
+                                                            <Deck id={params.id as number} />
+                                                        </Route>
+                                                    )}>
+                                                </Route>
+                                            </Fragment>
+                                        )}>
                                     </Route>
                                 </Switch>
                             </div>

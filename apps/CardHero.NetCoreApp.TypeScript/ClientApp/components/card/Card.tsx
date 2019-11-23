@@ -1,11 +1,9 @@
 ﻿import React, { PureComponent } from "react";
-import { Link } from "react-router-dom";
 import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
-import { Layout } from "../shared/Layout";
 
 interface ICardProps {
-    match?: any;
+    id: number;
 }
 
 interface ICardState {
@@ -32,15 +30,15 @@ export class Card extends PureComponent<ICardProps, ICardState> {
     }
 
     async componentDidMount() {
-        const cardId: number = this.props.match.params.id;
+        const cardId: number = this.props.id;
 
         await this.populateCard(cardId);
     }
 
     async componentWillReceiveProps(nextProps: ICardProps) {
-        const cardId: number = this.props.match.params.id;
+        const cardId: number = this.props.id;
 
-        if (nextProps.match.params.id !== cardId) {
+        if (nextProps.id !== cardId) {
             await this.populateCard(cardId);
         }
     }
@@ -53,13 +51,13 @@ export class Card extends PureComponent<ICardProps, ICardState> {
         }
 
         return (
-            <Layout>
+            <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">
-                                    <Link to={'/' + card.id}>{card.name}</Link>
+                                    {card.name}
                                 </h4>
                                 <p className="card-text">
                                 </p>
@@ -120,7 +118,7 @@ export class Card extends PureComponent<ICardProps, ICardState> {
                         {/* attack stats */}
                     </div>
                 </div>
-            </Layout>
+            </div>
         );
     }
 }

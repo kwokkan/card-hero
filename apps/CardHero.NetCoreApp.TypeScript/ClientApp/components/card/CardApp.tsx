@@ -3,11 +3,15 @@ import { ICardModel } from "../../clients/clients";
 import { CardList } from "./CardList";
 import { CardSearch } from "./CardSearch";
 
+interface ICardAppProps {
+    routePrefix: string;
+}
+
 interface ICardAppState {
     cards: ICardModel[];
 }
 
-export class CardApp extends Component<any, ICardAppState> {
+export class CardApp extends Component<ICardAppProps, ICardAppState> {
     constructor(props: any) {
         super(props);
 
@@ -36,7 +40,7 @@ export class CardApp extends Component<any, ICardAppState> {
                         onCardsPopulated={(x) => this.onCardsPopulated(x)} />
                 </div>
                 <div className="col-lg-10">
-                    <CardList cards={this.state.cards} />
+                    <CardList cards={this.state.cards} routePrefix={this.props.routePrefix} />
                 </div>
             </Fragment>
         );
