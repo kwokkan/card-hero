@@ -52,6 +52,18 @@ jobs:
           dotnet restore << pipeline.parameters.solution >>
       - run: |
           dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+      - persist_to_workspace:
+          root: .
+          paths:
+            - tests
+  dotnet-test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          dotnet test CardHero.sln --no-build --collect:"XPlat Code Coverage" /p:CollectCoverage=true
   dotnet-publish:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
@@ -135,27 +147,35 @@ workflows:
   run-all:
     jobs:
       - init-workspace
+
       - init-node:
           requires:
             - init-workspace
       - dotnet-build:
           requires:
             - init-workspace
+
+      - dotnet-test:
+          requires:
+            - dotnet-build
+
       - npm-build:
           requires:
             - init-node
-      - npm-coverage:
-          requires:
-            - npm-test
       - npm-lint:
           requires:
              - init-node
       - npm-test:
           requires:
             - init-node
+
+      - npm-coverage:
+          requires:
+            - npm-test
+
       - dotnet-publish:
           requires:
-            - dotnet-build
+            - dotnet-test
             - npm-build
             - npm-test
           filters:
