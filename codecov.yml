@@ -6,4 +6,4 @@ coverage:
 flags:
   npm:
     paths:
-      - apps/CardHero.NetCoreApp.TypeScript/ClientApp
+      - apps/CardHero.NetCoreApp.TypeScript
