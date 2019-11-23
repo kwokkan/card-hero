@@ -93,28 +93,6 @@ jobs:
           root: .
           paths:
             - << pipeline.parameters.node-project >>/wwwroot
-  npm-coverage:
-    docker:
-      - image: node:13.1.0-buster
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
-      - run:
-          name: npm coverage
-          command: |
-            cd << pipeline.parameters.node-project >>
-            npm run coverage
-      - run:
-          name: dotnet coverage
-          command: >
-            for entry in "$tests"/*
-            do
-            echo "$entry"
-            done
   npm-lint:
     docker:
       - image: node:13.1.0-buster
@@ -149,6 +127,28 @@ jobs:
           root: .
           paths:
             - << pipeline.parameters.node-project >>/obj/coverage/js
+  upload-coverage:
+    docker:
+      - image: node:13.1.0-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
+      - run:
+          name: npm coverage
+          command: |
+            cd << pipeline.parameters.node-project >>
+            npm run coverage
+      - run:
+          name: dotnet coverage
+          command: >
+            for entry in "$tests"/*
+            do
+            echo "$entry";
+            done
 workflows:
   version: 2
   run-all:
@@ -176,8 +176,9 @@ workflows:
           requires:
             - init-node
 
-      - npm-coverage:
+      - upload-coverage:
           requires:
+            - dotnet-test
             - npm-test
 
       - dotnet-publish:
