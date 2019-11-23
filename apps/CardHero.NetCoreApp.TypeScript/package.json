@@ -20,10 +20,10 @@
     "react-router-dom": "5.1.2"
   },
   "devDependencies": {
-    "@babel/core": "7.7.2",
-    "@babel/plugin-transform-react-jsx": "7.7.0",
+    "@babel/core": "7.7.4",
+    "@babel/plugin-transform-react-jsx": "7.7.4",
     "@types/jest": "24.0.23",
-    "@types/node": "12.12.11",
+    "@types/node": "12.12.12",
     "@types/react": "16.9.12",
     "@types/react-dom": "16.9.4",
     "@types/react-router-dom": "5.1.2",
@@ -34,6 +34,7 @@
     "babel-preset-react-app": "9.0.2",
     "cache-loader": "4.1.0",
     "clean-webpack-plugin": "3.0.0",
+    "codecov": "3.6.1",
     "cross-env": "6.0.3",
     "css-loader": "3.2.0",
     "eslint": "6.7.0",
@@ -68,6 +69,7 @@
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config webpack.config.js",
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "coverage": "cross-env CI=true NODE_ENV=development codecov",
     "test": "cross-env CI=true node scripts/test.js --env=jsdom",
     "lint": "eslint ./ClientApp/ --cache --ext .ts,.tsx",
     "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
@@ -77,9 +79,12 @@
       "<rootDir>/ClientApp"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
+      "<rootDir>/ClientApp/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/ClientApp/**/*.d.ts",
+      "!<rootDir>/ClientApp/**/node_modules/**"
     ],
+    "coverageDirectory": "./obj/coverage/js",
+    "collectCoverage": true,
     "setupFiles": [
       "react-app-polyfill/jsdom"
     ],
