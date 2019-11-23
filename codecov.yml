@@ -1,4 +1,4 @@
 flags:
   npm:
     fixes:
-      - "/::apps/CardHero.NetCoreApp.TypeScript"
+      - "/::apps/CardHero.NetCoreApp.TypeScript/"
