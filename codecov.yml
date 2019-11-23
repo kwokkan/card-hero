@@ -1,1 +1,9 @@
-
+coverage:
+  status:
+    projects:
+      npm:
+        flags: npm          
+flags:
+  npm:
+    paths:
+      - apps/CardHero.NetCoreApp.TypeScript/ClientApp
