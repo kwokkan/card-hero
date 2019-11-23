@@ -3,7 +3,8 @@ coverage:
     project:
       npm:
         flags: npm
-        paths: apps/CardHero.NetCoreApp.TypeScript/
+        paths:
+          - apps/CardHero.NetCoreApp.TypeScript/
 flags:
   npm:
     paths:
