@@ -1,4 +1,9 @@
+coverage:
+  status:
+    project:
+      npm:
+        flags: npm
 flags:
   npm:
-    fixes:
-      - "::apps/CardHero.NetCoreApp.TypeScript/"
+    paths:
+      - apps/CardHero.NetCoreApp.TypeScript/
