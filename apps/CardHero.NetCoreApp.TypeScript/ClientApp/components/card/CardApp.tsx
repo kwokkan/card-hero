@@ -4,7 +4,7 @@ import { CardList } from "./CardList";
 import { CardSearch } from "./CardSearch";
 
 interface ICardAppProps {
-    routePrefix: string;
+    routePrefix?: string;
 }
 
 interface ICardAppState {

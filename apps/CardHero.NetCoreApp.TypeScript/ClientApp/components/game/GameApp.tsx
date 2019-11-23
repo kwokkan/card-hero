@@ -5,7 +5,7 @@ import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
 
 interface IGameAppProps {
-    routePrefix: string;
+    routePrefix?: string;
 }
 
 interface IGameAppState {

@@ -3,22 +3,11 @@ import { Link } from "react-router-dom";
 import { ICardModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { Icon } from "../../styles/index";
+import { getRoutePrefix } from "../../utils/route";
 
 interface ICardListProps {
-    routePrefix: string;
     cards: ICardModel[];
-}
-
-const getRoutePrefix = (prefix?: string): string => {
-    if (!prefix) {
-        return "/";
-    }
-
-    if (prefix.endsWith("/")) {
-        return prefix;
-    }
-
-    return prefix + "/";
+    routePrefix?: string;
 }
 
 export function CardList(props: ICardListProps) {

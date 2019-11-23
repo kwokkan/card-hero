@@ -23,10 +23,6 @@ module.exports = {
             "./ClientApp/globals.ts",
             "./ClientApp/app/index.tsx"
         ],
-        "app.game": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/components/game/index.tsx"
-        ],
         "styles.shared": [
             //"./ClientApp/styles/index.tsx",
             "./ClientApp/styles/index.scss"

@@ -2,22 +2,11 @@
 import { Link } from "react-router-dom";
 import { IDeckModel } from "../../clients/clients";
 import { Icon } from "../../styles/index";
+import { getRoutePrefix } from "../../utils/route";
 
 interface IDeckListProps {
-    routePrefix?: string;
     decks: IDeckModel[];
-}
-
-const getRoutePrefix = (prefix?: string): string => {
-    if (!prefix) {
-        return "/";
-    }
-
-    if (prefix.endsWith("/")) {
-        return prefix;
-    }
-
-    return prefix + "/";
+    routePrefix?: string;
 }
 
 export function DeckList(props: IDeckListProps) {

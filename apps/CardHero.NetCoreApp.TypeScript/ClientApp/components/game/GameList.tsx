@@ -3,30 +3,19 @@ import { Link } from "react-router-dom";
 import { GameType, IDeckModel, IGameModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { GameService } from "../../services/GameService";
+import { getRoutePrefix } from "../../utils/route";
 import { DateFormat } from "../shared/DateFormat";
 import { GameSelectDeckModal, IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
 
 interface IGameListProps {
     games: IGameModel[];
     decks: IDeckModel[];
-    routePrefix: string;
+    routePrefix?: string;
 }
 
 interface IGameListState {
     modalShown: boolean;
     selectedGame?: IGameModel;
-}
-
-const getRoutePrefix = (prefix?: string): string => {
-    if (!prefix) {
-        return "/";
-    }
-
-    if (prefix.endsWith("/")) {
-        return prefix;
-    }
-
-    return prefix + "/";
 }
 
 export class GameList extends Component<IGameListProps, IGameListState> {
