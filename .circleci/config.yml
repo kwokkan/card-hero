@@ -15,6 +15,9 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
     steps:
       - checkout
+      - run: |
+          cd << pipeline.parameters.node-project >>
+          rm -r wwwroot/dist
       - persist_to_workspace:
           root: .
           paths:
@@ -78,6 +81,21 @@ jobs:
           root: .
           paths:
             - << pipeline.parameters.node-project >>/wwwroot
+  npm-coverage:
+    docker:
+      - image: node:13.1.0-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
+      - run:
+          name: npm coverage
+          command: |
+            cd << pipeline.parameters.node-project >>
+            npm run coverage
   npm-lint:
     docker:
       - image: node:13.1.0-buster
@@ -108,6 +126,10 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             npm run test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - << pipeline.parameters.node-project >>/obj/coverage/js
 workflows:
   version: 2
   run-all:
@@ -122,6 +144,9 @@ workflows:
       - npm-build:
           requires:
             - init-node
+      - npm-coverage:
+          requires:
+            - npm-test
       - npm-lint:
           requires:
              - init-node
