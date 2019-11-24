@@ -1,6 +1,8 @@
 coverage:
   status:
     projects:
+      dotnet:
+        flags: dotnet
       npm:
         flags: npm          
 flags:
