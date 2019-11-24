@@ -47,6 +47,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServer.Dep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.AspNetCore.Authentication.FileSystem", "src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj", "{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.Core.SqlServer.Tests", "tests\CardHero.Core.SqlServer.Tests\CardHero.Core.SqlServer.Tests.csproj", "{162E92B1-40CA-4244-A32F-A918E5D65DA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A95F93E1-F03C-4134-9E67-EE00F80C9ECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +101,10 @@ Global
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +121,7 @@ Global
 		{5DFA6D89-1691-4A77-96A1-958B2D7EF2CD} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1} = {A95F93E1-F03C-4134-9E67-EE00F80C9ECD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6E117CB-BCCA-4426-B653-65D15CEA4F96}

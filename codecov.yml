@@ -1,9 +1,16 @@
 coverage:
   status:
     projects:
+      dotnet:
+        flags: dotnet
       npm:
         flags: npm          
 flags:
+  dotnet:
+    paths:
+      - apps
+      - shared
+      - src
   npm:
     paths:
       - apps/CardHero.NetCoreApp.TypeScript
