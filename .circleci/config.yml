@@ -152,8 +152,7 @@ jobs:
           command: >
             files=`find tests -name 'coverage.opencover.xml'`;
             while read -r fname; do
-            cat $fname;
-            npx codecov -F dotnet -f $fname;
+            npx codecov -F dotnet -p . -f $fname;
             done \<<< "$files";
 workflows:
   version: 2
