@@ -8,7 +8,9 @@ coverage:
 flags:
   dotnet:
     paths:
-      - *
+      - apps/
+      - shared/
+      - src/
   npm:
     paths:
       - apps/CardHero.NetCoreApp.TypeScript
