@@ -153,7 +153,7 @@ jobs:
             files=`find tests -name 'coverage.json'`;
             while read -r fname; do
             echo $fname;
-            done <<< "$files";
+            done \<<< "$files";
 workflows:
   version: 2
   run-all:
