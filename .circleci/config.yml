@@ -152,6 +152,7 @@ jobs:
           command: >
             files=`find tests -name 'coverage.json'`;
             while read -r fname; do
+            cat $fname;
             npx codecov -F dotnet -f $fname;
             done \<<< "$files";
 workflows:
