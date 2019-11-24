@@ -7,8 +7,6 @@ coverage:
         flags: npm          
 flags:
   dotnet:
-    fixes:
-      - "root/project/::"
     paths:
       - apps
       - shared
