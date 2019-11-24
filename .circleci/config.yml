@@ -152,7 +152,7 @@ jobs:
           command: >
             files=`find tests -name 'coverage.opencover.xml'`;
             while read -r fname; do
-            rname = `realpath --relative-to="${PWD}" "$fname"`;
+            rname=`realpath --relative-to="${PWD}" "$fname"`;
             npx codecov -F dotnet -p . -f $rname;
             done \<<< "$files";
 workflows:
