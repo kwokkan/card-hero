@@ -47,9 +47,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServer.Dep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.AspNetCore.Authentication.FileSystem", "src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj", "{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.Core.SqlServer.Tests", "tests\CardHero.Core.SqlServer.Tests\CardHero.Core.SqlServer.Tests.csproj", "{162E92B1-40CA-4244-A32F-A918E5D65DA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.SqlServer.Tests", "tests\CardHero.Core.SqlServer.Tests\CardHero.Core.SqlServer.Tests.csproj", "{162E92B1-40CA-4244-A32F-A918E5D65DA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A95F93E1-F03C-4134-9E67-EE00F80C9ECD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B5A3C589-C3ED-4F7E-944A-69AE13D70284}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\codecov.sh = scripts\codecov.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
