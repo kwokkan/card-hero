@@ -145,7 +145,7 @@ jobs:
       - run:
           name: upload coverage
           command: |
-            ./scripts/codegov.sh
+            ./scripts/codecov.sh
 workflows:
   version: 2
   run-all:
