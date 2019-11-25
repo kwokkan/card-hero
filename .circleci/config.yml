@@ -61,7 +61,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
       - persist_to_workspace:
           root: .
           paths:
@@ -143,18 +143,10 @@ jobs:
             - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-v1-{{ arch }}-
       - run:
-          name: npm coverage
+          name: upload coverage
           command: |
-            cd << pipeline.parameters.node-project >>
-            npm run coverage
-      - run:
-          name: dotnet coverage
-          command: >
-            files=`find tests -name 'coverage.opencover.xml'`;
-            while read -r fname; do
-            rname=`realpath --relative-to="${PWD}" "$fname"`;
-            npx codecov -F dotnet -p . -f $rname;
-            done \<<< "$files";
+            chmod +x ./scripts/codecov.sh
+            ./scripts/codecov.sh
 workflows:
   version: 2
   run-all:

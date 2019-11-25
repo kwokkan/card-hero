@@ -1,5 +1,4 @@
 ﻿import React, { Component } from "react";
-import { Layout } from "../shared/Layout";
 import { Store } from "./Store";
 
 interface IStoreAppProps {
@@ -15,9 +14,9 @@ export class StoreApp extends Component<IStoreAppProps, IStoreAppState> {
 
     render() {
         return (
-            <Layout>
+            <div className="col-lg-12">
                 <Store />
-            </Layout>
+            </div>
         );
     }
 }

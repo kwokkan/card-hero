@@ -1,14 +1,17 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { ICardModel } from "../../clients/clients";
-import { Layout } from "../shared/Layout";
 import { CardList } from "./CardList";
 import { CardSearch } from "./CardSearch";
+
+interface ICardAppProps {
+    routePrefix?: string;
+}
 
 interface ICardAppState {
     cards: ICardModel[];
 }
 
-export class CardApp extends Component<any, ICardAppState> {
+export class CardApp extends Component<ICardAppProps, ICardAppState> {
     constructor(props: any) {
         super(props);
 
@@ -31,13 +34,15 @@ export class CardApp extends Component<any, ICardAppState> {
 
     render() {
         return (
-            <Layout
-                sideContent={<CardSearch
-                    onCardsPopulated={(x) => this.onCardsPopulated(x)} />
-                }
-            >
-                <CardList cards={this.state.cards} />
-            </Layout>
+            <Fragment>
+                <div className="col-lg-2">
+                    <CardSearch
+                        onCardsPopulated={(x) => this.onCardsPopulated(x)} />
+                </div>
+                <div className="col-lg-10">
+                    <CardList cards={this.state.cards} routePrefix={this.props.routePrefix} />
+                </div>
+            </Fragment>
         );
     }
 }

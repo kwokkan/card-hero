@@ -34,7 +34,6 @@
     "babel-preset-react-app": "9.0.2",
     "cache-loader": "4.1.0",
     "clean-webpack-plugin": "3.0.0",
-    "codecov": "3.6.1",
     "cross-env": "6.0.3",
     "css-loader": "3.2.0",
     "eslint": "6.7.1",
@@ -69,7 +68,6 @@
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config webpack.config.js",
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "coverage": "cross-env CI=true NODE_ENV=development codecov -F npm -p ../.. -f obj/coverage/js/clover.xml && cross-env CI=true NODE_ENV=development codecov -F npm -p ../.. -f obj/coverage/js/lcov.info",
     "test": "cross-env CI=true node scripts/test.js --env=jsdom",
     "lint": "eslint ./ClientApp/ --cache --ext .ts,.tsx",
     "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"

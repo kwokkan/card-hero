@@ -16,7 +16,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
             var model = new ReactAppViewModel
             {
                 Title = "Collection",
-                AppScript = "collection",
+                AppScript = "main",
             };
 
             return View(model);

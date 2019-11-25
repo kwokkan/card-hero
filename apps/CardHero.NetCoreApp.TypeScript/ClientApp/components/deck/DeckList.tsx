@@ -2,12 +2,16 @@
 import { Link } from "react-router-dom";
 import { IDeckModel } from "../../clients/clients";
 import { Icon } from "../../styles/index";
+import { getRoutePrefix } from "../../utils/route";
 
 interface IDeckListProps {
     decks: IDeckModel[];
+    routePrefix?: string;
 }
 
 export function DeckList(props: IDeckListProps) {
+    const routePrefix = getRoutePrefix(props.routePrefix);
+
     return (
         <div className="row">
             <table className="table table-striped">
@@ -23,7 +27,7 @@ export function DeckList(props: IDeckListProps) {
                             <th scope="row">
                                 <Icon icon="star" className={'deck-favourite' + (d.isFavourited ? ' enabled' : '')} data-deck-id={d.id} />
                                 {' '}
-                                <Link to={'/' + d.id}>{d.name}</Link>
+                                <Link to={routePrefix + d.id}>{d.name}</Link>
                             </th>
                         </tr>
                     )}
