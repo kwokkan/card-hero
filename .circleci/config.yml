@@ -145,6 +145,7 @@ jobs:
       - run:
           name: upload coverage
           command: |
+            chmod +x ./scripts/codecov.sh
             ./scripts/codecov.sh
 workflows:
   version: 2
