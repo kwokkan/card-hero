@@ -146,7 +146,8 @@ jobs:
           name: upload coverage
           command: |
             chmod +x ./scripts/codecov.sh
-            ./scripts/codecov.sh -F dotnet,npm
+            ./scripts/codecov.sh -s tests -F dotnet
+            ./scripts/codecov.sh -s << pipeline.parameters.node-project >> -F npm
 workflows:
   version: 2
   run-all:
