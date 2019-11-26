@@ -1,16 +1,19 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { IDeckModel, IGameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
-import { Layout } from "../shared/Layout";
 import { GameList } from "./GameList";
 import { GameSearch } from "./GameSearch";
+
+interface IGameAppProps {
+    routePrefix?: string;
+}
 
 interface IGameAppState {
     games: IGameModel[];
     decks: IDeckModel[];
 }
 
-export class GameApp extends Component<any, IGameAppState> {
+export class GameApp extends Component<IGameAppProps, IGameAppState> {
     constructor(props) {
         super(props);
 
@@ -56,17 +59,20 @@ export class GameApp extends Component<any, IGameAppState> {
 
     render() {
         return (
-            <Layout
-                sideContent={<GameSearch
-                    decks={this.state.decks}
-                    onGamesPopulated={(x) => this.onGamesPopulated(x)} />
-                }
-            >
-                <GameList
-                    games={this.state.games}
-                    decks={this.state.decks}
-                />
-            </Layout>
+            <Fragment>
+                <div className="col-lg-2">
+                    <GameSearch
+                        decks={this.state.decks}
+                        onGamesPopulated={(x) => this.onGamesPopulated(x)} />
+                </div>
+                <div className="col-lg-10">
+                    <GameList
+                        games={this.state.games}
+                        decks={this.state.decks}
+                        routePrefix={this.props.routePrefix}
+                    />
+                </div>
+            </Fragment>
         );
     }
 }

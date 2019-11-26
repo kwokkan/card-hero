@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import { ICardModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { Icon } from "../../styles/index";
+import { getRoutePrefix } from "../../utils/route";
 
 interface ICardListProps {
     cards: ICardModel[];
+    routePrefix?: string;
 }
 
 export function CardList(props: ICardListProps) {
     const context = useContext(AccountContext);
     const user = context.user;
+    const routePrefix = getRoutePrefix(props.routePrefix);
 
     return (
         <div className="row">
@@ -39,7 +42,7 @@ export function CardList(props: ICardListProps) {
                                         {' '}
                                     </Fragment>
                                 }
-                                <Link to={'/' + c.id}>{c.name}</Link>
+                                <Link to={routePrefix + c.id}>{c.name}</Link>
                             </th>
                             <td>{c.health}</td>
                             <td>{c.attack}</td>

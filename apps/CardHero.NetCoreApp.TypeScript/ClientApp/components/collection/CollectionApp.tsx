@@ -1,6 +1,5 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { ICardCollectionModel } from "../../clients/clients";
-import { Layout } from "../shared/Layout";
 import { CollectionList } from "./CollectionList";
 import { CollectionSearch } from "./CollectionSearch";
 
@@ -31,13 +30,15 @@ export class CollectionApp extends Component<any, ICollectionAppState> {
 
     render() {
         return (
-            <Layout
-                sideContent={<CollectionSearch
-                    onCollectionPopulated={(x) => this.onCollectionPopulated(x)} />
-                }
-            >
-                <CollectionList collection={this.state.collection} />
-            </Layout>
+            <Fragment>
+                <div className="col-lg-2">
+                    <CollectionSearch
+                        onCollectionPopulated={(x) => this.onCollectionPopulated(x)} />
+                </div>
+                <div className="col-lg-10">
+                    <CollectionList collection={this.state.collection} />
+                </div>
+            </Fragment>
         );
     }
 }

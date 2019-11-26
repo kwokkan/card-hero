@@ -15,13 +15,17 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
     steps:
       - checkout
+      - run: |
+          cd << pipeline.parameters.node-project >>
+          rm -r wwwroot/dist
       - persist_to_workspace:
           root: .
           paths:
             - .
+
   init-node:
     docker:
-      - image: node:13.1.0-buster
+      - image: node:13.2.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -39,6 +43,7 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
+
   dotnet-build:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
@@ -48,7 +53,20 @@ jobs:
       - run: |
           dotnet restore << pipeline.parameters.solution >>
       - run: |
-          dotnet build << pipeline.parameters.solution >> --configuration << pipeline.parameters.configuration >> --no-restore
+          dotnet build << pipeline.parameters.solution >> --no-restore
+  dotnet-test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
+      - persist_to_workspace:
+          root: .
+          paths:
+            - tests
+
   dotnet-publish:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
@@ -59,9 +77,10 @@ jobs:
           dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --output publish
       - store_artifacts:
           path: publish
+
   npm-build:
     docker:
-      - image: node:13.1.0-buster
+      - image: node:13.2.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -80,7 +99,7 @@ jobs:
             - << pipeline.parameters.node-project >>/wwwroot
   npm-lint:
     docker:
-      - image: node:13.1.0-buster
+      - image: node:13.2.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -95,7 +114,7 @@ jobs:
             npm run lint
   npm-test:
     docker:
-      - image: node:13.1.0-buster
+      - image: node:13.2.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -108,29 +127,62 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             npm run test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - << pipeline.parameters.node-project >>/obj/coverage/js
+
+  upload-coverage:
+    docker:
+      - image: node:13.2.0-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v1-{{ arch }}-
+      - run:
+          name: upload coverage
+          command: |
+            chmod +x ./scripts/codecov.sh
+            ./scripts/codecov.sh -s tests -F dotnet
+            ./scripts/codecov.sh -s << pipeline.parameters.node-project >> -F npm
 workflows:
   version: 2
   run-all:
     jobs:
       - init-workspace
+
       - init-node:
           requires:
             - init-workspace
       - dotnet-build:
           requires:
             - init-workspace
+
+      - dotnet-test:
+          requires:
+            - dotnet-build
+
       - npm-build:
           requires:
             - init-node
       - npm-lint:
           requires:
-             - init-node
+            - init-node
       - npm-test:
           requires:
             - init-node
+
+      - upload-coverage:
+          requires:
+            - dotnet-test
+            - npm-test
+
       - dotnet-publish:
           requires:
-            - dotnet-build
+            - dotnet-test
             - npm-build
             - npm-test
           filters:
