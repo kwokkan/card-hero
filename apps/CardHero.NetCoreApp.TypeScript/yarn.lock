@@ -2796,10 +2796,10 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dnd-core@^9.5.0:
-  version "9.5.0"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-9.5.0.tgz#3fb1fe1f24036c4352587002711e2590cb8c0e9a"
-  integrity sha512-UZyNMJKhxukwJHcTCXJg/PtmOwPnSQLCmYCIrgUOf+UX6gS3lKRiik/hJzIX0HzqadyMrLAO7PxazF6UmFLsBQ==
+dnd-core@^9.5.0, dnd-core@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-9.5.1.tgz#e9ec02d33529b68fa528865704d40ac4b14f2baf"
+  integrity sha512-/yEWFF2jg51yyB8uA2UbvBr9Qis0Oo/4p9cqHLEKZdxzHHVSPfq0a/ool8NG6dIS6Q4uN+oKGObY0rNWiopJDA==
   dependencies:
     "@types/asap" "^2.0.0"
     "@types/invariant" "^2.2.30"
@@ -6476,12 +6476,12 @@ react-bootstrap@1.0.0-beta.16:
     uncontrollable "^7.0.0"
     warning "^4.0.3"
 
-react-dnd-html5-backend@9.5.0:
-  version "9.5.0"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-9.5.0.tgz#2bdc2defc8d2cbdc55abb73263c26bb7d510c859"
-  integrity sha512-0kLZoUIXRfSFBjssRRc4oU0v+nGI+21GfKHQukRvvGGOtlsJNmdqpNxJ9BjStNEYub59TbbgPIjKM/Ba6IDbVw==
+react-dnd-html5-backend@9.5.1:
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-9.5.1.tgz#e6a0aed3ece800c1abe004f9ed9991513e2e644c"
+  integrity sha512-wUdzjREwLqHxFkA6E+XDVL5IFjRDbBI3SHVKil9n3qrGT5dm2tA2oi1aIALdfMKsu00c+OXA9lz/LuKZCE9KXg==
   dependencies:
-    dnd-core "^9.5.0"
+    dnd-core "^9.5.1"
 
 react-dnd@9.5.0:
   version "9.5.0"
