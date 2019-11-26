@@ -1,5 +1,5 @@
-﻿// no export as this is used by NSwag generated api clients
-class CardHeroApiClientBase {
+﻿// used by NSwag generated api clients
+export class CardHeroApiClientBase {
     getBaseUrl(defaultBaseUrl: string, baseUrl: string): string {
         if (!baseUrl) {
             return defaultBaseUrl;
@@ -13,5 +13,3 @@ class CardHeroApiClientBase {
         return baseUrl;
     }
 }
-
-module.exports = CardHeroApiClientBase;
