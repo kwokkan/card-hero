@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DateFormat /> renders correctly 1`] = `
+<time
+  dateTime="2019-01-02T03:04:05.006Z"
+  title="Wed, 02 Jan 2019 03:04:05 GMT"
+>
+  a few seconds ago
+</time>
+`;
