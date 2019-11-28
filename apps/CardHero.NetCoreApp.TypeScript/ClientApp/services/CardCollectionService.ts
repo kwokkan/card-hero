@@ -1,5 +1,4 @@
 ﻿import { CollectionApiClient, ICardCollectionModel } from "../clients/clients";
-import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface ICardCollectionSearchFilter {
     page?: number;
@@ -9,7 +8,7 @@ interface ICardCollectionSearchFilter {
 
 export class CardCollectionService {
     static async getCollection(filter?: ICardCollectionSearchFilter): Promise<ICardCollectionModel[] | null> {
-        const client = new CollectionApiClient(AppBootstrap.baseUrl);
+        const client = new CollectionApiClient();
 
         if (!filter) {
             filter = {};
