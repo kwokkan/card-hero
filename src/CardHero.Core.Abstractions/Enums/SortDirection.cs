@@ -1,4 +1,4 @@
-﻿namespace KwokKan.Sortable
+﻿namespace CardHero.Core.Abstractions
 {
     /// <summary>
     /// Sort direction used for filtering.

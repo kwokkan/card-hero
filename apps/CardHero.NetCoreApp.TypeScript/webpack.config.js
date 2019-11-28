@@ -143,9 +143,6 @@ module.exports = {
         new webpack.DefinePlugin({
             "Constants": constants
         }),
-        new webpack.ProvidePlugin({
-            CardHeroApiClientBase: path.resolve(__dirname, "./ClientApp/clients/CardHeroApiClientBase.ts")
-        }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",

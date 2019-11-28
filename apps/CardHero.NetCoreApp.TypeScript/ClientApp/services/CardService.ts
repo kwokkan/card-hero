@@ -1,5 +1,4 @@
 ﻿import { CardApiClient, ICardModel } from "../clients/clients";
-import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface ICardSearchFilter {
     name?: string;
@@ -10,7 +9,7 @@ interface ICardSearchFilter {
 
 export class CardService {
     static async getCards(filter?: ICardSearchFilter): Promise<ICardModel[] | null> {
-        const client = new CardApiClient(AppBootstrap.baseUrl);
+        const client = new CardApiClient();
         const model = client.get(
             filter.ids,
             filter.name,

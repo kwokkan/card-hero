@@ -7,8 +7,6 @@ using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 
-using KwokKan.Sortable;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

@@ -1,5 +1,4 @@
 ﻿import { DeckApiClient, DeckCreateModel, IDeckCreateModel, IDeckModel } from "../clients/clients";
-import { AppBootstrap } from "../components/shared/AppBootstrap";
 
 interface IDeckSearchFilter {
     name?: string;
@@ -10,7 +9,7 @@ interface IDeckSearchFilter {
 
 export class DeckService {
     static async getDecks(filter?: IDeckSearchFilter): Promise<IDeckModel[] | null> {
-        const client = new DeckApiClient(AppBootstrap.baseUrl);
+        const client = new DeckApiClient();
 
         if (!filter) {
             filter = {};
@@ -27,7 +26,7 @@ export class DeckService {
     }
 
     static async createDeck(model: IDeckCreateModel): Promise<IDeckModel> {
-        const client = new DeckApiClient(AppBootstrap.baseUrl);
+        const client = new DeckApiClient();
 
         const postModel = new DeckCreateModel();
         postModel.name = model.name;

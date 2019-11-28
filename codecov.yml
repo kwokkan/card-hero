@@ -9,7 +9,6 @@ flags:
   dotnet:
     paths:
       - apps
-      - shared
       - src
   npm:
     paths:
