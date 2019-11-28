@@ -7,6 +7,8 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
+import { CardHeroApiClientBase } from './CardHeroApiClientBase';
+
 export interface IAccountApiClient {
     get(): Promise<UserModel>;
 }
