@@ -36,7 +36,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var filter = query.ToSearchFilter();
             filter.Sort = x => x.Id;
-            filter.SortDirection = KwokKan.Sortable.SortDirection.Descending;
+            filter.SortDirection = SortDirection.Descending;
 
             var result = await _gameService.GetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken);
 

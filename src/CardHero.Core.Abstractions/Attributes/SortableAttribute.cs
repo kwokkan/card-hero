@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KwokKan.Sortable
+namespace CardHero.Core.Abstractions
 {
     public class SortableAttribute : Attribute
     {

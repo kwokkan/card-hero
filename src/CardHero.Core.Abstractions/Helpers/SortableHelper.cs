@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
-namespace KwokKan.Sortable
+namespace CardHero.Core.Abstractions
 {
     public class SortableHelper : ISortableHelper
     {
