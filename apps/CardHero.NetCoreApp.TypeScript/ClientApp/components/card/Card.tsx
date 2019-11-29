@@ -1,6 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
+import { CardStatsGraphWidget } from "./CardStatsGraphWidget";
 
 interface ICardProps {
     id: number;
@@ -112,7 +113,7 @@ export class Card extends PureComponent<ICardProps, ICardState> {
                         </div>
                     </div>
                     <div className="col-lg-4">
-                        {/* main stats */}
+                        <CardStatsGraphWidget card={card} />
                     </div>
                     <div className="col-lg-4">
                         {/* attack stats */}
