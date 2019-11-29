@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardStatsWidget /> renders correctly 1`] = `
+<div
+  className="card"
+>
+  <h4
+    className="card-header"
+  >
+    jest
+  </h4>
+  <div
+    className="card-body"
+  >
+    <table
+      className="table table-striped"
+    >
+      <thead
+        className="thead-inverse"
+      >
+        <tr>
+          <th
+            colSpan={2}
+          >
+            Stats
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            Health
+          </th>
+          <td>
+            4
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Attack
+          </th>
+          <td>
+            1
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Defence
+          </th>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <td
+            colSpan={2}
+          />
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Up Attack
+          </th>
+          <td>
+            9
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Right Attack
+          </th>
+          <td>
+            6
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Down Attack
+          </th>
+          <td>
+            3
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Left Attack
+          </th>
+          <td>
+            5
+          </td>
+        </tr>
+        <tr>
+          <td
+            colSpan={2}
+          />
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            Total Stats
+          </th>
+          <td>
+            8
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
