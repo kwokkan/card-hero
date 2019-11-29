@@ -1,6 +1,7 @@
 ﻿import React, { PureComponent } from "react";
 import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
+import { CardSecondaryStatsGraphWidget } from "./CardSecondaryStatsGraphWidget";
 import { CardStatsGraphWidget } from "./CardStatsGraphWidget";
 import { CardStatsWidget } from "./CardStatsWidget";
 
@@ -62,7 +63,7 @@ export class Card extends PureComponent<ICardProps, ICardState> {
                         <CardStatsGraphWidget card={card} />
                     </div>
                     <div className="col-lg-4">
-                        {/* attack stats */}
+                        <CardSecondaryStatsGraphWidget card={card} />
                     </div>
                 </div>
             </div>
