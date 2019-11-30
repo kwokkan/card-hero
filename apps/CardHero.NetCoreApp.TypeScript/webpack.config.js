@@ -127,6 +127,13 @@ module.exports = {
                     enforce: true,
                     priority: -10
                 },
+                "vendor.unused": {
+                    chunks: "all",
+                    name: "vendor.unused",
+                    test: /node_modules[\\/](moment|popper\.js)[\\/]/,
+                    enforce: true,
+                    priority: -10
+                }
             }
         }
     },
