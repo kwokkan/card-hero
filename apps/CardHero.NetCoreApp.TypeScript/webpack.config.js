@@ -105,7 +105,14 @@ module.exports = {
                     test: /node_modules/,
                     enforce: true,
                     priority: -100
-                }
+                },
+                "vendor.fortawesome": {
+                    chunks: "all",
+                    name: "vendor.fortawesome",
+                    test: /node_modules[\\/]@fortawesome[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
             }
         }
     },
