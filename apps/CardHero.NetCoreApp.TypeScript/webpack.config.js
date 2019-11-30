@@ -12,6 +12,19 @@ const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./ClientApp/constants/constants.ts");
 
+const alphaBundles = [...new Array(26)].map((_, i) => ({
+    chunks: "all",
+    name: `vendor.${String.fromCharCode(97 + i)}`,
+    test: new RegExp(`node_modules[\\\\/]${String.fromCharCode(97 + i)}.*[\\\\/]`),
+    enforce: true,
+    priority: -10
+}));
+
+const cacheGroups = alphaBundles.reduce((obj, item) => {
+    obj[item.name] = item;
+    return obj;
+}, {});
+
 module.exports = {
     mode: isProd ? "production" : "development",
 
@@ -103,8 +116,10 @@ module.exports = {
                     chunks: "all",
                     name: "vendor",
                     test: /node_modules/,
-                    enforce: true
-                }
+                    enforce: true,
+                    priority: -100
+                },
+                ...cacheGroups
             }
         }
     },
