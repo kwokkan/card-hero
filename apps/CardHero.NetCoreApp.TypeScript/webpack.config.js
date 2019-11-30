@@ -80,7 +80,7 @@ module.exports = {
         moduleIds: "hashed",
         //runtimeChunk: "single",
         runtimeChunk: {
-            name: "shared"
+            name: "runtime"
         },
         sideEffects: false,
         usedExports: true,
