@@ -113,6 +113,13 @@ module.exports = {
                     enforce: true,
                     priority: -10
                 },
+                "vendor.global": {
+                    chunks: "all",
+                    name: "vendor.global",
+                    test: /node_modules[\\/](bootstrap|jquery)[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
                 "vendor.react": {
                     chunks: "all",
                     name: "vendor.react",
