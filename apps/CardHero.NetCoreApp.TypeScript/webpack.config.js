@@ -113,6 +113,13 @@ module.exports = {
                     enforce: true,
                     priority: -10
                 },
+                "vendor.react": {
+                    chunks: "all",
+                    name: "vendor.react",
+                    test: /node_modules[\\/](react|react-.+)[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
             }
         }
     },
