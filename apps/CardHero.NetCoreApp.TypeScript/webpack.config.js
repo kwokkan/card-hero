@@ -99,11 +99,12 @@ module.exports = {
                     enforce: true,
                     priority: 1
                 },
-                vendor: {
+                "vendor.default": {
                     chunks: "all",
-                    name: "vendor",
+                    name: "vendor.default",
                     test: /node_modules/,
-                    enforce: true
+                    enforce: true,
+                    priority: -100
                 }
             }
         }
