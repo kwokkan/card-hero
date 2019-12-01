@@ -8,7 +8,7 @@ interface ICoinFormatProps {
 }
 
 const coinRender = (className: string, value: number, stripEmpty: boolean): JSX.Element => {
-    return (!stripEmpty || (stripEmpty && value)) ?
+    return (!stripEmpty || (stripEmpty && value > 0)) ?
         (<span className="coin-group">
             <Icon icon="coins" className={className} />
             {' '}
