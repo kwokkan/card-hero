@@ -91,57 +91,54 @@ namespace CardHero.Core.SqlServer.Services
         {
             var game = await ValidateMoveInternalAsync(move, cancellationToken: cancellationToken);
 
-            var context = GetContext();
+            var turns = await _turnRepository.GetTurnsByGameIdAsync(game.Id, cancellationToken: cancellationToken);
+
+            var currentTurn = turns
+                .Where(x => !x.EndTime.HasValue)
+                .OrderByDescending(x => x.StartTime)
+                .FirstOrDefault();
+
+            var turnUpdate = new TurnUpdateData
             {
-                var turns = await _turnRepository.GetTurnsByGameIdAsync(game.Id, cancellationToken: cancellationToken);
+                EndTime = DateTime.UtcNow,
+            };
 
-                var currentTurn = turns
-                    .Where(x => !x.EndTime.HasValue)
-                    .OrderByDescending(x => x.StartTime)
-                    .FirstOrDefault();
+            await _turnRepository.UpdateTurnAsync(currentTurn.Id, turnUpdate, cancellationToken: cancellationToken);
 
-                var turnUpdate = new TurnUpdateData
-                {
-                    EndTime = DateTime.UtcNow,
-                };
+            var currentMove = new MoveData
+            {
+                GameDeckCardCollectionId = move.GameDeckCardCollectionId,
+                Column = move.Column,
+                Row = move.Row,
+                TurnId = currentTurn.Id,
+            };
 
-                await _turnRepository.UpdateTurnAsync(currentTurn.Id, turnUpdate, cancellationToken: cancellationToken);
+            await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
-                var currentMove = new MoveData
-                {
-                    GameDeckCardCollectionId = move.GameDeckCardCollectionId,
-                    Column = move.Column,
-                    Row = move.Row,
-                    TurnId = currentTurn.Id,
-                };
+            var nextUser = game.Users
+                .SkipWhile(x => x.UserId != move.UserId)
+                .Skip(1)
+                .FirstOrDefault();
 
-                await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
-
-                var nextUser = game.Users
-                    .SkipWhile(x => x.UserId != move.UserId)
-                    .Skip(1)
-                    .FirstOrDefault();
-
-                if (nextUser == null)
-                {
-                    nextUser = game.Users.First();
-                }
-
-                var newTurn = new TurnData
-                {
-                    CurrentGameUserId = nextUser.Id,
-                    GameId = game.Id,
-                    StartTime = DateTime.UtcNow,
-                };
-
-                await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
-
-                var gameUpdate = new GameUpdateData
-                {
-                    CurrentGameUserId = nextUser.Id,
-                };
-                await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
+            if (nextUser == null)
+            {
+                nextUser = game.Users.First();
             }
+
+            var newTurn = new TurnData
+            {
+                CurrentGameUserId = nextUser.Id,
+                GameId = game.Id,
+                StartTime = DateTime.UtcNow,
+            };
+
+            await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
+
+            var gameUpdate = new GameUpdateData
+            {
+                CurrentGameUserId = nextUser.Id,
+            };
+            await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
         }
     }
 }
