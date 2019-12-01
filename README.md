@@ -16,7 +16,8 @@ The best card game ever.
 |---|---:|
 |Better Code Hub|[![BCH compliance](https://bettercodehub.com/edge/badge/kwokkan/card-hero?branch=master)](https://bettercodehub.com/)|
 |LGTM (Alerts)|[![Total alerts](https://img.shields.io/lgtm/alerts/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/alerts/)|
-|LGTM (Grade)|[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/context:javascript)|
+|LGTM (JavaScript)|[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/context:javascript)|
+|LGTM (C#)|[![Language grade: C#](https://img.shields.io/lgtm/grade/csharp/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/context:csharp)|
 
 ## Coverage
 
