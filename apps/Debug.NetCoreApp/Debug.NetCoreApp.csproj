@@ -4,7 +4,7 @@
     <Description>Fake debug app</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Debug Web</AssemblyTitle>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Debug.Web</AssemblyName>
