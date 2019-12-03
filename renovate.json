@@ -33,6 +33,6 @@
   "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "schedule": [
-    "after 7pm and before 7am"
+    "after 6pm and before 8am"
   ]
 }
