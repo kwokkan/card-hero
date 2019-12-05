@@ -12,6 +12,12 @@
   "masterIssue": true,
   "packageRules": [
     {
+      "groupName": "create-react-app monorepo",
+      "sourceUrlPrefixes": [
+        "https://github.com/facebook/create-react-app"
+      ]
+    },
+    {
       "packageNames": [
         "Microsoft.EntityFrameworkCore"
       ],
