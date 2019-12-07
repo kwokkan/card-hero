@@ -80,7 +80,7 @@ module.exports = {
         moduleIds: "hashed",
         //runtimeChunk: "single",
         runtimeChunk: {
-            name: "shared"
+            name: "runtime"
         },
         sideEffects: false,
         usedExports: true,
@@ -99,11 +99,40 @@ module.exports = {
                     enforce: true,
                     priority: 1
                 },
-                vendor: {
+                "vendor.default": {
                     chunks: "all",
-                    name: "vendor",
+                    name: "vendor.default",
                     test: /node_modules/,
-                    enforce: true
+                    enforce: true,
+                    priority: -100
+                },
+                "vendor.fortawesome": {
+                    chunks: "all",
+                    name: "vendor.fortawesome",
+                    test: /node_modules[\\/]@fortawesome[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
+                "vendor.global": {
+                    chunks: "all",
+                    name: "vendor.global",
+                    test: /node_modules[\\/](bootstrap|jquery)[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
+                "vendor.react": {
+                    chunks: "all",
+                    name: "vendor.react",
+                    test: /node_modules[\\/](react|react-.+)[\\/]/,
+                    enforce: true,
+                    priority: -10
+                },
+                "vendor.unused": {
+                    chunks: "all",
+                    name: "vendor.unused",
+                    test: /node_modules[\\/](moment|popper\.js)[\\/]/,
+                    enforce: true,
+                    priority: -10
                 }
             }
         }
