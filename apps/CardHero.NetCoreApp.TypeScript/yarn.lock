@@ -1034,6 +1034,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@react-dnd/asap@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-4.0.0.tgz#b300eeed83e9801f51bd66b0337c9a6f04548651"
+  integrity sha512-0XhqJSc6pPoNnf8DhdsPHtUhRzZALVzYMTzRwV4VI6DJNJ/5xxfL9OQUwb8IH5/2x7lSf7nAZrnzUD+16VyOVQ==
+
 "@react-dnd/invariant@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-2.0.0.tgz#09d2e81cd39e0e767d7da62df9325860f24e517e"
@@ -1058,11 +1063,6 @@
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA==
-
-"@types/asap@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/asap/-/asap-2.0.0.tgz#d529e9608c83499a62ae08c871c5e62271aa2963"
-  integrity sha512-upIS0Gt9Mc8eEpCbYMZ1K8rhNosfKUtimNcINce+zLwJF5UpM3Vv7yz3S5l/1IX+DxTa8lTkUjqynvjRXyJzsg==
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"
@@ -1686,7 +1686,7 @@ array-unique@^0.3.2:
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
-asap@^2.0.6, asap@~2.0.6:
+asap@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
@@ -2849,14 +2849,13 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dnd-core@^10.0.1:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-10.0.1.tgz#151d95cd3a7fa47b210905c301364c0828203029"
-  integrity sha512-PokpWzFSKbpmJSWbSIfVJtIsRdx3DP5e3//agNNzV8L1k9T4/IFKtgjjwKeLKmP9qMuTXdZZGSS40w+eZ8MmUg==
+dnd-core@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-10.0.2.tgz#051dc119682ea1185622f954667670d3d5f6a574"
+  integrity sha512-PrxEjxF0+6Y1n1n1Z9hSWZ1tvnDXv9syL+BccV1r1RC08uWNsyetf8AnWmUF3NgYPwy0HKQJwTqGkZK+1NlaFA==
   dependencies:
+    "@react-dnd/asap" "^4.0.0"
     "@react-dnd/invariant" "^2.0.0"
-    "@types/asap" "^2.0.0"
-    asap "^2.0.6"
     redux "^4.0.4"
 
 doctrine@1.5.0:
@@ -6562,21 +6561,21 @@ react-chartjs-2@2.8.0:
     lodash "^4.17.4"
     prop-types "^15.5.8"
 
-react-dnd-html5-backend@10.0.1:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-10.0.1.tgz#422c274a3007a86a7a64ddbab4a53e514211a907"
-  integrity sha512-llaw2bvSimBTFYLU479VPLtQgH+cR/kZajXjF6y4f/B9nijJW4IF8DJ2HN6wYXaVZnqaZQWdXBjf8RCOul+ZNQ==
+react-dnd-html5-backend@10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-10.0.2.tgz#15cb9d2b923f43576a136df854e288cb5969784c"
+  integrity sha512-ny17gUdInZ6PIGXdzfwPhoztRdNVVvjoJMdG80hkDBamJBeUPuNF2Wv4D3uoQJLjXssX1+i9PhBqc7EpogClwQ==
   dependencies:
-    dnd-core "^10.0.1"
+    dnd-core "^10.0.2"
 
-react-dnd@10.0.1:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-10.0.1.tgz#fe9989f3b8aed2f237df090a382a1a309367be76"
-  integrity sha512-9GqK9j2s0+eUQiwIbni2m6/fv6L6Sq2WhPtpJmb5w2Ec+EIUSZLFo4/AZFmG8Nvck9AihavOTz/4nQiDq128DQ==
+react-dnd@10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-10.0.2.tgz#a6ad8eb3d9f2c573031f7ce05012e5c767a0b1fc"
+  integrity sha512-SC2Ymvntynhoqtf5zaFhZscm9xenCoMofilxPdlwUlaelAzmbl9fw82C4ZJ//+lNm3kWAKXjGDZg2/aWjKEAtg==
   dependencies:
     "@react-dnd/shallowequal" "^2.0.0"
     "@types/hoist-non-react-statics" "^3.3.1"
-    dnd-core "^10.0.1"
+    dnd-core "^10.0.2"
     hoist-non-react-statics "^3.3.0"
 
 react-dom@16.12.0:
