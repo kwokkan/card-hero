@@ -17,7 +17,6 @@
         "<rootDir>/ClientApp/**/__tests__/**/*.{js,jsx,ts,tsx}",
         "<rootDir>/ClientApp/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
-    "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {
         "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
         "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
