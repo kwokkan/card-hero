@@ -8,12 +8,19 @@ interface ICoinFormatProps {
 }
 
 const coinRender = (className: string, value: number, stripEmpty: boolean): JSX.Element => {
-    return (!stripEmpty || (stripEmpty && value)) ?
-        (<span className="coin-group">
+    const shouldStrip = stripEmpty && value === 0;
+
+    if (shouldStrip) {
+        return null;
+    }
+
+    return (
+        <span className="coin-group">
             <Icon icon="coins" className={className} />
             {' '}
             {value}
-        </span>) : null;
+        </span>
+    );
 };
 
 export function CoinFormat(props: ICoinFormatProps) {
@@ -24,7 +31,7 @@ export function CoinFormat(props: ICoinFormatProps) {
     const silver = Math.floor(c / 100) % 100;
     const bronze = c % 100;
 
-    const se = !!props.stripEmpty;
+    const se = props.stripEmpty === true;
 
     return (
         <span title={props.title}>

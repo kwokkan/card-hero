@@ -22,8 +22,6 @@ namespace CardHero.Core.SqlServer.Services
 
         private Task<SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<CardCollectionModel>();
-
             var context = GetContext();
 
             var query = context.CardCollection
@@ -87,8 +85,6 @@ namespace CardHero.Core.SqlServer.Services
 
         Task<SearchResult<CardModel>> ICardService.GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<CardModel>();
-
             var context = GetContext();
 
             var query = context.Card.AsQueryable();
