@@ -34,22 +34,6 @@
     </PackageReference>
     <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.7.0" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="ClientApp/**/*.ts" />
-    <None Remove="ClientApp/**/*.tsx" />
-    <Content Remove="ClientApp**/*.ts" />
-    <Content Remove="ClientApp/**/*.tsx" />
-    <TypeScriptCompile Include="ClientApp/**/*.ts" />
-    <TypeScriptCompile Include="ClientApp/**/*.tsx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="package.json" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="wwwroot\favicon.ico" />
-    <None Include="wwwroot\manifest.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj" />

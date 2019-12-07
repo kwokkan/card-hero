@@ -49,7 +49,6 @@
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "2.3.0",
     "jest": "24.9.0",
-    "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.8.0",
     "mockdate": "2.0.5",
@@ -74,60 +73,9 @@
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config webpack.config.js",
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "test": "cross-env CI=true node scripts/test.js --env=jsdom",
+    "test": "cross-env CI=true jest --runInBand",
     "lint": "eslint ./ClientApp/ --cache --ext .ts,.tsx",
     "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/ClientApp"
-    ],
-    "collectCoverageFrom": [
-      "<rootDir>/ClientApp/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/ClientApp/**/*.d.ts",
-      "!<rootDir>/ClientApp/**/node_modules/**"
-    ],
-    "coverageDirectory": "./obj/coverage/js",
-    "collectCoverage": true,
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "setupFilesAfterEnv": [],
-    "testMatch": [
-      "<rootDir>/ClientApp/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/ClientApp/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jest-environment-jsdom-fourteen",
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "modulePaths": [],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ]
   },
   "babel": {
     "presets": [
