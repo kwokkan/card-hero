@@ -52,7 +52,7 @@ export class MainApp extends Component<{}, IMainAppState> {
             <ErrorBoundary>
                 <AccountContext.Provider value={this.state}>
                     <BrowserRouter basename={AppBootstrap.url()}>
-                        <NavMenu user={this.state.user} />
+                        <NavMenu appName={Constants.AppName} user={this.state.user} />
 
                         <div className="container-fluid body-content">
                             <div className="row">
