@@ -1,24 +1,24 @@
 import React, { Fragment, PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { IUserModel } from '../../clients/clients';
-import { AccountContext } from '../../contexts/AccountContext';
 import { Icon } from '../../styles/index';
-import { AppBootstrap } from './AppBootstrap';
+import { getRoutePrefix } from '../../utils/route';
 import { CoinFormat } from './CoinFormat';
 
 interface INavMenuProps {
+    appName: string;
+    routePrefix?: string;
     user?: IUserModel;
 }
 
 export class NavMenu extends PureComponent<INavMenuProps, any> {
-    static contextType = AccountContext;
-
     constructor(props) {
         super(props);
     }
 
     render() {
-        const u = AppBootstrap.url;
+        const appName = this.props.appName;
+        const routePrefix = getRoutePrefix(this.props.routePrefix);
         const user = this.props.user;
 
         return (
@@ -27,34 +27,34 @@ export class NavMenu extends PureComponent<INavMenuProps, any> {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <Link to={u()} className="navbar-brand">
-                    <img src={u('favicon.ico')} className="d-inline-block align-top" width="32" height="32" alt={Constants.AppName} />
+                <Link to={routePrefix} className="navbar-brand">
+                    <img src={`${routePrefix}favicon.ico`} className="d-inline-block align-top" width="32" height="32" alt={appName} />
                     {' '}
-                    {Constants.AppName}
+                    {appName}
                 </Link>
 
                 <div className="collapse navbar-collapse" id="navbar-header">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to={u('Card')}>Cards</Link>
+                            <Link className="nav-link" to={`${routePrefix}Card`}>Cards</Link>
                         </li>
 
                         <li className="nav-item">
-                            <Link className="nav-link" to={u('Game')}>Games</Link>
+                            <Link className="nav-link" to={`${routePrefix}Game`}>Games</Link>
                         </li>
 
                         <li className="nav-item">
-                            <Link className="nav-link" to={u('Store')}>Store</Link>
+                            <Link className="nav-link" to={`${routePrefix}Store`}>Store</Link>
                         </li>
 
                         {user &&
                             <Fragment>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={u('Collection')}>Collection</Link>
+                                    <Link className="nav-link" to={`${routePrefix}Collection`}>Collection</Link>
                                 </li>
 
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={u('Deck')}>Decks</Link>
+                                    <Link className="nav-link" to={`${routePrefix}Deck`}>Decks</Link>
                                 </li>
                             </Fragment>
                         }
@@ -70,7 +70,7 @@ export class NavMenu extends PureComponent<INavMenuProps, any> {
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href={u('swagger')} target="_blank" rel="noreferrer noopener">
+                            <a className="nav-link" href={`${routePrefix}swagger`} target="_blank" rel="noreferrer noopener">
                                 <Icon icon="code" />
                                 {' '}
                                 API
@@ -101,7 +101,7 @@ export class NavMenu extends PureComponent<INavMenuProps, any> {
 
                                             <div className="dropdown-divider"></div>
 
-                                            <a className="dropdown-item" href={u('SignOut')}>Logout</a>
+                                            <a className="dropdown-item" href={`${routePrefix}SignOut`}>Logout</a>
                                         </div>
                                     </li>
                                 </Fragment>
@@ -109,7 +109,7 @@ export class NavMenu extends PureComponent<INavMenuProps, any> {
                             :
                             (
                                 <li className="nav-item">
-                                    <a className="nav-link" href={u('SignIn')}>Sign in</a>
+                                    <a className="nav-link" href={`${routePrefix}SignIn`}>Sign in</a>
                                 </li>
                             )
                         }
