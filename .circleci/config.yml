@@ -61,7 +61,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" -nodereuse:false
+          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" /p:nodereuse:false
       - persist_to_workspace:
           root: .
           paths:
