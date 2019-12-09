@@ -22,8 +22,6 @@ namespace CardHero.Core.SqlServer.Services
 
         Task<SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<StoreItemModel>();
-
             var context = GetContext();
 
             var query = context.StoreItem

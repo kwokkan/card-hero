@@ -12,6 +12,12 @@
   "masterIssue": true,
   "packageRules": [
     {
+      "groupName": "create-react-app monorepo",
+      "sourceUrlPrefixes": [
+        "https://github.com/facebook/create-react-app"
+      ]
+    },
+    {
       "packageNames": [
         "Microsoft.EntityFrameworkCore"
       ],
@@ -33,6 +39,6 @@
   "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "schedule": [
-    "after 7pm and before 7am"
+    "after 6pm and before 8am"
   ]
 }
