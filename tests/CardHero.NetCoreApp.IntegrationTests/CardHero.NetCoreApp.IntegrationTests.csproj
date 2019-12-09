@@ -32,4 +32,10 @@
     <ProjectReference Include="..\..\apps\CardHero.NetCoreApp.TypeScript\CardHero.NetCoreApp.TypeScript.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
