@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -15,12 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.33" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.33">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.11.0" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.1.5" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.1.5">
+    <PackageReference Include="NSwag.AspNetCore" Version="13.1.6" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.1.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -29,22 +33,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="WebMarkupMin.AspNetCore3" Version="2.7.0" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="ClientApp/**/*.ts" />
-    <None Remove="ClientApp/**/*.tsx" />
-    <Content Remove="ClientApp**/*.ts" />
-    <Content Remove="ClientApp/**/*.tsx" />
-    <TypeScriptCompile Include="ClientApp/**/*.ts" />
-    <TypeScriptCompile Include="ClientApp/**/*.tsx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="package.json" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="wwwroot\favicon.ico" />
-    <None Include="wwwroot\manifest.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,9 +44,9 @@
   </ItemGroup>
   
   <Target Name="NSwag" AfterTargets="Build">
-    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
+    <!--<Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
     <Exec Command="$(NSwagExe_Core30) aspnetcore2openapi /assembly:$(TargetPath) /variables:Configuration=$(Configuration) /output:swagger.json" />
-    <Exec Command="$(NSwagExe_Core30) openapi2tsclient /input:swagger.json /ClientBaseClass:CardHeroApiClientBase /GenerateClientInterfaces:true /GenerateOptionalParameters:true /ImportRequiredTypes:true /MarkOptionalProperties:true /UseGetBaseUrlMethod:true /output:ClientApp\clients\clients.ts" />
-    <RemoveDir Directories="$(OutDir)References" />
+    <Exec Command="$(NSwagExe_Core30) openapi2tsclient /input:swagger.json /ClientBaseClass:CardHeroApiClientBase /ExtensionCode:&quot;import { CardHeroApiClientBase } from './CardHeroApiClientBase';&quot; /GenerateClientInterfaces:true /GenerateOptionalParameters:true /ImportRequiredTypes:true /MarkOptionalProperties:true /UseGetBaseUrlMethod:true /output:ClientApp\clients\clients.ts" />
+    <RemoveDir Directories="$(OutDir)References" />-->
   </Target>
 </Project>

@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> renders correctly 1`] = `
+Array [
+  <div
+    className="jumbotron"
+  >
+    <h1
+      className="display-3"
+    >
+      Test App
+    </h1>
+    <p
+      className="lead"
+    >
+      Test App
+       is a dynamic action game.
+    </p>
+  </div>,
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Cards
+          </h4>
+          <p
+            className="card-text"
+          >
+            Discover over 1000 cards.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/Card"
+            onClick={[Function]}
+          >
+            View Cards
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Decks
+          </h4>
+          <p
+            className="card-text"
+          >
+            Create you own decks.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/Deck"
+            onClick={[Function]}
+          >
+            View Decks
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Battle
+          </h4>
+          <p
+            className="card-text"
+          >
+            Battle against other players.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/Game"
+            onClick={[Function]}
+          >
+            View Games
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`<Home /> renders correctly with route prefix 1`] = `
+Array [
+  <div
+    className="jumbotron"
+  >
+    <h1
+      className="display-3"
+    >
+      Test App
+    </h1>
+    <p
+      className="lead"
+    >
+      Test App
+       is a dynamic action game.
+    </p>
+  </div>,
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Cards
+          </h4>
+          <p
+            className="card-text"
+          >
+            Discover over 1000 cards.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/test/Card"
+            onClick={[Function]}
+          >
+            View Cards
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Decks
+          </h4>
+          <p
+            className="card-text"
+          >
+            Create you own decks.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/test/Deck"
+            onClick={[Function]}
+          >
+            View Decks
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-lg-4"
+    >
+      <div
+        className="card text-center"
+      >
+        <div
+          className="card-body"
+        >
+          <h4
+            className="card-title"
+          >
+            Battle
+          </h4>
+          <p
+            className="card-text"
+          >
+            Battle against other players.
+          </p>
+          <a
+            className="btn btn-primary"
+            href="/test/Game"
+            onClick={[Function]}
+          >
+            View Games
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;

@@ -1,13 +1,15 @@
-import React, { PureComponent } from 'react';
-import { Layout } from '../shared/Layout';
+import React from 'react';
 import { Home } from './Home';
 
-export class HomeApp extends PureComponent {
-    render() {
-        return (
-            <Layout>
-                <Home />
-            </Layout>
-        );
-    }
+interface IHomeAppProps {
+    appName: string;
+    routePrefix?: string;
+}
+
+export function HomeApp(props: IHomeAppProps) {
+    return (
+        <div className="col-lg-12">
+            <Home appName={props.appName} routePrefix={props.routePrefix} />
+        </div>
+    );
 }

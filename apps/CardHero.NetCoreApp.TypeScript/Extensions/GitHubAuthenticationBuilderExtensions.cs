@@ -35,28 +35,30 @@ namespace Microsoft.AspNetCore.Builder
                 {
                     OnCreatingTicket = async context =>
                     {
-                        var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint);
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-                        var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-
-                        if (!response.IsSuccessStatusCode)
+                        using (var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint))
                         {
-                            return;
-                        }
+                            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
 
-                        var content = await response.Content.ReadAsStringAsync();
-                        var payload = JObject.Parse(content);
+                            var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                        var githubId = payload.GetValue("id")?.ToObject<int>();
+                            if (!response.IsSuccessStatusCode)
+                            {
+                                return;
+                            }
 
-                        if (githubId.HasValue && githubId > 0)
-                        {
-                            var nameValue = payload.GetValue("name")?.ToObject<string>() ?? payload.GetValue("login")?.ToObject<string>() ?? "GitHub User #" + githubId;
-                            context.Identity.AddClaim(new Claim("sub", githubId.ToString()));
-                            context.Identity.AddClaim(new Claim("idp", GitHubAuthenticationOptions.DefaultAuthenticationScheme));
-                            context.Identity.AddClaim(new Claim("name", nameValue));
+                            var content = await response.Content.ReadAsStringAsync();
+                            var payload = JObject.Parse(content);
+
+                            var githubId = payload.GetValue("id")?.ToObject<int>();
+
+                            if (githubId.HasValue && githubId > 0)
+                            {
+                                var nameValue = payload.GetValue("name")?.ToObject<string>() ?? payload.GetValue("login")?.ToObject<string>() ?? "GitHub User #" + githubId;
+                                context.Identity.AddClaim(new Claim("sub", githubId.ToString()));
+                                context.Identity.AddClaim(new Claim("idp", GitHubAuthenticationOptions.DefaultAuthenticationScheme));
+                                context.Identity.AddClaim(new Claim("name", nameValue));
+                            }
                         }
                     },
                     OnRedirectToAuthorizationEndpoint = context =>

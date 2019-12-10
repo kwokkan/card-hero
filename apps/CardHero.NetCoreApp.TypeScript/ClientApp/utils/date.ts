@@ -10,3 +10,11 @@ dayjs.extend(relativeTime);
 export function relativeFromNow(date: Date): string {
     return dayjs(date).fromNow();
 }
+
+/**
+ * Returns a date formatted as an ISO 8601 string.
+ * @param date The date to format.
+ */
+export function toISOString(date: Date): string {
+    return dayjs(date).toISOString();
+}

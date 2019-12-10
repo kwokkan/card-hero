@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import { Link } from "react-router-dom";
 import { GameType, IGameModel } from "../../clients/clients";
 import { DateFormat } from "../shared/DateFormat";
 
@@ -14,7 +13,7 @@ export function GameDetailWidget(props: IGameDetailWidgetProps) {
         <div className="card">
             <h4 className="card-header">
                 {game ?
-                    (<Link to={'/' + game.id}>{game.name}</Link>)
+                    (<span>{game.name}</span>)
                     :
                     (<span>Unknown</span>)
                 }

@@ -9,8 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.travis.yml = .travis.yml
+		codecov.yml = codecov.yml
 		.circleci\config.yml = .circleci\config.yml
-		global.json = global.json
+		lgtm.yml = lgtm.yml
 		README.md = README.md
 		renovate.json = renovate.json
 	EndProjectSection
@@ -20,10 +21,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.SqlServer", "src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj", "{C67F810B-06EE-46A3-92D7-4BEAE10F4104}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debug.NetCoreApp", "apps\Debug.NetCoreApp\Debug.NetCoreApp.csproj", "{1575B740-A1B7-4743-BE6B-5122DE5184B4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{3FA74E7C-AA3C-4BE7-A1D1-05C90EF0EF4E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KwokKan.Sortable", "shared\KwokKan.Sortable\KwokKan.Sortable.csproj", "{050A1E03-69EA-4977-B68F-3A0645919E3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{3F283EB3-43A5-4B64-801A-27D8D38D8D1A}"
 EndProject
@@ -47,6 +44,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Data.SqlServer.Dep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.AspNetCore.Authentication.FileSystem", "src\CardHero.AspNetCore.Authentication.FileSystem\CardHero.AspNetCore.Authentication.FileSystem.csproj", "{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.SqlServer.Tests", "tests\CardHero.Core.SqlServer.Tests\CardHero.Core.SqlServer.Tests.csproj", "{162E92B1-40CA-4244-A32F-A918E5D65DA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A95F93E1-F03C-4134-9E67-EE00F80C9ECD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B5A3C589-C3ED-4F7E-944A-69AE13D70284}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\codecov.sh = scripts\codecov.sh
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.NetCoreApp.IntegrationTests", "tests\CardHero.NetCoreApp.IntegrationTests\CardHero.NetCoreApp.IntegrationTests.csproj", "{C6B4F625-355E-4D7D-AAA2-6CC011082C29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,10 +73,6 @@ Global
 		{1575B740-A1B7-4743-BE6B-5122DE5184B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1575B740-A1B7-4743-BE6B-5122DE5184B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1575B740-A1B7-4743-BE6B-5122DE5184B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{050A1E03-69EA-4977-B68F-3A0645919E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{050A1E03-69EA-4977-B68F-3A0645919E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{050A1E03-69EA-4977-B68F-3A0645919E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{050A1E03-69EA-4977-B68F-3A0645919E3C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D516B83-48CC-4EDA-ACE0-BB7E75EBAD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D516B83-48CC-4EDA-ACE0-BB7E75EBAD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D516B83-48CC-4EDA-ACE0-BB7E75EBAD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,6 +101,14 @@ Global
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B4F625-355E-4D7D-AAA2-6CC011082C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B4F625-355E-4D7D-AAA2-6CC011082C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B4F625-355E-4D7D-AAA2-6CC011082C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B4F625-355E-4D7D-AAA2-6CC011082C29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,7 +117,6 @@ Global
 		{E8920830-F404-4823-BB11-59620591A32D} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{C67F810B-06EE-46A3-92D7-4BEAE10F4104} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{1575B740-A1B7-4743-BE6B-5122DE5184B4} = {3F283EB3-43A5-4B64-801A-27D8D38D8D1A}
-		{050A1E03-69EA-4977-B68F-3A0645919E3C} = {3FA74E7C-AA3C-4BE7-A1D1-05C90EF0EF4E}
 		{9D516B83-48CC-4EDA-ACE0-BB7E75EBAD14} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{3182E7A7-448E-40DE-BB22-6394E486CD26} = {3F283EB3-43A5-4B64-801A-27D8D38D8D1A}
 		{7D571B76-AD8E-4434-9BFF-738513ACD6E7} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
@@ -113,6 +124,8 @@ Global
 		{5DFA6D89-1691-4A77-96A1-958B2D7EF2CD} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{33ED1E2C-5C2E-4C73-B6B9-B2298125C2DA} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
 		{9FEC7BAE-DE13-4D5D-BDE5-0CA9D8863189} = {A4871F8E-B9E1-4927-8B0E-C191FD2E8A25}
+		{162E92B1-40CA-4244-A32F-A918E5D65DA1} = {A95F93E1-F03C-4134-9E67-EE00F80C9ECD}
+		{C6B4F625-355E-4D7D-AAA2-6CC011082C29} = {A95F93E1-F03C-4134-9E67-EE00F80C9ECD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E6E117CB-BCCA-4426-B653-65D15CEA4F96}

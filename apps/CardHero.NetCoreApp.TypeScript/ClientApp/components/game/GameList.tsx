@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { GameType, IDeckModel, IGameModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { GameService } from "../../services/GameService";
+import { getRoutePrefix } from "../../utils/route";
 import { DateFormat } from "../shared/DateFormat";
 import { GameSelectDeckModal, IGameSelectDeckModalOnJoinedProps } from "./GameSelectDeckModal";
 
 interface IGameListProps {
     games: IGameModel[];
     decks: IDeckModel[];
+    routePrefix?: string;
 }
 
 interface IGameListState {
@@ -51,6 +53,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
 
     render() {
         const user = this.context.user;
+        const routePrefix = getRoutePrefix(this.props.routePrefix);
 
         return (
             <>
@@ -71,7 +74,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
                             {this.props.games.map(g =>
                                 <tr key={g.id}>
                                     <th scope="row">
-                                        <Link to={'/' + g.id}>#{g.id}{' '}{g.name}</Link>
+                                        <Link to={routePrefix + g.id}>#{g.id}{' '}{g.name}</Link>
                                     </th>
                                     <td>{GameType[g.type]}</td>
                                     <td><DateFormat date={g.startTime} /></td>

@@ -1,6 +1,6 @@
 ﻿using System;
+
 using CardHero.Core.Models;
-using KwokKan.Sortable;
 
 namespace CardHero.Core.Abstractions
 {

@@ -1,13 +1,11 @@
 ﻿import React, { PureComponent } from "react";
-import { Link } from "react-router-dom";
 import { DeckEditModel } from "../../models/DeckEditModel";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
-import { Layout } from "../shared/Layout";
 
 interface IDeckProps {
-    match?: any;
+    id: number;
 }
 
 interface IDeckState {
@@ -50,7 +48,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
     }
 
     async componentDidMount() {
-        const deckId: number = this.props.match.params.id;
+        const deckId: number = this.props.id;
 
         await Promise.all([
             this.populateDeck(deckId),
@@ -59,9 +57,9 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
     }
 
     async componentWillReceiveProps(nextProps: IDeckProps) {
-        const deckId: number = this.props.match.params.id;
+        const deckId: number = this.props.id;
 
-        if (nextProps.match.params.id !== deckId) {
+        if (nextProps.id !== deckId) {
             await this.populateDeck(deckId);
         }
     }
@@ -83,13 +81,13 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
         const usedCards = deck.cards;
 
         return (
-            <Layout>
+            <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">
-                                    <Link to={'/' + deck.id}>{deck.name}</Link>
+                                    {deck.name}
                                     <Icon icon="star" className={'deck-favourite float-right' + (deck.isFavourited ? ' enabled' : '')} data-deck-id={deck.id} />
                                 </h4>
                                 <p className="card-text">{deck.description}</p>
@@ -134,7 +132,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
                         </div>
                     </div>
                 </div>
-            </Layout>
+            </div>
         );
     }
 }
