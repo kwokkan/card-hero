@@ -1,36 +1,43 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class UserService : BaseService, IUserService
     {
+        private readonly IUserRepository _userRepository;
+
         private readonly NewUserOptions _newUserOptions;
 
-        public UserService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory, NewUserOptions newUserOptions)
+        public UserService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IUserRepository userRepository,
+            NewUserOptions newUserOptions
+        )
             : base(contextFactory)
         {
+            _userRepository = userRepository;
+
             _newUserOptions = newUserOptions;
         }
 
         private async Task<UserModel> GetUserByIdentifierInternalAsync(string identifier, string idp, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var user = await _userRepository.GetUserByIdentifier(identifier, idp, cancellationToken: cancellationToken);
 
-            var user = await context
-                .User
-                .Select(EntityFrameworkExtensions.ToCoreExp)
-                .SingleOrDefaultAsync(x => x.Identifier == identifier && x.IdPsource == idp, cancellationToken: cancellationToken);
-
-            return user;
+            return user == null ? null : new UserModel
+            {
+                Coins = user.Coins,
+                FullName = user.FullName,
+                Id = user.Id,
+            };
         }
 
         async Task<UserModel> IUserService.CreateUserAsync(string identifier, string idp, string name, CancellationToken cancellationToken)
