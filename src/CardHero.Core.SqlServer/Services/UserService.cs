@@ -14,16 +14,21 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly IUserRepository _userRepository;
 
+        private readonly IDataMapper<UserData, UserModel> _userDataMapper;
+
         private readonly NewUserOptions _newUserOptions;
 
         public UserService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IUserRepository userRepository,
+            IDataMapper<UserData, UserModel> userDataMapper,
             NewUserOptions newUserOptions
         )
             : base(contextFactory)
         {
             _userRepository = userRepository;
+
+            _userDataMapper = userDataMapper;
 
             _newUserOptions = newUserOptions;
         }
@@ -32,12 +37,7 @@ namespace CardHero.Core.SqlServer.Services
         {
             var user = await _userRepository.GetUserByIdentifier(identifier, idp, cancellationToken: cancellationToken);
 
-            return user == null ? null : new UserModel
-            {
-                Coins = user.Coins,
-                FullName = user.FullName,
-                Id = user.Id,
-            };
+            return user == null ? null : _userDataMapper.Map(user);
         }
 
         async Task<UserModel> IUserService.CreateUserAsync(string identifier, string idp, string name, CancellationToken cancellationToken)

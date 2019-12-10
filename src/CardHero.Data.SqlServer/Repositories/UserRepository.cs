@@ -5,36 +5,36 @@ using System.Threading.Tasks;
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace CardHero.Data.SqlServer
 {
     internal class UserRepository : IUserRepository
     {
         private readonly ICardHeroDataDbContextFactory _factory;
 
-        public UserRepository(ICardHeroDataDbContextFactory factory)
+        private readonly IMapper<User, UserData> _userMapper;
+
+        public UserRepository(
+            ICardHeroDataDbContextFactory factory,
+            IMapper<User, UserData> userMapper
+        )
         {
             _factory = factory;
+
+            _userMapper = userMapper;
         }
 
-        async Task<UserData> IUserRepository.GetUserByIdentifier(string identifier, string idp, CancellationToken cancellationToken)
+        Task<UserData> IUserRepository.GetUserByIdentifier(string identifier, string idp, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {
-                var user = await context
+                var user = context
                     .User
                     .Where(x => x.Identifier == identifier && x.IdPsource == idp)
-                    .Select(x => new UserData
-                    {
-                        Coins = x.Coins,
-                        FullName = x.FullName,
-                        Id = x.UserPk,
-                    })
-                    .FirstOrDefaultAsync()
+                    .Select(_userMapper.Map)
+                    .FirstOrDefault()
                 ;
 
-                return user;
+                return Task.FromResult(user);
             }
         }
     }
