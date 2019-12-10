@@ -7,10 +7,10 @@ using Xunit;
 
 namespace CardHero.Core.SqlServer.Tests
 {
-    public partial class GameValidatorTests: GameValidatorTestsBase
+    public partial class GameValidatorTests : GameValidatorTestsBase
     {
         public GameValidatorTests()
-            :base()
+            : base()
         {
         }
 
