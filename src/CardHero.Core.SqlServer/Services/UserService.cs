@@ -46,22 +46,9 @@ namespace CardHero.Core.SqlServer.Services
 
             if (user == null)
             {
-                var efUser = new User
-                {
-                    Identifier = identifier,
-                    IdPsource = idp,
-                    FullName = name,
+                var userData = await _userRepository.CreateUserAsync(identifier, idp, name, _newUserOptions.Coins, cancellationToken: cancellationToken);
 
-                    Coins = _newUserOptions.Coins,
-                };
-
-                var context = GetContext();
-
-                var newUser = await context.User.AddAsync(efUser);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                user = newUser.Entity.ToCore();
+                user = _userDataMapper.Map(userData);
             }
 
             return user;
