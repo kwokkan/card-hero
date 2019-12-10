@@ -9,19 +9,23 @@ import { DeckApp } from "../components/deck/DeckApp";
 import { Game } from "../components/game/Game";
 import { GameApp } from "../components/game/GameApp";
 import { HomeApp } from "../components/home/HomeApp";
-import { AppBootstrap } from "../components/shared/AppBootstrap";
 import { ErrorBoundary } from "../components/shared/ErrorBoundary";
 import { NavMenu } from "../components/shared/NavMenu";
 import { StoreApp } from "../components/store/StoreApp";
 import { AccountContext } from "../contexts/AccountContext";
 import { AccountService } from "../services/AccountService";
+import { getRoutePrefix } from "../utils/route";
+
+interface IMainAppProps {
+    baseUrl?: string;
+}
 
 interface IMainAppState {
     user?: IUserModel;
     setUser: (user: IUserModel) => void;
 }
 
-export class MainApp extends Component<{}, IMainAppState> {
+export class MainApp extends Component<IMainAppProps, IMainAppState> {
     static contextType = AccountContext;
 
     constructor(props) {
@@ -48,17 +52,20 @@ export class MainApp extends Component<{}, IMainAppState> {
     }
 
     render() {
+        const appName = Constants.AppName;
+        const baseUrl = getRoutePrefix(this.props.baseUrl);
+
         return (
             <ErrorBoundary>
                 <AccountContext.Provider value={this.state}>
-                    <BrowserRouter basename={AppBootstrap.url()}>
-                        <NavMenu appName={Constants.AppName} user={this.state.user} />
+                    <BrowserRouter basename={baseUrl}>
+                        <NavMenu appName={appName} user={this.state.user} />
 
                         <div className="container-fluid body-content">
                             <div className="row">
                                 <Switch>
                                     <Route exact path="/">
-                                        <HomeApp />
+                                        <HomeApp appName={appName} routePrefix={baseUrl} />
                                     </Route>
 
                                     <Route path="/Card"

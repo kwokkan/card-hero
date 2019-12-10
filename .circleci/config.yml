@@ -37,11 +37,10 @@ jobs:
           name: node install
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile --cache-folder .node-cache/yarn
+            yarn install --frozen-lockfile
       - save_cache:
           key: yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
 
   dotnet-build:
@@ -61,7 +60,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
+          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" /p:nodereuse=false
       - persist_to_workspace:
           root: .
           paths:

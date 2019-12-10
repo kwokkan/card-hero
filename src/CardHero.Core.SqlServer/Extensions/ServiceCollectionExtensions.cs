@@ -53,6 +53,7 @@ namespace CardHero.Core.SqlServer.Web
                 .AddScoped<IDataMapper<GameDeckData, GameDeckModel>, GameDeckDataMapper>()
                 .AddScoped<IDataMapper<GameUserData, GameUserModel>, GameUserDataMapper>()
                 .AddScoped<IDataMapper<MoveData, MoveModel>, MoveDataMapper>()
+                .AddScoped<IDataMapper<UserData, UserModel>, UserDataMapper>()
             ;
 
             return services;

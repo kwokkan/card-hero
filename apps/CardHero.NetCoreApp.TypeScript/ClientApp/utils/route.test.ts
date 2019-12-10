@@ -18,7 +18,7 @@ test("Prefix with trailing / returns same path", () => {
     expect(prefix).toBe("test/");
 });
 
-test("Prefix with trailing / returns same path with /", () => {
+test("Prefix without trailing / returns same path with /", () => {
     const prefix = getRoutePrefix("test");
 
     expect(prefix).toBe("test/");
