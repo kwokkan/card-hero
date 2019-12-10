@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 
 using CardHero.Data.SqlServer.EntityFramework;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
@@ -40,36 +42,43 @@ namespace CardHero.NetCoreApp.IntegrationTests
         {
             base.ConfigureWebHost(builder);
 
-            builder.ConfigureServices(services =>
-            {
-                var existingDataDbContextFactory = services.SingleOrDefault(x=> x.ServiceType == typeof(ICardHeroDataDbContextFactory));
-
-                if (existingDataDbContextFactory != null)
+            builder
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureServices(services =>
                 {
-                    services.Remove(existingDataDbContextFactory);
-                }
+                    var existingDataDbContextFactory = services.SingleOrDefault(x => x.ServiceType == typeof(ICardHeroDataDbContextFactory));
 
-                services.AddScoped<ICardHeroDataDbContextFactory, TestCardHeroDataDbContextFactory>();
+                    if (existingDataDbContextFactory != null)
+                    {
+                        services.Remove(existingDataDbContextFactory);
+                    }
 
-                services.AddDbContext<CardHeroDataDbContext>((context) =>
+                    services.AddScoped<ICardHeroDataDbContextFactory, TestCardHeroDataDbContextFactory>();
+
+                    services.AddDbContext<CardHeroDataDbContext>((context) =>
+                    {
+                        context.UseInMemoryDatabase("CardHeroDataMemoryDbContext");
+                    });
+
+                    var serviceProvider = services.BuildServiceProvider();
+
+                    using (var scope = serviceProvider.CreateScope())
+                    {
+                        var scopedServices = scope.ServiceProvider;
+                        var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                        context.Database.EnsureCreated();
+
+                        ClearDbContext(context);
+
+                        SeedDbContext(context);
+                    }
+                })
+                .ConfigureAppConfiguration((context, builder) =>
                 {
-                    context.UseInMemoryDatabase("CardHeroDataMemoryDbContext");
-                });
-
-                var serviceProvider = services.BuildServiceProvider();
-
-                using (var scope = serviceProvider.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
-                    var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
-
-                    context.Database.EnsureCreated();
-
-                    ClearDbContext(context);
-
-                    SeedDbContext(context);
-                }
-            });
+                    builder.AddJsonFile("appsettings.Development.json");
+                })
+            ;
         }
     }
 }
