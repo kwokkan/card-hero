@@ -20,7 +20,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int MaxCards { get; set; }
         public int UserFk { get; set; }
 
-        public virtual User UserFkNavigation { get; set; }
         public virtual ICollection<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual ICollection<DeckFavourite> DeckFavourite { get; set; }
     }

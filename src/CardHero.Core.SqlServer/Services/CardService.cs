@@ -26,7 +26,6 @@ namespace CardHero.Core.SqlServer.Services
 
             var query = context.CardCollection
                 .Include(x => x.CardFkNavigation)
-                .Include(x => x.UserFkNavigation)
                 .AsQueryable();
 
             if (filter.Ids != null && filter.Ids.Any())

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -15,12 +16,18 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class StoreItemService : BaseService, IStoreItemService
     {
-        public StoreItemService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IUserRepository _userRepository;
+
+        public StoreItemService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IUserRepository userRepository
+        )
             : base(contextFactory)
         {
+            _userRepository = userRepository;
         }
 
-        Task<SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
+        Task<Abstractions.SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
@@ -48,7 +55,7 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidStoreItemException($"Store item { bundle.Name } has expired.");
             }
 
-            var user = await context.User.FirstOrDefaultAsync(x => x.UserPk == userId, cancellationToken: cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken: cancellationToken);
 
             if (user == null)
             {
@@ -60,9 +67,12 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException($"Player { userId } does not have enough coins.");
             }
 
-            user.Coins -= bundle.Cost;
+            var userUpdate = new UserUpdateData
+            {
+                Coins = user.Coins - bundle.Cost,
+            };
 
-            context.SaveChanges();
+            await _userRepository.UpdateUserAsync(userId, userUpdate, cancellationToken: cancellationToken);
 
             var allCards = (await context
                 .Card
