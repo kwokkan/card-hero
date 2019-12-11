@@ -10,6 +10,5 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int UserFk { get; set; }
 
         public virtual Card CardFkNavigation { get; set; }
-        public virtual User UserFkNavigation { get; set; }
     }
 }

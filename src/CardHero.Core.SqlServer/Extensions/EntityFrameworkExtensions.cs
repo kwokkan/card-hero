@@ -41,7 +41,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Card = collection.CardFkNavigation.ToCore(userId),
                 CardId = collection.CardFk,
                 Id = collection.CardCollectionPk,
-                User = collection.UserFkNavigation.ToCore(),
                 UserId = collection.UserFk,
             };
         }
@@ -90,40 +89,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 ItemCount = storeItem.ItemCount,
                 Name = storeItem.Name,
             };
-        }
-
-        public static UserModel ToCore(this User user)
-        {
-            if (user == null)
-            {
-                return null;
-            }
-
-            return new UserModel
-            {
-                Coins = user.Coins,
-                CreatedDate = user.CreatedDate,
-                FullName = user.FullName,
-                Id = user.UserPk,
-                Identifier = user.Identifier,
-                IdPsource = user.IdPsource,
-            };
-        }
-
-        public static Expression<Func<User, UserModel>> ToCoreExp
-        {
-            get
-            {
-                return user => new UserModel
-                {
-                    Coins = user.Coins,
-                    CreatedDate = user.CreatedDate,
-                    FullName = user.FullName,
-                    Id = user.UserPk,
-                    Identifier = user.Identifier,
-                    IdPsource = user.IdPsource,
-                };
-            }
         }
     }
 }
