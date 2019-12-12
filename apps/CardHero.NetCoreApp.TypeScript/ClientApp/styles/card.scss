@@ -1,5 +1,6 @@
 ﻿@import "constants/colours.scss";
 
+/* purgecss start ignore */
 @each $r, $c in $rarity-colours {
     $i: index($rarity-colours, ($r $c));
 
@@ -18,6 +19,7 @@
         background-color: scale-color($c, $alpha: -90%);
     }
 }
+/* purgecss end ignore */
 
 .card-rarity-symbols {
     margin-top: -1em;

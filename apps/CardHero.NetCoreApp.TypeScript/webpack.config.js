@@ -1,8 +1,11 @@
-﻿const path = require("path");
+﻿const glob = require("glob");
+const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 
@@ -24,6 +27,7 @@ module.exports = {
         ],
         "styles.shared": [
             //"./ClientApp/styles/index.tsx",
+            "./ClientApp/styles/vendor.scss",
             "./ClientApp/styles/index.scss"
         ]
     },
@@ -85,6 +89,8 @@ module.exports = {
                         comments: false
                     }
                 }
+            }),
+            new OptimizeCSSAssetsPlugin({
             })
         ] : [],
         //concatenateModules: false,
@@ -105,12 +111,19 @@ module.exports = {
                     test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
-                styles: {
+                "styles.app": {
                     chunks: "all",
-                    name: "styles",
+                    name: "styles.app",
                     test: /\.s?css$/,
                     enforce: true,
                     priority: 1
+                },
+                "styles.vendor": {
+                    chunks: "all",
+                    name: "styles.vendor",
+                    test: /[\\/]ClientApp[\\/]styles[\\/]vendor\.s?css$/,
+                    enforce: true,
+                    priority: 10
                 },
                 "vendor.default": {
                     chunks: "all",
@@ -175,6 +188,14 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
+        }),
+        new PurgecssPlugin({
+            paths: glob.sync("ClientApp/**/*", { nodir: true }),
+            whitelistPatterns: [
+                /close/,
+                /modal/,
+                /sr-only/
+            ]
         }),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
@@ -244,7 +265,7 @@ module.exports = {
                         loader: "sass-loader",
                         options: {
                             sassOptions: {
-                                outputStyle: isProd ? "compressed" : "expanded"
+                                outputStyle: "expanded"
                             }
                         }
                     }

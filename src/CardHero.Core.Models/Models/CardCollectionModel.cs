@@ -24,10 +24,5 @@
         /// Card.
         /// </summary>
         public virtual CardModel Card { get; set; }
-
-        /// <summary>
-        /// User.
-        /// </summary>
-        public virtual UserModel User { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace CardHero.Data.SqlServer
 {
     internal class UserRepository : IUserRepository
@@ -44,7 +46,21 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        Task<UserData> IUserRepository.GetUserByIdentifier(string identifier, string idp, CancellationToken cancellationToken)
+        Task<UserData> IUserRepository.GetUserByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            using (var context = _factory.Create())
+            {
+                var user = context
+                    .User
+                    .Where(x => x.UserPk == id)
+                    .Select(_userMapper.Map)
+                    .FirstOrDefault();
+
+                return Task.FromResult(user);
+            }
+        }
+
+        Task<UserData> IUserRepository.GetUserByIdentifierAsync(string identifier, string idp, CancellationToken cancellationToken)
         {
             using (var context = _factory.Create())
             {
@@ -56,6 +72,26 @@ namespace CardHero.Data.SqlServer
                 ;
 
                 return Task.FromResult(user);
+            }
+        }
+
+        async Task IUserRepository.UpdateUserAsync(int id, UserUpdateData update, CancellationToken cancellationToken)
+        {
+            using (var context = _factory.Create(trackChanges: true))
+            {
+                var existingUser = await context.User.Where(x => x.UserPk == id).SingleOrDefaultAsync(cancellationToken: cancellationToken);
+
+                if (existingUser == null)
+                {
+                    throw new CardHeroDataException($"Player { id } does not exist.");
+                }
+
+                if (update.Coins.IsSet)
+                {
+                    existingUser.Coins = update.Coins.Value;
+                }
+
+                await context.SaveChangesAsync(cancellationToken: cancellationToken);
             }
         }
     }
