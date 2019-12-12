@@ -3,6 +3,7 @@ const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -77,6 +78,8 @@ module.exports = {
                         comments: false
                     }
                 }
+            }),
+            new OptimizeCSSAssetsPlugin({
             })
         ] : [],
         //concatenateModules: false,
@@ -251,7 +254,7 @@ module.exports = {
                         loader: "sass-loader",
                         options: {
                             sassOptions: {
-                                outputStyle: isProd ? "compressed" : "expanded"
+                                outputStyle: "expanded"
                             }
                         }
                     }
