@@ -68,7 +68,6 @@ module.exports = {
         minimize: isProd,
         minimizer: isProd ? [
             new TerserPlugin({
-                cache: true,
                 parallel: true,
 
                 terserOptions: {
