@@ -1,8 +1,10 @@
-﻿const path = require("path");
+﻿const glob = require("glob");
+const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PrettierPlugin = require("prettier-webpack-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
@@ -25,6 +27,7 @@ module.exports = {
         ],
         "styles.shared": [
             //"./ClientApp/styles/index.tsx",
+            "./ClientApp/styles/vendor.scss",
             "./ClientApp/styles/index.scss"
         ]
     },
@@ -99,6 +102,13 @@ module.exports = {
                     enforce: true,
                     priority: 1
                 },
+                "styles.vendor": {
+                    chunks: "all",
+                    name: "styles.vendor",
+                    test: /[\\/]ClientApp[\\/]styles[\\/]vendor\.s?css$/,
+                    enforce: true,
+                    priority: 10
+                },
                 "vendor.default": {
                     chunks: "all",
                     name: "vendor.default",
@@ -162,6 +172,9 @@ module.exports = {
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         }),
+        //new PurgecssPlugin({
+        //    paths: glob.sync("ClientApp/**/*", { nodir: true })
+        //}),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
