@@ -172,9 +172,9 @@ module.exports = {
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         }),
-        //new PurgecssPlugin({
-        //    paths: glob.sync("ClientApp/**/*", { nodir: true })
-        //}),
+        new PurgecssPlugin({
+            paths: glob.sync("ClientApp/**/*", { nodir: true })
+        }),
         //new PrettierPlugin({
         //    jsxSingleQuote: true
         //}),
