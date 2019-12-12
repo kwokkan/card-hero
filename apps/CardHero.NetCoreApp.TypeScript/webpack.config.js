@@ -95,9 +95,9 @@ module.exports = {
                     test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
-                styles: {
+                "styles.app": {
                     chunks: "all",
-                    name: "styles",
+                    name: "styles.app",
                     test: /\.s?css$/,
                     enforce: true,
                     priority: 1
