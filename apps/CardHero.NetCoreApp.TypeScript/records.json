@@ -27,7 +27,8 @@
       "multi ./ClientApp/components/store/index.tsx": 6,
       "multi ./ClientApp/styles/index.scss": 0,
       "multi ./ClientApp/globals.ts ./ClientApp/components/store/index.tsx": 6,
-      "multi ./ClientApp/globals.ts ./ClientApp/app/index.tsx": 7
+      "multi ./ClientApp/globals.ts ./ClientApp/app/index.tsx": 7,
+      "multi ./ClientApp/styles/vendor.scss ./ClientApp/styles/index.scss": 0
     },
     "usedIds": {
       "0": 0,
@@ -56,8 +57,20 @@
     "bySource": {},
     "usedIds": [
       0,
-      8,
       9
     ]
-  }
+  },
+  "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!node_modules/sass-loader/dist/cjs.js??ref--6-2!ClientApp/styles/vendor.scss": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {},
+        "bySource": {},
+        "usedIds": []
+      }
+    }
+  ]
 }
