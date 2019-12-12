@@ -1,4 +1,7 @@
 component_depth: 2
 languages:
 - csharp
-- typescript
+- name: typescript
+  production:
+    exclude:
+      - apps/CardHero\.NetCoreApp\.TypeScript/ClientApp/clients/clients\.ts
