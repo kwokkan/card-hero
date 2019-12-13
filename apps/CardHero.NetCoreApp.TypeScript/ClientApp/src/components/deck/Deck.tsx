@@ -2,6 +2,7 @@
 import { DeckEditModel } from "../../models/DeckEditModel";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
+import { CardCollectionWidget } from "../shared/CardCollectionWidget";
 import { DeckDetailsWidget } from "./DeckDetailsWidget";
 
 interface IDeckProps {
@@ -88,20 +89,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
                     </div>
 
                     <div className="col-lg-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">
-                                    Owned Cards
-                                </h4>
-                                <div className="card-text">
-                                    <ul id="owned-cards" className="ch-cards droppable">
-                                        {ownedCards && ownedCards.map(cc =>
-                                            <li key={cc.id} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
-                                        )}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <CardCollectionWidget title="Owned Cards" cardCollection={ownedCards} />
                     </div>
 
                     <div className="col-lg-4">
