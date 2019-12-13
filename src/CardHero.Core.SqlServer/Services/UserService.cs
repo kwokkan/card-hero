@@ -35,7 +35,7 @@ namespace CardHero.Core.SqlServer.Services
 
         private async Task<UserModel> GetUserByIdentifierInternalAsync(string identifier, string idp, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserByIdentifier(identifier, idp, cancellationToken: cancellationToken);
+            var user = await _userRepository.GetUserByIdentifierAsync(identifier, idp, cancellationToken: cancellationToken);
 
             return user == null ? null : _userDataMapper.Map(user);
         }

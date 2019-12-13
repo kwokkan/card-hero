@@ -1,8 +1,10 @@
-﻿const path = require("path");
+﻿const glob = require("glob");
+const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PrettierPlugin = require("prettier-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
@@ -10,7 +12,7 @@ const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").defa
 const isProd = process.env.NODE_ENV == "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
-const constants = require("./ClientApp/constants/constants.ts");
+const constants = require("./src/constants/constants.ts");
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -20,18 +22,19 @@ module.exports = {
 
     entry: {
         "app.main": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/app/index.tsx"
+            "./src/globals.ts",
+            "./src/app/index.tsx"
         ],
         "styles.shared": [
-            //"./ClientApp/styles/index.tsx",
-            "./ClientApp/styles/index.scss"
+            //"./src/styles/index.tsx",
+            "./src/styles/vendor.scss",
+            "./src/styles/index.scss"
         ]
     },
 
     output: {
         filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
-        path: path.resolve(__dirname, "wwwroot/dist"),
+        path: path.resolve(__dirname, "../wwwroot/dist"),
         devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
         jsonpFunction: "wj"
     },
@@ -74,6 +77,8 @@ module.exports = {
                         comments: false
                     }
                 }
+            }),
+            new OptimizeCSSAssetsPlugin({
             })
         ] : [],
         //concatenateModules: false,
@@ -89,15 +94,22 @@ module.exports = {
                 shared: {
                     chunks: "all",
                     name: "shared",
-                    test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
+                    test: /[\\/]src[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
-                styles: {
+                "styles.app": {
                     chunks: "all",
-                    name: "styles",
+                    name: "styles.app",
                     test: /\.s?css$/,
                     enforce: true,
                     priority: 1
+                },
+                "styles.vendor": {
+                    chunks: "all",
+                    name: "styles.vendor",
+                    test: /[\\/]src[\\/]styles[\\/]vendor\.s?css$/,
+                    enforce: true,
+                    priority: 10
                 },
                 "vendor.default": {
                     chunks: "all",
@@ -162,9 +174,14 @@ module.exports = {
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         }),
-        //new PrettierPlugin({
-        //    jsxSingleQuote: true
-        //}),
+        new PurgecssPlugin({
+            paths: glob.sync("src/**/*", { nodir: true }),
+            whitelistPatterns: [
+                /close/,
+                /modal/,
+                /sr-only/
+            ]
+        }),
         chAnalyse ? new BundleAnalyzerPlugin({
             analyzerMode: "static",
             openAnalyzer: false,
@@ -193,7 +210,7 @@ module.exports = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     "cache-loader",
@@ -209,7 +226,7 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                include: /ClientApp/,
+                include: /src/,
                 loader: [
                     "cache-loader",
                     "source-map-loader"
@@ -217,7 +234,7 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     //"file-loader",
@@ -233,7 +250,7 @@ module.exports = {
                         loader: "sass-loader",
                         options: {
                             sassOptions: {
-                                outputStyle: isProd ? "compressed" : "expanded"
+                                outputStyle: "expanded"
                             }
                         }
                     }
