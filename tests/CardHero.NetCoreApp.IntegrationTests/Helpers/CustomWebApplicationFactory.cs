@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 using CardHero.Data.SqlServer.EntityFramework;
@@ -16,6 +17,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
         {
+            foreach (var item in context.StoreItem)
+            {
+                context.StoreItem.Remove(item);
+            }
+
             foreach (var item in context.User)
             {
                 context.User.Remove(item);
@@ -26,6 +32,30 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
         private static void SeedDbContext(CardHeroDataDbContext context)
         {
+            context.StoreItem.Add(new StoreItem
+            {
+                Cost = 100,
+                ItemCount = 1,
+                Name = "Valid Bundle",
+                StoreItemPk = 1
+            });
+            context.StoreItem.Add(new StoreItem
+            {
+                Cost = 200,
+                Expiry = DateTime.UtcNow.AddYears(-1),
+                ItemCount = 2,
+                Name = "Expired Bundle",
+                StoreItemPk = 2
+            });
+            context.StoreItem.Add(new StoreItem
+            {
+                Cost = 300,
+                Expiry = DateTime.UtcNow.AddDays(7),
+                ItemCount = 3,
+                Name = "Still Valid Bundle",
+                StoreItemPk = 3
+            });
+
             context.User.Add(new User
             {
                 Coins = 123456,
