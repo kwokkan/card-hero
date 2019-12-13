@@ -6,6 +6,9 @@ parameters:
   node-project:
     type: string
     default: "apps/CardHero.NetCoreApp.TypeScript/ClientApp"
+  node-project-base:
+    type: string
+    default: "apps/CardHero.NetCoreApp.TypeScript"
   solution:
     type: string
     default: "CardHero.sln"
@@ -95,7 +98,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - << pipeline.parameters.node-project >>/../wwwroot
+            - << pipeline.parameters.node-project-base >>/wwwroot
   npm-lint:
     docker:
       - image: node:13.3.0-buster
@@ -129,7 +132,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - << pipeline.parameters.node-project >>/../obj/coverage/js
+            - << pipeline.parameters.node-project-base >>/obj/coverage/js
 
   upload-coverage:
     docker:
