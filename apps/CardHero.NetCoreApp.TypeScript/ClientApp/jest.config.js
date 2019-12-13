@@ -7,7 +7,7 @@
         "!<rootDir>/src/**/*.d.ts",
         "!<rootDir>/src/**/node_modules/**"
     ],
-    "coverageDirectory": "./../obj/coverage/js",
+    "coverageDirectory": "<rootDir>/obj/coverage/js",
     "collectCoverage": true,
     "setupFiles": [
         "react-app-polyfill/jsdom"
