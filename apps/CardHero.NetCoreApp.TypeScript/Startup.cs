@@ -74,11 +74,11 @@ namespace CardHero.NetCoreApp.TypeScript
                         }
 
                         x.SessionStore = new JsonFileSystemTicketStore(
-                            LoggerFactory.Create(x =>
+                            LoggerFactory.Create(builder =>
                             {
-                                x.AddConfiguration(_configuration);
-                                x.AddDebug();
-                                x.AddConsole();
+                                builder.AddConfiguration(_configuration);
+                                builder.AddDebug();
+                                builder.AddConsole();
                             }).CreateLogger<JsonFileSystemTicketStore>(),  //HACK: create empy logger without DI
                             new FileSystemTicketStoreOptions
                             {
