@@ -52,7 +52,7 @@ namespace CardHero.Core.SqlServer.Services
         {
             var context = GetContext();
 
-            var bundle = await context.StoreItem.FirstOrDefaultAsync(x => x.StoreItemPk == storeItem.Id, cancellationToken: cancellationToken);
+            var bundle = await _storeItemRepository.GetStoreItemById(storeItem.Id, cancellationToken: cancellationToken);
 
             if (bundle == null)
             {
