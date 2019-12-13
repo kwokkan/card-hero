@@ -4,7 +4,6 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const PrettierPlugin = require("prettier-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
@@ -183,9 +182,6 @@ module.exports = {
                 /sr-only/
             ]
         }),
-        //new PrettierPlugin({
-        //    jsxSingleQuote: true
-        //}),
         chAnalyse ? new BundleAnalyzerPlugin({
             analyzerMode: "static",
             openAnalyzer: false,
