@@ -93,20 +93,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
                     </div>
 
                     <div className="col-lg-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">
-                                    Current Deck
-                                </h4>
-                                <div className="card-text">
-                                    <ul id="used-cards" className="ch-cards droppable" data-max-cards={deck.maxCards}>
-                                        {usedCards && usedCards.map(cc =>
-                                            <li key={cc.id} className="ch-card draggable" data-card-collection-id={cc.cardCollectionId}>{cc.name}</li>
-                                        )}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <CardCollectionWidget title="Current Deck" cardCollection={usedCards} />
                     </div>
                 </div>
             </div>
