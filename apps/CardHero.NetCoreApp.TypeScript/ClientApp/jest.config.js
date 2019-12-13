@@ -4,6 +4,7 @@
     ],
     "collectCoverageFrom": [
         "<rootDir>/src/**/*.{js,jsx,ts,tsx}",
+        "!<rootDir>/src/clients/clients.ts",
         "!<rootDir>/src/**/*.d.ts",
         "!<rootDir>/src/**/node_modules/**"
     ],

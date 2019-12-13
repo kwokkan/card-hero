@@ -76,7 +76,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --output publish
+          dotnet publish << pipeline.parameters.node-project-base >> --configuration << pipeline.parameters.configuration >> --output publish
       - store_artifacts:
           path: publish
 
