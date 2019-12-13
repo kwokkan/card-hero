@@ -1,6 +1,7 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
+import { NumberDropDown } from "../shared/NumberDropDown";
 
 interface ICardSearchProps {
     onCardsPopulated?: ((cards: ICardModel[]) => void);
@@ -64,12 +65,7 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
                         </div>
 
                         <div className="form-group">
-                            <select name="pageSize" className="form-control" value={this.state.pageSize} onChange={(e) => this.onSelectChange('pageSize', e)}>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
+                            <NumberDropDown name="pageSize" value={this.state.pageSize} onChange={(e) => this.onSelectChange("pageSize", e)} />
                         </div>
                     </div>
 
