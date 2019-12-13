@@ -18,6 +18,7 @@ The best card game ever.
 |LGTM (Alerts)|[![Total alerts](https://img.shields.io/lgtm/alerts/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/alerts/)|
 |LGTM (JavaScript)|[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/context:javascript)|
 |LGTM (C#)|[![Language grade: C#](https://img.shields.io/lgtm/grade/csharp/g/kwokkan/card-hero.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kwokkan/card-hero/context:csharp)|
+|Sonatype DepShield|[![DepShield Badge](https://depshield.sonatype.org/badges/kwokkan/card-hero/depshield.svg)](https://depshield.github.io)|
 
 ## Coverage
 
