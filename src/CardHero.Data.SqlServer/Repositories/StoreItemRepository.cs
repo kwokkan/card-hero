@@ -31,7 +31,7 @@ namespace CardHero.Data.SqlServer
             {
                 var result = context
                     .StoreItem
-                    .Where(x => x.Expiry == null || x.Expiry.Value < DateTime.UtcNow)
+                    .Where(x => x.Expiry == null || x.Expiry.Value > DateTime.UtcNow)
                     .Select(_storeItemMapper.Map)
                     .ToArray()
                 ;
