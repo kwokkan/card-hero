@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 
 using CardHero.Core.Models;
 
@@ -64,17 +62,20 @@ namespace CardHero.Core.SqlServer.EntityFramework
             return new DeckCardModel
             {
                 CardCollectionId = deckCard.CardCollectionFk,
-                DownAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.DownAttack,
-                Id = deckCard.DeckCardCollectionPk,
-                LeftAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.LeftAttack,
-                Name = deckCard.CardCollectionFkNavigation.CardFkNavigation.Name,
-                RightAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.RightAttack,
-                UpAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.UpAttack,
-                Health = deckCard.CardCollectionFkNavigation.CardFkNavigation.Health,
-                Attack = deckCard.CardCollectionFkNavigation.CardFkNavigation.Attack,
-                Defence = deckCard.CardCollectionFkNavigation.CardFkNavigation.Defence,
-                Rarity = (Models.Rarity)deckCard.CardCollectionFkNavigation.CardFkNavigation.RarityFk,
-                TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats,
+                Card = new CardModel
+                {
+                    DownAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.DownAttack,
+                    Id = deckCard.DeckCardCollectionPk,
+                    LeftAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.LeftAttack,
+                    Name = deckCard.CardCollectionFkNavigation.CardFkNavigation.Name,
+                    RightAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.RightAttack,
+                    UpAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.UpAttack,
+                    Health = deckCard.CardCollectionFkNavigation.CardFkNavigation.Health,
+                    Attack = deckCard.CardCollectionFkNavigation.CardFkNavigation.Attack,
+                    Defence = deckCard.CardCollectionFkNavigation.CardFkNavigation.Defence,
+                    Rarity = (Models.Rarity)deckCard.CardCollectionFkNavigation.CardFkNavigation.RarityFk,
+                    TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats,
+                },
             };
         }
 
