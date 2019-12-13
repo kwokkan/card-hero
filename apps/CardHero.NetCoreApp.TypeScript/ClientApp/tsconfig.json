@@ -30,7 +30,7 @@
 		"forceConsistentCasingInFileNames": true
 	},
 	"include": [
-		"./ClientApp/**/*"
+		"./src/**/*"
 	],
   "exclude": [
     "node_modules",
