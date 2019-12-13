@@ -78,18 +78,5 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 },
             };
         }
-
-        public static StoreItemModel ToCore(this StoreItem storeItem)
-        {
-            return new StoreItemModel
-            {
-                Cost = storeItem.Cost,
-                Description = storeItem.Description,
-                Expiry = storeItem.Expiry,
-                Id = storeItem.StoreItemPk,
-                ItemCount = storeItem.ItemCount,
-                Name = storeItem.Name,
-            };
-        }
     }
 }
