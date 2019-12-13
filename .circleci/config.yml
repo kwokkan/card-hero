@@ -132,7 +132,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - << pipeline.parameters.node-project-base >>/obj/coverage/js
+            - << pipeline.parameters.node-project >>/obj/coverage/js
 
   upload-coverage:
     docker:
