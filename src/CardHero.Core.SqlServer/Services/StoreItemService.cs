@@ -16,27 +16,36 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class StoreItemService : BaseService, IStoreItemService
     {
+        private readonly IStoreItemRepository _storeItemRepository;
         private readonly IUserRepository _userRepository;
+
+        private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
 
         public StoreItemService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
-            IUserRepository userRepository
+            IStoreItemRepository storeItemRepository,
+            IUserRepository userRepository,
+            IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
         )
             : base(contextFactory)
         {
+            _storeItemRepository = storeItemRepository;
             _userRepository = userRepository;
+
+            _storeItemDataMapper = storeItemDataMapper;
         }
 
-        Task<Abstractions.SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var result = await _storeItemRepository.FindStoreItemsAsync(cancellationToken: cancellationToken);
 
-            var query = context.StoreItem
-                .AsQueryable();
+            var results = new Abstractions.SearchResult<StoreItemModel>
+            {
+                Count = result.Count,
+                Results = result.Select(_storeItemDataMapper.Map).ToArray(),
+            };
 
-            query = query.Where(x => x.Expiry == null || x.Expiry.Value < DateTime.UtcNow);
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
+            return results;
         }
 
         async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)

@@ -61,6 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IGameRepository, GameRepository>()
                 .AddScoped<IGameUserRepository, GameUserRepository>()
                 .AddScoped<IMoveRepository, MoveRepository>()
+                .AddScoped<IStoreItemRepository, StoreItemRepository>()
                 .AddScoped<ITurnRepository, TurnRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
             ;
