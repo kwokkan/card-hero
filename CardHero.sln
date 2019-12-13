@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A4871F8E-B9E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{128AF639-3CB9-45A5-8449-7339C2810218}"
 	ProjectSection(SolutionItems) = preProject
+		.bettercodehub.yml = .bettercodehub.yml
 		.editorconfig = .editorconfig
 		.travis.yml = .travis.yml
 		codecov.yml = codecov.yml
@@ -53,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B5A3
 		scripts\codecov.sh = scripts\codecov.sh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardHero.NetCoreApp.IntegrationTests", "tests\CardHero.NetCoreApp.IntegrationTests\CardHero.NetCoreApp.IntegrationTests.csproj", "{C6B4F625-355E-4D7D-AAA2-6CC011082C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.NetCoreApp.IntegrationTests", "tests\CardHero.NetCoreApp.IntegrationTests\CardHero.NetCoreApp.IntegrationTests.csproj", "{C6B4F625-355E-4D7D-AAA2-6CC011082C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
