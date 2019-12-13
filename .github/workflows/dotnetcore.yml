@@ -20,6 +20,6 @@ jobs:
       with:
         node-version: '13.x'
     - run: |
-        cd apps/CardHero.NetCoreApp.TypeScript
+        cd apps/CardHero.NetCoreApp.TypeScript/ClientApp
         yarn install --frozen-lockfile
         npm run build:prod
