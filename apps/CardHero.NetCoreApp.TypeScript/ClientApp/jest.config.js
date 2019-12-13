@@ -1,21 +1,21 @@
 ﻿module.exports = {
     "roots": [
-        "<rootDir>/ClientApp"
+        "<rootDir>/src"
     ],
     "collectCoverageFrom": [
-        "<rootDir>/ClientApp/**/*.{js,jsx,ts,tsx}",
-        "!<rootDir>/ClientApp/**/*.d.ts",
-        "!<rootDir>/ClientApp/**/node_modules/**"
+        "<rootDir>/src/**/*.{js,jsx,ts,tsx}",
+        "!<rootDir>/src/**/*.d.ts",
+        "!<rootDir>/src/**/node_modules/**"
     ],
-    "coverageDirectory": "./obj/coverage/js",
+    "coverageDirectory": "./../obj/coverage/js",
     "collectCoverage": true,
     "setupFiles": [
         "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [
-        "<rootDir>/ClientApp/**/__tests__/**/*.{js,jsx,ts,tsx}",
-        "<rootDir>/ClientApp/**/*.{spec,test}.{js,jsx,ts,tsx}"
+        "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+        "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "transform": {
         "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
