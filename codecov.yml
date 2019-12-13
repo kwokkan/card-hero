@@ -12,4 +12,4 @@ flags:
       - src
   npm:
     paths:
-      - apps/CardHero.NetCoreApp.TypeScript
+      - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src

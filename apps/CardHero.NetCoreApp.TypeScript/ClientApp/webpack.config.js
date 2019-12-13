@@ -12,7 +12,7 @@ const webpack = require("webpack");
 const isProd = process.env.NODE_ENV == "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
-const constants = require("./ClientApp/constants/constants.ts");
+const constants = require("./src/constants/constants.ts");
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -22,19 +22,19 @@ module.exports = {
 
     entry: {
         "app.main": [
-            "./ClientApp/globals.ts",
-            "./ClientApp/app/index.tsx"
+            "./src/globals.ts",
+            "./src/app/index.tsx"
         ],
         "styles.shared": [
-            //"./ClientApp/styles/index.tsx",
-            "./ClientApp/styles/vendor.scss",
-            "./ClientApp/styles/index.scss"
+            //"./src/styles/index.tsx",
+            "./src/styles/vendor.scss",
+            "./src/styles/index.scss"
         ]
     },
 
     output: {
         filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
-        path: path.resolve(__dirname, "wwwroot/dist"),
+        path: path.resolve(__dirname, "../wwwroot/dist"),
         devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
         jsonpFunction: "wj"
     },
@@ -107,7 +107,7 @@ module.exports = {
                 shared: {
                     chunks: "all",
                     name: "shared",
-                    test: /[\\/]ClientApp[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
+                    test: /[\\/]src[\\/](clients|components[\\/]shared|constants|contexts|models|styles|services|utils)[\\/]/,
                     enforce: true
                 },
                 "styles.app": {
@@ -120,7 +120,7 @@ module.exports = {
                 "styles.vendor": {
                     chunks: "all",
                     name: "styles.vendor",
-                    test: /[\\/]ClientApp[\\/]styles[\\/]vendor\.s?css$/,
+                    test: /[\\/]src[\\/]styles[\\/]vendor\.s?css$/,
                     enforce: true,
                     priority: 10
                 },
@@ -189,7 +189,7 @@ module.exports = {
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         }),
         new PurgecssPlugin({
-            paths: glob.sync("ClientApp/**/*", { nodir: true }),
+            paths: glob.sync("src/**/*", { nodir: true }),
             whitelistPatterns: [
                 /close/,
                 /modal/,
@@ -226,7 +226,7 @@ module.exports = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     {
@@ -241,14 +241,14 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                include: /ClientApp/,
+                include: /src/,
                 loader: [
                     "source-map-loader"
                 ]
             },
             {
                 test: /\.s?css$/,
-                include: /ClientApp/,
+                include: /src/,
                 exclude: /node_modules/,
                 use: [
                     //"file-loader",

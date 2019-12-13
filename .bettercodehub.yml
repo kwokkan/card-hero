@@ -4,4 +4,4 @@ languages:
 - name: typescript
   production:
     exclude:
-      - apps/CardHero\.NetCoreApp\.TypeScript/ClientApp/clients/clients\.ts
+      - apps/CardHero\.NetCoreApp\.TypeScript/ClientApp/src/clients/clients\.ts
