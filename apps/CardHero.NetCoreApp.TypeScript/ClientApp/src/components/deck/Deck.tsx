@@ -2,7 +2,7 @@
 import { DeckEditModel } from "../../models/DeckEditModel";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
-import { Icon } from "../../styles/index";
+import { DeckDetailsWidget } from "./DeckDetailsWidget";
 
 interface IDeckProps {
     id: number;
@@ -84,18 +84,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
             <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">
-                                    {deck.name}
-                                    <Icon icon="star" className={'deck-favourite float-right' + (deck.isFavourited ? ' enabled' : '')} data-deck-id={deck.id} />
-                                </h4>
-                                <p className="card-text">{deck.description}</p>
-                            </div>
-                            <div className="card-footer">
-                                <button type="button" id="save-deck" className="btn btn-success pull-right" data-deck-id={deck.id}>Save</button>
-                            </div>
-                        </div>
+                        <DeckDetailsWidget deck={deck} />
                     </div>
 
                     <div className="col-lg-4">
