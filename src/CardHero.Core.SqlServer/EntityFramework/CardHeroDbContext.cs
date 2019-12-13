@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Core.SqlServer.EntityFramework
 {
@@ -13,7 +11,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
-        public virtual DbSet<StoreItem> StoreItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -176,25 +173,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.HasKey(e => e.RarityPk);
 
                 entity.Property(e => e.RarityPk).HasColumnName("Rarity_PK");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
-            });
-
-            modelBuilder.Entity<StoreItem>(entity =>
-            {
-                entity.HasKey(e => e.StoreItemPk);
-
-                entity.Property(e => e.StoreItemPk).HasColumnName("StoreItem_PK");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.ItemCount).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
