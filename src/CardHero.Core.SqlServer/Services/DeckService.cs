@@ -135,7 +135,7 @@ namespace CardHero.Core.SqlServer.Services
             var distincted = (cardCollectionIds ?? new List<int>()).Distinct().ToList();
             if (distincted.Count > deck.MaxCards)
             {
-                throw new InvalidDeckException("Over maximum numer of cards added.");
+                throw new InvalidDeckException("Over maximum number of cards added.");
             }
 
             var ownedCount = await context
