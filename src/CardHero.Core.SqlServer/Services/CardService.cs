@@ -53,7 +53,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (!cardIds.Any())
             {
-                return new CardCollectionModel[0];
+                return Array.Empty<CardCollectionModel>();
             }
 
             var cardCollections = cardIds

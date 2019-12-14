@@ -17,17 +17,17 @@ namespace CardHero.Core.SqlServer
 
             if (game.Rows < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(game.Rows), nameof(game.Rows) + " must be >= 0.");
+                throw new ArgumentOutOfRangeException(nameof(game), nameof(game.Rows) + " must be >= 0.");
             }
 
             if (game.Columns < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(game.Columns), nameof(game.Columns) + " must be >= 0.");
+                throw new ArgumentOutOfRangeException(nameof(game), nameof(game.Columns) + " must be >= 0.");
             }
 
             if (!Enum.IsDefined(typeof(GameType), game.Type))
             {
-                throw new ArgumentException(nameof(GameType) + " not valid.", nameof(game.Type));
+                throw new ArgumentException(nameof(GameType) + " not valid.", nameof(game));
             }
 
             return Task.CompletedTask;
