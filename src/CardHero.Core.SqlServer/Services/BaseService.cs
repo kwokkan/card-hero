@@ -20,7 +20,7 @@ namespace CardHero.Core.SqlServer.Services
         public BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
-            _context = new Lazy<CardHeroDbContext>(() => _contextFactory.CreateDbContext(new string[0]));
+            _context = new Lazy<CardHeroDbContext>(() => _contextFactory.CreateDbContext(Array.Empty<string>()));
         }
 
         protected CardHeroDbContext GetContext()
