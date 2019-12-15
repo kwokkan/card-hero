@@ -23,7 +23,7 @@ interface IGameState {
 export class Game extends Component<IGameProps, IGameState> {
     private _interval: number;
 
-    constructor(props) {
+    constructor(props: IGameProps) {
         super(props);
 
         this.state = {

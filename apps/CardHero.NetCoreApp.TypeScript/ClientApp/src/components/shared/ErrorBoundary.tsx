@@ -8,8 +8,8 @@ interface IErrorBoundatyState {
     currentPage?: string;
 }
 
-export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
-    constructor(props) {
+export class ErrorBoundary extends Component<{}, IErrorBoundatyState> {
+    constructor(props: {}) {
         super(props);
 
         this.state = {
@@ -17,7 +17,7 @@ export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
         };
     }
 
-    static getDerivedStateFromError(error): IErrorBoundatyState {
+    static getDerivedStateFromError(error: Error): IErrorBoundatyState {
         const newState: IErrorBoundatyState = {
             hasError: true,
             error: error,
@@ -31,7 +31,7 @@ export class ErrorBoundary extends Component<any, IErrorBoundatyState> {
         return newState;
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         if (Constants.Debug) {
             console.error(error, errorInfo);
         }

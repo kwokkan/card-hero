@@ -18,7 +18,7 @@ export function GameDeckCard(props: IGameDeckCardProps) {
             type: DragType.Card.toString(),
             gameDeckCardCollectionId: dc.id
         },
-        collect: monitor => ({
+        collect: (monitor: any) => ({
             isDragging: !!monitor.isDragging(),
         }),
     })
