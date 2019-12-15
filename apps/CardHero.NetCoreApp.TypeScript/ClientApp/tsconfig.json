@@ -18,9 +18,9 @@
 
     "removeComments": true,
     "sourceMap": true,
-    "target": "esnext",
+    "target": "ESNext",
     "incremental": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "jsx": "react",
     "esModuleInterop": true,
