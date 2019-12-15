@@ -19,7 +19,7 @@ interface IGameSearchState {
 }
 
 export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
-    constructor(props) {
+    constructor(props: IGameSearchProps) {
         super(props);
 
         this.state = {
@@ -31,7 +31,7 @@ export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
         this.getGames();
     }
 
-    async getGames(e?) {
+    async getGames(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
@@ -44,23 +44,26 @@ export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<IGameSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: IGameSearchState = {
+            [prop]: e.target.value
+        } as any;
 
         this.setState(newState);
     }
 
-    onCheckboxChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.checked;
+    onCheckboxChange(prop: KeyOfType<IGameSearchState, boolean>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: IGameSearchState = {
+            [prop]: e.target.checked
+        } as any;
 
-        this.setState(newState)
+        this.setState(newState);
     }
 
-    onSelectChange(prop: string, e: ChangeEvent<HTMLSelectElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onSelectChange(prop: KeyOfType<IGameSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+        const newState: IGameSearchState = {
+            [prop]: e.target.value
+        } as any;
 
         this.setState(newState);
     }

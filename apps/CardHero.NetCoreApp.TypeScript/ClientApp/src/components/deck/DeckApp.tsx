@@ -12,7 +12,7 @@ interface IDeckAppState {
 }
 
 export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
-    constructor(props) {
+    constructor(props: IDeckAppProps) {
         super(props);
 
         this.state = { decks: [] };
@@ -29,7 +29,7 @@ export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
 
         this.setState({
             decks: decks
-        })
+        });
     }
 
     render() {

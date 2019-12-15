@@ -12,7 +12,7 @@ interface INavMenuProps {
 }
 
 export class NavMenu extends PureComponent<INavMenuProps, any> {
-    constructor(props) {
+    constructor(props: INavMenuProps) {
         super(props);
     }
 
@@ -24,7 +24,7 @@ export class NavMenu extends PureComponent<INavMenuProps, any> {
         return (
             <nav className="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
                 <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
+                    <Icon icon="bars" />
                 </button>
 
                 <Link to={routePrefix} className="navbar-brand">

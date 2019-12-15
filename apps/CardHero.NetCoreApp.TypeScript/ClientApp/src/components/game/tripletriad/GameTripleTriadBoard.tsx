@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import { GameTripleTriadMoveViewModel, ICardModel, IGameViewModel } from "../../../clients/clients";
+import { GameTripleTriadMoveViewModel, ICardModel, IGameTripleTriadMoveViewModel, IGameViewModel } from "../../../clients/clients";
 import { GameTripleTriadModel } from "../../../models/GameTripleTriadModel";
 import { GameService } from "../../../services/GameService";
 import { GameTripleTriadBoardGrid, IGameTripleTriadBoardGridOnDropProps } from "./GameTripleTriadBoardGrid";
@@ -13,22 +13,22 @@ interface IGameTripleTriadBoardProps {
     onUpdated?: (event: IGameTripleTriadBoardOnUpdatedProps) => void;
 }
 
-export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, any> {
+export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, {}> {
     constructor(props: IGameTripleTriadBoardProps) {
         super(props);
     }
 
     private isSelected(row: number, column: number): boolean {
-        return this.props.game.data.moves.findIndex(x => x.row === row && x.column === column) > -1;
+        return this.props.game.data.moves.findIndex((x: IGameTripleTriadMoveViewModel) => x.row === row && x.column === column) > -1;
     }
 
     private getCardIdAtPosition(row: number, column: number): number | null {
-        const move = this.props.game.data.moves.find(x => x.row === row && x.column === column);
+        const move = this.props.game.data.moves.find((x: IGameTripleTriadMoveViewModel) => x.row === row && x.column === column);
         return move ? move.cardId : null;
     }
 
     private getCard(cardId: number): ICardModel {
-        const card = this.props.game.data.playedCards.find(x => x.id === cardId);
+        const card = this.props.game.data.playedCards.find((x: ICardModel) => x.id === cardId);
         return card;
     }
 
