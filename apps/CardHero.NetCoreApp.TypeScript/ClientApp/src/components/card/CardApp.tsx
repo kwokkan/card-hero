@@ -12,7 +12,7 @@ interface ICardAppState {
 }
 
 export class CardApp extends Component<ICardAppProps, ICardAppState> {
-    constructor(props: any) {
+    constructor(props: ICardAppProps) {
         super(props);
 
         this.state = { cards: [] };
@@ -29,7 +29,7 @@ export class CardApp extends Component<ICardAppProps, ICardAppState> {
 
         this.setState({
             cards: cards
-        })
+        });
     }
 
     render() {

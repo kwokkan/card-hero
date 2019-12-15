@@ -12,7 +12,7 @@ interface INavMenuProps {
 }
 
 export class NavMenu extends PureComponent<INavMenuProps, any> {
-    constructor(props) {
+    constructor(props: INavMenuProps) {
         super(props);
     }
 

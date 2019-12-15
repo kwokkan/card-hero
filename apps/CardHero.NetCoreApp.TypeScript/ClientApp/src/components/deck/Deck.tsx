@@ -13,7 +13,7 @@ interface IDeckState {
 }
 
 export class Deck extends PureComponent<IDeckProps, IDeckState> {
-    constructor(props) {
+    constructor(props: IDeckProps) {
         super(props);
 
         this.state = {};

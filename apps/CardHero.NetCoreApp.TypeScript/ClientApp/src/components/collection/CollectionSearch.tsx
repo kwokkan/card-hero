@@ -6,7 +6,7 @@ interface ICollectionSearchProps {
     onCollectionPopulated?: ((cards: ICardCollectionModel[]) => void);
 }
 
-interface ICollectionSearchState  {
+interface ICollectionSearchState {
     name?: string;
     page?: number;
     pageSize?: number;
@@ -23,7 +23,7 @@ export class CollectionSearch extends Component<ICollectionSearchProps, ICollect
         await this.getCollection();
     }
 
-    async getCollection(e?) {
+    async getCollection(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
@@ -36,16 +36,18 @@ export class CollectionSearch extends Component<ICollectionSearchProps, ICollect
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<ICollectionSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: ICollectionSearchState = {
+            [prop]: e.target.value
+        };
 
         this.setState(newState);
     }
 
-    onSelectChange(prop: string, e: ChangeEvent<HTMLSelectElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onSelectChange(prop: KeyOfType<ICollectionSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+        const newState: ICollectionSearchState = {
+            [prop]: parseInt(e.target.value)
+        };
 
         this.setState(newState);
     }
