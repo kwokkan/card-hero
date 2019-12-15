@@ -42,7 +42,7 @@ export class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreat
     }
 
     onInputChange(prop: KeyOfType<IDeckCreateModalState, string>, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {
+        const newState: IDeckCreateModalState = {
             [prop]: e.target.value
         } as any;
 
