@@ -4,7 +4,7 @@ coverage:
       dotnet:
         flags: dotnet
       npm:
-        flags: npm          
+        flags: npm
 flags:
   dotnet:
     paths:
@@ -12,4 +12,6 @@ flags:
       - src
   npm:
     paths:
-      - apps/CardHero.NetCoreApp.TypeScript
+      - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src
+ignore:
+    - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts

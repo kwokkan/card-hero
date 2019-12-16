@@ -5,6 +5,9 @@ parameters:
     default: "Release"
   node-project:
     type: string
+    default: "apps/CardHero.NetCoreApp.TypeScript/ClientApp"
+  node-project-base:
+    type: string
     default: "apps/CardHero.NetCoreApp.TypeScript"
   solution:
     type: string
@@ -12,12 +15,12 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
     steps:
       - checkout
       - run: |
           cd << pipeline.parameters.node-project >>
-          rm -r wwwroot/dist
+          rm -r ../wwwroot/dist
       - persist_to_workspace:
           root: .
           paths:
@@ -25,28 +28,27 @@ jobs:
 
   init-node:
     docker:
-      - image: node:13.2.0-buster
+      - image: node:13.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
+            - yarn-cache-v2-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-{{ arch }}-
       - run:
           name: node install
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn install --frozen-lockfile --cache-folder .node-cache/yarn
+            yarn install --frozen-lockfile
       - save_cache:
-          key: yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v2-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
-            - << pipeline.parameters.node-project >>/.node-cache/yarn
             - << pipeline.parameters.node-project >>/node_modules
 
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
     steps:
       - attach_workspace:
           at: .
@@ -56,12 +58,12 @@ jobs:
           dotnet build << pipeline.parameters.solution >> --no-restore
   dotnet-test:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
     steps:
       - attach_workspace:
           at: .
       - run: |
-          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
+          dotnet test << pipeline.parameters.solution >> /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" /p:nodereuse=false
       - persist_to_workspace:
           root: .
           paths:
@@ -69,25 +71,25 @@ jobs:
 
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0.101-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
     steps:
       - attach_workspace:
           at: .
       - run: |
-          dotnet publish << pipeline.parameters.node-project >> --configuration << pipeline.parameters.configuration >> --output publish
+          dotnet publish << pipeline.parameters.node-project-base >> --configuration << pipeline.parameters.configuration >> --output publish
       - store_artifacts:
           path: publish
 
   npm-build:
     docker:
-      - image: node:13.2.0-buster
+      - image: node:13.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
+            - yarn-cache-v2-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-{{ arch }}-
       - run:
           name: npm build:prod
           command: |
@@ -96,17 +98,17 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - << pipeline.parameters.node-project >>/wwwroot
+            - << pipeline.parameters.node-project-base >>/wwwroot
   npm-lint:
     docker:
-      - image: node:13.2.0-buster
+      - image: node:13.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
+            - yarn-cache-v2-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-{{ arch }}-
       - run:
           name: npm lint
           command: |
@@ -114,14 +116,14 @@ jobs:
             npm run lint
   npm-test:
     docker:
-      - image: node:13.2.0-buster
+      - image: node:13.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
+            - yarn-cache-v2-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v2-{{ arch }}-
       - run:
           name: npm test
           command: |
@@ -134,14 +136,10 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:13.2.0-buster
+      - image: node:13.3.0-buster
     steps:
       - attach_workspace:
           at: .
-      - restore_cache:
-          keys:
-            - yarn-cache-v1-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v1-{{ arch }}-
       - run:
           name: upload coverage
           command: |

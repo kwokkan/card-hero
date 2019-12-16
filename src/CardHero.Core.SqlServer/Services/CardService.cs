@@ -22,13 +22,10 @@ namespace CardHero.Core.SqlServer.Services
 
         private Task<SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<CardCollectionModel>();
-
             var context = GetContext();
 
             var query = context.CardCollection
                 .Include(x => x.CardFkNavigation)
-                .Include(x => x.UserFkNavigation)
                 .AsQueryable();
 
             if (filter.Ids != null && filter.Ids.Any())
@@ -56,7 +53,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (!cardIds.Any())
             {
-                return new CardCollectionModel[0];
+                return Array.Empty<CardCollectionModel>();
             }
 
             var cardCollections = cardIds
@@ -87,8 +84,6 @@ namespace CardHero.Core.SqlServer.Services
 
         Task<SearchResult<CardModel>> ICardService.GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<CardModel>();
-
             var context = GetContext();
 
             var query = context.Card.AsQueryable();

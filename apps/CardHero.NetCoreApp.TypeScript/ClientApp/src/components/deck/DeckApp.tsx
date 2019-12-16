@@ -1,0 +1,48 @@
+﻿import React, { Component, Fragment } from "react";
+import { IDeckModel } from "../../clients/clients";
+import { DeckList } from "./DeckList";
+import { DeckSearch } from "./DeckSearch";
+
+interface IDeckAppProps {
+    routePrefix?: string;
+}
+
+interface IDeckAppState {
+    decks: IDeckModel[];
+}
+
+export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
+    constructor(props: IDeckAppProps) {
+        super(props);
+
+        this.state = { decks: [] };
+    }
+
+    onDecksPopulated(decks: IDeckModel[]) {
+        if (Constants.Debug) {
+            if (decks != null) {
+                decks.forEach(deck => {
+                    console.log(deck);
+                });
+            }
+        }
+
+        this.setState({
+            decks: decks
+        });
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <div className="col-lg-2">
+                    <DeckSearch
+                        onDecksPopulated={(x) => this.onDecksPopulated(x)} />
+                </div>
+                <div className="col-lg-10">
+                    <DeckList decks={this.state.decks} routePrefix={this.props.routePrefix} />
+                </div>
+            </Fragment>
+        );
+    }
+}

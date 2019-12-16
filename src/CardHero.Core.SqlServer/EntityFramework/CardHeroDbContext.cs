@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Core.SqlServer.EntityFramework
 {
@@ -13,8 +11,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
         public virtual DbSet<Rarity> Rarity { get; set; }
-        public virtual DbSet<StoreItem> StoreItem { get; set; }
-        public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,12 +74,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.CardFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CardCollection_Card_FK");
-
-                entity.HasOne(d => d.UserFkNavigation)
-                    .WithMany(p => p.CardCollection)
-                    .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CardCollection_User_FK");
             });
 
             modelBuilder.Entity<CardFavourite>(entity =>
@@ -105,12 +95,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.CardFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CardFavourite_Card_FK");
-
-                entity.HasOne(d => d.UserFkNavigation)
-                    .WithMany(p => p.CardFavourite)
-                    .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CardFavourite_User_FK");
             });
 
             modelBuilder.Entity<Deck>(entity =>
@@ -132,12 +116,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.Rowstamp).IsRowVersion();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
-
-                entity.HasOne(d => d.UserFkNavigation)
-                    .WithMany(p => p.Deck)
-                    .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Deck_User_FK");
             });
 
             modelBuilder.Entity<DeckCardCollection>(entity =>
@@ -188,12 +166,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.DeckFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeckFavourite_Deck_FK");
-
-                entity.HasOne(d => d.UserFkNavigation)
-                    .WithMany(p => p.DeckFavourite)
-                    .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeckFavourite_User_FK");
             });
 
             modelBuilder.Entity<Rarity>(entity =>
@@ -209,49 +181,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
                     .IsRowVersion();
-            });
-
-            modelBuilder.Entity<StoreItem>(entity =>
-            {
-                entity.HasKey(e => e.StoreItemPk);
-
-                entity.Property(e => e.StoreItemPk).HasColumnName("StoreItem_PK");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.ItemCount).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.UserPk);
-
-                entity.HasIndex(e => new { e.Identifier, e.IdPsource })
-                    .HasName("UX_User_Identifier")
-                    .IsUnique();
-
-                entity.Property(e => e.UserPk).HasColumnName("User_PK");
-
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.FullName).HasMaxLength(200);
-
-                entity.Property(e => e.IdPsource)
-                    .IsRequired()
-                    .HasColumnName("IdPSource")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Identifier)
-                    .IsRequired()
-                    .HasMaxLength(50);
             });
         }
     }

@@ -102,13 +102,13 @@ namespace CardHero.Core.SqlServer.Services
             var newGameUser = await _gameUserRepository.AddGameUserAsync(id, userId, cancellationToken: cancellationToken);
 
             var dc = deck.Cards.Select(x => x.CardId).ToArray();
-            var dcc = dc.Count();
+            var dcc = dc.Length;
             if (dcc < deck.MaxCards)
             {
                 throw new InvalidDeckException($"Deck { deckId } needs { deck.MaxCards } cards. Currently only has { dcc }.");
             }
 
-            var newGameDeck = await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
+            await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
 
             if (gul + 1 == game.MaxPlayers)
             {
@@ -168,7 +168,7 @@ namespace CardHero.Core.SqlServer.Services
         {
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
             var userIds = users.Select(x => x.UserId).ToArray();
-            game.CanJoin = !game.EndTime.HasValue && userIds.Count() < game.MaxUsers && !userIds.Contains(userId);
+            game.CanJoin = !game.EndTime.HasValue && userIds.Length < game.MaxUsers && !userIds.Contains(userId);
             game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentUser?.Id == userId;
 
             game.Users = users.Select(x => _gameUserMapper.Map(x)).ToArray();

@@ -8,10 +8,10 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
     [Route("[controller]")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
-    public class DeckController : Controller
+    public class DeckController : CardHeroBaseController
     {
         [HttpGet]
-        public IActionResult Index()
+        public ActionResult<ReactAppViewModel> Index()
         {
             var model = new ReactAppViewModel
             {
@@ -19,11 +19,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
                 AppScript = "main",
             };
 
-            return View(model);
+            return ReactView(model);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult View(int id)
+        public ActionResult<ReactAppViewModel> View(int id)
         {
             var model = new ReactAppViewModel
             {
@@ -31,7 +31,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
                 AppScript = "main",
             };
 
-            return View(nameof(Index), model);
+            return ReactView(model);
         }
     }
 }

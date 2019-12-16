@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -15,30 +16,43 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class StoreItemService : BaseService, IStoreItemService
     {
-        public StoreItemService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IStoreItemRepository _storeItemRepository;
+        private readonly IUserRepository _userRepository;
+
+        private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
+
+        public StoreItemService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IStoreItemRepository storeItemRepository,
+            IUserRepository userRepository,
+            IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
+        )
             : base(contextFactory)
         {
+            _storeItemRepository = storeItemRepository;
+            _userRepository = userRepository;
+
+            _storeItemDataMapper = storeItemDataMapper;
         }
 
-        Task<SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
         {
-            var result = new SearchResult<StoreItemModel>();
+            var result = await _storeItemRepository.FindStoreItemsAsync(cancellationToken: cancellationToken);
 
-            var context = GetContext();
+            var results = new Abstractions.SearchResult<StoreItemModel>
+            {
+                Count = result.Count,
+                Results = result.Select(_storeItemDataMapper.Map).ToArray(),
+            };
 
-            var query = context.StoreItem
-                .AsQueryable();
-
-            query = query.Where(x => x.Expiry == null || x.Expiry.Value < DateTime.UtcNow);
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(), cancellationToken: cancellationToken);
+            return results;
         }
 
         async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
         {
             var context = GetContext();
 
-            var bundle = await context.StoreItem.FirstOrDefaultAsync(x => x.StoreItemPk == storeItem.Id, cancellationToken: cancellationToken);
+            var bundle = await _storeItemRepository.GetStoreItemById(storeItem.Id, cancellationToken: cancellationToken);
 
             if (bundle == null)
             {
@@ -50,7 +64,7 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidStoreItemException($"Store item { bundle.Name } has expired.");
             }
 
-            var user = await context.User.FirstOrDefaultAsync(x => x.UserPk == userId, cancellationToken: cancellationToken);
+            var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken: cancellationToken);
 
             if (user == null)
             {
@@ -62,9 +76,12 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException($"Player { userId } does not have enough coins.");
             }
 
-            user.Coins -= bundle.Cost;
+            var userUpdate = new UserUpdateData
+            {
+                Coins = user.Coins - bundle.Cost,
+            };
 
-            context.SaveChanges();
+            await _userRepository.UpdateUserAsync(userId, userUpdate, cancellationToken: cancellationToken);
 
             var allCards = (await context
                 .Card

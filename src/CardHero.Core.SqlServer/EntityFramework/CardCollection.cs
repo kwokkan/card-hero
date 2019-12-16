@@ -17,7 +17,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public DateTime CreatedTime { get; set; }
 
         public virtual Card CardFkNavigation { get; set; }
-        public virtual User UserFkNavigation { get; set; }
         public virtual ICollection<DeckCardCollection> DeckCardCollection { get; set; }
     }
 }

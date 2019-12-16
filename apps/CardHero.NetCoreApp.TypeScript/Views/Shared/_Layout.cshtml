@@ -22,7 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="CardHero.NetCoreApp.TypeScript is the best card game." />
-    
+
     <base href="~/" />
 
     <link rel="shortcut icon" href="~/favicon.ico" asp-append-version="true">
@@ -30,7 +30,8 @@
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />*@
     @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/all.min.css" integrity="sha256-cC4ByuxbguozEVx8jcKy94MFiGvxN9GwjCqZ8f3+yBk=" crossorigin="anonymous" />*@
 
-    <link rel="stylesheet" async asp-href-include="~/dist/styles.*.min.css" asp-append-version="@isDev" />
+    <link rel="stylesheet" async asp-href-include="~/dist/styles.vendor.*.min.css" asp-append-version="@isDev" />
+    <link rel="stylesheet" async asp-href-include="~/dist/styles.app.*.min.css" asp-append-version="@isDev" />
 
     @RenderSection("head", false)
 </head>
@@ -39,7 +40,13 @@
         You need to enable JavaScript to run this app.
     </noscript>
 
-    <div id="root"></div>
+    <div id="root">
+        <h1>The app is currently loading.</h1>
+
+        <p>
+            If this is taking a long time, try refreshing the page.
+        </p>
+    </div>
 
     @RenderBody()
 
@@ -53,8 +60,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.min.js" integrity="sha256-FW22WiuVHRjHTl/Z0FHNNwNxhkyS2fTrPEzxIkIwd9M=" crossorigin="anonymous"></script>
     }
 
-    @*<script asp-src-include="~/dist/runtime.*.min.js"></script>*@
-    <script defer asp-src-include="~/dist/vendor.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/runtime.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/vendor.default.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/vendor.global.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/vendor.react.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/vendor.fortawesome.*.min.js" asp-append-version="@isDev"></script>
+    <script defer asp-src-include="~/dist/vendor.unused.*.min.js" asp-append-version="@isDev"></script>
     <script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="@isDev"></script>
 
     @if (!string.IsNullOrWhiteSpace(appScript))

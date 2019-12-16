@@ -1,0 +1,31 @@
+path_classifiers:
+  test:
+    - exclude: /
+    - tests
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+
+  generated:
+    - exclude: apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts
+    - exclude: src/CardHero.Core.SqlServer/EntityFramework
+    - exclude: src/CardHero.Data.SqlServer/EntityFramework
+
+extraction: 
+  csharp:
+    index:
+      solution: 
+        - CardHero.sln
+
+      dotnet:
+        version: 3.1.100
+
+  javascript:
+    index:
+      include:
+        - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src
+
+      exclude:
+        - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts
+
+      filters:
+        - exclude: "**/node_modules/*"

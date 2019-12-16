@@ -41,7 +41,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Card = collection.CardFkNavigation.ToCore(userId),
                 CardId = collection.CardFk,
                 Id = collection.CardCollectionPk,
-                User = collection.UserFkNavigation.ToCore(),
                 UserId = collection.UserFk,
             };
         }
@@ -77,53 +76,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 Rarity = (Models.Rarity)deckCard.CardCollectionFkNavigation.CardFkNavigation.RarityFk,
                 TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats,
             };
-        }
-
-        public static StoreItemModel ToCore(this StoreItem storeItem)
-        {
-            return new StoreItemModel
-            {
-                Cost = storeItem.Cost,
-                Description = storeItem.Description,
-                Expiry = storeItem.Expiry,
-                Id = storeItem.StoreItemPk,
-                ItemCount = storeItem.ItemCount,
-                Name = storeItem.Name,
-            };
-        }
-
-        public static UserModel ToCore(this User user)
-        {
-            if (user == null)
-            {
-                return null;
-            }
-
-            return new UserModel
-            {
-                Coins = user.Coins,
-                CreatedDate = user.CreatedDate,
-                FullName = user.FullName,
-                Id = user.UserPk,
-                Identifier = user.Identifier,
-                IdPsource = user.IdPsource,
-            };
-        }
-
-        public static Expression<Func<User, UserModel>> ToCoreExp
-        {
-            get
-            {
-                return user => new UserModel
-                {
-                    Coins = user.Coins,
-                    CreatedDate = user.CreatedDate,
-                    FullName = user.FullName,
-                    Id = user.UserPk,
-                    Identifier = user.Identifier,
-                    IdPsource = user.IdPsource,
-                };
-            }
         }
     }
 }
