@@ -1,6 +1,6 @@
-﻿import { config, library } from '@fortawesome/fontawesome-svg-core';
+﻿import { config, IconName, library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Chart from 'chart.js';
 import React from 'react';
@@ -16,6 +16,7 @@ config.autoAddCss = false;
 faGithub.prefix = "fas";
 
 library.add(
+    faBars,
     faBug,
     faCode,
     faCoins,
@@ -24,8 +25,10 @@ library.add(
     faStar
 );
 
+type IconType = Extract<IconName, "bars" | "bug" | "code" | "coins" | "github" | "plus" | "star">;
+
 interface IIconProps {
-    icon: "bug" | "code" | "coins" | "github" | "plus" | "star";
+    icon: IconType;
     className?: string;
 }
 

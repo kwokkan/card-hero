@@ -28,7 +28,7 @@ interface IMainAppState {
 export class MainApp extends Component<IMainAppProps, IMainAppState> {
     static contextType = AccountContext;
 
-    constructor(props) {
+    constructor(props: IMainAppProps) {
         super(props);
 
         this.state = {

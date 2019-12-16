@@ -6,7 +6,7 @@ interface ICardSearchProps {
     onCardsPopulated?: ((cards: ICardModel[]) => void);
 }
 
-interface ICardSearchState  {
+interface ICardSearchState {
     name?: string;
     page?: number;
     pageSize?: number;
@@ -23,7 +23,7 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
         await this.getCards();
     }
 
-    async getCards(e?) {
+    async getCards(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
@@ -36,16 +36,18 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<ICardSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: ICardSearchState = {
+            [prop]: e.target.value
+        };
 
         this.setState(newState);
     }
 
-    onSelectChange(prop: string, e: ChangeEvent<HTMLSelectElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onSelectChange(prop: KeyOfType<ICardSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+        const newState: ICardSearchState = {
+            [prop]: parseInt(e.target.value)
+        };
 
         this.setState(newState);
     }

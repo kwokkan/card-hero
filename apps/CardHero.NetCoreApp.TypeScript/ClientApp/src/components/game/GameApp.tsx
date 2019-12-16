@@ -14,7 +14,7 @@ interface IGameAppState {
 }
 
 export class GameApp extends Component<IGameAppProps, IGameAppState> {
-    constructor(props) {
+    constructor(props: IGameAppProps) {
         super(props);
 
         this.state = {
