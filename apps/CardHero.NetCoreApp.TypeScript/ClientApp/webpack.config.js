@@ -14,6 +14,37 @@ const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
 
+let cacheGroups = {
+    "vendor.fortawesome": {
+        chunks: "all",
+        name: "vendor.fortawesome",
+        test: /node_modules[\\/]@fortawesome[\\/]/,
+        enforce: true,
+        priority: -10
+    },
+    "vendor.global": {
+        chunks: "all",
+        name: "vendor.global",
+        test: /node_modules[\\/](bootstrap|jquery)[\\/]/,
+        enforce: true,
+        priority: -10
+    },
+    "vendor.react": {
+        chunks: "all",
+        name: "vendor.react",
+        test: /node_modules[\\/](react|react-.+)[\\/]/,
+        enforce: true,
+        priority: -10
+    },
+    "vendor.unused": {
+        chunks: "all",
+        name: "vendor.unused",
+        test: /node_modules[\\/](moment|popper\.js)[\\/]/,
+        enforce: true,
+        priority: -10
+    }
+};
+
 const alphaBundles = [...new Array(26)].map((_, i) => ({
     chunks: "all",
     name: `vendor.${String.fromCharCode(97 + i)}`,
@@ -22,7 +53,7 @@ const alphaBundles = [...new Array(26)].map((_, i) => ({
     priority: -10
 }));
 
-const cacheGroups = alphaBundles.reduce((obj, item) => {
+cacheGroups = alphaBundles.reduce((obj, item) => {
     obj[item.name] = item;
     return obj;
 }, {});
@@ -124,9 +155,9 @@ module.exports = {
                     enforce: true,
                     priority: 10
                 },
-                "vendor.default": {
+                "vendor._": {
                     chunks: "all",
-                    name: "vendor.default",
+                    name: "vendor._",
                     test: /node_modules/,
                     enforce: true,
                     priority: -100
