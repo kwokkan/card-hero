@@ -3,6 +3,7 @@ import { useDrop } from "react-dnd";
 import { ICardModel } from "../../../clients/clients";
 import { CardWidget } from "../../shared/CardWidget";
 import { DragType } from "../../shared/DragType";
+import { IGameDeckCardCollectionDragObjectWithType } from "../IGameDeckCardCollectionDragObjectWithType";
 
 export interface IGameTripleTriadBoardGridOnDropProps {
     row: number;
@@ -21,9 +22,10 @@ interface IGameTripleTriadBoardGridProps {
 }
 
 export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> = (props: IGameTripleTriadBoardGridProps) => {
+    //TODO: fix types
     const [{ isOver }, drop] = useDrop({
         accept: DragType.Card.toString(),
-        drop: (item) => {
+        drop: (item: IGameDeckCardCollectionDragObjectWithType) => {
             if (props.onDrop) {
                 props.onDrop({
                     row: props.row,
@@ -32,7 +34,7 @@ export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> 
                 });
             }
         },
-        collect: monitor => ({
+        collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
     });

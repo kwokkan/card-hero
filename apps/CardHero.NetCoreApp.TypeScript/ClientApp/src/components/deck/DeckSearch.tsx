@@ -9,7 +9,7 @@ interface IDeckSearchProps {
     onDecksPopulated?: ((decks: IDeckModel[]) => void);
 }
 
-interface IDeckSearchState  {
+interface IDeckSearchState {
     name?: string;
     page?: number;
     pageSize?: number;
@@ -29,7 +29,7 @@ export class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
         await this.getDecks();
     }
 
-    async getDecks(e?) {
+    async getDecks(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
@@ -42,16 +42,18 @@ export class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<IDeckSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: IDeckSearchState = {
+            [prop]: e.target.value
+        } as any;
 
         this.setState(newState);
     }
 
-    onSelectChange(prop: string, e: ChangeEvent<HTMLSelectElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onSelectChange(prop: KeyOfType<IDeckSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+        const newState: IDeckSearchState = {
+            [prop]: parseInt(e.target.value)
+        } as any;
 
         this.setState(newState);
     }

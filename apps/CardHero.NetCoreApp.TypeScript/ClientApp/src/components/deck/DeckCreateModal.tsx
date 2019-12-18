@@ -1,6 +1,5 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
-import { nameof } from "../../utils/nameof";
 
 export interface IDeckCreateModelOnCreatedProps {
     name: string;
@@ -42,9 +41,10 @@ export class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreat
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<IDeckCreateModalState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState: IDeckCreateModalState = {
+            [prop]: e.target.value
+        } as any;
 
         this.setState(newState, () => {
             this.setState({ canSave: this.canSave() });
@@ -83,7 +83,7 @@ export class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreat
                                         className="form-control"
                                         placeholder="Name"
                                         value={this.state.name}
-                                        onChange={(e) => this.onInputChange(nameof<IDeckCreateModalState>('name'), e)}
+                                        onChange={(e) => this.onInputChange("name", e)}
                                     />
                                 </div>
 
@@ -95,7 +95,7 @@ export class DeckCreateModal extends Component<IDeckCreateModalProps, IDeckCreat
                                         className="form-control"
                                         placeholder="Description"
                                         value={this.state.description}
-                                        onChange={(e) => this.onInputChange(nameof<IDeckCreateModalState>('description'), e)}
+                                        onChange={(e) => this.onInputChange("description", e)}
                                     />
                                 </div>
                             </form>

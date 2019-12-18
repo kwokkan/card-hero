@@ -24,6 +24,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public virtual DbSet<GameDeckCardCollection> GameDeckCardCollection { get; set; }
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
+        public virtual DbSet<StoreItem> StoreItem { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -51,7 +52,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.TotalStats).HasComputedColumnSql("(isnull(((((([UpAttack]+[RightAttack])+[DownAttack])+[LeftAttack])+[Health])+[Attack])+[Defence],(0)))");
             });
@@ -72,7 +74,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
@@ -105,7 +108,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.Rowstamp).IsRowVersion();
+                entity.Property(e => e.Rowstamp)
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
@@ -130,7 +135,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
 
-                entity.Property(e => e.Rowstamp).IsRowVersion();
+                entity.Property(e => e.Rowstamp)
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.CardCollectionFkNavigation)
                     .WithMany(p => p.DeckCardCollection)
@@ -173,7 +180,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getutcdate())");
 
@@ -208,7 +216,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.GameUserFkNavigation)
                     .WithMany(p => p.GameDeck)
@@ -231,7 +240,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.GameDeckFk).HasColumnName("GameDeck_FK");
 
-                entity.Property(e => e.Rowstamp).IsRowVersion();
+                entity.Property(e => e.Rowstamp)
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.HasOne(d => d.CardFkNavigation)
                     .WithMany(p => p.GameDeckCardCollection)
@@ -264,7 +275,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
@@ -314,6 +326,26 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .HasConstraintName("FK_Move_Turn_FK");
             });
 
+            modelBuilder.Entity<StoreItem>(entity =>
+            {
+                entity.HasKey(e => e.StoreItemPk);
+
+                entity.Property(e => e.StoreItemPk).HasColumnName("StoreItem_PK");
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.ItemCount).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
+            });
+
             modelBuilder.Entity<Turn>(entity =>
             {
                 entity.HasKey(e => e.TurnPk);
@@ -330,7 +362,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .IsRequired()
-                    .IsRowVersion();
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getdate())");
 

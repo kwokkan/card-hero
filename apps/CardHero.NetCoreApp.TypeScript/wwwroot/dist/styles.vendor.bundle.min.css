@@ -820,16 +820,6 @@ a.btn.disabled {
 .navbar-toggler:hover, .navbar-toggler:focus {
   text-decoration: none;
 }
-
-.navbar-toggler-icon {
-  display: inline-block;
-  width: 1.5em;
-  height: 1.5em;
-  vertical-align: middle;
-  content: "";
-  background: no-repeat center center;
-  background-size: 100% 100%;
-}
 @media (max-width: 767.98px) {
   .navbar-expand-md > .container,
 .navbar-expand-md > .container-fluid {
@@ -887,9 +877,6 @@ a.btn.disabled {
 .navbar-dark .navbar-toggler {
   color: rgba(255, 255, 255, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
-}
-.navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .card {
@@ -1435,6 +1422,10 @@ svg:not(:root).svg-inline--fa {
   height: 1em;
   overflow: visible;
   vertical-align: -0.125em;
+}
+
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
 }
 
 .svg-inline--fa.fa-w-16 {

@@ -23,7 +23,7 @@ interface IGameState {
 export class Game extends Component<IGameProps, IGameState> {
     private _interval: number;
 
-    constructor(props) {
+    constructor(props: IGameProps) {
         super(props);
 
         this.state = {
@@ -64,7 +64,7 @@ export class Game extends Component<IGameProps, IGameState> {
 
         await this.populateGame(gameId);
 
-        this._interval = setInterval(async () => {
+        this._interval = window.setInterval(async () => {
             await this.populateGame(gameId);
         }, 5000);
     }
@@ -78,7 +78,7 @@ export class Game extends Component<IGameProps, IGameState> {
     }
 
     componentWillUnmount() {
-        clearInterval(this._interval);
+        window.clearInterval(this._interval);
     }
 
     onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {

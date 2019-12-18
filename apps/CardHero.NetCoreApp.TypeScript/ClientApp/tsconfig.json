@@ -1,39 +1,38 @@
 {
-	"compilerOptions": {
-		"noEmitOnError": true,
+  "compilerOptions": {
+    "noEmitOnError": true,
 
-		"alwaysStrict": true,
-		"noEmitHelpers": true,
-		"noErrorTruncation": true,
-		"noImplicitAny": false,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noResolve": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"strictBindCallApply": true,
-		"strictFunctionTypes": true,
-		//"strictPropertyInitialization": true,
-		//"strictNullChecks": true,
+    "alwaysStrict": true,
+    "noEmitHelpers": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    //"strictPropertyInitialization": true,
+    //"strictNullChecks": true,
 
-		"removeComments": true,
-		"sourceMap": true,
-		"target": "esnext",
-		"incremental": true,
-		"module": "esnext",
-		"jsx": "react",
-		"esModuleInterop": true,
-		"outDir": "./obj/ts/",
+    "removeComments": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "incremental": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react",
+    "esModuleInterop": false,
+    "outDir": "./obj/ts/",
+    "traceResolution": false,
 
-		"allowJs": true,
-		//"checkJs": true,
-		"forceConsistentCasingInFileNames": true
-	},
-	"include": [
-		"./src/**/*"
-	],
-  "exclude": [
-    "node_modules",
-    "wwwroot"
+    "allowJs": false,
+    //"checkJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./src/**/*"
   ]
 }

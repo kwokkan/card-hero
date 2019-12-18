@@ -1,7 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
 import { GameType, IDeckModel } from "../../clients/clients";
-import { nameof } from "../../utils/nameof";
 
 export interface IGameCreateModalOnCreatedProps {
     name: string;
@@ -47,18 +46,20 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
         }
     }
 
-    onInputChange(prop: string, e: ChangeEvent<HTMLInputElement>) {
-        const newState = {};
-        newState[prop] = e.target.value;
+    onInputChange(prop: KeyOfType<IGameCreateModalState, string>, e: ChangeEvent<HTMLInputElement>) {
+        const newState = {
+            [prop]: e.target.value
+        } as any;
 
         this.setState(newState, () => {
             this.setState({ canSave: this.canSave() });
         });
     }
 
-    onSelectChange(prop: string, e: ChangeEvent<HTMLSelectElement>) {
-        const newState = {};
-        newState[prop] = parseInt(e.target.value);
+    onSelectChange(prop: KeyOfType<IGameCreateModalState, number>, e: ChangeEvent<HTMLSelectElement>) {
+        const newState: IGameCreateModalState = {
+            [prop]: parseInt(e.target.value)
+        } as any;
 
         this.setState(newState, () => {
             this.setState({ canSave: this.canSave() });
@@ -97,7 +98,7 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
                                         className="form-control"
                                         placeholder="Name"
                                         value={this.state.name}
-                                        onChange={(e) => this.onInputChange(nameof<IGameCreateModalState>('name'), e)}
+                                        onChange={(e) => this.onInputChange("name", e)}
                                     />
                                 </div>
 
@@ -107,7 +108,7 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
                                         id="mType"
                                         className="form-control"
                                         value={this.state.type}
-                                        onChange={(e) => this.onSelectChange(nameof<IGameCreateModalState>('type'), e)}
+                                        onChange={(e) => this.onSelectChange("type", e)}
                                     >
                                         <option value="1">Triple Triad</option>
                                     </select>
@@ -119,7 +120,7 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
                                         id="mDeckId"
                                         className="form-control"
                                         value={this.state.deckId as any}
-                                        onChange={(e) => this.onSelectChange(nameof<IGameCreateModalState>('deckId'), e)}
+                                        onChange={(e) => this.onSelectChange("deckId", e)}
                                     >
                                         <option>Please select</option>
                                         {this.props.decks.map(x =>

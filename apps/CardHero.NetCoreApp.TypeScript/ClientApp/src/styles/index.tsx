@@ -1,13 +1,13 @@
-﻿import { config, library } from '@fortawesome/fontawesome-svg-core';
+﻿import { config, IconName, library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Chart from 'chart.js';
+import { platform } from 'chart.js';
 import React from 'react';
 
 // fixes some CSP issues
 // https://www.chartjs.org/docs/latest/getting-started/integration.html
-Chart.platform.disableCSSInjection = true;
+platform.disableCSSInjection = true;
 
 // https://fontawesome.com/how-to-use/on-the-web/other-topics/security
 config.autoAddCss = false;
@@ -16,6 +16,7 @@ config.autoAddCss = false;
 faGithub.prefix = "fas";
 
 library.add(
+    faBars,
     faBug,
     faCode,
     faCoins,
@@ -24,8 +25,10 @@ library.add(
     faStar
 );
 
+type IconType = Extract<IconName, "bars" | "bug" | "code" | "coins" | "github" | "plus" | "star">;
+
 interface IIconProps {
-    icon: "bug" | "code" | "coins" | "github" | "plus" | "star";
+    icon: IconType;
     className?: string;
 }
 

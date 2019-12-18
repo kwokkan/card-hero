@@ -7,8 +7,8 @@ interface ICollectionAppState {
     collection: ICardCollectionModel[];
 }
 
-export class CollectionApp extends Component<any, ICollectionAppState> {
-    constructor(props: any) {
+export class CollectionApp extends Component<{}, ICollectionAppState> {
+    constructor(props: {}) {
         super(props);
 
         this.state = { collection: [] };
@@ -25,7 +25,7 @@ export class CollectionApp extends Component<any, ICollectionAppState> {
 
         this.setState({
             collection: collection
-        })
+        });
     }
 
     render() {
