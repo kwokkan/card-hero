@@ -28,7 +28,7 @@ jobs:
 
   init-node:
     docker:
-      - image: node:13.3.0-buster
+      - image: node:13.4.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -82,7 +82,7 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:13.3.0-buster
+      - image: node:13.4.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -101,7 +101,7 @@ jobs:
             - << pipeline.parameters.node-project-base >>/wwwroot
   npm-lint:
     docker:
-      - image: node:13.3.0-buster
+      - image: node:13.4.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -116,7 +116,7 @@ jobs:
             npm run lint
   npm-test:
     docker:
-      - image: node:13.3.0-buster
+      - image: node:13.4.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -136,7 +136,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:13.3.0-buster
+      - image: node:13.4.0-buster
     steps:
       - attach_workspace:
           at: .
