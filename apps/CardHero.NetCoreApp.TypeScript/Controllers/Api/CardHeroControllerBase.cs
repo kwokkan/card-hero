@@ -14,7 +14,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
     {
         private readonly IUserService _userService;
 
-        public CardHeroControllerBase(IUserService userService)
+        protected CardHeroControllerBase(IUserService userService)
         {
             _userService = userService;
         }

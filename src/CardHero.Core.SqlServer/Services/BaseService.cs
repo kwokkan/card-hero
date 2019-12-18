@@ -17,7 +17,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDesignTimeDbContextFactory<CardHeroDbContext> _contextFactory;
         private readonly Lazy<CardHeroDbContext> _context;
 
-        public BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        protected BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
         {
             _contextFactory = contextFactory;
             _context = new Lazy<CardHeroDbContext>(() => _contextFactory.CreateDbContext(Array.Empty<string>()));
