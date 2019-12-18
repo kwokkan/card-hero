@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -15,20 +16,27 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class DeckService : BaseService, IDeckService
     {
-        public DeckService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IDeckRepository _deckRepository;
+
+        private readonly IDataMapper<DeckData, DeckModel> _deckDataMapper;
+
+        public DeckService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IDeckRepository deckRepository,
+            IDataMapper<DeckData, DeckModel> deckDataMapper
+        )
             : base(contextFactory)
         {
+            _deckRepository = deckRepository;
+
+            _deckDataMapper = deckDataMapper;
         }
 
         private async Task<DeckModel> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
         {
-            using (var context = GetContext())
-            {
-                var query = await context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
-                var result = query.ToCore();
+            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
-                return result;
-            }
+            return deck == null ? null : _deckDataMapper.Map(deck);
         }
 
         async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
@@ -55,7 +63,7 @@ namespace CardHero.Core.SqlServer.Services
             return GetDeckByIdInternalAsync(id, cancellationToken);
         }
 
-        async Task<SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
         {
             var context = GetContext();
 

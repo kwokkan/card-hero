@@ -17,6 +17,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
         {
+            foreach (var item in context.Deck)
+            {
+                context.Deck.Remove(item);
+            }
+
             foreach (var item in context.StoreItem)
             {
                 context.StoreItem.Remove(item);
@@ -32,6 +37,25 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
         private static void SeedDbContext(CardHeroDataDbContext context)
         {
+            context.Deck.Add(new Deck
+            {
+                DeckPk = 1,
+                Name = "First deck",
+                UserFk = 1,
+            });
+            context.Deck.Add(new Deck
+            {
+                DeckPk = 2,
+                Name = "Second deck",
+                UserFk = 1,
+            });
+            context.Deck.Add(new Deck
+            {
+                DeckPk = 3,
+                Name = "Third deck",
+                UserFk = 2
+            });
+
             context.StoreItem.Add(new StoreItem
             {
                 Cost = 100,
@@ -63,6 +87,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Identifier = "abcxyz",
                 IdPsource = "TestSvr",
                 UserPk = 1
+            });
+            context.User.Add(new User
+            {
+                Coins = 0,
+                FullName = "Inactive user",
+                Identifier = "_",
+                IdPsource = "TestSvr",
+                UserPk = 2
             });
 
             context.SaveChanges();
