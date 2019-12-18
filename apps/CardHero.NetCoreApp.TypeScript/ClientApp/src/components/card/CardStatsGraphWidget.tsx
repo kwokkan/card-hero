@@ -1,4 +1,5 @@
-﻿import React from "react";
+﻿import { ChartData, ChartOptions } from "chart.js";
+import React from "react";
 import { Radar } from "react-chartjs-2";
 import { ICardModel } from "../../clients/clients";
 
@@ -9,7 +10,7 @@ interface ICardStatsGraphWidgetProps {
 export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Element {
     const c = props.card;
 
-    const data: Chart.ChartData = {
+    const data: ChartData = {
         labels: [
             "Health",
             "Attack",
@@ -32,7 +33,7 @@ export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Ele
         ]
     };
 
-    const options: Chart.ChartOptions = {
+    const options: ChartOptions = {
         scale: {
             ticks: {
                 beginAtZero: true,
