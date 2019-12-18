@@ -1121,18 +1121,25 @@ export interface IDeckModel {
 }
 
 /** Deck caard. */
-export class DeckCardModel extends CardModel implements IDeckCardModel {
+export class DeckCardModel implements IDeckCardModel {
     /** Card collection id. */
     cardCollectionId?: number;
+    /** Card. */
+    card?: CardModel | undefined;
 
     constructor(data?: IDeckCardModel) {
-        super(data);
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
     }
 
     init(_data?: any) {
-        super.init(_data);
         if (_data) {
             this.cardCollectionId = _data["cardCollectionId"];
+            this.card = _data["card"] ? CardModel.fromJS(_data["card"]) : <any>undefined;
         }
     }
 
@@ -1146,15 +1153,17 @@ export class DeckCardModel extends CardModel implements IDeckCardModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["cardCollectionId"] = this.cardCollectionId;
-        super.toJSON(data);
+        data["card"] = this.card ? this.card.toJSON() : <any>undefined;
         return data; 
     }
 }
 
 /** Deck caard. */
-export interface IDeckCardModel extends ICardModel {
+export interface IDeckCardModel {
     /** Card collection id. */
     cardCollectionId?: number;
+    /** Card. */
+    card?: CardModel | undefined;
 }
 
 /** Model for creating a new deck. */

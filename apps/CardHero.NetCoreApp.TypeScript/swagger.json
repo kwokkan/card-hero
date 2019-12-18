@@ -1012,23 +1012,25 @@
         }
       },
       "DeckCardModel": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CardModel"
+        "type": "object",
+        "description": "Deck caard.",
+        "additionalProperties": false,
+        "properties": {
+          "cardCollectionId": {
+            "type": "integer",
+            "description": "Card collection id.",
+            "format": "int32"
           },
-          {
-            "type": "object",
-            "description": "Deck caard.",
-            "additionalProperties": false,
-            "properties": {
-              "cardCollectionId": {
-                "type": "integer",
-                "description": "Card collection id.",
-                "format": "int32"
+          "card": {
+            "description": "Card.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CardModel"
               }
-            }
+            ]
           }
-        ]
+        }
       },
       "DeckCreateModel": {
         "type": "object",

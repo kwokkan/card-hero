@@ -2,6 +2,7 @@
 import { IDeckModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
+import { NumberDropDown } from "../shared/NumberDropDown";
 import { DeckCreateModal, IDeckCreateModelOnCreatedProps } from "./DeckCreateModal";
 
 interface IDeckSearchProps {
@@ -78,12 +79,7 @@ export class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
                             </div>
 
                             <div className="form-group">
-                                <select name="pageSize" className="form-control" value={this.state.pageSize} onChange={(e) => this.onSelectChange('pageSize', e)}>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
+                                <NumberDropDown name="pageSize" value={this.state.pageSize} onChange={(e) => this.onSelectChange("pageSize", e)} />
                             </div>
                         </div>
 

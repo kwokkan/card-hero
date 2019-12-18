@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GameDetailWidget /> renders correctly with game 1`] = `
+<div
+  className="card"
+>
+  <h4
+    className="card-header"
+  >
+    <span>
+      Test Game
+    </span>
+  </h4>
+  <ul
+    className="list-group list-group-flush"
+  >
+    <li
+      className="list-group-item"
+    >
+      <strong>
+        Type:
+      </strong>
+       
+      <span>
+        TripleTriad
+      </span>
+    </li>
+    <li
+      className="list-group-item"
+    >
+      <strong>
+        Start Time:
+      </strong>
+       
+      <time
+        dateTime="2020-01-18T20:30:40.000Z"
+        title="Sat, 18 Jan 2020 20:30:40 GMT"
+      >
+        in a month
+      </time>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`<GameDetailWidget /> renders correctly without game 1`] = `
+<div
+  className="card"
+>
+  <h4
+    className="card-header"
+  >
+    <span>
+      Unknown
+    </span>
+  </h4>
+  <ul
+    className="list-group list-group-flush"
+  >
+    <li
+      className="list-group-item"
+    >
+      <strong>
+        Type:
+      </strong>
+       
+      <span>
+        Unknown
+      </span>
+    </li>
+    <li
+      className="list-group-item"
+    >
+      <strong>
+        Start Time:
+      </strong>
+       
+      <span>
+        Unknown
+      </span>
+    </li>
+  </ul>
+</div>
+`;
