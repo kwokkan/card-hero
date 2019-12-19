@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import { ICardCollectionModel } from "../../clients/clients";
+import { CardCollectionCard } from "./CardCollectionCard";
 
 interface ICardCollectionWidgetProps {
     title?: string;
@@ -11,18 +12,16 @@ export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
 
     return (
         <div className="card">
+            {props.title &&
+                <h4 className="card-header">
+                    {props.title}
+                </h4>
+            }
             <div className="card-body">
-                {props.title &&
-                    <h4 className="card-title">
-                        {props.title}
-                    </h4>
-                }
-                <div className="card-text">
-                    <ul className="ch-cards droppable">
-                        {cardCollection.map(cc =>
-                            <li key={cc.id} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
-                        )}
-                    </ul>
+                <div className="card-text ch-cards droppable">
+                    {cardCollection.map(cc =>
+                        <CardCollectionCard key={cc.id} className="ch-card draggable" card={cc} />
+                    )}
                 </div>
             </div>
         </div>
