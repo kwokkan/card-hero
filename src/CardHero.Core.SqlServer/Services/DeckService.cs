@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -15,20 +16,50 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class DeckService : BaseService, IDeckService
     {
-        public DeckService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly IDeckRepository _deckRepository;
+
+        private readonly IDataMapper<DeckData, DeckModel> _deckDataMapper;
+
+        public DeckService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            IDeckRepository deckRepository,
+            IDataMapper<DeckData, DeckModel> deckDataMapper
+        )
             : base(contextFactory)
         {
+            _deckRepository = deckRepository;
+
+            _deckDataMapper = deckDataMapper;
         }
 
-        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
+        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, bool includeCards, CancellationToken cancellationToken)
         {
-            using (var context = GetContext())
-            {
-                var query = await context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
-                var result = query.ToCore();
+            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
-                return result;
+            var model = deck == null ? null : _deckDataMapper.Map(deck);
+
+            if (includeCards && model != null)
+            {
+                var cardIds = deck.Cards.Select(x => x.CardId).ToArray();
+
+                //TODO: Replace with card repository
+                using (var context = GetContext())
+                {
+                    var query = context.Card.Include(x => x.CardFavourite).AsQueryable();
+
+                    query = query.Where(x => cardIds.Contains(x.CardPk));
+
+                    var cards = await query.Select(x => x.ToCore(deck.UserId)).ToListAsync();
+
+                    model.Cards = model.Cards.Select(x => new DeckCardModel
+                    {
+                        Card = cards.FirstOrDefault(c => c.Id == x.Card.Id),
+                        CardCollectionId = x.CardCollectionId,
+                    });
+                }
             }
+
+            return model;
         }
 
         async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
@@ -46,43 +77,34 @@ namespace CardHero.Core.SqlServer.Services
 
                 await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-                return await GetDeckByIdInternalAsync(entity.DeckPk, cancellationToken);
+                return await GetDeckByIdInternalAsync(entity.DeckPk, false, cancellationToken);
             }
         }
 
         Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return GetDeckByIdInternalAsync(id, cancellationToken);
+            return GetDeckByIdInternalAsync(id, true, cancellationToken);
         }
 
-        async Task<SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(Abstractions.DeckSearchFilter filter, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var decks = await _deckRepository.FindDecksAsync(
+                new Data.Abstractions.DeckSearchFilter
+                {
+                    Ids = filter.Ids?.ToArray(),
+                    Name = filter.Name,
+                    UserId = filter.UserId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-            var query = context
-                .Deck
-                .Include(x => x.DeckCardCollection)
-                .ThenInclude(x => x.CardCollectionFkNavigation)
-                .ThenInclude(x => x.CardFkNavigation)
-                .AsQueryable();
+            var results = decks.Select(_deckDataMapper.Map).ToArray();
 
-            if (filter.Ids != null)
+            var result = new Abstractions.SearchResult<DeckModel>
             {
-                query = query.Where(x => filter.Ids.Contains(x.DeckPk));
-            }
-
-            if (!string.IsNullOrEmpty(filter.Name))
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-
-            if (filter.UserId.HasValue)
-            {
-                query = query.Include(x => x.DeckFavourite);
-                query = query.Where(x => x.UserFk == filter.UserId.Value);
-            }
-
-            var result = await PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+                Count = decks.Count,
+                Results = results,
+            };
 
             return result;
         }

@@ -2,6 +2,7 @@
 using CardHero.Data.SqlServer;
 using CardHero.Data.SqlServer.EntityFramework;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -28,6 +29,11 @@ namespace Microsoft.Extensions.DependencyInjection
             };
 
             services.AddScoped(x => options);
+
+            services.AddDbContext<CardHeroDataDbContext>(x =>
+            {
+                x.UseSqlServer(options.ConnectionString);
+            });
 
             services
                 .AddScoped<ICardHeroDataDbContextFactory, CardHeroDataDbContextFactory>()
