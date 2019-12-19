@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run: |
           cd << pipeline.parameters.node-project-base >>
-          rm -r ../wwwroot/dist
+          rm -r ./wwwroot/dist
       - persist_to_workspace:
           root: .
           paths:
