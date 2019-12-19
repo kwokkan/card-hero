@@ -32,11 +32,33 @@ namespace CardHero.Core.SqlServer.Services
             _deckDataMapper = deckDataMapper;
         }
 
-        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
+        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, bool includeCards, CancellationToken cancellationToken)
         {
             var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
-            return deck == null ? null : _deckDataMapper.Map(deck);
+            var model = deck == null ? null : _deckDataMapper.Map(deck);
+
+            if (includeCards && model != null)
+            {
+                var cardIds = deck.Cards.Select(x => x.CardId).ToArray();
+
+                //TODO: Replace with card repository
+                using (var context = GetContext())
+                {
+                    var query = context.Card.Include(x => x.CardFavourite).AsQueryable();
+
+                    query = query.Where(x => cardIds.Contains(x.CardPk));
+
+                    var cards = await query.Select(x => x.ToCore(deck.UserId)).ToListAsync();
+
+                    foreach (var card in model.Cards)
+                    {
+                        card.Card = cards.FirstOrDefault(x => x.Id == card.Card.Id);
+                    }
+                }
+            }
+
+            return model;
         }
 
         async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
@@ -54,13 +76,13 @@ namespace CardHero.Core.SqlServer.Services
 
                 await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-                return await GetDeckByIdInternalAsync(entity.DeckPk, cancellationToken);
+                return await GetDeckByIdInternalAsync(entity.DeckPk, false, cancellationToken);
             }
         }
 
         Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return GetDeckByIdInternalAsync(id, cancellationToken);
+            return GetDeckByIdInternalAsync(id, true, cancellationToken);
         }
 
         async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
