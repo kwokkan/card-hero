@@ -28,7 +28,7 @@
       908
     ]
   },
-  "mini-css-extract-plugin D:\\Programming\\card-hero\\apps\\CardHero.NetCoreApp.TypeScript\\ClientApp\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/index.scss": [
+  "mini-css-extract-plugin D:\\Programming\\card-hero\\apps\\CardHero.Frontend.React\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/index.scss": [
     {
       "chunks": {
         "byName": {
@@ -51,7 +51,7 @@
       }
     }
   ],
-  "mini-css-extract-plugin D:\\Programming\\card-hero\\apps\\CardHero.NetCoreApp.TypeScript\\ClientApp\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/vendor.scss": [
+  "mini-css-extract-plugin D:\\Programming\\card-hero\\apps\\CardHero.Frontend.React\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/vendor.scss": [
     {
       "chunks": {
         "byName": {
@@ -73,32 +73,6 @@
           195,
           645
         ]
-      }
-    }
-  ],
-  "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!node_modules/sass-loader/dist/cjs.js??ref--6-2!src/styles/index.scss": [
-    {
-      "chunks": {
-        "byName": {},
-        "bySource": {},
-        "usedIds": []
-      },
-      "modules": {
-        "byIdentifier": {},
-        "usedIds": {}
-      }
-    }
-  ],
-  "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!node_modules/sass-loader/dist/cjs.js??ref--6-2!src/styles/vendor.scss": [
-    {
-      "chunks": {
-        "byName": {},
-        "bySource": {},
-        "usedIds": []
-      },
-      "modules": {
-        "byIdentifier": {},
-        "usedIds": {}
       }
     }
   ],
@@ -667,7 +641,7 @@
       "./node_modules/ts-loader/index.js!./src/components/deck/Deck.tsx": 12231,
       "./node_modules/ts-loader/index.js!./src/components/deck/DeckApp.tsx": 30915,
       "./node_modules/ts-loader/index.js!./src/components/deck/DeckCreateModal.tsx": 5562,
-      "./node_modules/ts-loader/index.js!./src/components/deck/DeckDetailsWidget.tsx": 119,
+      "./node_modules/ts-loader/index.js!./src/components/deck/DeckDetailsWidget.tsx": 43119,
       "./node_modules/ts-loader/index.js!./src/components/deck/DeckList.tsx": 29287,
       "./node_modules/ts-loader/index.js!./src/components/deck/DeckSearch.tsx": 12018,
       "./node_modules/ts-loader/index.js!./src/components/game/Game.tsx": 20322,
@@ -687,7 +661,7 @@
       "./node_modules/ts-loader/index.js!./src/components/home/Home.tsx": 20500,
       "./node_modules/ts-loader/index.js!./src/components/home/HomeApp.tsx": 88158,
       "./node_modules/ts-loader/index.js!./src/components/shared/AppBootstrap.ts": 88558,
-      "./node_modules/ts-loader/index.js!./src/components/shared/CardCollectionWidget.tsx": 464,
+      "./node_modules/ts-loader/index.js!./src/components/shared/CardCollectionWidget.tsx": 2464,
       "./node_modules/ts-loader/index.js!./src/components/shared/CardWidget.tsx": 1756,
       "./node_modules/ts-loader/index.js!./src/components/shared/CoinFormat.tsx": 82720,
       "./node_modules/ts-loader/index.js!./src/components/shared/DateFormat.tsx": 21155,
@@ -695,7 +669,7 @@
       "./node_modules/ts-loader/index.js!./src/components/shared/ErrorBoundary.tsx": 69992,
       "./node_modules/ts-loader/index.js!./src/components/shared/ErrorView.tsx": 46719,
       "./node_modules/ts-loader/index.js!./src/components/shared/NavMenu.tsx": 12286,
-      "./node_modules/ts-loader/index.js!./src/components/shared/NumberDropDown.tsx": 670,
+      "./node_modules/ts-loader/index.js!./src/components/shared/NumberDropDown.tsx": 46670,
       "./node_modules/ts-loader/index.js!./src/components/store/Store.tsx": 44765,
       "./node_modules/ts-loader/index.js!./src/components/store/StoreApp.tsx": 39100,
       "./node_modules/ts-loader/index.js!./src/components/store/StoreItemBuyModal.tsx": 31049,
@@ -710,25 +684,19 @@
       "./node_modules/ts-loader/index.js!./src/services/StoreService.ts": 38001,
       "./node_modules/ts-loader/index.js!./src/styles/index.tsx": 28034,
       "./node_modules/ts-loader/index.js!./src/utils/date.ts": 36444,
-      "./node_modules/ts-loader/index.js!./src/utils/nameof.ts": 63650,
       "./node_modules/ts-loader/index.js!./src/utils/route.ts": 79743,
       "./node_modules/uncontrollable/esm/hook.js": 1559,
       "./node_modules/uncontrollable/esm/index.js": 26995,
       "./node_modules/uncontrollable/esm/uncontrollable.js": 58905,
       "./node_modules/uncontrollable/esm/utils.js": 38322,
       "./node_modules/value-equal/esm/value-equal.js": 95429,
-      "./node_modules/warning/warning.js": 42473,
-      "multi ./src/globals.ts ./src/app/index.tsx": 0,
-      "multi ./src/styles/vendor.scss ./src/styles/index.scss": 1
+      "./node_modules/warning/warning.js": 42473
     },
     "usedIds": [
       13,
-      119,
       220,
       222,
       280,
-      464,
-      670,
       993,
       1278,
       1408,
@@ -745,6 +713,7 @@
       2146,
       2177,
       2333,
+      2464,
       2468,
       2492,
       2793,
@@ -998,6 +967,7 @@
       42634,
       42786,
       43107,
+      43119,
       43489,
       43734,
       43818,
@@ -1018,6 +988,7 @@
       46384,
       46408,
       46436,
+      46670,
       46700,
       46719,
       46799,
