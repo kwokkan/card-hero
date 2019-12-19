@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <Description>Fake debug app</Description>
+    <Description>Card Hero React frontend.</Description>
     <Copyright>Kwok Kan</Copyright>
-    <AssemblyTitle>Debug Web</AssemblyTitle>
+    <AssemblyTitle>Card Hero React frontend</AssemblyTitle>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>Debug.Web</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>Debug.Web</PackageId>
     <CodeAnalysisRuleSet>..\..\analyzers\stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
