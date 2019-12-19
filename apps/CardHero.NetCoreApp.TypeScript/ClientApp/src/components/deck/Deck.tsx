@@ -32,13 +32,7 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
     }
 
     private async populateDeck(id: number) {
-        const decks = await DeckService.getDecks({
-            ids: [
-                id
-            ]
-        });
-
-        const deck = decks[0];
+        const deck = await DeckService.getDeckById(id);
 
         this.setState((prevState) => ({
             edit: {
