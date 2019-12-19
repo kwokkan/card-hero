@@ -51,10 +51,11 @@ namespace CardHero.Core.SqlServer.Services
 
                     var cards = await query.Select(x => x.ToCore(deck.UserId)).ToListAsync();
 
-                    foreach (var card in model.Cards)
+                    model.Cards = model.Cards.Select(x => new DeckCardModel
                     {
-                        card.Card = cards.FirstOrDefault(x => x.Id == card.Card.Id);
-                    }
+                        Card = cards.FirstOrDefault(c => c.Id == x.Card.Id),
+                        CardCollectionId = x.CardCollectionId,
+                    });
                 }
             }
 

@@ -8,6 +8,14 @@ interface IDeckSearchFilter {
 }
 
 export class DeckService {
+    static async getDeckById(id: number): Promise<IDeckModel> {
+        const client = new DeckApiClient();
+
+        const model = await client.getById(id);
+
+        return model;
+    }
+
     static async getDecks(filter?: IDeckSearchFilter): Promise<IDeckModel[] | null> {
         const client = new DeckApiClient();
 
