@@ -85,34 +85,25 @@ namespace CardHero.Core.SqlServer.Services
             return GetDeckByIdInternalAsync(id, true, cancellationToken);
         }
 
-        async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(Abstractions.DeckSearchFilter filter, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var decks = await _deckRepository.FindDecksAsync(
+                new Data.Abstractions.DeckSearchFilter
+                {
+                    Ids = filter.Ids?.ToArray(),
+                    Name = filter.Name,
+                    UserId = filter.UserId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-            var query = context
-                .Deck
-                .Include(x => x.DeckCardCollection)
-                .ThenInclude(x => x.CardCollectionFkNavigation)
-                .ThenInclude(x => x.CardFkNavigation)
-                .AsQueryable();
+            var results = decks.Select(_deckDataMapper.Map).ToArray();
 
-            if (filter.Ids != null)
+            var result = new Abstractions.SearchResult<DeckModel>
             {
-                query = query.Where(x => filter.Ids.Contains(x.DeckPk));
-            }
-
-            if (!string.IsNullOrEmpty(filter.Name))
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-
-            if (filter.UserId.HasValue)
-            {
-                query = query.Include(x => x.DeckFavourite);
-                query = query.Where(x => x.UserFk == filter.UserId.Value);
-            }
-
-            var result = await PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+                Count = decks.Count,
+                Results = results,
+            };
 
             return result;
         }

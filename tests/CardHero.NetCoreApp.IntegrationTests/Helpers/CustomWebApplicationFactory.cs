@@ -115,6 +115,13 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         services.Remove(existingDataDbContextFactory);
                     }
 
+                    var existingContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<CardHeroDataDbContext>));
+
+                    if (existingContext != null)
+                    {
+                        services.Remove(existingContext);
+                    }
+
                     services.AddScoped<ICardHeroDataDbContextFactory, TestCardHeroDataDbContextFactory>();
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
