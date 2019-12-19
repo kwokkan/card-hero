@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.Abstractions"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Core.SqlServer", "src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj", "{C67F810B-06EE-46A3-92D7-4BEAE10F4104}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debug.NetCoreApp", "apps\Debug.NetCoreApp\Debug.NetCoreApp.csproj", "{1575B740-A1B7-4743-BE6B-5122DE5184B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardHero.Frontend.React", "apps\CardHero.Frontend.React\CardHero.Frontend.React.csproj", "{1575B740-A1B7-4743-BE6B-5122DE5184B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{3F283EB3-43A5-4B64-801A-27D8D38D8D1A}"
 EndProject

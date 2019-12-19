@@ -6,7 +6,7 @@ path_classifiers:
     - "**/*.test.tsx"
 
   generated:
-    - exclude: apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts
+    - exclude: apps/CardHero.Frontend.React/src/clients/clients.ts
     - exclude: src/CardHero.Core.SqlServer/EntityFramework
     - exclude: src/CardHero.Data.SqlServer/EntityFramework
 
@@ -22,10 +22,10 @@ extraction:
   javascript:
     index:
       include:
-        - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src
+        - apps/CardHero.Frontend.React/src
 
       exclude:
-        - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts
+        - apps/CardHero.Frontend.React/src/clients/clients.ts
 
       filters:
         - exclude: "**/node_modules/*"
