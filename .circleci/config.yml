@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          cd << pipeline.parameters.node-project >>
+          cd << pipeline.parameters.node-project-base >>
           rm -r ../wwwroot/dist
       - persist_to_workspace:
           root: .
