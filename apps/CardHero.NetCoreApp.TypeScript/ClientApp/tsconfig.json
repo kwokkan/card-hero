@@ -5,10 +5,10 @@
     "alwaysStrict": true,
     "noEmitHelpers": true,
     "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noResolve": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictBindCallApply": true,
@@ -23,24 +23,16 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "jsx": "react",
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "outDir": "./obj/ts/",
-    "traceResolution": true,
+    "traceResolution": false,
 
     "allowJs": false,
     //"checkJs": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "./src/**/*",
-
-    //HACK: workaround for TypeScript not being able to find type definitions
-    "node_modules/@fortawesome/**/index.d.ts",
-    "node_modules/dayjs/**/*.d.ts",
-    "node_modules/mockdate/**/*.d.ts",
-    "node_modules/react-bootstrap/**/*.d.ts",
-    "node_modules/react-chartjs-2/**/*.d.ts",
-    "node_modules/react-dnd/**/*.d.ts",
-    "node_modules/react-dnd-html5-backend/**/*.d.ts"
+    "./src/**/*"
   ]
 }

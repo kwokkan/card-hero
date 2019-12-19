@@ -49,7 +49,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
- figcaption, main, nav, section {
+ nav {
   display: block;
 }
 
@@ -139,14 +139,6 @@ table {
   border-collapse: collapse;
 }
 
-caption {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  color: #6c757d;
-  text-align: left;
-  caption-side: bottom;
-}
-
 th {
   text-align: inherit;
 }
@@ -221,18 +213,6 @@ input[type=time],
 input[type=datetime-local],
 input[type=month] {
   -webkit-appearance: listbox;
-}
-
-legend {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-  line-height: inherit;
-  color: inherit;
-  white-space: normal;
 }
 
 [type=number]::-webkit-inner-spin-button,
@@ -1443,17 +1423,6 @@ svg:not(:root).svg-inline--fa {
 .fa-fw {
   text-align: center;
   width: 1.25em;
-}
-
-@-webkit-keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
 }
 @keyframes fa-spin {
   0% {

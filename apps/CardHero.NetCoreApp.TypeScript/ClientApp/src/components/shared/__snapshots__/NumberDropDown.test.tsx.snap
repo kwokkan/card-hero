@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NumberDropDown /> renders with no props 1`] = `
+<select
+  className="form-control"
+>
+  <option
+    value="10"
+  >
+    10
+  </option>
+  <option
+    value="25"
+  >
+    25
+  </option>
+  <option
+    value="50"
+  >
+    50
+  </option>
+  <option
+    value="100"
+  >
+    100
+  </option>
+</select>
+`;
+
+exports[`<NumberDropDown /> renders with number value 1`] = `
+<select
+  className="form-control"
+  value={12}
+>
+  <option
+    value="10"
+  >
+    10
+  </option>
+  <option
+    value="25"
+  >
+    25
+  </option>
+  <option
+    value="50"
+  >
+    50
+  </option>
+  <option
+    value="100"
+  >
+    100
+  </option>
+</select>
+`;
+
+exports[`<NumberDropDown /> renders with onChange 1`] = `
+<select
+  className="form-control"
+  onChange={[Function]}
+>
+  <option
+    value="10"
+  >
+    10
+  </option>
+  <option
+    value="25"
+  >
+    25
+  </option>
+  <option
+    value="50"
+  >
+    50
+  </option>
+  <option
+    value="100"
+  >
+    100
+  </option>
+</select>
+`;
+
+exports[`<NumberDropDown /> renders with string value 1`] = `
+<select
+  className="form-control"
+  value="hello"
+>
+  <option
+    value="10"
+  >
+    10
+  </option>
+  <option
+    value="25"
+  >
+    25
+  </option>
+  <option
+    value="50"
+  >
+    50
+  </option>
+  <option
+    value="100"
+  >
+    100
+  </option>
+</select>
+`;

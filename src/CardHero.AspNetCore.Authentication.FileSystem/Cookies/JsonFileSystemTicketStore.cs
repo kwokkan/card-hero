@@ -26,14 +26,12 @@ namespace CardHero.AspNetCore.Authentication.FileSystem
         };
 
         private readonly ILogger<JsonFileSystemTicketStore> _logger;
-        private readonly FileSystemTicketStoreOptions _options;
         private readonly string _baseDirectory;
 
         public JsonFileSystemTicketStore(ILogger<JsonFileSystemTicketStore> logger, FileSystemTicketStoreOptions options)
         {
             _logger = logger;
 
-            _options = options;
             _baseDirectory = options.BaseDirectory;
         }
 

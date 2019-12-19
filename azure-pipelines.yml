@@ -23,6 +23,18 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
+    
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'apps/CardHero.NetCoreApp.TypeScript/ClientApp'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Azure DevOps SonarCloud Scan'
+    organization: 'kwokkan'
+    scannerMode: 'MSBuild'
+    projectKey: 'kwokkan_card-hero'
 
 - task: VSBuild@1
   inputs:
@@ -35,3 +47,9 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'

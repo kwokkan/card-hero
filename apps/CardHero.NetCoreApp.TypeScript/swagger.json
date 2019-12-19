@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.1.6.0 (NJsonSchema v10.0.28.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.2.0.0 (NJsonSchema v10.1.2.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Card Hero API",
@@ -969,15 +969,6 @@
                 "$ref": "#/components/schemas/CardModel"
               }
             ]
-          },
-          "user": {
-            "description": "User.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
           }
         }
       },
@@ -1021,23 +1012,25 @@
         }
       },
       "DeckCardModel": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CardModel"
+        "type": "object",
+        "description": "Deck caard.",
+        "additionalProperties": false,
+        "properties": {
+          "cardCollectionId": {
+            "type": "integer",
+            "description": "Card collection id.",
+            "format": "int32"
           },
-          {
-            "type": "object",
-            "description": "Deck caard.",
-            "additionalProperties": false,
-            "properties": {
-              "cardCollectionId": {
-                "type": "integer",
-                "description": "Card collection id.",
-                "format": "int32"
+          "card": {
+            "description": "Card.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CardModel"
               }
-            }
+            ]
           }
-        ]
+        }
       },
       "DeckCreateModel": {
         "type": "object",
