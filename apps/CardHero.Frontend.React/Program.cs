@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Debug.Web
+namespace CardHero.Frontend.React
 {
     public static class Program
     {
@@ -10,7 +13,13 @@ namespace Debug.Web
             var host = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.Configure(app =>
+                    {
+                        app.Run(context =>
+                        {
+                            return Task.CompletedTask;
+                        });
+                    });
                 })
                 .Build();
 
