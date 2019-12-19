@@ -6,7 +6,7 @@ update_configs:
     update_schedule: "live"
 
   - package_manager: "javascript"
-    directory: "/apps/CardHero.NetCoreApp.TypeScript/ClientApp"
+    directory: "/apps/CardHero.Frontend.React"
     update_schedule: "live"
 
   - package_manager: "github_actions"

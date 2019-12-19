@@ -5,7 +5,7 @@ parameters:
     default: "Release"
   node-project:
     type: string
-    default: "apps/CardHero.NetCoreApp.TypeScript/ClientApp"
+    default: "apps/CardHero.Frontend.React"
   node-project-base:
     type: string
     default: "apps/CardHero.NetCoreApp.TypeScript"

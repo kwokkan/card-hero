@@ -27,7 +27,7 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: 'apps/CardHero.NetCoreApp.TypeScript/ClientApp'
+    workingDir: 'apps/CardHero.Frontend.React'
 
 - task: SonarCloudPrepare@1
   inputs:

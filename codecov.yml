@@ -12,6 +12,6 @@ flags:
       - src
   npm:
     paths:
-      - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src
+      - apps/CardHero.Frontend.React/src
 ignore:
-    - apps/CardHero.NetCoreApp.TypeScript/ClientApp/src/clients/clients.ts
+    - apps/CardHero.Frontend.React/src/clients/clients.ts
