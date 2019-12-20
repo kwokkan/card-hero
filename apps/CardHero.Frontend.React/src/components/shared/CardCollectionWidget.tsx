@@ -5,6 +5,11 @@ import { CardCollectionCard } from "./CardCollectionCard";
 interface ICardCollectionWidgetProps {
     title?: string;
     cardCollection: ICardCollectionModel[];
+    maxCards?: number;
+    cardActionName?: string;
+    onCardClicked?: (card: ICardCollectionModel) => void;
+    cardActionDisabled?: boolean;
+    cardActionClassName?: string;
 }
 
 export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
@@ -17,12 +22,25 @@ export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
                     {props.title}
                 </h4>
             }
-            <div className="card-body">
-                <div className="card-text ch-cards droppable">
-                    {cardCollection.map(cc =>
-                        <CardCollectionCard key={cc.id} className="ch-card draggable" card={cc} />
-                    )}
-                </div>
+            <div className="list-group list-group-flush">
+                {cardCollection.length > 0 ?
+                    (cardCollection.map(cc =>
+                        <CardCollectionCard
+                            key={cc.id}
+                            card={cc}
+                            actionName={props.cardActionName}
+                            onActionClicked={props.onCardClicked}
+                            actionDisabled={props.cardActionDisabled}
+                            actionClassName={props.cardActionClassName}
+                        />
+                    ))
+                    :
+                    (
+                        <div className="list-group-item">
+                            No cards
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
