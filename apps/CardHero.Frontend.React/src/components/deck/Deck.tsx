@@ -1,6 +1,5 @@
-﻿import React, { PureComponent } from "react";
-import { ICardCollectionModel } from "../../clients/clients";
-import { DeckEditModel } from "../../models/DeckEditModel";
+﻿import React, { Component } from "react";
+import { DeckCardModel, ICardCollectionModel, IDeckModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { CardCollectionWidget } from "../shared/CardCollectionWidget";
@@ -11,36 +10,36 @@ interface IDeckProps {
 }
 
 interface IDeckState {
-    edit?: DeckEditModel;
+    deck?: IDeckModel;
+    ownedCards: ICardCollectionModel[];
+    usedCards: DeckCardModel[];
 }
 
-export class Deck extends PureComponent<IDeckProps, IDeckState> {
+export class Deck extends Component<IDeckProps, IDeckState> {
     constructor(props: IDeckProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            ownedCards: [],
+            usedCards: []
+        };
     }
 
     private async populateCollection() {
         const collection = await CardCollectionService.getCollection();
 
-        this.setState((prevState) => ({
-            edit: {
-                ...prevState.edit,
-                ownedCards: collection
-            }
-        }));
+        this.setState({
+            ownedCards: collection
+        });
     }
 
     private async populateDeck(id: number) {
         const deck = await DeckService.getDeckById(id);
 
-        this.setState((prevState) => ({
-            edit: {
-                ...prevState.edit,
-                deck: deck
-            }
-        }));
+        this.setState({
+            deck: deck,
+            usedCards: deck.cards
+        });
     }
 
     async componentDidMount() {
@@ -73,20 +72,14 @@ export class Deck extends PureComponent<IDeckProps, IDeckState> {
     };
 
     render() {
-        const edit = this.state.edit;
-
-        if (!edit) {
-            return null;
-        }
-
-        const deck = edit.deck;
+        const deck = this.state.deck;
 
         if (!deck) {
             return null;
         }
 
-        const ownedCards = edit.ownedCards;
-        const usedCards = deck.cards;
+        const ownedCards = this.state.ownedCards;
+        const usedCards = this.state.usedCards;
 
         return (
             <div className="col-lg-12">
