@@ -1,4 +1,5 @@
 ﻿import React, { Component } from "react";
+import { debounce } from "throttle-debounce";
 import { DeckCardModel, ICardCollectionModel, IDeckCardModel, IDeckModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
@@ -18,6 +19,8 @@ interface IDeckState {
 }
 
 export class Deck extends Component<IDeckProps, IDeckState> {
+    searchValueDebounced: any;
+
     constructor(props: IDeckProps) {
         super(props);
 
@@ -25,6 +28,8 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             ownedCards: [],
             usedCards: []
         };
+
+        this.searchValueDebounced = debounce(500, this.populateCollection);
     }
 
     private async populateCollection() {
@@ -122,8 +127,8 @@ export class Deck extends Component<IDeckProps, IDeckState> {
 
         this.setState({
             searchValue: value
-        }, async () => {
-            await this.populateCollection();
+        }, () => {
+            this.searchValueDebounced();
         });
     }
 
