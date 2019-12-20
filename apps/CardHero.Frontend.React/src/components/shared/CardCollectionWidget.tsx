@@ -9,6 +9,7 @@ interface ICardCollectionWidgetProps {
     onCardClicked?: (card: ICardCollectionModel) => void;
     cardActionDisabled?: boolean;
     cardActionClassName?: string;
+    subSection?: JSX.Element;
 }
 
 export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
@@ -21,6 +22,13 @@ export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
                     {props.title}
                 </h4>
             }
+
+            {props.subSection &&
+                <div className="card-body">
+                    {props.subSection}
+                </div>
+            }
+
             <div className="list-group list-group-flush">
                 {cardCollection.length > 0 ?
                     (cardCollection.map(cc =>

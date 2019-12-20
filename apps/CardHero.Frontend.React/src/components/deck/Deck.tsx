@@ -1,8 +1,10 @@
 ﻿import React, { Component } from "react";
-import { ICardCollectionModel, IDeckCardModel, IDeckModel, DeckCardModel } from "../../clients/clients";
+import { debounce } from "throttle-debounce";
+import { DeckCardModel, ICardCollectionModel, IDeckCardModel, IDeckModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { CardCollectionWidget } from "../shared/CardCollectionWidget";
+import { InlineSearchBar } from "../shared/InlineSearchBar";
 import { DeckDetailsWidget } from "./DeckDetailsWidget";
 
 interface IDeckProps {
@@ -10,12 +12,15 @@ interface IDeckProps {
 }
 
 interface IDeckState {
+    searchValue?: string;
     deck?: IDeckModel;
     ownedCards: ICardCollectionModel[];
     usedCards: IDeckCardModel[];
 }
 
 export class Deck extends Component<IDeckProps, IDeckState> {
+    searchValueDebounced: any;
+
     constructor(props: IDeckProps) {
         super(props);
 
@@ -23,10 +28,14 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             ownedCards: [],
             usedCards: []
         };
+
+        this.searchValueDebounced = debounce(500, this.populateCollection);
     }
 
     private async populateCollection() {
-        const collection = await CardCollectionService.getCollection();
+        const collection = await CardCollectionService.getCollection({
+            name: this.state.searchValue
+        });
 
         this.setState({
             ownedCards: collection
@@ -111,6 +120,18 @@ export class Deck extends Component<IDeckProps, IDeckState> {
         }
     };
 
+    private onSearchValueUpdated = (value: string) => {
+        if (Constants.Debug) {
+            console.log(value);
+        }
+
+        this.setState({
+            searchValue: value
+        }, () => {
+            this.searchValueDebounced();
+        });
+    }
+
     private deckCardToCardCollection(deckCard: IDeckCardModel): ICardCollectionModel {
         if (!deckCard) {
             return null;
@@ -148,6 +169,7 @@ export class Deck extends Component<IDeckProps, IDeckState> {
                             onCardClicked={this.onOwnedCardsCardClicked}
                             cardActionDisabled={usedCards.length >= deck.maxCards}
                             cardActionClassName="btn-primary"
+                            subSection={<InlineSearchBar onValueUpdated={this.onSearchValueUpdated} />}
                         />
                     </div>
 

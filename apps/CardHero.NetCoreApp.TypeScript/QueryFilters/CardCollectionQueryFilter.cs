@@ -4,6 +4,8 @@ namespace CardHero.NetCoreApp.TypeScript
 {
     public class CardCollectionQueryFilter : QueryFilterBase
     {
+        public string Name { get; set; }
+
         public int[] Ids { get; set; }
 
         public CardCollectionSearchFilter ToSearchFilter()
@@ -11,6 +13,7 @@ namespace CardHero.NetCoreApp.TypeScript
             return new CardCollectionSearchFilter
             {
                 Ids = this.Ids,
+                Name = this.Name,
                 Page = this.Page,
                 PageSize = this.PageSize,
             };
