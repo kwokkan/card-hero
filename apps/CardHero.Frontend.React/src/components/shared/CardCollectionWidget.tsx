@@ -5,7 +5,6 @@ import { CardCollectionCard } from "./CardCollectionCard";
 interface ICardCollectionWidgetProps {
     title?: string;
     cardCollection: ICardCollectionModel[];
-    maxCards?: number;
     cardActionName?: string;
     onCardClicked?: (card: ICardCollectionModel) => void;
     cardActionDisabled?: boolean;

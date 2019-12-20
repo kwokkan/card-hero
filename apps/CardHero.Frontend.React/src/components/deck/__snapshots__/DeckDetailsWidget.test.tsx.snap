@@ -60,6 +60,7 @@ exports[`<DeckDetailsWidget /> renders correctly with description 1`] = `
       className="btn btn-success pull-right"
       data-deck-id={1}
       id="save-deck"
+      onClick={[Function]}
       type="button"
     >
       Save
@@ -126,6 +127,7 @@ exports[`<DeckDetailsWidget /> renders correctly with favourite 1`] = `
       className="btn btn-success pull-right"
       data-deck-id={1}
       id="save-deck"
+      onClick={[Function]}
       type="button"
     >
       Save
@@ -192,6 +194,7 @@ exports[`<DeckDetailsWidget /> renders correctly without favourite 1`] = `
       className="btn btn-success pull-right"
       data-deck-id={1}
       id="save-deck"
+      onClick={[Function]}
       type="button"
     >
       Save

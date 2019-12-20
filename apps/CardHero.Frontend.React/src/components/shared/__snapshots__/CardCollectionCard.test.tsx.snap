@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardCollectionCard /> renders card with custom actionClassName 1`] = `
+<div
+  className="list-group-item d-flex justify-content-between align-items-center"
+>
+  Test card
+  <button
+    className="btn btn-sm my-action"
+    onClick={[Function]}
+    type="button"
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`<CardCollectionCard /> renders card with custom actionName 1`] = `
+<div
+  className="list-group-item d-flex justify-content-between align-items-center"
+>
+  Test card
+  <button
+    className="btn btn-sm "
+    onClick={[Function]}
+    type="button"
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`<CardCollectionCard /> renders card with disabled 1`] = `
+<div
+  className="list-group-item d-flex justify-content-between align-items-center"
+>
+  Test card
+  <button
+    className="btn btn-sm "
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`<CardCollectionCard /> renders empty card 1`] = `
+<div
+  className="list-group-item d-flex justify-content-between align-items-center"
+>
+  Test card
+</div>
+`;
