@@ -132,6 +132,15 @@
         "operationId": "CollectionApi_Get",
         "parameters": [
           {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
             "name": "Ids",
             "in": "query",
             "collectionFormat": "multi",
@@ -143,7 +152,7 @@
                 "format": "int32"
               }
             },
-            "x-position": 1
+            "x-position": 2
           },
           {
             "name": "Page",
@@ -153,7 +162,7 @@
               "format": "int32",
               "nullable": true
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "PageSize",
@@ -163,7 +172,7 @@
               "format": "int32",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "Sort",
@@ -172,7 +181,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           }
         ],
         "responses": {

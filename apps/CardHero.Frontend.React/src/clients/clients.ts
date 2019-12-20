@@ -133,7 +133,7 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
 }
 
 export interface ICollectionApiClient {
-    get(ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]>;
+    get(name?: string | null | undefined, ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]>;
 }
 
 export class CollectionApiClient extends CardHeroApiClientBase implements ICollectionApiClient {
@@ -147,8 +147,10 @@ export class CollectionApiClient extends CardHeroApiClientBase implements IColle
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]> {
+    get(name?: string | null | undefined, ids?: number[] | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardCollectionModel[]> {
         let url_ = this.baseUrl + "/api/collections?";
+        if (name !== undefined)
+            url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
         if (page !== undefined)
