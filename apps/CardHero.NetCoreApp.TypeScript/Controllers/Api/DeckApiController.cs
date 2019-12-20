@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -59,6 +60,20 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var newDeck = await _deckService.CreateDeckAsync(model, userId, cancellationToken: cancellationToken);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
+        }
+
+        [HttpPatch("{id:int}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> PatchDeckAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        {
+            //TODO: Use JsonPatch once models are better
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+            var cardCollectionIds = model?.Cards?.Select(x => x.CardCollectionId).ToArray();
+
+            await _deckService.UpdateCollectionAsync(id, userId, cardCollectionIds, cancellationToken: cancellationToken);
+
+            return Ok();
         }
     }
 }

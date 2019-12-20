@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardCollectionWidget /> renders card with cards 1`] = `
+<div
+  className="card"
+>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card
+    </div>
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CardCollectionWidget /> renders card with cards and custom actions 1`] = `
+<div
+  className="card"
+>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card
+      <button
+        className="btn btn-sm my-class"
+        onClick={[Function]}
+        type="button"
+      >
+        Click me
+      </button>
+    </div>
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card 2
+      <button
+        className="btn btn-sm my-class"
+        onClick={[Function]}
+        type="button"
+      >
+        Click me
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CardCollectionWidget /> renders card with cards disabled 1`] = `
+<div
+  className="card"
+>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card
+      <button
+        className="btn btn-sm "
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        Click me
+      </button>
+    </div>
+    <div
+      className="list-group-item d-flex justify-content-between align-items-center"
+    >
+      Test card 2
+      <button
+        className="btn btn-sm "
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        Click me
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CardCollectionWidget /> renders card with custom actionName 1`] = `
+<div
+  className="card"
+>
+  <h4
+    className="card-header"
+  >
+    Test widget
+  </h4>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item"
+    >
+      No cards
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CardCollectionWidget /> renders no cards 1`] = `
+<div
+  className="card"
+>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item"
+    >
+      No cards
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CardCollectionWidget /> renders title with no cards 1`] = `
+<div
+  className="card"
+>
+  <h4
+    className="card-header"
+  >
+    Test title
+  </h4>
+  <div
+    className="list-group list-group-flush"
+  >
+    <div
+      className="list-group-item"
+    >
+      No cards
+    </div>
+  </div>
+</div>
+`;

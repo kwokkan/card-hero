@@ -1,9 +1,14 @@
 ﻿import React from "react";
 import { ICardCollectionModel } from "../../clients/clients";
+import { CardCollectionCard } from "./CardCollectionCard";
 
 interface ICardCollectionWidgetProps {
     title?: string;
     cardCollection: ICardCollectionModel[];
+    cardActionName?: string;
+    onCardClicked?: (card: ICardCollectionModel) => void;
+    cardActionDisabled?: boolean;
+    cardActionClassName?: string;
 }
 
 export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
@@ -11,19 +16,30 @@ export function CardCollectionWidget(props: ICardCollectionWidgetProps) {
 
     return (
         <div className="card">
-            <div className="card-body">
-                {props.title &&
-                    <h4 className="card-title">
-                        {props.title}
-                    </h4>
+            {props.title &&
+                <h4 className="card-header">
+                    {props.title}
+                </h4>
+            }
+            <div className="list-group list-group-flush">
+                {cardCollection.length > 0 ?
+                    (cardCollection.map(cc =>
+                        <CardCollectionCard
+                            key={cc.id}
+                            card={cc}
+                            actionName={props.cardActionName}
+                            onActionClicked={props.onCardClicked}
+                            actionDisabled={props.cardActionDisabled}
+                            actionClassName={props.cardActionClassName}
+                        />
+                    ))
+                    :
+                    (
+                        <div className="list-group-item">
+                            No cards
+                        </div>
+                    )
                 }
-                <div className="card-text">
-                    <ul className="ch-cards droppable">
-                        {cardCollection.map(cc =>
-                            <li key={cc.id} className="ch-card draggable" data-card-collection-id={cc.id}>{cc.card.name}</li>
-                        )}
-                    </ul>
-                </div>
             </div>
         </div>
     );
