@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import { DeckCardModel, ICardCollectionModel, IDeckModel } from "../../clients/clients";
+import { ICardCollectionModel, IDeckCardModel, IDeckModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { CardCollectionWidget } from "../shared/CardCollectionWidget";
@@ -12,7 +12,7 @@ interface IDeckProps {
 interface IDeckState {
     deck?: IDeckModel;
     ownedCards: ICardCollectionModel[];
-    usedCards: DeckCardModel[];
+    usedCards: IDeckCardModel[];
 }
 
 export class Deck extends Component<IDeckProps, IDeckState> {
@@ -59,17 +59,57 @@ export class Deck extends Component<IDeckProps, IDeckState> {
         }
     }
 
-    onOwnedCardsCardClicked = (card: ICardCollectionModel) => {
+    private onOwnedCardsCardClicked = (card: ICardCollectionModel) => {
         if (Constants.Debug) {
             console.log(card);
+        }
+
+        const usedCards = this.state.usedCards;
+
+        if (usedCards.length < this.state.deck.maxCards) {
+            if (usedCards.findIndex(x => x.cardCollectionId === card.id) === -1) {
+                const newState = usedCards
+                    .slice()
+                    .concat({
+                        card: card.card,
+                        cardCollectionId: card.id
+                    });
+
+                this.setState({
+                    usedCards: newState
+                });
+            }
         }
     };
 
-    onCurrentDeckCardClicked = (card: ICardCollectionModel) => {
+    private onCurrentDeckCardClicked = (card: ICardCollectionModel) => {
         if (Constants.Debug) {
             console.log(card);
         }
+
+        const usedCards = this.state.usedCards;
+        const usedIdx = usedCards.findIndex(x => x.cardCollectionId === card.id);
+        if (usedIdx > -1) {
+            const newState = usedCards.slice();
+            newState.splice(usedIdx, 1);
+
+            this.setState({
+                usedCards: newState
+            });
+        }
     };
+
+    private deckCardToCardCollection(deckCard: IDeckCardModel): ICardCollectionModel {
+        if (!deckCard) {
+            return null;
+        }
+
+        return {
+            card: deckCard.card,
+            cardId: deckCard.card.id,
+            id: deckCard.cardCollectionId
+        };
+    }
 
     render() {
         const deck = this.state.deck;
@@ -79,7 +119,7 @@ export class Deck extends Component<IDeckProps, IDeckState> {
         }
 
         const ownedCards = this.state.ownedCards;
-        const usedCards = this.state.usedCards;
+        const usedCards = this.state.usedCards.map(this.deckCardToCardCollection);
 
         return (
             <div className="col-lg-12">
