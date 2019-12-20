@@ -4,10 +4,17 @@ import { Icon } from "../../styles/index";
 
 interface IDeckDetailsWidgetProps {
     deck: IDeckModel;
+    onSaveClicked?: (deck: IDeckModel) => void;
 }
 
-export function DeckDetailsWidget(props: IDeckDetailsWidgetProps) {
+export function DeckDetailsWidget(props: IDeckDetailsWidgetProps): JSX.Element {
     const deck = props.deck;
+
+    const onSavedClicked = () => {
+        if (props.onSaveClicked) {
+            props.onSaveClicked(props.deck)
+        }
+    };
 
     return (
         <div className="card">
@@ -29,7 +36,7 @@ export function DeckDetailsWidget(props: IDeckDetailsWidgetProps) {
                 </li>
             </ul>
             <div className="card-footer">
-                <button type="button" id="save-deck" className="btn btn-success pull-right" data-deck-id={deck.id}>Save</button>
+                <button type="button" id="save-deck" className="btn btn-success pull-right" onClick={onSavedClicked} data-deck-id={deck.id}>Save</button>
             </div>
         </div>
     );

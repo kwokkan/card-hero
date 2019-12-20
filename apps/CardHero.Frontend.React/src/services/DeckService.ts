@@ -1,4 +1,4 @@
-﻿import { DeckApiClient, DeckCreateModel, IDeckCreateModel, IDeckModel } from "../clients/clients";
+﻿import { DeckApiClient, DeckCreateModel, DeckModel, IDeckCreateModel, IDeckModel } from "../clients/clients";
 
 interface IDeckSearchFilter {
     name?: string;
@@ -41,6 +41,15 @@ export class DeckService {
         postModel.description = model.description;
 
         var newModel = await client.create(postModel);
+
+        return newModel;
+    }
+
+    static async patchDeck(id: number, model: IDeckModel): Promise<void> {
+        const client = new DeckApiClient();
+
+        var patchModel = new DeckModel(model);
+        var newModel = await client.patchDeck(id, patchModel);
 
         return newModel;
     }

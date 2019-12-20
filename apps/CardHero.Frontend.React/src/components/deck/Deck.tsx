@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import { ICardCollectionModel, IDeckCardModel, IDeckModel } from "../../clients/clients";
+import { ICardCollectionModel, IDeckCardModel, IDeckModel, DeckCardModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
 import { DeckService } from "../../services/DeckService";
 import { CardCollectionWidget } from "../shared/CardCollectionWidget";
@@ -58,6 +58,18 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             await this.populateDeck(deckId);
         }
     }
+
+    private onDeckDetailsSaveClicked = async (deck: IDeckModel) => {
+        if (Constants.Debug) {
+            console.log(deck);
+        }
+
+        const usedCards = this.state.usedCards.map(DeckCardModel.fromJS);
+        var updateDeck: IDeckModel = {
+            cards: usedCards
+        };
+        await DeckService.patchDeck(deck.id, updateDeck);
+    };
 
     private onOwnedCardsCardClicked = (card: ICardCollectionModel) => {
         if (Constants.Debug) {
@@ -125,7 +137,7 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
-                        <DeckDetailsWidget deck={deck} />
+                        <DeckDetailsWidget deck={deck} onSaveClicked={this.onDeckDetailsSaveClicked} />
                     </div>
 
                     <div className="col-lg-4">
