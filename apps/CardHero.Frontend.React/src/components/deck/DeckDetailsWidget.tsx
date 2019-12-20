@@ -11,13 +11,23 @@ export function DeckDetailsWidget(props: IDeckDetailsWidgetProps) {
 
     return (
         <div className="card">
-            <div className="card-body">
-                <h4 className="card-title">
-                    {deck.name}
-                    <Icon icon="star" className={"deck-favourite float-right" + (deck.isFavourited ? " enabled" : "")} data-deck-id={deck.id} />
-                </h4>
-                <p className="card-text">{deck.description}</p>
-            </div>
+            <h4 className="card-header">
+                {deck.name}
+                <Icon icon="star" className={"deck-favourite float-right" + (deck.isFavourited ? " enabled" : "")} data-deck-id={deck.id} />
+            </h4>
+            <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                    <strong>Description:</strong>
+                    {" "}
+                    <span >{deck.description}</span>
+                </li>
+
+                <li className="list-group-item">
+                    <strong>Max cards:</strong>
+                    {" "}
+                    <span>{deck.maxCards}</span>
+                </li>
+            </ul>
             <div className="card-footer">
                 <button type="button" id="save-deck" className="btn btn-success pull-right" data-deck-id={deck.id}>Save</button>
             </div>
