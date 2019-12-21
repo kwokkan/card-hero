@@ -11,7 +11,7 @@ interface INavMenuProps {
     user?: IUserModel;
 }
 
-export class NavMenu extends PureComponent<INavMenuProps, any> {
+export class NavMenu extends PureComponent<INavMenuProps, {}> {
     render() {
         const appName = this.props.appName;
         const routePrefix = getRoutePrefix(this.props.routePrefix);
