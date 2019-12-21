@@ -40,9 +40,11 @@ test("<CardCollectionWidget /> renders card with cards", () => {
     };
     const card: ICardCollectionModel[] = [
         {
-            card: CardModel.fromJS(data1)
+            card: CardModel.fromJS(data1),
+            id: 1
         }, {
-            card: CardModel.fromJS(data2)
+            card: CardModel.fromJS(data2),
+            id: 2
         }
     ];
     const tree = renderer
@@ -65,9 +67,11 @@ test("<CardCollectionWidget /> renders card with cards and custom actions", () =
     };
     const card: ICardCollectionModel[] = [
         {
-            card: CardModel.fromJS(data1)
+            card: CardModel.fromJS(data1),
+            id: 1
         }, {
-            card: CardModel.fromJS(data2)
+            card: CardModel.fromJS(data2),
+            id: 2
         }
     ];
     const tree = renderer
@@ -90,9 +94,11 @@ test("<CardCollectionWidget /> renders card with cards disabled", () => {
     };
     const card: ICardCollectionModel[] = [
         {
-            card: CardModel.fromJS(data1)
+            card: CardModel.fromJS(data1),
+            id: 1
         }, {
-            card: CardModel.fromJS(data2)
+            card: CardModel.fromJS(data2),
+            id: 2
         }
     ];
     const tree = renderer
@@ -130,15 +136,20 @@ test("<CardCollectionWidget /> renders cards with all rarities", () => {
     };
     const card: ICardCollectionModel[] = [
         {
-            card: CardModel.fromJS(data1)
+            card: CardModel.fromJS(data1),
+            id: 1
         }, {
-            card: CardModel.fromJS(data2)
+            card: CardModel.fromJS(data2),
+            id: 2
         }, {
-            card: CardModel.fromJS(data3)
+            card: CardModel.fromJS(data3),
+            id: 3
         }, {
-            card: CardModel.fromJS(data4)
+            card: CardModel.fromJS(data4),
+            id: 4
         }, {
-            card: CardModel.fromJS(data5)
+            card: CardModel.fromJS(data5),
+            id: 5
         }
     ];
     const tree = renderer

@@ -9,7 +9,7 @@ exports[`<InlineSearchBar /> renders with default value 1`] = `
     onChange={[Function]}
     onKeyUp={[Function]}
     placeholder="Search"
-    type="text"
+    type="search"
     value="Test"
   />
   <div
@@ -35,7 +35,8 @@ exports[`<InlineSearchBar /> renders without default value 1`] = `
     onChange={[Function]}
     onKeyUp={[Function]}
     placeholder="Search"
-    type="text"
+    type="search"
+    value=""
   />
   <div
     className="input-group-append"
