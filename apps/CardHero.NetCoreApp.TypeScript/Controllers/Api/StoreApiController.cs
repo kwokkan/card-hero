@@ -15,13 +15,13 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
     [Route("api/store")]
     public class StoreApiController : CardHeroControllerBase
     {
-        private readonly ICardService _cardService;
+        private readonly ICardCollectionService _cardCollectionService;
         private readonly IStoreItemService _storeItemService;
 
-        public StoreApiController(IUserService userService, ICardService cardService, IStoreItemService storeItemService)
+        public StoreApiController(IUserService userService, ICardCollectionService cardCollectionService, IStoreItemService storeItemService)
             : base(userService)
         {
-            _cardService = cardService;
+            _cardCollectionService = cardCollectionService;
             _storeItemService = storeItemService;
         }
 
@@ -53,7 +53,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id, cancellationToken: cancellationToken);
             var cardIds = results.Select(x => x.Id).ToArray();
 
-            var newCards = await _cardService.AddCardsToCardCollectionAsync(cardIds, user.Id, cancellationToken: cancellationToken);
+            var newCards = await _cardCollectionService.AddCardsToCardCollectionAsync(cardIds, user.Id, cancellationToken: cancellationToken);
 
             return new ObjectResult(newCards) { StatusCode = StatusCodes.Status201Created };
         }
