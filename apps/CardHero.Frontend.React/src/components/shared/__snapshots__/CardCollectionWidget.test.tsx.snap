@@ -9,6 +9,7 @@ exports[`<CardCollectionWidget /> renders card with cards 1`] = `
   >
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={1}
     >
       <span>
         Test card
@@ -107,6 +108,7 @@ exports[`<CardCollectionWidget /> renders card with cards 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={2}
     >
       <span>
         Test card 2
@@ -148,6 +150,7 @@ exports[`<CardCollectionWidget /> renders card with cards and custom actions 1`]
   >
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={1}
     >
       <span>
         Test card
@@ -253,6 +256,7 @@ exports[`<CardCollectionWidget /> renders card with cards and custom actions 1`]
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={2}
     >
       <span>
         Test card 2
@@ -301,6 +305,7 @@ exports[`<CardCollectionWidget /> renders card with cards disabled 1`] = `
   >
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={1}
     >
       <span>
         Test card
@@ -407,6 +412,7 @@ exports[`<CardCollectionWidget /> renders card with cards disabled 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={2}
     >
       <span>
         Test card 2
@@ -477,6 +483,7 @@ exports[`<CardCollectionWidget /> renders cards with all rarities 1`] = `
   >
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={1}
     >
       <span>
         Test legendary
@@ -583,6 +590,7 @@ exports[`<CardCollectionWidget /> renders cards with all rarities 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={2}
     >
       <span>
         Test epic
@@ -672,6 +680,7 @@ exports[`<CardCollectionWidget /> renders cards with all rarities 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={3}
     >
       <span>
         Test rare
@@ -744,6 +753,7 @@ exports[`<CardCollectionWidget /> renders cards with all rarities 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={4}
     >
       <span>
         Test uncommon
@@ -799,6 +809,7 @@ exports[`<CardCollectionWidget /> renders cards with all rarities 1`] = `
     </div>
     <div
       className="list-group-item d-flex justify-content-between align-items-center"
+      data-card-collection-id={5}
     >
       <span>
         Test common
