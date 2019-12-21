@@ -77,7 +77,7 @@
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "test": "cross-env CI=true jest --runInBand -u",
     "test:update": "cross-env CI=true jest --runInBand -u",
-    "lint": "eslint ./src/ --cache --ext .ts,.tsx",
+    "lint": "eslint ./src/ --max-warnings 0 --cache --ext .ts,.tsx",
     "watch": "cross-env NODE_ENV=development webpack --watch --info-verbosity verbose"
   },
   "babel": {

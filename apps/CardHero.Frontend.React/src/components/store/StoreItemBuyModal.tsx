@@ -9,11 +9,7 @@ interface IStoreItemBuyModelProps {
     onPurchase?: (item: IStoreItemModel) => void;
 }
 
-export class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, any> {
-    constructor(props: IStoreItemBuyModelProps) {
-        super(props);
-    }
-
+export class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, {}> {
     onHide() {
         if (this.props.onHide) {
             this.props.onHide();

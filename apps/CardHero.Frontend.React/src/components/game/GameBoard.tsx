@@ -11,12 +11,8 @@ interface IGameBoardProps {
     onUpdated?: (event: IGameBoardOnUpdatedProps) => void;
 }
 
-export class GameBoard extends Component<IGameBoardProps, any> {
+export class GameBoard extends Component<IGameBoardProps, {}> {
     static readonly nullGameBoard = <p>No game selected</p>;
-
-    constructor(props: IGameBoardProps) {
-        super(props);
-    }
 
     private onGameTripleTriadBoardUpdated = (event: IGameTripleTriadBoardOnUpdatedProps) => {
         if (this.props.onUpdated) {
