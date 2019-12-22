@@ -1,17 +1,7 @@
 ﻿import React, { Component } from "react";
 import { Store } from "./Store";
 
-interface IStoreAppProps {
-}
-
-interface IStoreAppState {
-}
-
-export class StoreApp extends Component<IStoreAppProps, IStoreAppState> {
-    constructor(props: IStoreAppProps) {
-        super(props);
-    }
-
+export class StoreApp extends Component<{}, {}> {
     render() {
         return (
             <div className="col-lg-12">

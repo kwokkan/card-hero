@@ -13,7 +13,7 @@ export function GameDeckWidget(props: IGameDeckWidgetProps) {
     return (
         <div className="card">
             <h4 className="card-header">
-                <a>You</a>
+                You
             </h4>
             <div className="card-body">
                 <div className="card-text">

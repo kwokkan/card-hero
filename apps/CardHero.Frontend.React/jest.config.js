@@ -11,7 +11,8 @@
     "coverageDirectory": "<rootDir>/obj/coverage/js",
     "collectCoverage": true,
     "setupFiles": [
-        "react-app-polyfill/jsdom"
+        "react-app-polyfill/jsdom",
+        "<rootDir>/config/jest/overrides.js"
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [

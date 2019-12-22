@@ -28,6 +28,11 @@ namespace CardHero.Core.SqlServer.Services
                 .Include(x => x.CardFkNavigation)
                 .AsQueryable();
 
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                query = query.Where(x => x.CardFkNavigation.Name.Contains(filter.Name));
+            }
+
             if (filter.Ids != null && filter.Ids.Any())
             {
                 query = query.Where(x => filter.Ids.Contains(x.CardCollectionPk));

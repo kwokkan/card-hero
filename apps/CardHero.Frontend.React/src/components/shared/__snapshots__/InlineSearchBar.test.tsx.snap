@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InlineSearchBar /> renders with default value 1`] = `
+<div
+  className="input-group"
+>
+  <input
+    className="form-control"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Search"
+    type="search"
+    value="Test"
+  />
+  <div
+    className="input-group-append"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+      type="button"
+    >
+      Search
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<InlineSearchBar /> renders without default value 1`] = `
+<div
+  className="input-group"
+>
+  <input
+    className="form-control"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Search"
+    type="search"
+    value=""
+  />
+  <div
+    className="input-group-append"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+      type="button"
+    >
+      Search
+    </button>
+  </div>
+</div>
+`;

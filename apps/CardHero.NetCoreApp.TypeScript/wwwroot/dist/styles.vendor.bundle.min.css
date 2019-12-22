@@ -623,6 +623,43 @@ a.btn.disabled {
   box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
 }
 
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+.btn-danger:focus {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+  box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+}
+.btn-danger.disabled, .btn-danger:disabled {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:not(:disabled):not(.disabled):active, .show > .btn-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #bd2130;
+  border-color: #b21f2d;
+}
+.btn-danger:not(:disabled):not(.disabled):active:focus, .show > .btn-danger.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
 .collapse:not(.show) {
   display: none;
 }
@@ -718,6 +755,68 @@ a.btn.disabled {
   display: block;
 }
 
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.input-group > .form-control {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  margin-bottom: 0;
+}
+.input-group > .form-control + .form-control {
+  margin-left: -1px;
+}
+.input-group > .form-control:focus {
+  z-index: 3;
+}
+.input-group > .form-control:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group > .form-control:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+.input-group-append {
+  display: flex;
+}
+
+.input-group-append .btn {
+  position: relative;
+  z-index: 2;
+}
+
+.input-group-append .btn:focus {
+  z-index: 3;
+}
+
+.input-group-append .btn + .btn {
+  margin-left: -1px;
+}
+
+.input-group-append {
+  margin-left: -1px;
+}
+
+
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group > .input-group-append > .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -781,6 +880,12 @@ a.btn.disabled {
 .navbar-nav .dropdown-menu {
   position: static;
   float: none;
+}
+
+.navbar-text {
+  display: inline-block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .navbar-collapse {
@@ -857,6 +962,15 @@ a.btn.disabled {
 .navbar-dark .navbar-toggler {
   color: rgba(255, 255, 255, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
+}
+.navbar-dark .navbar-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+.navbar-dark .navbar-text a {
+  color: #fff;
+}
+.navbar-dark .navbar-text a:hover, .navbar-dark .navbar-text a:focus {
+  color: #fff;
 }
 
 .card {
@@ -1272,6 +1386,18 @@ button.bg-dark:focus {
   display: inline-block !important;
 }
 
+.d-flex {
+  display: flex !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
 .float-right {
   float: right !important;
 }
@@ -1410,6 +1536,10 @@ svg:not(:root).svg-inline--fa {
 
 .svg-inline--fa.fa-w-16 {
   width: 1em;
+}
+
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
 }
 
 .svg-inline--fa.fa-w-20 {

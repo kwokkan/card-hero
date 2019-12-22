@@ -5,7 +5,7 @@ const Constants = {
     /**
      * The name of the app.
      */
-    AppName: '"Card Hero TS"',
+    AppName: '"Card Hero"',
 
     /**
      * Whether this is debug or not.

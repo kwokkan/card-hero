@@ -14,10 +14,6 @@ interface IGameTripleTriadBoardProps {
 }
 
 export class GameTripleTriadBoard extends Component<IGameTripleTriadBoardProps, {}> {
-    constructor(props: IGameTripleTriadBoardProps) {
-        super(props);
-    }
-
     private isSelected(row: number, column: number): boolean {
         return this.props.game.data.moves.findIndex((x: IGameTripleTriadMoveViewModel) => x.row === row && x.column === column) > -1;
     }
