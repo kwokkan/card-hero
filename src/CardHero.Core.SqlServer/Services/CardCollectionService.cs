@@ -8,6 +8,7 @@ using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -76,28 +77,10 @@ namespace CardHero.Core.SqlServer.Services
                 return null;
             }
 
-            if (!cardIds.Any())
-            {
-                return Array.Empty<CardCollectionModel>();
-            }
+            var cardCollections = await _cardCollectionRepository.AddCardsAsync(cardIds, userId, cancellationToken: cancellationToken);
 
-            var cardCollections = cardIds
-                .Select(x => new CardCollection
-                {
-                    CardFk = x,
-                    CreatedTime = DateTime.UtcNow,
-                    UserFk = userId,
-                })
-                .ToArray();
-
-            var context = GetContext();
-
-            await context.CardCollection.AddRangeAsync(cardCollections);
-
-            await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-            var cardCollectionIds = cardCollections.Select(x => x.CardCollectionPk).ToArray();
-            var searchResult = await GetCardCollectionInternalAsync(new Abstractions.CardCollectionSearchFilter { Ids = cardCollectionIds }, cancellationToken);
+            var cardCollectionIds = cardCollections.Select(x => x.Id).ToArray();
+            var searchResult = await GetCardCollectionInternalAsync(new Abstractions.CardCollectionSearchFilter { Ids = cardCollectionIds }, cancellationToken: cancellationToken);
 
             return searchResult.Results;
         }

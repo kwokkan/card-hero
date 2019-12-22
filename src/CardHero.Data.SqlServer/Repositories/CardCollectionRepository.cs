@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +27,36 @@ namespace CardHero.Data.SqlServer
             _context = context;
 
             _cardCollectionMapper = cardCollectionMapper;
+        }
+
+        async Task<CardCollectionData[]> ICardCollectionRepository.AddCardsAsync(IEnumerable<int> cardIds, int userId, CancellationToken cancellationToken)
+        {
+            if (cardIds == null)
+            {
+                return null;
+            }
+
+            if (!cardIds.Any())
+            {
+                return Array.Empty<CardCollectionData>();
+            }
+
+            var cardCollections = cardIds
+                .Select(x => new CardCollection
+                {
+                    CardFk = x,
+                    CreatedTime = DateTime.UtcNow,
+                    UserFk = userId,
+                })
+                .ToArray();
+
+            await _context.CardCollection.AddRangeAsync(cardCollections);
+
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+
+            var results = cardCollections.Select(x => _cardCollectionMapper.Map(x)).ToArray();
+
+            return results;
         }
 
         async Task<SearchResult<CardCollectionData>> ICardCollectionRepository.FindCardCollectionsAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
