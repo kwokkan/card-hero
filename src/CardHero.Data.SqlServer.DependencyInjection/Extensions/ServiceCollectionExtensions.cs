@@ -63,6 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddCardHeroDataSqlServerRepositories(this IServiceCollection services)
         {
             services
+                .AddScoped<ICardCollectionRepository, CardCollectionRepository>()
                 .AddScoped<IDeckRepository, DeckRepository>()
                 .AddScoped<IGameDeckCardCollectionRepository, GameDeckCardCollectionRepository>()
                 .AddScoped<IGameDeckRepository, GameDeckRepository>()

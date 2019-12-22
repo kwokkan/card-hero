@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
-
+using CardHero.Data.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -15,38 +15,58 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class CardCollectionService : BaseService, ICardCollectionService
     {
-        public CardCollectionService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly ICardCollectionRepository _cardCollectionRepository;
+
+        private readonly IDataMapper<CardCollectionData, CardCollectionModel> _cardCollectionDataMapper;
+
+        public CardCollectionService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            ICardCollectionRepository cardCollectionRepository,
+            IDataMapper<CardCollectionData, CardCollectionModel> cardCollectionDataMapper
+        )
             : base(contextFactory)
         {
+            _cardCollectionRepository = cardCollectionRepository;
+
+            _cardCollectionDataMapper = cardCollectionDataMapper;
         }
 
-        private Task<SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
+        private async Task<Abstractions.SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(Abstractions.CardCollectionSearchFilter filter, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var cardCollections = await _cardCollectionRepository.FindCardCollectionsAsync(
+                new Data.Abstractions.CardCollectionSearchFilter
+                {
+                    CardName = filter.Name,
+                    Ids = filter.Ids?.ToArray(),
+                    UserId = filter.UserId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-            var query = context.CardCollection
-                .Include(x => x.CardFkNavigation)
-                .AsQueryable();
+            var results = cardCollections.Results.Select(_cardCollectionDataMapper.Map).ToArray();
 
-            if (!string.IsNullOrEmpty(filter.Name))
+            var cardIds = results.Select(x => x.CardId).ToArray();
+
+            //TODO: Replace with card repository
+            using (var context = GetContext())
             {
-                query = query.Where(x => x.CardFkNavigation.Name.Contains(filter.Name));
+                var query = context.Card.AsQueryable();
+
+                query = query.Where(x => cardIds.Contains(x.CardPk));
+
+                var cards = await query.Select(x => x.ToCore(filter.UserId)).ToListAsync();
+
+                foreach (var res in results)
+                {
+                    res.Card = cards.FirstOrDefault(x => x.Id == res.CardId);
+                }
             }
 
-            if (filter.Ids != null && filter.Ids.Any())
+            return new Abstractions.SearchResult<CardCollectionModel>
             {
-                query = query.Where(x => filter.Ids.Contains(x.CardCollectionPk));
-            }
-
-            if (filter.UserId.HasValue)
-            {
-                query = query
-                    .Include(x => x.CardFkNavigation)
-                    .ThenInclude(x => x.CardFavourite);
-                query = query.Where(x => x.UserFk == filter.UserId.Value);
-            }
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+                Count = cardCollections.TotalCount,
+                Results = results,
+            };
         }
 
         async Task<CardCollectionModel[]> ICardCollectionService.AddCardsToCardCollectionAsync(IEnumerable<int> cardIds, int userId, CancellationToken cancellationToken)
@@ -77,12 +97,12 @@ namespace CardHero.Core.SqlServer.Services
             await context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var cardCollectionIds = cardCollections.Select(x => x.CardCollectionPk).ToArray();
-            var searchResult = await GetCardCollectionInternalAsync(new CardCollectionSearchFilter { Ids = cardCollectionIds }, cancellationToken);
+            var searchResult = await GetCardCollectionInternalAsync(new Abstractions.CardCollectionSearchFilter { Ids = cardCollectionIds }, cancellationToken);
 
             return searchResult.Results;
         }
 
-        Task<SearchResult<CardCollectionModel>> ICardCollectionService.GetCardCollectionAsync(CardCollectionSearchFilter filter, CancellationToken cancellationToken)
+        Task<Abstractions.SearchResult<CardCollectionModel>> ICardCollectionService.GetCardCollectionAsync(Abstractions.CardCollectionSearchFilter filter, CancellationToken cancellationToken)
         {
             return GetCardCollectionInternalAsync(filter, cancellationToken);
         }
