@@ -16,17 +16,20 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class DeckService : BaseService, IDeckService
     {
+        private readonly ICardCollectionRepository _cardCollectionRepository;
         private readonly IDeckRepository _deckRepository;
 
         private readonly IDataMapper<DeckData, DeckModel> _deckDataMapper;
 
         public DeckService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            ICardCollectionRepository cardCollectionRepository,
             IDeckRepository deckRepository,
             IDataMapper<DeckData, DeckModel> deckDataMapper
         )
             : base(contextFactory)
         {
+            _cardCollectionRepository = cardCollectionRepository;
             _deckRepository = deckRepository;
 
             _deckDataMapper = deckDataMapper;
@@ -154,18 +157,24 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException("You do not have access to this deck.");
             }
 
-            var distincted = (cardCollectionIds ?? new List<int>()).Distinct().ToList();
-            if (distincted.Count > deck.MaxCards)
+            var distincted = (cardCollectionIds ?? Array.Empty<int>()).Distinct().ToArray();
+            if (distincted.Length > deck.MaxCards)
             {
                 throw new InvalidDeckException("Over maximum number of cards added.");
             }
 
-            var ownedCount = await context
-                .CardCollection
-                .Where(x => distincted.Contains(x.CardCollectionPk))
-                .CountAsync(cancellationToken: cancellationToken);
+            var cardCollectionResults = await _cardCollectionRepository.FindCardCollectionsAsync(
+                new Data.Abstractions.CardCollectionSearchFilter
+                {
+                    Ids = distincted,
+                    UserId = userId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-            if (ownedCount != distincted.Count)
+            var ownedCount = cardCollectionResults.TotalCount;
+
+            if (ownedCount != distincted.Length)
             {
                 throw new InvalidCardException("You do not own some of the cards.");
             }

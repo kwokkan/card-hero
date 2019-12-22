@@ -7,7 +7,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
     {
         public Card()
         {
-            CardCollection = new HashSet<CardCollection>();
             CardFavourite = new HashSet<CardFavourite>();
         }
 
@@ -26,7 +25,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int TotalStats { get; set; }
 
         public virtual Rarity RarityFkNavigation { get; set; }
-        public virtual ICollection<CardCollection> CardCollection { get; set; }
         public virtual ICollection<CardFavourite> CardFavourite { get; set; }
     }
 }
