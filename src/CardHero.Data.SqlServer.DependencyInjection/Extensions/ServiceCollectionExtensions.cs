@@ -45,6 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddCardHeroDataSqlServerMappers(this IServiceCollection services)
         {
             services
+                .AddScoped<IMapper<CardCollection, CardCollectionData>, CardCollectionMapper>()
                 .AddScoped<IMapper<Deck, DeckData>, DeckMapper>()
                 .AddScoped<IMapper<DeckCardCollection, DeckCardData>, DeckCardMapper>()
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
