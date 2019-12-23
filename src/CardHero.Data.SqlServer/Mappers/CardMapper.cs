@@ -20,6 +20,8 @@ namespace CardHero.Data.SqlServer
                 Rarity = new RarityData
                 {
                     Id = from.RarityFk,
+                    Frequency = from.RarityFkNavigation.Frequency,
+                    Name = from.RarityFkNavigation.Name,
                 },
                 RightAttack = from.RightAttack,
                 TotalStats = from.TotalStats,

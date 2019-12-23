@@ -52,7 +52,9 @@ namespace CardHero.Data.SqlServer
 
             query = query.OrderBy(x => x.CardPk);
 
-            query = query.Skip(0).Take(DefaultPageSize);
+            query = query.Skip(0).Take(filter.PageSize ?? DefaultPageSize);
+
+            query = query.Include(x => x.RarityFkNavigation);
 
             var results = await query.Select(x => _cardMapper.Map(x)).ToArrayAsync(cancellationToken: cancellationToken);
 
