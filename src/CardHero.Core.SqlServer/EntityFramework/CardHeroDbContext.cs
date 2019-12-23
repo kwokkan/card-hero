@@ -4,49 +4,14 @@ namespace CardHero.Core.SqlServer.EntityFramework
 {
     public partial class CardHeroDbContext : DbContext
     {
-        public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardFavourite> CardFavourite { get; set; }
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
-        public virtual DbSet<Rarity> Rarity { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
-
-            modelBuilder.Entity<Card>(entity =>
-            {
-                entity.HasKey(e => e.CardPk);
-
-                entity.HasIndex(e => e.RarityFk);
-
-                entity.Property(e => e.CardPk).HasColumnName("Card_PK");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.Health).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.RarityFk)
-                    .HasColumnName("Rarity_FK")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
-
-                entity.Property(e => e.TotalStats).HasComputedColumnSql("(isnull(((((([UpAttack]+[RightAttack])+[DownAttack])+[LeftAttack])+[Health])+[Attack])+[Defence],(0)))");
-
-                entity.HasOne(d => d.RarityFkNavigation)
-                    .WithMany(p => p.Card)
-                    .HasForeignKey(d => d.RarityFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Card_Rarity_FK");
-            });
 
             modelBuilder.Entity<CardFavourite>(entity =>
             {
@@ -61,12 +26,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.CardFk).HasColumnName("Card_FK");
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
-
-                entity.HasOne(d => d.CardFkNavigation)
-                    .WithMany(p => p.CardFavourite)
-                    .HasForeignKey(d => d.CardFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CardFavourite_Card_FK");
             });
 
             modelBuilder.Entity<Deck>(entity =>
@@ -132,21 +91,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                     .HasForeignKey(d => d.DeckFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DeckFavourite_Deck_FK");
-            });
-
-            modelBuilder.Entity<Rarity>(entity =>
-            {
-                entity.HasKey(e => e.RarityPk);
-
-                entity.Property(e => e.RarityPk).HasColumnName("Rarity_PK");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Rowstamp)
-                    .IsRequired()
-                    .IsRowVersion();
             });
         }
     }
