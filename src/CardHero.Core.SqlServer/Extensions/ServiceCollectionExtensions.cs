@@ -33,6 +33,7 @@ namespace CardHero.Core.SqlServer.Web
             services
                 .AddScoped<IDesignTimeDbContextFactory<CardHeroDbContext>, CardHeroDbContextFactory>()
                 //.AddScoped(p => new TripleTriadDbContext(p.GetService<DbContextOptions<TripleTriadDbContext>>()))
+                .AddScoped<ICardCollectionService, CardCollectionService>()
                 .AddScoped<ICardService, CardService>()
                 .AddScoped<IDeckService, DeckService>()
                 .AddScoped<IGamePlayService, GamePlayService>()
@@ -47,6 +48,7 @@ namespace CardHero.Core.SqlServer.Web
             ;
 
             services
+                .AddScoped<IDataMapper<CardCollectionData, CardCollectionModel>, CardCollectionDataMapper>()
                 .AddScoped<IDataMapper<DeckData, DeckModel>, DeckDataMapper>()
                 .AddScoped<IDataMapper<GameData, GameModel>, GameDataMapper>()
                 .AddScoped<IDataMapper<GameCreateData, GameCreateModel>, GameCreateDataMapper>()

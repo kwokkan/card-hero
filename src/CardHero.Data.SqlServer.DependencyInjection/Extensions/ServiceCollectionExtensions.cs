@@ -45,6 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddCardHeroDataSqlServerMappers(this IServiceCollection services)
         {
             services
+                .AddScoped<IMapper<CardCollection, CardCollectionData>, CardCollectionMapper>()
                 .AddScoped<IMapper<Deck, DeckData>, DeckMapper>()
                 .AddScoped<IMapper<DeckCardCollection, DeckCardData>, DeckCardMapper>()
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
@@ -62,6 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddCardHeroDataSqlServerRepositories(this IServiceCollection services)
         {
             services
+                .AddScoped<ICardCollectionRepository, CardCollectionRepository>()
                 .AddScoped<IDeckRepository, DeckRepository>()
                 .AddScoped<IGameDeckCardCollectionRepository, GameDeckCardCollectionRepository>()
                 .AddScoped<IGameDeckRepository, GameDeckRepository>()
