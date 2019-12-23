@@ -14,12 +14,12 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
     [Authorize]
     public class CollectionApiController : CardHeroControllerBase
     {
-        private readonly ICardService _cardService;
+        private readonly ICardCollectionService _cardCollectionService;
 
-        public CollectionApiController(IUserService userService, ICardService cardService)
+        public CollectionApiController(IUserService userService, ICardCollectionService cardCollectionService)
             : base(userService)
         {
-            _cardService = cardService;
+            _cardCollectionService = cardCollectionService;
         }
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var filter = query.ToSearchFilter();
             filter.UserId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 
-            var result = await _cardService.GetCardCollectionAsync(filter, cancellationToken: cancellationToken);
+            var result = await _cardCollectionService.GetCardCollectionAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
         }

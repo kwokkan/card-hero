@@ -31,52 +31,5 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 IsFavourited = !userId.HasValue ? false : card.CardFavourite.Any(x => x.UserFk == userId.Value),
             };
         }
-
-        public static CardCollectionModel ToCore(this CardCollection collection, int? userId = null)
-        {
-            return new CardCollectionModel
-            {
-                Card = collection.CardFkNavigation.ToCore(userId),
-                CardId = collection.CardFk,
-                Id = collection.CardCollectionPk,
-                UserId = collection.UserFk,
-            };
-        }
-
-        public static DeckModel ToCore(this Deck deck, int? userId = null)
-        {
-            return deck == null ? null : new DeckModel
-            {
-                Cards = deck.DeckCardCollection.Select(x => x.ToCore()),
-                Description = deck.Description,
-                Id = deck.DeckPk,
-                MaxCards = deck.MaxCards,
-                Name = deck.Name,
-
-                IsFavourited = !userId.HasValue ? false : deck.DeckFavourite.Any(x => x.UserFk == userId.Value),
-            };
-        }
-
-        public static DeckCardModel ToCore(this DeckCardCollection deckCard)
-        {
-            return new DeckCardModel
-            {
-                CardCollectionId = deckCard.CardCollectionFk,
-                Card = new CardModel
-                {
-                    DownAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.DownAttack,
-                    Id = deckCard.DeckCardCollectionPk,
-                    LeftAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.LeftAttack,
-                    Name = deckCard.CardCollectionFkNavigation.CardFkNavigation.Name,
-                    RightAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.RightAttack,
-                    UpAttack = deckCard.CardCollectionFkNavigation.CardFkNavigation.UpAttack,
-                    Health = deckCard.CardCollectionFkNavigation.CardFkNavigation.Health,
-                    Attack = deckCard.CardCollectionFkNavigation.CardFkNavigation.Attack,
-                    Defence = deckCard.CardCollectionFkNavigation.CardFkNavigation.Defence,
-                    Rarity = (Models.Rarity)deckCard.CardCollectionFkNavigation.CardFkNavigation.RarityFk,
-                    TotalStats = deckCard.CardCollectionFkNavigation.CardFkNavigation.TotalStats,
-                },
-            };
-        }
     }
 }
