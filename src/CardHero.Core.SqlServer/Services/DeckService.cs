@@ -17,21 +17,27 @@ namespace CardHero.Core.SqlServer.Services
     public class DeckService : BaseService, IDeckService
     {
         private readonly ICardCollectionRepository _cardCollectionRepository;
+        private readonly ICardRepository _cardRepository;
         private readonly IDeckRepository _deckRepository;
 
         private readonly IDataMapper<DeckData, DeckModel> _deckDataMapper;
+        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public DeckService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardCollectionRepository cardCollectionRepository,
+            ICardRepository cardRepository,
             IDeckRepository deckRepository,
+            IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<DeckData, DeckModel> deckDataMapper
         )
             : base(contextFactory)
         {
             _cardCollectionRepository = cardCollectionRepository;
+            _cardRepository = cardRepository;
             _deckRepository = deckRepository;
 
+            _cardDataMapper = cardDataMapper;
             _deckDataMapper = deckDataMapper;
         }
 
@@ -45,21 +51,22 @@ namespace CardHero.Core.SqlServer.Services
             {
                 var cardIds = deck.Cards.Select(x => x.CardId).ToArray();
 
-                //TODO: Replace with card repository
-                using (var context = GetContext())
-                {
-                    var query = context.Card.Include(x => x.CardFavourite).AsQueryable();
-
-                    query = query.Where(x => cardIds.Contains(x.CardPk));
-
-                    var cards = await query.Select(x => x.ToCore(deck.UserId)).ToListAsync();
-
-                    model.Cards = model.Cards.Select(x => new DeckCardModel
+                var cardResults = await _cardRepository.FindCardsAsync(
+                    new Data.Abstractions.CardSearchFilter
                     {
-                        Card = cards.FirstOrDefault(c => c.Id == x.Card.Id),
-                        CardCollectionId = x.CardCollectionId,
-                    });
-                }
+                        Ids = cardIds,
+                        UserId = deck.UserId,
+                    },
+                    cancellationToken: cancellationToken
+                );
+
+                var cards = cardResults.Results.Select(x => _cardDataMapper.Map(x)).ToList();
+
+                model.Cards = model.Cards.Select(x => new DeckCardModel
+                {
+                    Card = cards.FirstOrDefault(c => c.Id == x.Card.Id),
+                    CardCollectionId = x.CardCollectionId,
+                });
             }
 
             return model;

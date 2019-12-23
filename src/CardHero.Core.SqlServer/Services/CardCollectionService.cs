@@ -52,11 +52,14 @@ namespace CardHero.Core.SqlServer.Services
 
             var cardIds = results.Select(x => x.CardId).ToArray();
 
-            var cardResults = await _cardRepository.FindCardsAsync(new Data.Abstractions.CardSearchFilter
-            {
-                Ids = cardIds,
-                UserId = filter.UserId,
-            });
+            var cardResults = await _cardRepository.FindCardsAsync(
+                new Data.Abstractions.CardSearchFilter
+                {
+                    Ids = cardIds,
+                    UserId = filter.UserId,
+                },
+                cancellationToken: cancellationToken
+            );
 
             var cards = cardResults.Results.Select(x => _cardDataMapper.Map(x)).ToList();
 
