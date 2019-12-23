@@ -17,6 +17,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
         {
+            foreach (var item in context.Card)
+            {
+                context.Card.Remove(item);
+            }
+
             foreach (var item in context.Deck)
             {
                 context.Deck.Remove(item);
@@ -37,6 +42,17 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
         private static void SeedDbContext(CardHeroDataDbContext context)
         {
+            context.Card.Add(new Card
+            {
+                CardPk = 1,
+                Name = "First card",
+            });
+            context.Card.Add(new Card
+            {
+                CardPk = 2,
+                Name = "Second card",
+            });
+
             context.Deck.Add(new Deck
             {
                 DeckPk = 1,
