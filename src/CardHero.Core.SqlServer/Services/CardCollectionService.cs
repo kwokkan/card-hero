@@ -8,7 +8,6 @@ using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
@@ -16,19 +15,25 @@ namespace CardHero.Core.SqlServer.Services
     public class CardCollectionService : BaseService, ICardCollectionService
     {
         private readonly ICardCollectionRepository _cardCollectionRepository;
+        private readonly ICardRepository _cardRepository;
 
         private readonly IDataMapper<CardCollectionData, CardCollectionModel> _cardCollectionDataMapper;
+        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public CardCollectionService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardCollectionRepository cardCollectionRepository,
-            IDataMapper<CardCollectionData, CardCollectionModel> cardCollectionDataMapper
+            ICardRepository cardRepository,
+            IDataMapper<CardCollectionData, CardCollectionModel> cardCollectionDataMapper,
+            IDataMapper<CardData, CardModel> cardDataMapper
         )
             : base(contextFactory)
         {
             _cardCollectionRepository = cardCollectionRepository;
+            _cardRepository = cardRepository;
 
             _cardCollectionDataMapper = cardCollectionDataMapper;
+            _cardDataMapper = cardDataMapper;
         }
 
         private async Task<Abstractions.SearchResult<CardCollectionModel>> GetCardCollectionInternalAsync(Abstractions.CardCollectionSearchFilter filter, CancellationToken cancellationToken)
@@ -47,19 +52,17 @@ namespace CardHero.Core.SqlServer.Services
 
             var cardIds = results.Select(x => x.CardId).ToArray();
 
-            //TODO: Replace with card repository
-            using (var context = GetContext())
+            var cardResults = await _cardRepository.FindCardsAsync(new Data.Abstractions.CardSearchFilter
             {
-                var query = context.Card.AsQueryable();
+                Ids = cardIds,
+                UserId = filter.UserId,
+            });
 
-                query = query.Where(x => cardIds.Contains(x.CardPk));
+            var cards = cardResults.Results.Select(x => _cardDataMapper.Map(x)).ToList();
 
-                var cards = await query.Select(x => x.ToCore(filter.UserId)).ToListAsync();
-
-                foreach (var res in results)
-                {
-                    res.Card = cards.FirstOrDefault(x => x.Id == res.CardId);
-                }
+            foreach (var res in results)
+            {
+                res.Card = cards.FirstOrDefault(x => x.Id == res.CardId);
             }
 
             return new Abstractions.SearchResult<CardCollectionModel>
