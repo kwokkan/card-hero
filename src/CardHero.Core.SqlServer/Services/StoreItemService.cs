@@ -55,8 +55,6 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
         {
-            var context = GetContext();
-
             var bundle = await _storeItemRepository.GetStoreItemById(storeItem.Id, cancellationToken: cancellationToken);
 
             if (bundle == null)

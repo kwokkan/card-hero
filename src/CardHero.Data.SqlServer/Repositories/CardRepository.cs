@@ -32,11 +32,11 @@ namespace CardHero.Data.SqlServer
         {
             var query = _context.Card.AsQueryable();
 
-            if (filter.UserId.HasValue)
-            {
-                //TODO: Bring back card favourites
-                //query = query.Include(x => x.CardFavourite);
-            }
+            //TODO: Bring back card favourites
+            //if (filter.UserId.HasValue)
+            //{
+            //    //query = query.Include(x => x.CardFavourite);
+            //}
 
             if (filter.Ids != null)
             {
