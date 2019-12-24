@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
+using CardHero.Data.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -13,33 +14,41 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class CardService : BaseService, ICardService
     {
-        public CardService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
+        private readonly ICardRepository _cardRepository;
+
+        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
+
+        public CardService(
+            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            ICardRepository cardRepository,
+            IDataMapper<CardData, CardModel> cardDataMapper
+        )
             : base(contextFactory)
         {
+            _cardRepository = cardRepository;
+
+            _cardDataMapper = cardDataMapper;
         }
 
-        Task<SearchResult<CardModel>> ICardService.GetCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
+        async Task<Abstractions.SearchResult<CardModel>> ICardService.GetCardsAsync(Abstractions.CardSearchFilter filter, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var cardCollections = await _cardRepository.FindCardsAsync(
+                new Data.Abstractions.CardSearchFilter
+                {
+                    Ids = filter.Ids?.ToArray(),
+                    Name = filter.Name,
+                    UserId = filter.UserId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-            var query = context.Card.AsQueryable();
+            var results = cardCollections.Results.Select(_cardDataMapper.Map).ToArray();
 
-            if (filter.UserId.HasValue)
+            return new Abstractions.SearchResult<CardModel>
             {
-                query = query.Include(x => x.CardFavourite);
-            }
-
-            if (filter.Ids != null)
-            {
-                query = query.Where(x => filter.Ids.Contains(x.CardPk));
-            }
-
-            if (!string.IsNullOrEmpty(filter.Name))
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-
-            return PaginateAndSortAsync(query, filter, x => x.ToCore(filter.UserId), cancellationToken: cancellationToken);
+                Count = cardCollections.TotalCount,
+                Results = results,
+            };
         }
 
         async Task<bool> ICardService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)

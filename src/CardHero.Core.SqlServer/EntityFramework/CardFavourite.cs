@@ -8,7 +8,5 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int CardFavouritePk { get; set; }
         public int CardFk { get; set; }
         public int UserFk { get; set; }
-
-        public virtual Card CardFkNavigation { get; set; }
     }
 }

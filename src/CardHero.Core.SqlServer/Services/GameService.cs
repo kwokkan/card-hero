@@ -226,7 +226,7 @@ namespace CardHero.Core.SqlServer.Services
                     game.GameDeck.CardCollection = deckCards.Select(_gameDeckCardCollectionMapper.Map).ToArray();
 
                     //TODO: Replace with data layer
-                    var cardFilter = new CardSearchFilter
+                    var cardFilter = new Abstractions.CardSearchFilter
                     {
                         Ids = deckCards.Select(x => x.CardId).ToArray(),
                     };
