@@ -9,29 +9,34 @@ using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class StoreItemService : BaseService, IStoreItemService
     {
+        private readonly ICardRepository _cardRepository;
         private readonly IStoreItemRepository _storeItemRepository;
         private readonly IUserRepository _userRepository;
 
+        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
         private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
 
         public StoreItemService(
             IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
+            ICardRepository cardRepository,
             IStoreItemRepository storeItemRepository,
             IUserRepository userRepository,
+            IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
         )
             : base(contextFactory)
         {
+            _cardRepository = cardRepository;
             _storeItemRepository = storeItemRepository;
             _userRepository = userRepository;
 
+            _cardDataMapper = cardDataMapper;
             _storeItemDataMapper = storeItemDataMapper;
         }
 
@@ -50,8 +55,6 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
         {
-            var context = GetContext();
-
             var bundle = await _storeItemRepository.GetStoreItemById(storeItem.Id, cancellationToken: cancellationToken);
 
             if (bundle == null)
@@ -83,16 +86,25 @@ namespace CardHero.Core.SqlServer.Services
 
             await _userRepository.UpdateUserAsync(userId, userUpdate, cancellationToken: cancellationToken);
 
-            var allCards = (await context
-                .Card
-                .Include(x => x.RarityFkNavigation)
-                .ToListAsync(cancellationToken: cancellationToken))
-                .SelectMany(x => Enumerable.Repeat(x, x.RarityFkNavigation.Frequency))
-                .ToArray();
+            var cardResults = await _cardRepository.FindCardsAsync(
+                new Data.Abstractions.CardSearchFilter
+                {
+                    PageSize = int.MaxValue,
+                },
+                cancellationToken: cancellationToken
+            );
+
+            var allCards = cardResults
+                .Results
+                .SelectMany(x => Enumerable.Repeat(x, x.Rarity.Frequency)
+                .Select(x => _cardDataMapper.Map(x)))
+                .ToArray()
+            ;
+
             var acl = allCards.Length;
 
             var ic = bundle.ItemCount;
-            var cards = new Card[ic];
+            var cards = new CardModel[ic];
             var random = new Random();
 
             for (int i = 0; i < ic; i++)
@@ -100,7 +112,7 @@ namespace CardHero.Core.SqlServer.Services
                 cards[i] = allCards[random.Next(acl)];
             }
 
-            return cards.Select(x => x.ToCore(null));
+            return cards;
         }
     }
 }

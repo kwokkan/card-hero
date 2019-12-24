@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Data.SqlServer.EntityFramework
 {
@@ -24,6 +22,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public virtual DbSet<GameDeckCardCollection> GameDeckCardCollection { get; set; }
         public virtual DbSet<GameUser> GameUser { get; set; }
         public virtual DbSet<Move> Move { get; set; }
+        public virtual DbSet<Rarity> Rarity { get; set; }
         public virtual DbSet<StoreItem> StoreItem { get; set; }
         public virtual DbSet<Turn> Turn { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -56,6 +55,12 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .IsConcurrencyToken();
 
                 entity.Property(e => e.TotalStats).HasComputedColumnSql("(isnull(((((([UpAttack]+[RightAttack])+[DownAttack])+[LeftAttack])+[Health])+[Attack])+[Defence],(0)))");
+
+                entity.HasOne(d => d.RarityFkNavigation)
+                    .WithMany(p => p.Card)
+                    .HasForeignKey(d => d.RarityFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Card_Rarity_FK");
             });
 
             modelBuilder.Entity<CardCollection>(entity =>
@@ -324,6 +329,22 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .HasForeignKey(d => d.TurnFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Move_Turn_FK");
+            });
+
+            modelBuilder.Entity<Rarity>(entity =>
+            {
+                entity.HasKey(e => e.RarityPk);
+
+                entity.Property(e => e.RarityPk).HasColumnName("Rarity_PK");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken();
             });
 
             modelBuilder.Entity<StoreItem>(entity =>

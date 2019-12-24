@@ -25,6 +25,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public int RarityFk { get; set; }
         public int TotalStats { get; set; }
 
+        public virtual Rarity RarityFkNavigation { get; set; }
         public virtual ICollection<CardCollection> CardCollection { get; set; }
         public virtual ICollection<GameDeckCardCollection> GameDeckCardCollection { get; set; }
     }

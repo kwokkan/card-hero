@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CardHero.Core.SqlServer.EntityFramework
+namespace CardHero.Data.SqlServer.EntityFramework
 {
     public partial class Rarity
     {

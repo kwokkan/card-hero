@@ -16,6 +16,7 @@ GameDeck,`
 GameDeckCardCollection,`
 GameUser,`
 Move,`
+Rarity,`
 StoreItem,`
 Turn,`
 User
