@@ -27,6 +27,22 @@ namespace CardHero.Data.SqlServer
             _deckMapper = deckMapper;
         }
 
+        async Task<DeckData> IDeckRepository.CreateDeckAsync(DeckCreateData deck, CancellationToken cancellationToken)
+        {
+            var entity = new Deck
+            {
+                Description = deck.Description,
+                MaxCards = 5,
+                Name = deck.Name,
+                UserFk = deck.UserId,
+            };
+            _context.Deck.Add(entity);
+
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+
+            return _deckMapper.Map(entity);
+        }
+
         Task<ReadOnlyCollection<DeckData>> IDeckRepository.FindDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
         {
             var query = _context

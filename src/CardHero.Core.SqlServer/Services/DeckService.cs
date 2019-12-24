@@ -74,21 +74,17 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
         {
-            using (var context = GetContext())
+            var newDeckCreate = new DeckCreateData
             {
-                var entity = new Deck
-                {
-                    Description = deck.Description,
-                    MaxCards = 5,
-                    Name = deck.Name,
-                    UserFk = userId,
-                };
-                context.Deck.Add(entity);
+                Description = deck.Description,
+                MaxCards = 5,
+                Name = deck.Name,
+                UserId = userId,
+            };
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            var newDeck = await _deckRepository.CreateDeckAsync(newDeckCreate, cancellationToken: cancellationToken);
 
-                return await GetDeckByIdInternalAsync(entity.DeckPk, false, cancellationToken);
-            }
+            return _deckDataMapper.Map(newDeck);
         }
 
         Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
