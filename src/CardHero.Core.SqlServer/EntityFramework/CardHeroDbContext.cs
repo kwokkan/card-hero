@@ -5,7 +5,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
     public partial class CardHeroDbContext : DbContext
     {
         public virtual DbSet<CardFavourite> CardFavourite { get; set; }
-        public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
 
@@ -28,27 +27,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
             });
 
-            modelBuilder.Entity<Deck>(entity =>
-            {
-                entity.HasKey(e => e.DeckPk);
-
-                entity.HasIndex(e => e.UserFk);
-
-                entity.Property(e => e.DeckPk).HasColumnName("Deck_PK");
-
-                entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Rowstamp).IsRowVersion();
-
-                entity.Property(e => e.UserFk).HasColumnName("User_FK");
-            });
-
             modelBuilder.Entity<DeckCardCollection>(entity =>
             {
                 entity.HasKey(e => e.DeckCardCollectionPk);
@@ -64,12 +42,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
 
                 entity.Property(e => e.Rowstamp).IsRowVersion();
-
-                entity.HasOne(d => d.DeckFkNavigation)
-                    .WithMany(p => p.DeckCardCollection)
-                    .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeckCardCollection_Deck_FK");
             });
 
             modelBuilder.Entity<DeckFavourite>(entity =>
@@ -85,12 +57,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
-
-                entity.HasOne(d => d.DeckFkNavigation)
-                    .WithMany(p => p.DeckFavourite)
-                    .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeckFavourite_Deck_FK");
             });
         }
     }

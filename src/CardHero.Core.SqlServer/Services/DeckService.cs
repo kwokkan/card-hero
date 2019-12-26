@@ -74,21 +74,17 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<DeckModel> IDeckService.CreateDeckAsync(DeckCreateModel deck, int userId, CancellationToken cancellationToken)
         {
-            using (var context = GetContext())
+            var newDeckCreate = new DeckCreateData
             {
-                var entity = new Deck
-                {
-                    Description = deck.Description,
-                    MaxCards = 5,
-                    Name = deck.Name,
-                    UserFk = userId,
-                };
-                context.Deck.Add(entity);
+                Description = deck.Description,
+                MaxCards = 5,
+                Name = deck.Name,
+                UserId = userId,
+            };
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            var newDeck = await _deckRepository.CreateDeckAsync(newDeckCreate, cancellationToken: cancellationToken);
 
-                return await GetDeckByIdInternalAsync(entity.DeckPk, false, cancellationToken);
-            }
+            return _deckDataMapper.Map(newDeck);
         }
 
         Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
@@ -155,11 +151,14 @@ namespace CardHero.Core.SqlServer.Services
         {
             var context = GetContext();
 
-            var deck = await context
-                .Deck
-                .FirstOrDefaultAsync(x => x.DeckPk == id && x.UserFk == userId, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
             if (deck == null)
+            {
+                throw new InvalidDeckException("You do not have access to this deck.");
+            }
+
+            if (deck.UserId != userId)
             {
                 throw new InvalidDeckException("You do not have access to this deck.");
             }
