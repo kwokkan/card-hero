@@ -5,7 +5,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
     public partial class CardHeroDbContext : DbContext
     {
         public virtual DbSet<CardFavourite> CardFavourite { get; set; }
-        public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
 
@@ -24,27 +23,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
 
                 entity.Property(e => e.CardFk).HasColumnName("Card_FK");
-
-                entity.Property(e => e.UserFk).HasColumnName("User_FK");
-            });
-
-            modelBuilder.Entity<Deck>(entity =>
-            {
-                entity.HasKey(e => e.DeckPk);
-
-                entity.HasIndex(e => e.UserFk);
-
-                entity.Property(e => e.DeckPk).HasColumnName("Deck_PK");
-
-                entity.Property(e => e.CreatedTime).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Description).HasMaxLength(1000);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Rowstamp).IsRowVersion();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
             });

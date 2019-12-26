@@ -9,7 +9,5 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public byte[] Rowstamp { get; set; }
         public int DeckFk { get; set; }
         public int CardCollectionFk { get; set; }
-
-        public virtual Deck DeckFkNavigation { get; set; }
     }
 }
