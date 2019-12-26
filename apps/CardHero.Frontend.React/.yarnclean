@@ -1,0 +1,39 @@
+# directories
+**/__tests__/**
+**/example/**
+**/examples/**
+**/test/**
+**/tests/**
+
+
+# generic files
+*.flow
+*.map
+*.markdown
+*.md
+*.yml
+
+
+# specific files
+AUTHORS
+CHANGELOG
+LICENSE
+LICENSE-MIT
+LICENSE.BSD
+LICENSE.txt
+README.md
+
+
+# tooling files
+.editorconfig
+.eslintignore
+.eslintrc
+.eslintrc.js
+.eslintrc.json
+.npmignore
+bower.json
+Makefile
+tsconfig.buildinfo
+tsconfig.json
+yarn.lock
+yarn-error.log
