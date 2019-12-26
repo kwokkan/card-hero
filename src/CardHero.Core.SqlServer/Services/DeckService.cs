@@ -151,11 +151,14 @@ namespace CardHero.Core.SqlServer.Services
         {
             var context = GetContext();
 
-            var deck = await context
-                .Deck
-                .FirstOrDefaultAsync(x => x.DeckPk == id && x.UserFk == userId, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
             if (deck == null)
+            {
+                throw new InvalidDeckException("You do not have access to this deck.");
+            }
+
+            if (deck.UserId != userId)
             {
                 throw new InvalidDeckException("You do not have access to this deck.");
             }
