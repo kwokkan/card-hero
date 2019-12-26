@@ -42,12 +42,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
 
                 entity.Property(e => e.Rowstamp).IsRowVersion();
-
-                entity.HasOne(d => d.DeckFkNavigation)
-                    .WithMany(p => p.DeckCardCollection)
-                    .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeckCardCollection_Deck_FK");
             });
 
             modelBuilder.Entity<DeckFavourite>(entity =>
@@ -63,12 +57,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
-
-                entity.HasOne(d => d.DeckFkNavigation)
-                    .WithMany(p => p.DeckFavourite)
-                    .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DeckFavourite_Deck_FK");
             });
         }
     }
