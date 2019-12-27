@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript;
+using CardHero.NetCoreApp.TypeScript.Models;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -15,15 +16,6 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class GitHubAuthenticationBuilderExtensions
     {
-#pragma warning disable CA1812
-        private class GithubUserInfo
-        {
-            public int? Id { get; set; }
-            public string Login { get; set; }
-            public string Name { get; set; }
-        }
-#pragma warning restore CA1812
-
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
             AllowTrailingCommas = true,
@@ -50,25 +42,18 @@ namespace Microsoft.AspNetCore.Builder
                             return;
                         }
 
-                        try
+                        var content = await response.Content.ReadAsStringAsync();
+
+                        var payload = JsonSerializer.Deserialize<GithubUserInformationModel>(content, _options);
+
+                        var githubId = payload.Id;
+
+                        if (githubId.HasValue && githubId > 0)
                         {
-                            var content = await response.Content.ReadAsStringAsync();
-
-                            var payload = JsonSerializer.Deserialize<GithubUserInfo>(content, _options);
-
-                            var githubId = payload.Id;
-
-                            if (githubId.HasValue && githubId > 0)
-                            {
-                                var nameValue = payload.Name ?? payload.Login ?? "GitHub User #" + githubId;
-                                context.Identity.AddClaim(new Claim("sub", githubId.ToString()));
-                                context.Identity.AddClaim(new Claim("idp", GitHubAuthenticationOptions.DefaultAuthenticationScheme));
-                                context.Identity.AddClaim(new Claim("name", nameValue));
-                            }
-                        }
-                        catch
-                        {
-                            return;
+                            var nameValue = payload.Name ?? payload.Login ?? "GitHub User #" + githubId;
+                            context.Identity.AddClaim(new Claim("sub", githubId.ToString()));
+                            context.Identity.AddClaim(new Claim("idp", GitHubAuthenticationOptions.DefaultAuthenticationScheme));
+                            context.Identity.AddClaim(new Claim("name", nameValue));
                         }
                     }
                 },
