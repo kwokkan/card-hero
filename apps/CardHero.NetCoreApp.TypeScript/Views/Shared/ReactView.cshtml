@@ -1,1 +1,39 @@
-﻿@* Only here to use as part of layout *@
+﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
+@model ReactAppViewModel
+
+@{
+    var isDev = Microsoft.Extensions.Hosting.HostEnvironmentEnvExtensions.IsDevelopment(env);
+
+    var appScript = Model.AppScript;
+
+    ViewData["Title"] = Model.Title;
+}
+
+@section head {
+    <link rel="stylesheet" async asp-href-include="~/dist/styles.app.*.min.css" asp-append-version="@isDev" />
+}
+
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+
+<div id="root">
+    <h1>The app is currently loading.</h1>
+
+    <p>
+        If this is taking a long time, try refreshing the page.
+    </p>
+</div>
+
+<script defer asp-src-include="~/dist/runtime.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.default.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.global.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.react.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.fortawesome.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.unused.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="@isDev"></script>
+
+@if (!string.IsNullOrWhiteSpace(appScript))
+{
+    <script defer asp-src-include="~/dist/app.@(appScript).*.min.js" asp-append-version="@isDev"></script>
+}
