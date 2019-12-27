@@ -15,6 +15,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardCollection> CardCollection { get; set; }
+        public virtual DbSet<CardFavourite> CardFavourite { get; set; }
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<Game> Game { get; set; }
@@ -95,6 +96,33 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CardCollection_User_FK");
+            });
+
+            modelBuilder.Entity<CardFavourite>(entity =>
+            {
+                entity.HasKey(e => e.CardFavouritePk);
+
+                entity.HasIndex(e => new { e.CardFk, e.UserFk })
+                    .HasName("UX_CardFavourite_Card_FK_User_FK")
+                    .IsUnique();
+
+                entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
+
+                entity.Property(e => e.CardFk).HasColumnName("Card_FK");
+
+                entity.Property(e => e.UserFk).HasColumnName("User_FK");
+
+                entity.HasOne(d => d.CardFkNavigation)
+                    .WithMany(p => p.CardFavourite)
+                    .HasForeignKey(d => d.CardFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardFavourite_Card_FK");
+
+                entity.HasOne(d => d.UserFkNavigation)
+                    .WithMany(p => p.CardFavourite)
+                    .HasForeignKey(d => d.UserFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardFavourite_User_FK");
             });
 
             modelBuilder.Entity<Deck>(entity =>
