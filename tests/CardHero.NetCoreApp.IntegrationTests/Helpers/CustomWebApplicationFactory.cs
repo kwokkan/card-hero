@@ -42,6 +42,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.DeckCardCollection.Remove(item);
             }
 
+            foreach (var item in context.DeckFavourite)
+            {
+                context.DeckFavourite.Remove(item);
+            }
+
             foreach (var item in context.Rarity)
             {
                 context.Rarity.Remove(item);

@@ -85,6 +85,26 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         [Fact]
+        public async Task FavouriteAsync_AddDeckFavourite_ReturnsOk()
+        {
+            var client = _factory.CreateClientWithAuth();
+
+            var postModel = new DeckModel
+            {
+                IsFavourited = true,
+            };
+            var postResponse = await client.PostJsonAsync("api/decks/1/favourite", postModel);
+
+            postResponse.EnsureSuccessStatusCode();
+
+            var getResponse = await client.GetAsync("api/decks/1");
+            var model = await getResponse.Content.ReadAsAsync<DeckModel>();
+
+            Assert.Equal(1, model.Id);
+            Assert.True(model.IsFavourited);
+        }
+
+        [Fact]
         public async Task PatchAsync_ValidCards_GetDeck()
         {
             var deck = new DeckModel
