@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,18 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var result = await _cardService.GetCardsAsync(filter, cancellationToken: cancellationToken);
 
             return result.Results;
+        }
+
+        [HttpPost("{id:int}/favourite")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> FavouriteAsync(int id, CancellationToken cancellationToken)
+        {
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+
+            await _cardService.ToggleFavouriteAsync(id, userId, cancellationToken: cancellationToken);
+
+            return Ok();
         }
     }
 }

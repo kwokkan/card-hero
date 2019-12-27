@@ -28,11 +28,17 @@
   "modules": {
     "byIdentifier": {
       "multi ./src/globals.ts ./src/app/index.tsx": 0,
-      "multi ./src/styles/vendor.scss ./src/styles/index.scss": 1
+      "multi ./src/styles/vendor.scss ./src/styles/index.scss": 1,
+      "css node_modules/css-loader/dist/cjs.js!node_modules/chart.js/dist/Chart.min.css 0": 2,
+      "css node_modules/css-loader/dist/cjs.js!node_modules/sass-loader/dist/cjs.js??ref--6-2!src/styles/vendor.scss 0": 3,
+      "css node_modules/css-loader/dist/cjs.js!node_modules/sass-loader/dist/cjs.js??ref--6-2!src/styles/index.scss 0": 4
     },
     "usedIds": {
       "0": 0,
-      "1": 1
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
     }
   },
   "chunks": {
