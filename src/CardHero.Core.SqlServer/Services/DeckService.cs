@@ -9,7 +9,6 @@ using CardHero.Core.Models;
 using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
@@ -115,36 +114,16 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
-        async Task<bool> IDeckService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)
+        async Task IDeckService.FavouriteDeckAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
-            var favourite = await context
-                .DeckFavourite
-                .SingleOrDefaultAsync(x => x.DeckFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
-
-            if (favourite == null)
+            if (deck == null)
             {
-                var newDeckFavourite = new DeckFavourite
-                {
-                    DeckFk = id,
-                    UserFk = userId,
-                };
-
-                context.DeckFavourite.Add(newDeckFavourite);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return true;
+                throw new InvalidDeckException($"Deck { id } does not exist.");
             }
-            else
-            {
-                context.DeckFavourite.Remove(favourite);
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return false;
-            }
+            await _deckRepository.FavouriteDeckAsync(id, userId, favourite, cancellationToken: cancellationToken);
         }
 
         async Task IDeckService.UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken)

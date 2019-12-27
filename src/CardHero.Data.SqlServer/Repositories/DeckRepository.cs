@@ -62,13 +62,13 @@ namespace CardHero.Data.SqlServer
 
             if (favourite && existingFavourite == null)
             {
-                var newCardFavourite = new DeckFavourite
+                var newDeckFavourite = new DeckFavourite
                 {
                     DeckFk = id,
                     UserFk = userId,
                 };
 
-                _context.DeckFavourite.Add(newCardFavourite);
+                _context.DeckFavourite.Add(newDeckFavourite);
 
                 await _context.SaveChangesAsync(cancellationToken: cancellationToken);
             }

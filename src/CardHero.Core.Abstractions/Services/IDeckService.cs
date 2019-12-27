@@ -46,13 +46,14 @@ namespace CardHero.Core.Abstractions
         Task UpdateDeckAsync(int deckId, DeckModel deck, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Toggles a favourite for a deck.
+        /// Favourites a deck.
         /// </summary>
         /// <param name="id">The deck id.</param>
         /// <param name="userId">The user id.</param>
+        /// <param name="favourite">true to favourite, false to not.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>true if the deck is favourited otherwise false.</returns>
-        Task<bool> ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken = default);
+        /// <returns>The task.</returns>
+        Task FavouriteDeckAsync(int id, int userId, bool favourite, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates the cards in a collection.
