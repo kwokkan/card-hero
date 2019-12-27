@@ -460,6 +460,53 @@
         }
       }
     },
+    "/api/decks/{id}/favourite": {
+      "post": {
+        "tags": [
+          "DeckApi"
+        ],
+        "operationId": "DeckApi_FavouriteAsynx",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeckModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/games": {
       "get": {
         "tags": [

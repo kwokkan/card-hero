@@ -62,6 +62,18 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }
 
+        [HttpPost("{id:int}/favourite")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> FavouriteAsynx(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        {
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+
+            await _deckService.FavouriteDeckAsync(id, userId, model.IsFavourited, cancellationToken: cancellationToken);
+
+            return Ok();
+        }
+
         [HttpPatch("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
