@@ -20,7 +20,7 @@ export class Card extends PureComponent<ICardProps, ICardState> {
         this.state = {};
     }
 
-    private async onCardStatsFavourite(card: ICardModel) {
+    private onCardStatsFavourite = async (card: ICardModel) => {
         if (Constants.Debug) {
             console.log(card);
         }

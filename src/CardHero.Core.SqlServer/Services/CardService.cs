@@ -59,6 +59,7 @@ namespace CardHero.Core.SqlServer.Services
                     {
                         id,
                     },
+                    UserId = userId,
                 },
                 cancellationToken: cancellationToken
             );

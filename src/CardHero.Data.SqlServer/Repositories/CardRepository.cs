@@ -28,6 +28,26 @@ namespace CardHero.Data.SqlServer
             _cardMapper = cardMapper;
         }
 
+        private async Task PopulateCardFavouriteAsync(int? userId, CardData[] cards, CancellationToken cancellationToken)
+        {
+            if (userId.HasValue && cards.Any())
+            {
+                var cardIds = cards.Select(x => x.Id).ToArray();
+
+                var cardFavourites = await _context
+                    .CardFavourite
+                    .Where(x => cardIds.Contains(x.CardFk) && x.UserFk == userId.Value)
+                    .Select(x => x.CardFk)
+                    .ToArrayAsync(cancellationToken: cancellationToken)
+                ;
+
+                foreach (var card in cards)
+                {
+                    card.IsFavourited = cardFavourites.Any(cf => cf == card.Id);
+                }
+            }
+        }
+
         async Task ICardRepository.FavouriteCardAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
         {
             var existingFavourite = await _context
@@ -58,12 +78,6 @@ namespace CardHero.Data.SqlServer
         {
             var query = _context.Card.AsQueryable();
 
-            //TODO: Bring back card favourites
-            //if (filter.UserId.HasValue)
-            //{
-            //    //query = query.Include(x => x.CardFavourite);
-            //}
-
             if (filter.Ids != null)
             {
                 query = query.Where(x => filter.Ids.Contains(x.CardPk));
@@ -91,6 +105,8 @@ namespace CardHero.Data.SqlServer
                 Results = results,
                 TotalCount = totalCount,
             };
+
+            await PopulateCardFavouriteAsync(filter.UserId, result.Results, cancellationToken);
 
             return result;
         }
