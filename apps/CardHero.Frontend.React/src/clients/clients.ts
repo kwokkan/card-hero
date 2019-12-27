@@ -242,7 +242,7 @@ export interface IDeckApiClient {
     create(model: DeckCreateModel): Promise<DeckModel>;
     getById(id: number): Promise<DeckModel>;
     patch(id: number, model: DeckModel): Promise<void>;
-    favouriteAsynx(id: number, model: DeckModel): Promise<void>;
+    favourite(id: number, model: DeckModel): Promise<void>;
 }
 
 export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClient {
@@ -451,7 +451,7 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
         return Promise.resolve<void>(<any>null);
     }
 
-    favouriteAsynx(id: number, model: DeckModel): Promise<void> {
+    favourite(id: number, model: DeckModel): Promise<void> {
         let url_ = this.baseUrl + "/api/decks/{id}/favourite";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -469,11 +469,11 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processFavouriteAsynx(_response);
+            return this.processFavourite(_response);
         });
     }
 
-    protected processFavouriteAsynx(response: Response): Promise<void> {
+    protected processFavourite(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 401) {

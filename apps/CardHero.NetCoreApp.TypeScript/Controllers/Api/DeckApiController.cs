@@ -65,7 +65,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost("{id:int}/favourite")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> FavouriteAsynx(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> FavouriteAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
         {
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
 

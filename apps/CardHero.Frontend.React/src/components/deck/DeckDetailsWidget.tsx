@@ -4,15 +4,22 @@ import { Icon } from "../../styles/index";
 
 interface IDeckDetailsWidgetProps {
     deck: IDeckModel;
+    onFavourite?: (deck: IDeckModel) => void;
     onSaveClicked?: (deck: IDeckModel) => void;
 }
 
 export function DeckDetailsWidget(props: IDeckDetailsWidgetProps): JSX.Element {
     const deck = props.deck;
 
+    const onFavourite = () => {
+        if (props.onFavourite) {
+            props.onFavourite(props.deck);
+        }
+    };
+
     const onSavedClicked = () => {
         if (props.onSaveClicked) {
-            props.onSaveClicked(props.deck)
+            props.onSaveClicked(props.deck);
         }
     };
 
@@ -20,7 +27,9 @@ export function DeckDetailsWidget(props: IDeckDetailsWidgetProps): JSX.Element {
         <div className="card">
             <h4 className="card-header">
                 {deck.name}
-                <Icon icon="star" className={"deck-favourite float-right" + (deck.isFavourited ? " enabled" : "")} data-deck-id={deck.id} />
+                <span className="float-right" onClick={onFavourite}>
+                    <Icon icon="star" className={"deck-favourite" + (deck.isFavourited ? " enabled" : "")} data-deck-id={deck.id} />
+                </span>
             </h4>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">

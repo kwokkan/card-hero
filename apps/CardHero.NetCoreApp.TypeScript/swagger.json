@@ -465,7 +465,7 @@
         "tags": [
           "DeckApi"
         ],
-        "operationId": "DeckApi_FavouriteAsynx",
+        "operationId": "DeckApi_Favourite",
         "parameters": [
           {
             "name": "id",
