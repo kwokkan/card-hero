@@ -27,15 +27,39 @@ namespace CardHero.Data.SqlServer
             _deckMapper = deckMapper;
         }
 
-        private Task<DeckData> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
+        private async Task<DeckData> GetDeckByIdInternalAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            return _context
+            var deck = await _context
                 .Deck
                 .Include(x => x.DeckCardCollection)
                     .ThenInclude(x => x.CardCollectionFkNavigation)
                 .Where(x => x.DeckPk == id)
                 .Select(x => _deckMapper.Map(x))
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            await PopulateDeckFavouriteAsync(userId, cancellationToken, deck);
+
+            return deck;
+        }
+
+        private async Task PopulateDeckFavouriteAsync(int userId, CancellationToken cancellationToken, params DeckData[] decks)
+        {
+            if (decks.Any())
+            {
+                var deckIds = decks.Select(x => x.Id).ToArray();
+
+                var deckFavourites = await _context
+                    .DeckFavourite
+                    .Where(x => deckIds.Contains(x.DeckFk) && x.UserFk == userId)
+                    .Select(x => x.DeckFk)
+                    .ToArrayAsync(cancellationToken: cancellationToken)
+                ;
+
+                foreach (var deck in decks)
+                {
+                    deck.IsFavourited = deckFavourites.Any(df => df == deck.Id);
+                }
+            }
         }
 
         async Task<DeckData> IDeckRepository.CreateDeckAsync(DeckCreateData deck, CancellationToken cancellationToken)
@@ -80,7 +104,7 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        Task<ReadOnlyCollection<DeckData>> IDeckRepository.FindDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
+        async Task<ReadOnlyCollection<DeckData>> IDeckRepository.FindDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
         {
             var query = _context
                 .Deck
@@ -101,19 +125,22 @@ namespace CardHero.Data.SqlServer
 
             if (filter.UserId.HasValue)
             {
-                //TODO: Bring back later
-                //query = query.Include(x => x.DeckFavourite);
                 query = query.Where(x => x.UserFk == filter.UserId.Value);
             }
 
-            var results = query.Select(_deckMapper.Map).ToArray();
+            var results = await query.Select(x => _deckMapper.Map(x)).ToArrayAsync(cancellationToken: cancellationToken);
 
-            return Task.FromResult(Array.AsReadOnly(results));
+            if (filter.UserId.HasValue)
+            {
+                await PopulateDeckFavouriteAsync(filter.UserId.Value, cancellationToken, results);
+            }
+
+            return Array.AsReadOnly(results);
         }
 
-        Task<DeckData> IDeckRepository.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
+        Task<DeckData> IDeckRepository.GetDeckByIdAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            return GetDeckByIdInternalAsync(id, cancellationToken);
+            return GetDeckByIdInternalAsync(id, userId, cancellationToken);
         }
 
         async Task<DeckData> IDeckRepository.UpdateDeckAsync(int id, DeckUpdateData update, CancellationToken cancellationToken)
@@ -149,7 +176,7 @@ namespace CardHero.Data.SqlServer
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
-            return await GetDeckByIdInternalAsync(id, cancellationToken: cancellationToken);
+            return await GetDeckByIdInternalAsync(id, deck.UserFk, cancellationToken: cancellationToken);
         }
     }
 }

@@ -40,9 +40,9 @@ namespace CardHero.Core.SqlServer.Services
             _deckDataMapper = deckDataMapper;
         }
 
-        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, bool includeCards, CancellationToken cancellationToken)
+        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, int userId, bool includeCards, CancellationToken cancellationToken)
         {
-            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             var model = deck == null ? null : _deckDataMapper.Map(deck);
 
@@ -86,9 +86,9 @@ namespace CardHero.Core.SqlServer.Services
             return _deckDataMapper.Map(newDeck);
         }
 
-        Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
+        Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            return GetDeckByIdInternalAsync(id, true, cancellationToken);
+            return GetDeckByIdInternalAsync(id, userId, true, cancellationToken);
         }
 
         async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(Abstractions.DeckSearchFilter filter, CancellationToken cancellationToken)
@@ -116,7 +116,7 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task IDeckService.FavouriteDeckAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
         {
-            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             if (deck == null)
             {
@@ -128,7 +128,7 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task IDeckService.UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken)
         {
-            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             if (deck == null)
             {

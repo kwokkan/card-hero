@@ -23,9 +23,10 @@ namespace CardHero.Core.Abstractions
         /// Gets a deck by id.
         /// </summary>
         /// <param name="id">The id of the deck.</param>
+        /// <param name="userId">The user id.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns></returns>
-        Task<DeckModel> GetDeckByIdAsync(int id, CancellationToken cancellationToken = default);
+        Task<DeckModel> GetDeckByIdAsync(int id, int userId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates a new deck.

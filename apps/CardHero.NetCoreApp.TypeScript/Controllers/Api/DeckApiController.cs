@@ -41,7 +41,8 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeckModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _deckService.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+            var result = await _deckService.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             if (result == null)
             {
