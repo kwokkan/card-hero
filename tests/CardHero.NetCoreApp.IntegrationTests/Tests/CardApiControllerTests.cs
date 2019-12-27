@@ -51,5 +51,22 @@ namespace CardHero.NetCoreApp.IntegrationTests
             Assert.NotNull(model.Single(x => x.Id == 1));
             Assert.Equal("First card", model.Single(x => x.Id == 1).Name);
         }
+
+        [Fact]
+        public async Task FavouriteAsync_AddCardFavourite_ReturnsON()
+        {
+            var client = _factory.CreateClientWithAuth();
+
+            var postResponse = await client.PostJsonAsync("api/cards/1/favourite", null);
+
+            postResponse.EnsureSuccessStatusCode();
+
+            var getResponse = await client.GetAsync("api/cards?ids=1");
+            var model = await getResponse.Content.ReadAsAsync<CardModel[]>();
+
+            Assert.Single(model);
+            Assert.NotNull(model.Single(x => x.Id == 1));
+            Assert.True(model.Single(x => x.Id == 1).IsFavourited);
+        }
     }
 }
