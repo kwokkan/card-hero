@@ -27,6 +27,17 @@ namespace CardHero.Data.SqlServer
             _deckMapper = deckMapper;
         }
 
+        private Task<DeckData> GetDeckByIdInternalAsync(int id, CancellationToken cancellationToken)
+        {
+            return _context
+                .Deck
+                .Include(x => x.DeckCardCollection)
+                    .ThenInclude(x => x.CardCollectionFkNavigation)
+                .Where(x => x.DeckPk == id)
+                .Select(x => _deckMapper.Map(x))
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        }
+
         async Task<DeckData> IDeckRepository.CreateDeckAsync(DeckCreateData deck, CancellationToken cancellationToken)
         {
             var entity = new Deck
@@ -74,17 +85,45 @@ namespace CardHero.Data.SqlServer
             return Task.FromResult(Array.AsReadOnly(results));
         }
 
-        async Task<DeckData> IDeckRepository.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
+        Task<DeckData> IDeckRepository.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var deck = await _context
-                .Deck
-                .Include(x => x.DeckCardCollection)
-                    .ThenInclude(x => x.CardCollectionFkNavigation)
-                .Where(x => x.DeckPk == id)
-                .Select(x => _deckMapper.Map(x))
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            return GetDeckByIdInternalAsync(id, cancellationToken);
+        }
 
-            return deck;
+        async Task<DeckData> IDeckRepository.UpdateDeckAsync(int id, DeckUpdateData update, CancellationToken cancellationToken)
+        {
+            var deck = await _context.Deck.SingleOrDefaultAsync(x => x.DeckPk == id, cancellationToken: cancellationToken);
+
+            if (deck == null)
+            {
+                throw new CardHeroDataException($"Deck {id} does not exist.");
+            }
+
+            if (update.CardCollectionIds.IsSet && update.CardCollectionIds.Value != null)
+            {
+                var existingCards = await _context
+                    .DeckCardCollection
+                    .Where(x => x.DeckFk == id)
+                    .ToListAsync(cancellationToken: cancellationToken);
+
+                foreach (var ec in existingCards)
+                {
+                    _context.DeckCardCollection.Remove(ec);
+                }
+
+                foreach (var d in update.CardCollectionIds.Value)
+                {
+                    _context.DeckCardCollection.Add(new DeckCardCollection
+                    {
+                        CardCollectionFk = d,
+                        DeckFk = id,
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+
+            return await GetDeckByIdInternalAsync(id, cancellationToken: cancellationToken);
         }
     }
 }
