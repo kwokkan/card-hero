@@ -20,6 +20,16 @@ export class Card extends PureComponent<ICardProps, ICardState> {
         this.state = {};
     }
 
+    private async onCardStatsFavourite(card: ICardModel) {
+        if (Constants.Debug) {
+            console.log(card);
+        }
+
+        await CardService.favouriteCard(card.id);
+
+        await this.populateCard(card.id);
+    }
+
     private async populateCard(id: number) {
         const cards = await CardService.getCards({
             ids: [
@@ -57,7 +67,7 @@ export class Card extends PureComponent<ICardProps, ICardState> {
             <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
-                        <CardStatsWidget card={card} />
+                        <CardStatsWidget card={card} onFavourite={this.onCardStatsFavourite} />
                     </div>
                     <div className="col-lg-4">
                         <CardStatsGraphWidget card={card} />
