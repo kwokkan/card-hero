@@ -54,6 +54,32 @@ namespace CardHero.Data.SqlServer
             return _deckMapper.Map(entity);
         }
 
+        async Task IDeckRepository.FavouriteDeckAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
+        {
+            var existingFavourite = await _context
+                .DeckFavourite
+                .SingleOrDefaultAsync(x => x.DeckFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
+
+            if (favourite && existingFavourite == null)
+            {
+                var newCardFavourite = new DeckFavourite
+                {
+                    DeckFk = id,
+                    UserFk = userId,
+                };
+
+                _context.DeckFavourite.Add(newCardFavourite);
+
+                await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+            else if (!favourite && existingFavourite != null)
+            {
+                _context.DeckFavourite.Remove(existingFavourite);
+
+                await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+        }
+
         Task<ReadOnlyCollection<DeckData>> IDeckRepository.FindDecksAsync(DeckSearchFilter filter, CancellationToken cancellationToken)
         {
             var query = _context
