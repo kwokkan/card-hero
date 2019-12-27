@@ -65,7 +65,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPatch("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> PatchDeckAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> PatchAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
         {
             //TODO: Use JsonPatch once models are better
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;

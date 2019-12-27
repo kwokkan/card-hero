@@ -62,5 +62,54 @@ namespace CardHero.NetCoreApp.IntegrationTests
             Assert.NotNull(model.Single(x => x.Id == 1));
             Assert.Equal("First deck", model.Single(x => x.Id == 1).Name);
         }
+
+        [Fact]
+        public async Task CreateAsync_ValidDeck_ReturnsNewDeck()
+        {
+            var deck = new DeckCreateModel
+            {
+                Description = "Test desc",
+                Name = "Test name",
+            };
+            var client = _factory.CreateClientWithAuth();
+
+            var response = await client.PostJsonAsync("api/decks", deck);
+            response.EnsureSuccessStatusCode();
+
+            var model = await response.Content.ReadAsAsync<DeckModel>();
+
+            Assert.NotNull(model);
+            Assert.True(model.Id > 0);
+            Assert.Equal(deck.Description, model.Description);
+            Assert.Equal(deck.Name, model.Name);
+        }
+
+        [Fact]
+        public async Task PatchAsync_ValidCards_GetDeck()
+        {
+            var deck = new DeckModel
+            {
+                Cards = new DeckCardModel[]
+                {
+                    new DeckCardModel
+                    {
+                        CardCollectionId = 1
+                    }
+                }
+            };
+            var client = _factory.CreateClientWithAuth();
+
+            var patchResponse = await client.PatchJsonAsync("api/decks/1", deck);
+
+            patchResponse.EnsureSuccessStatusCode();
+
+            var getResponse = await client.GetAsync("api/decks/1");
+            var model = await getResponse.Content.ReadAsAsync<DeckModel>();
+
+            Assert.NotNull(model);
+            Assert.NotEmpty(model.Cards);
+            Assert.Single(model.Cards);
+            Assert.Equal(1, model.Cards.First().CardCollectionId);
+        }
     }
 }
