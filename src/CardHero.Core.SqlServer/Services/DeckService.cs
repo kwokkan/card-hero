@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -23,14 +20,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public DeckService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardCollectionRepository cardCollectionRepository,
             ICardRepository cardRepository,
             IDeckRepository deckRepository,
             IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<DeckData, DeckModel> deckDataMapper
         )
-            : base(contextFactory)
         {
             _cardCollectionRepository = cardCollectionRepository;
             _cardRepository = cardRepository;

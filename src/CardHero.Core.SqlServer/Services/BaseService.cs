@@ -1,33 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using CardHero.Core.Abstractions;
-using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
-namespace CardHero.Core.SqlServer.Services
+﻿namespace CardHero.Core.SqlServer.Services
 {
     public abstract class BaseService
-    {
-        private readonly IDesignTimeDbContextFactory<CardHeroDbContext> _contextFactory;
-        private readonly Lazy<CardHeroDbContext> _context;
-
-        protected BaseService(IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory)
-        {
-            _contextFactory = contextFactory;
-            _context = new Lazy<CardHeroDbContext>(() => _contextFactory.CreateDbContext(Array.Empty<string>()));
-        }
-
-        protected CardHeroDbContext GetContext()
-        {
-            return _context.Value;
-        }
-
+    {/*
         /// <summary>
         /// Validates and sets various properties.
         /// </summary>
@@ -84,5 +58,5 @@ namespace CardHero.Core.SqlServer.Services
 
             return result;
         }
-    }
+    */}
 }

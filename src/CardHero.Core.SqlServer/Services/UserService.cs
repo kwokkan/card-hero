@@ -3,10 +3,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -19,12 +16,10 @@ namespace CardHero.Core.SqlServer.Services
         private readonly NewUserOptions _newUserOptions;
 
         public UserService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IUserRepository userRepository,
             IDataMapper<UserData, UserModel> userDataMapper,
             NewUserOptions newUserOptions
         )
-            : base(contextFactory)
         {
             _userRepository = userRepository;
 

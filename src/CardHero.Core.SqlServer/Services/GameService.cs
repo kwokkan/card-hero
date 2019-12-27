@@ -5,11 +5,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -32,7 +28,6 @@ namespace CardHero.Core.SqlServer.Services
         private readonly ICardService _cardService;
 
         public GameService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IGameValidator gameValidator,
             IDeckRepository deckRepository,
             IGameDeckRepository gameDeckRepository,
@@ -46,7 +41,6 @@ namespace CardHero.Core.SqlServer.Services
             IDataMapper<GameUserData, GameUserModel> gameUserMapper,
             ICardService cardService
         )
-            : base(contextFactory)
         {
             _gameValidator = gameValidator;
 
