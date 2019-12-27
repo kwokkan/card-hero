@@ -32,6 +32,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.Deck.Remove(item);
             }
 
+            foreach (var item in context.DeckCardCollection)
+            {
+                context.DeckCardCollection.Remove(item);
+            }
+
             foreach (var item in context.Rarity)
             {
                 context.Rarity.Remove(item);
@@ -111,18 +116,21 @@ namespace CardHero.NetCoreApp.IntegrationTests
             context.Deck.Add(new Deck
             {
                 DeckPk = 1,
+                MaxCards = 5,
                 Name = "First deck",
                 UserFk = 1,
             });
             context.Deck.Add(new Deck
             {
                 DeckPk = 2,
+                MaxCards = 5,
                 Name = "Second deck",
                 UserFk = 1,
             });
             context.Deck.Add(new Deck
             {
                 DeckPk = 3,
+                MaxCards = 5,
                 Name = "Third deck",
                 UserFk = 2
             });

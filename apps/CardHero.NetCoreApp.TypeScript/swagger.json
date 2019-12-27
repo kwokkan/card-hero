@@ -393,7 +393,7 @@
         "tags": [
           "DeckApi"
         ],
-        "operationId": "DeckApi_PatchDeck",
+        "operationId": "DeckApi_Patch",
         "parameters": [
           {
             "name": "id",
