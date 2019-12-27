@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { IUserModel } from "../clients/clients";
 
-interface IAccountContextProps {
+export interface IAccountContextProps {
     user?: IUserModel;
     setUser: (user: IUserModel) => void;
 }
