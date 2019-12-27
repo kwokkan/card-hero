@@ -12,6 +12,7 @@ CardCollection,`
 CardFavourite,`
 Deck,`
 DeckCardCollection,`
+DeckFavourite,`
 Game,`
 GameDeck,`
 GameDeckCardCollection,`
