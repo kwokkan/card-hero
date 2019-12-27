@@ -149,8 +149,6 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task IDeckService.UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken)
         {
-            var context = GetContext();
-
             var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
 
             if (deck == null)
@@ -185,26 +183,12 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidCardException("You do not own some of the cards.");
             }
 
-            var existingCards = await context
-                .DeckCardCollection
-                .Where(x => x.DeckFk == id)
-                .ToListAsync(cancellationToken: cancellationToken);
-
-            foreach (var ec in existingCards)
+            var deckUpdate = new DeckUpdateData
             {
-                context.DeckCardCollection.Remove(ec);
-            }
+                CardCollectionIds = distincted,
+            };
 
-            foreach (var d in distincted)
-            {
-                context.DeckCardCollection.Add(new DeckCardCollection
-                {
-                    CardCollectionFk = d,
-                    DeckFk = id,
-                });
-            }
-
-            await context.SaveChangesAsync(cancellationToken: cancellationToken);
+            await _deckRepository.UpdateDeckAsync(id, deckUpdate, cancellationToken: cancellationToken);
         }
 
         Task IDeckService.UpdateDeckAsync(int deckId, DeckModel deck, CancellationToken cancellationToken)
