@@ -53,7 +53,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         [Fact]
-        public async Task FavouriteAsync_AddCardFavourite_ReturnsON()
+        public async Task FavouriteAsync_AddCardFavourite_ReturnsOk()
         {
             var client = _factory.CreateClientWithAuth();
 

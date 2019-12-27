@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -24,14 +20,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public DeckService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardCollectionRepository cardCollectionRepository,
             ICardRepository cardRepository,
             IDeckRepository deckRepository,
             IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<DeckData, DeckModel> deckDataMapper
         )
-            : base(contextFactory)
         {
             _cardCollectionRepository = cardCollectionRepository;
             _cardRepository = cardRepository;
@@ -41,9 +35,9 @@ namespace CardHero.Core.SqlServer.Services
             _deckDataMapper = deckDataMapper;
         }
 
-        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, bool includeCards, CancellationToken cancellationToken)
+        private async Task<DeckModel> GetDeckByIdInternalAsync(int id, int userId, bool includeCards, CancellationToken cancellationToken)
         {
-            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             var model = deck == null ? null : _deckDataMapper.Map(deck);
 
@@ -87,9 +81,9 @@ namespace CardHero.Core.SqlServer.Services
             return _deckDataMapper.Map(newDeck);
         }
 
-        Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, CancellationToken cancellationToken)
+        Task<DeckModel> IDeckService.GetDeckByIdAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            return GetDeckByIdInternalAsync(id, true, cancellationToken);
+            return GetDeckByIdInternalAsync(id, userId, true, cancellationToken);
         }
 
         async Task<Abstractions.SearchResult<DeckModel>> IDeckService.GetDecksAsync(Abstractions.DeckSearchFilter filter, CancellationToken cancellationToken)
@@ -115,41 +109,21 @@ namespace CardHero.Core.SqlServer.Services
             return result;
         }
 
-        async Task<bool> IDeckService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)
+        async Task IDeckService.FavouriteDeckAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
         {
-            var context = GetContext();
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
-            var favourite = await context
-                .DeckFavourite
-                .SingleOrDefaultAsync(x => x.DeckFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
-
-            if (favourite == null)
+            if (deck == null)
             {
-                var newDeckFavourite = new DeckFavourite
-                {
-                    DeckFk = id,
-                    UserFk = userId,
-                };
-
-                context.DeckFavourite.Add(newDeckFavourite);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return true;
+                throw new InvalidDeckException($"Deck { id } does not exist.");
             }
-            else
-            {
-                context.DeckFavourite.Remove(favourite);
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return false;
-            }
+            await _deckRepository.FavouriteDeckAsync(id, userId, favourite, cancellationToken: cancellationToken);
         }
 
         async Task IDeckService.UpdateCollectionAsync(int id, int userId, IEnumerable<int> cardCollectionIds, CancellationToken cancellationToken)
         {
-            var deck = await _deckRepository.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var deck = await _deckRepository.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             if (deck == null)
             {

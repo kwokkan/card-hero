@@ -12,6 +12,8 @@
 
         public int MaxCards { get; set; }
 
+        public bool IsFavourited { get; set; }
+
         public DeckCardData[] Cards { get; set; }
     }
 }

@@ -4,10 +4,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -18,11 +15,9 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public CardService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardRepository cardRepository,
             IDataMapper<CardData, CardModel> cardDataMapper
         )
-            : base(contextFactory)
         {
             _cardRepository = cardRepository;
 
