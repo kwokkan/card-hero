@@ -4,27 +4,11 @@ namespace CardHero.Core.SqlServer.EntityFramework
 {
     public partial class CardHeroDbContext : DbContext
     {
-        public virtual DbSet<CardFavourite> CardFavourite { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
-
-            modelBuilder.Entity<CardFavourite>(entity =>
-            {
-                entity.HasKey(e => e.CardFavouritePk);
-
-                entity.HasIndex(e => new { e.CardFk, e.UserFk })
-                    .HasName("UX_CardFavourite_Card_FK_User_FK")
-                    .IsUnique();
-
-                entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
-
-                entity.Property(e => e.CardFk).HasColumnName("Card_FK");
-
-                entity.Property(e => e.UserFk).HasColumnName("User_FK");
-            });
 
             modelBuilder.Entity<DeckFavourite>(entity =>
             {
