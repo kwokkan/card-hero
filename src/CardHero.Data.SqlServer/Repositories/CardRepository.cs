@@ -28,6 +28,32 @@ namespace CardHero.Data.SqlServer
             _cardMapper = cardMapper;
         }
 
+        async Task ICardRepository.FavouriteCardAsync(int id, int userId, bool favourite, CancellationToken cancellationToken)
+        {
+            var existingFavourite = await _context
+                .CardFavourite
+                .SingleOrDefaultAsync(x => x.CardFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
+
+            if (favourite && existingFavourite == null)
+            {
+                var newCardFavourite = new CardFavourite
+                {
+                    CardFk = id,
+                    UserFk = userId,
+                };
+
+                _context.CardFavourite.Add(newCardFavourite);
+
+                await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+            else if (!favourite && existingFavourite != null)
+            {
+                _context.CardFavourite.Remove(existingFavourite);
+
+                await _context.SaveChangesAsync(cancellationToken: cancellationToken);
+            }
+        }
+
         async Task<SearchResult<CardData>> ICardRepository.FindCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
         {
             var query = _context.Card.AsQueryable();
