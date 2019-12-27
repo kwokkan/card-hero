@@ -4,11 +4,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -19,11 +15,9 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public CardService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardRepository cardRepository,
             IDataMapper<CardData, CardModel> cardDataMapper
         )
-            : base(contextFactory)
         {
             _cardRepository = cardRepository;
 
@@ -53,34 +47,28 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<bool> ICardService.ToggleFavouriteAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            var context = GetContext();
-
-            var favourite = await context
-                .CardFavourite
-                .SingleOrDefaultAsync(x => x.CardFk == id && x.UserFk == userId, cancellationToken: cancellationToken);
-
-            if (favourite == null)
-            {
-                var newCardFavourite = new CardFavourite
+            var cards = await _cardRepository.FindCardsAsync(
+                new Data.Abstractions.CardSearchFilter
                 {
-                    CardFk = id,
-                    UserFk = userId,
-                };
+                    Ids = new int[]
+                    {
+                        id,
+                    },
+                    UserId = userId,
+                },
+                cancellationToken: cancellationToken
+            );
 
-                context.CardFavourite.Add(newCardFavourite);
+            var card = cards.Results.FirstOrDefault();
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return true;
-            }
-            else
+            if (card == null)
             {
-                context.CardFavourite.Remove(favourite);
-
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-
-                return false;
+                throw new InvalidCardException($"Card { id } does not exist.");
             }
+
+            await _cardRepository.FavouriteCardAsync(id, userId, !card.IsFavourited, cancellationToken: cancellationToken);
+
+            return !card.IsFavourited;
         }
     }
 }

@@ -1,17 +1,28 @@
 ﻿import React from "react";
 import { ICardModel } from "../../clients/clients";
+import { Icon } from "../../styles";
 
 interface ICardStatsWidgetProps {
     card: ICardModel;
+    onFavourite?: (card: ICardModel) => void;
 }
 
 export function CardStatsWidget(props: ICardStatsWidgetProps): JSX.Element {
+    const onFavourite = () => {
+        if (props.onFavourite) {
+            props.onFavourite(props.card);
+        }
+    };
+
     const c = props.card;
 
     return (
         <div className="card">
             <h4 className="card-header">
                 {c.name}
+                <span className="float-right" onClick={onFavourite}>
+                    <Icon icon="star" className={"card-favourite" + (c.isFavourited ? " enabled" : "")} data-card-id={c.id} />
+                </span>
             </h4>
             <div className="card-body">
                 <table className="table table-striped">

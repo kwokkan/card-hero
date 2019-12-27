@@ -8,6 +8,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public Deck()
         {
             DeckCardCollection = new HashSet<DeckCardCollection>();
+            DeckFavourite = new HashSet<DeckFavourite>();
         }
 
         public int DeckPk { get; set; }
@@ -21,5 +22,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
         public virtual User UserFkNavigation { get; set; }
         public virtual ICollection<DeckCardCollection> DeckCardCollection { get; set; }
+        public virtual ICollection<DeckFavourite> DeckFavourite { get; set; }
     }
 }

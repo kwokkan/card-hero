@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -23,14 +20,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
 
         public StoreItemService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             ICardRepository cardRepository,
             IStoreItemRepository storeItemRepository,
             IUserRepository userRepository,
             IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
         )
-            : base(contextFactory)
         {
             _cardRepository = cardRepository;
             _storeItemRepository = storeItemRepository;

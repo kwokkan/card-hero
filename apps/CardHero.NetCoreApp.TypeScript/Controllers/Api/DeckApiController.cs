@@ -41,7 +41,8 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeckModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _deckService.GetDeckByIdAsync(id, cancellationToken: cancellationToken);
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+            var result = await _deckService.GetDeckByIdAsync(id, userId, cancellationToken: cancellationToken);
 
             if (result == null)
             {
@@ -62,10 +63,22 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return CreatedAtAction(nameof(GetByIdAsync), new { id = newDeck.Id }, newDeck);
         }
 
+        [HttpPost("{id:int}/favourite")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> FavouriteAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        {
+            var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;
+
+            await _deckService.FavouriteDeckAsync(id, userId, model.IsFavourited, cancellationToken: cancellationToken);
+
+            return Ok();
+        }
+
         [HttpPatch("{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> PatchDeckAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> PatchAsync(int id, [FromBody]DeckModel model, CancellationToken cancellationToken)
         {
             //TODO: Use JsonPatch once models are better
             var userId = (await GetUserAsync(cancellationToken: cancellationToken)).Id;

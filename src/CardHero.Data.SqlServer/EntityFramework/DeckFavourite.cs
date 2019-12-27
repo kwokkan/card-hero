@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CardHero.Core.SqlServer.EntityFramework
+namespace CardHero.Data.SqlServer.EntityFramework
 {
     public partial class DeckFavourite
     {
@@ -10,5 +10,6 @@ namespace CardHero.Core.SqlServer.EntityFramework
         public int UserFk { get; set; }
 
         public virtual Deck DeckFkNavigation { get; set; }
+        public virtual User UserFkNavigation { get; set; }
     }
 }

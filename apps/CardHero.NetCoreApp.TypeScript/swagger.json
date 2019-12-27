@@ -124,6 +124,31 @@
         }
       }
     },
+    "/api/cards/{id}/favourite": {
+      "post": {
+        "tags": [
+          "CardApi"
+        ],
+        "operationId": "CardApi_Favourite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/collections": {
       "get": {
         "tags": [
@@ -393,7 +418,54 @@
         "tags": [
           "DeckApi"
         ],
-        "operationId": "DeckApi_PatchDeck",
+        "operationId": "DeckApi_Patch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeckModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/decks/{id}/favourite": {
+      "post": {
+        "tags": [
+          "DeckApi"
+        ],
+        "operationId": "DeckApi_Favourite",
         "parameters": [
           {
             "name": "id",

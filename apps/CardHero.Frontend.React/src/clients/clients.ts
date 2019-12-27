@@ -70,6 +70,7 @@ export class AccountApiClient extends CardHeroApiClientBase implements IAccountA
 
 export interface ICardApiClient {
     get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]>;
+    favourite(id: number): Promise<void>;
 }
 
 export class CardApiClient extends CardHeroApiClientBase implements ICardApiClient {
@@ -129,6 +130,39 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
             });
         }
         return Promise.resolve<CardModel[]>(<any>null);
+    }
+
+    favourite(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/api/cards/{id}/favourite";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFavourite(_response);
+        });
+    }
+
+    protected processFavourite(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 }
 
@@ -207,7 +241,8 @@ export interface IDeckApiClient {
     get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<DeckModel[]>;
     create(model: DeckCreateModel): Promise<DeckModel>;
     getById(id: number): Promise<DeckModel>;
-    patchDeck(id: number, model: DeckModel): Promise<void>;
+    patch(id: number, model: DeckModel): Promise<void>;
+    favourite(id: number, model: DeckModel): Promise<void>;
 }
 
 export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClient {
@@ -372,7 +407,7 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
         return Promise.resolve<DeckModel>(<any>null);
     }
 
-    patchDeck(id: number, model: DeckModel): Promise<void> {
+    patch(id: number, model: DeckModel): Promise<void> {
         let url_ = this.baseUrl + "/api/decks/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -390,11 +425,55 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPatchDeck(_response);
+            return this.processPatch(_response);
         });
     }
 
-    protected processPatchDeck(response: Response): Promise<void> {
+    protected processPatch(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 401) {
+            return response.text().then((_responseText) => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ErrorViewModel.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            });
+        } else if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    favourite(id: number, model: DeckModel): Promise<void> {
+        let url_ = this.baseUrl + "/api/decks/{id}/favourite";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFavourite(_response);
+        });
+    }
+
+    protected processFavourite(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 401) {

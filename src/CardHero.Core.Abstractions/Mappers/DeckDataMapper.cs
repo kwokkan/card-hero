@@ -23,6 +23,7 @@ namespace CardHero.Core.Abstractions
                 }),
                 Description = from.Description,
                 Id = from.Id,
+                IsFavourited = from.IsFavourited,
                 MaxCards = from.MaxCards,
                 Name = from.Name,
             };

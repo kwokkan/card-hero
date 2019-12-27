@@ -68,6 +68,16 @@ export class Deck extends Component<IDeckProps, IDeckState> {
         }
     }
 
+    private onDeckDetailsFavourite = async (deck: IDeckModel) => {
+        if (Constants.Debug) {
+            console.log(deck);
+        }
+
+        await DeckService.favouriteCard(deck.id, !deck.isFavourited);
+
+        await this.populateDeck(deck.id);
+    };
+
     private onDeckDetailsSaveClicked = async (deck: IDeckModel) => {
         if (Constants.Debug) {
             console.log(deck);
@@ -158,7 +168,7 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             <div className="col-lg-12">
                 <div className="row">
                     <div className="col-lg-4">
-                        <DeckDetailsWidget deck={deck} onSaveClicked={this.onDeckDetailsSaveClicked} />
+                        <DeckDetailsWidget deck={deck} onFavourite={this.onDeckDetailsFavourite} onSaveClicked={this.onDeckDetailsSaveClicked} />
                     </div>
 
                     <div className="col-lg-4">

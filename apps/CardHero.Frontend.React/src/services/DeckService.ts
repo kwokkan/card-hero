@@ -8,6 +8,17 @@ interface IDeckSearchFilter {
 }
 
 export class DeckService {
+    static favouriteCard(id: number, favourite: boolean): Promise<void> {
+        const client = new DeckApiClient();
+
+        const data: IDeckModel = {
+            isFavourited: favourite
+        };
+        const model = DeckModel.fromJS(data);
+
+        return client.favourite(id, model);
+    }
+
     static async getDeckById(id: number): Promise<IDeckModel> {
         const client = new DeckApiClient();
 
@@ -49,7 +60,7 @@ export class DeckService {
         const client = new DeckApiClient();
 
         var patchModel = new DeckModel(model);
-        var newModel = await client.patchDeck(id, patchModel);
+        var newModel = await client.patch(id, patchModel);
 
         return newModel;
     }

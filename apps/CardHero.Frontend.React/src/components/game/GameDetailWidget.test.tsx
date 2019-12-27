@@ -1,7 +1,18 @@
-﻿import React from "react";
+﻿import MockDate from "mockdate";
+import React from "react";
 import renderer from "react-test-renderer";
 import { GameType, IGameModel } from "../../clients/clients";
 import { GameDetailWidget } from "./GameDetailWidget";
+
+const mockDate = new Date(2019, 11, 18, 3, 4, 5, 6);
+
+beforeEach(() => {
+    MockDate.set(mockDate);
+});
+
+afterEach(() => {
+    MockDate.reset();
+});
 
 test("<GameDetailWidget /> renders correctly without game", () => {
     const tree = renderer

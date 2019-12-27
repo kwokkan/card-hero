@@ -9,8 +9,10 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -Tables `
 Card,`
 CardCollection,`
+CardFavourite,`
 Deck,`
 DeckCardCollection,`
+DeckFavourite,`
 Game,`
 GameDeck,`
 GameDeckCardCollection,`

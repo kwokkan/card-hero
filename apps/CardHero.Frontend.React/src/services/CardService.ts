@@ -8,6 +8,12 @@ interface ICardSearchFilter {
 }
 
 export class CardService {
+    static favouriteCard(id: number): Promise<void> {
+        const client = new CardApiClient();
+
+        return client.favourite(id);
+    }
+
     static async getCards(filter?: ICardSearchFilter): Promise<ICardModel[] | null> {
         const client = new CardApiClient();
         const model = client.get(

@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
-using CardHero.Core.SqlServer.EntityFramework;
 using CardHero.Data.Abstractions;
-
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace CardHero.Core.SqlServer.Services
 {
@@ -22,14 +19,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly ITurnRepository _turnRepository;
 
         public GamePlayService(
-            IDesignTimeDbContextFactory<CardHeroDbContext> contextFactory,
             IGameService gamseService,
             IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
             ITurnRepository turnRepository
         )
-            : base(contextFactory)
         {
             _gameService = gamseService;
 

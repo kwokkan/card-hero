@@ -8,7 +8,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public User()
         {
             CardCollection = new HashSet<CardCollection>();
+            CardFavourite = new HashSet<CardFavourite>();
             Deck = new HashSet<Deck>();
+            DeckFavourite = new HashSet<DeckFavourite>();
             GameUser = new HashSet<GameUser>();
         }
 
@@ -20,7 +22,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public long Coins { get; set; }
 
         public virtual ICollection<CardCollection> CardCollection { get; set; }
+        public virtual ICollection<CardFavourite> CardFavourite { get; set; }
         public virtual ICollection<Deck> Deck { get; set; }
+        public virtual ICollection<DeckFavourite> DeckFavourite { get; set; }
         public virtual ICollection<GameUser> GameUser { get; set; }
     }
 }
