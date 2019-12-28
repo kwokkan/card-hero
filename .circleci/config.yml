@@ -6,7 +6,7 @@ parameters:
   node-project:
     type: string
     default: "apps/CardHero.Frontend.React"
-  node-project-base:
+  publish-project:
     type: string
     default: "apps/CardHero.NetCoreApp.TypeScript"
   solution:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          cd << pipeline.parameters.node-project-base >>
+          cd << pipeline.parameters.publish-project >>
           rm -r ./wwwroot/dist
       - persist_to_workspace:
           root: .
@@ -40,6 +40,7 @@ jobs:
           name: node install
           command: |
             cd << pipeline.parameters.node-project >>
+            mv config/.yarnclean .yarnclean
             yarn install --frozen-lockfile
       - save_cache:
           key: yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
@@ -76,7 +77,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          dotnet publish << pipeline.parameters.node-project-base >> --configuration << pipeline.parameters.configuration >> --output publish
+          dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
       - store_artifacts:
           path: publish
 
@@ -98,7 +99,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - << pipeline.parameters.node-project-base >>/wwwroot
+            - << pipeline.parameters.publish-project >>/wwwroot
   npm-lint:
     docker:
       - image: node:13.5.0-buster
