@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
@@ -7,18 +8,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace CardHero.NetCoreApp.TypeScript.Middleware
 {
     public class JsonExceptionMiddleware
     {
         private static readonly string _newLine = Environment.NewLine;
-        private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            IgnoreNullValues = true,
         };
 
         private readonly ILogger<JsonExceptionMiddleware> _logger;
@@ -63,7 +61,7 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
                         model.StackTrace = e.StackTrace.Split(_newLine);
                     }
 
-                    var response = JsonConvert.SerializeObject(model, _settings);
+                    var response = JsonSerializer.Serialize(model, _options);
 
                     using (var ms = new MemoryStream())
                     using (var sw = new StreamWriter(ms))
