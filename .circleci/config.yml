@@ -100,7 +100,7 @@ jobs:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
       - run: |
           yarn add -D now
-          npx now publish
+          npx now publish --token $EV_ZEIT_TOKEN
 
   npm-build:
     docker:
