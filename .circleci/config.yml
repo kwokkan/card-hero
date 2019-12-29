@@ -100,21 +100,6 @@ jobs:
           root: .
           paths:
             - << pipeline.parameters.publish-project >>/wwwroot
-  npm-lint:
-    docker:
-      - image: node:13.5.0-buster
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
-      - run:
-          name: npm lint
-          command: |
-            cd << pipeline.parameters.node-project >>
-            npm run lint
   npm-test:
     docker:
       - image: node:13.5.0-buster
@@ -165,9 +150,6 @@ workflows:
             - dotnet-build
 
       - npm-build:
-          requires:
-            - init-node
-      - npm-lint:
           requires:
             - init-node
       - npm-test:
