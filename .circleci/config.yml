@@ -79,7 +79,7 @@ jobs:
       - run: |
           dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
       - save_cache:
-          key: publish-{{ .BuildNum }}
+          key: publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
           paths:
             - publish
       - store_artifacts:
@@ -97,7 +97,7 @@ jobs:
             - yarn-cache-v3-{{ arch }}-
       - restore_cache:
           keys:
-            - publish-{{ .BuildNum }}
+            - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
       - run: |
           cd publish
           npx now
