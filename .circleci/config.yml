@@ -189,5 +189,5 @@ workflows:
             - npm-test
 
       - go-live
-          require:
+          requires:
             - dotnet-publish
