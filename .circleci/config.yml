@@ -188,6 +188,6 @@ workflows:
             - npm-build
             - npm-test
 
-      - go-live
+      - go-live:
           requires:
             - dotnet-publish
