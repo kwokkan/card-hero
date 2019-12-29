@@ -78,8 +78,29 @@ jobs:
           at: .
       - run: |
           dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
+      - save_cache:
+          key: publish-{{ .BuildNum }}
+          paths:
+            - publish
       - store_artifacts:
           path: publish
+
+  go-live:
+    docker:
+      - image: node:13.5.0-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v3-{{ arch }}-
+      - restore_cache:
+          keys:
+            - publish-{{ .BuildNum }}
+      - run: |
+          cd publish
+          npx now
 
   npm-build:
     docker:
@@ -166,7 +187,7 @@ workflows:
             - dotnet-test
             - npm-build
             - npm-test
-          filters:
-            branches:
-              only:
-                - master
+
+      - go-live
+          require:
+            - dotnet-publish

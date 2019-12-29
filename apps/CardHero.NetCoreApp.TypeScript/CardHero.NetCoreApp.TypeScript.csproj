@@ -48,6 +48,12 @@
     <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Data.SqlServer.DependencyInjection\CardHero.Data.SqlServer.DependencyInjection.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
   <Target Name="NSwag" AfterTargets="Build">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
