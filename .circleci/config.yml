@@ -99,8 +99,7 @@ jobs:
           keys:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
       - run: |
-          cd publish
-          npx now
+          npx now publish
 
   npm-build:
     docker:
