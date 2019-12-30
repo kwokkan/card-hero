@@ -100,8 +100,8 @@ jobs:
           keys:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
       - run: |
-          apt-get update
-          apt-get install -y \
+          apt-get -y update
+          apt-get -y install \
             apt-transport-https \
             ca-certificates \
             curl \
@@ -112,8 +112,8 @@ jobs:
             "deb [arch=amd64] https://download.docker.com/linux/debian \
             $(lsb_release -cs) \
             stable"
-          apt-get update
-          apt-get install -y docker-ce docker-ce-cli containerd.io
+          apt-get -y update
+          apt-get -y install docker-ce docker-ce-cli containerd.io
           docker -v
       - run: |
           cd publish
