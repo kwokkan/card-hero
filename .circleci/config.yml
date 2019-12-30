@@ -78,7 +78,7 @@ jobs:
           at: .
       - run: |
           dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
-	  - save_cache:
+      - save_cache:
           key: publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
           paths:
             - publish
