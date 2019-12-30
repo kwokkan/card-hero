@@ -89,6 +89,7 @@ jobs:
     docker:
       - image: node:13.5.0-buster
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: .
       - restore_cache:
