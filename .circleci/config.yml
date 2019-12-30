@@ -78,8 +78,31 @@ jobs:
           at: .
       - run: |
           dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
+	  - save_cache:
+          key: publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+          paths:
+            - publish
       - store_artifacts:
           path: publish
+
+  go-live:
+    docker:
+      - image: node:13.5.0-buster
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v3-{{ arch }}-
+      - restore_cache:
+          keys:
+            - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+      - run: |
+          cd publish
+          docker build . -t card-hero/frontend -f Dockerfile
+          heroku container:push web -a card-hero
+          heroku container:release web -a card-hero
 
   npm-build:
     docker:
@@ -166,7 +189,7 @@ workflows:
             - dotnet-test
             - npm-build
             - npm-test
-          filters:
-            branches:
-              only:
-                - master
+
+      - go-live:
+          requires:
+            - dotnet-publish
