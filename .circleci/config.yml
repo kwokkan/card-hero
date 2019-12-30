@@ -117,6 +117,8 @@ jobs:
           docker -v
       - run: |
           cd publish
+          yarn global add heroku
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
           docker build . -t card-hero/frontend -f Dockerfile
           heroku container:push web -a card-hero
           heroku container:release web -a card-hero
