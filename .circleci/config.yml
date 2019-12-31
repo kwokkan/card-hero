@@ -78,8 +78,50 @@ jobs:
           at: .
       - run: |
           dotnet publish << pipeline.parameters.publish-project >> --configuration << pipeline.parameters.configuration >> --output publish
+      - save_cache:
+          key: publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+          paths:
+            - publish
       - store_artifacts:
           path: publish
+
+  go-live:
+    docker:
+      - image: node:13.5.0-buster
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v3-{{ arch }}-
+      - restore_cache:
+          keys:
+            - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+      - run: |
+          apt-get -y update
+          apt-get -y install \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg2 \
+            software-properties-common
+          curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+          add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/debian \
+            $(lsb_release -cs) \
+            stable"
+          apt-get -y update
+          apt-get -y install docker-ce docker-ce-cli containerd.io
+          docker -v
+      - run: |
+          cd publish
+          yarn global add heroku
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          docker build . -t card-hero/frontend -f Dockerfile
+          heroku container:push web -a card-hero
+          heroku container:release web -a card-hero
 
   npm-build:
     docker:
@@ -170,3 +212,7 @@ workflows:
             branches:
               only:
                 - master
+
+      - go-live:
+          requires:
+            - dotnet-publish
