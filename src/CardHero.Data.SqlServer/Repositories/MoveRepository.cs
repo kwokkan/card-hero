@@ -13,11 +13,11 @@ namespace CardHero.Data.SqlServer
 {
     public class MoveRepository : IMoveRepository
     {
-        private readonly ICardHeroDataDbContextFactory _factory;
+        private readonly CardHeroDataDbContext _context;
 
-        public MoveRepository(ICardHeroDataDbContextFactory factory)
+        public MoveRepository(CardHeroDataDbContext context)
         {
-            _factory = factory;
+            _context = context;
         }
 
         async Task<MoveData> IMoveRepository.AddMoveAsync(MoveData move, CancellationToken cancellationToken)
@@ -31,38 +31,32 @@ namespace CardHero.Data.SqlServer
                 TurnFk = move.TurnId,
             };
 
-            using (var context = _factory.Create(trackChanges: true))
-            {
-                context.Move.Add(newMove);
+            _context.Move.Add(newMove);
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-            }
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             return move;
         }
 
         async Task<ReadOnlyCollection<MoveData>> IMoveRepository.GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken)
         {
-            using (var context = _factory.Create())
-            {
-                var result = await context
-                    .Move
-                    .Include(x => x.GameDeckCardCollectionFkNavigation)
-                    .Include(x => x.TurnFkNavigation)
-                    .Where(x => x.TurnFkNavigation.GameFk == gameId)
-                    .Select(x => new MoveData
-                    {
-                        CardId = x.GameDeckCardCollectionFkNavigation.CardFk,
-                        GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
-                        Column = x.Column,
-                        GameId = x.TurnFkNavigation.GameFk,
-                        Row = x.Row,
-                        GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
-                    })
-                    .ToArrayAsync(cancellationToken: cancellationToken);
+            var result = await _context
+                .Move
+                .Include(x => x.GameDeckCardCollectionFkNavigation)
+                .Include(x => x.TurnFkNavigation)
+                .Where(x => x.TurnFkNavigation.GameFk == gameId)
+                .Select(x => new MoveData
+                {
+                    CardId = x.GameDeckCardCollectionFkNavigation.CardFk,
+                    GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
+                    Column = x.Column,
+                    GameId = x.TurnFkNavigation.GameFk,
+                    Row = x.Row,
+                    GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
+                })
+                .ToArrayAsync(cancellationToken: cancellationToken);
 
-                return Array.AsReadOnly(result);
-            }
+            return Array.AsReadOnly(result);
         }
     }
 }

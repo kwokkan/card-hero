@@ -9,11 +9,11 @@ namespace CardHero.Data.SqlServer
 {
     internal class GameUserRepository : IGameUserRepository
     {
-        private readonly ICardHeroDataDbContextFactory _factory;
+        private readonly CardHeroDataDbContext _context;
 
-        public GameUserRepository(ICardHeroDataDbContextFactory factory)
+        public GameUserRepository(CardHeroDataDbContext context)
         {
-            _factory = factory;
+            _context = context;
         }
 
         async Task<GameUserData> IGameUserRepository.AddGameUserAsync(int gameId, int userId, CancellationToken cancellationToken)
@@ -25,12 +25,9 @@ namespace CardHero.Data.SqlServer
                 UserFk = userId,
             };
 
-            using (var context = _factory.Create(trackChanges: true))
-            {
-                context.GameUser.Add(gameUser);
+            _context.GameUser.Add(gameUser);
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-            }
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var newData = new GameUserData
             {

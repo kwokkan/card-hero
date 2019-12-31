@@ -12,16 +12,16 @@ namespace CardHero.Data.SqlServer
 {
     public class GameDeckRepository : IGameDeckRepository
     {
-        private readonly ICardHeroDataDbContextFactory _factory;
+        private readonly CardHeroDataDbContext _context;
 
         private readonly IMapper<GameDeck, GameDeckData> _gameDeckMapper;
 
         public GameDeckRepository(
-            ICardHeroDataDbContextFactory factory,
+            CardHeroDataDbContext context,
             IMapper<GameDeck, GameDeckData> gameDeckMapper
         )
         {
-            _factory = factory;
+            _context = context;
 
             _gameDeckMapper = gameDeckMapper;
         }
@@ -44,12 +44,9 @@ namespace CardHero.Data.SqlServer
                 }).ToArray();
             }
 
-            using (var context = _factory.Create(trackChanges: true))
-            {
-                context.GameDeck.Add(gameDeck);
+            _context.GameDeck.Add(gameDeck);
 
-                await context.SaveChangesAsync(cancellationToken: cancellationToken);
-            }
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             var data = new GameDeckData
             {
@@ -65,36 +62,30 @@ namespace CardHero.Data.SqlServer
 
         async Task<GameDeckData> IGameDeckRepository.GetGameDeckByGameUserIdAsync(int gameUserId, CancellationToken cancellationToken)
         {
-            using (var context = _factory.Create())
-            {
-                var gameDeck = await context
-                    .GameDeck
-                    .Where(x => x.GameUserFk == gameUserId)
-                    .Select(x => _gameDeckMapper.Map(x))
-                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            var gameDeck = await _context
+                .GameDeck
+                .Where(x => x.GameUserFk == gameUserId)
+                .Select(x => _gameDeckMapper.Map(x))
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-                return gameDeck;
-            }
+            return gameDeck;
         }
 
         async Task<GameDeckCardCollectionData[]> IGameDeckRepository.GetGameDeckCardCollectionAsync(int gameDeckId, CancellationToken cancellationToken)
         {
-            using (var context = _factory.Create())
-            {
-                var deckCards = await context
-                    .GameDeckCardCollection
-                    .Where(x => x.GameDeckFk == gameDeckId)
-                    .Select(x => new GameDeckCardCollectionData
-                    {
-                        CardId = x.CardFk,
-                        GameDeckId = gameDeckId,
-                        Id = x.GameDeckCardCollectionPk,
-                    })
-                    .ToArrayAsync(cancellationToken: cancellationToken)
-                ;
+            var deckCards = await _context
+                .GameDeckCardCollection
+                .Where(x => x.GameDeckFk == gameDeckId)
+                .Select(x => new GameDeckCardCollectionData
+                {
+                    CardId = x.CardFk,
+                    GameDeckId = gameDeckId,
+                    Id = x.GameDeckCardCollectionPk,
+                })
+                .ToArrayAsync(cancellationToken: cancellationToken)
+            ;
 
-                return deckCards;
-            }
+            return deckCards;
         }
     }
 }
