@@ -208,6 +208,10 @@ workflows:
             - dotnet-test
             - npm-build
             - npm-test
+          filters:
+            branches:
+              only:
+                - master
 
       - go-live:
           requires:
