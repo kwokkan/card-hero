@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using CardHero.Data.SqlServer.EntityFramework;
+using CardHero.Data.PostgreSql.EntityFramework;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
