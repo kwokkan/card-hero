@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Data.SqlServer
 {
-    public class GameDeckRepository : IGameDeckRepository
+    internal class GameDeckRepository : IGameDeckRepository
     {
         private readonly CardHeroDataDbContext _context;
 

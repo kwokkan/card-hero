@@ -9,7 +9,7 @@ using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class StoreItemRepository : IStoreItemRepository
+    internal class StoreItemRepository : IStoreItemRepository
     {
         private readonly CardHeroDataDbContext _context;
 

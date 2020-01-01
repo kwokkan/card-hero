@@ -5,7 +5,7 @@ using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class UserMapper : IMapper<User, UserData>
+    internal class UserMapper : IMapper<User, UserData>
     {
         UserData IMapper<User, UserData>.Map(User from)
         {

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Data.SqlServer
 {
-    public class TurnRepository : ITurnRepository
+    internal class TurnRepository : ITurnRepository
     {
         private readonly CardHeroDataDbContext _context;
 
