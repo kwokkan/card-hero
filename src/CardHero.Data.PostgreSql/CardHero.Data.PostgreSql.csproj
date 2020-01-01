@@ -26,4 +26,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CardHero.Data.Abstractions\CardHero.Data.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

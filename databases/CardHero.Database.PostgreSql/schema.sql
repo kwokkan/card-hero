@@ -37,7 +37,7 @@ CREATE TABLE public."Card" (
     "Attack" integer NOT NULL,
     "Defence" integer NOT NULL,
     "Rarity_FK" integer DEFAULT 1 NOT NULL,
-    "TotalStats" integer GENERATED ALWAYS AS ((((((("UpAttack" + "RightAttack") + "DownAttack") + "LeftAttack") + "Health") + "Attack") + "Defence")) STORED
+    "TotalStats" integer GENERATED ALWAYS AS ((((((("UpAttack" + "RightAttack") + "DownAttack") + "LeftAttack") + "Health") + "Attack") + "Defence")) STORED NOT NULL
 );
 
 

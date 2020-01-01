@@ -24,7 +24,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         public int Attack { get; set; }
         public int Defence { get; set; }
         public int RarityFk { get; set; }
-        public int? TotalStats { get; set; }
+        public int TotalStats { get; set; }
 
         public virtual Rarity RarityFkNavigation { get; set; }
         public virtual ICollection<CardCollection> CardCollection { get; set; }
