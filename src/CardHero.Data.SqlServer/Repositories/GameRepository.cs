@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Data.SqlServer
 {
-    public class GameRepository : IGameRepository
+    internal class GameRepository : IGameRepository
     {
         private const int DefaultPageSize = 30;
 

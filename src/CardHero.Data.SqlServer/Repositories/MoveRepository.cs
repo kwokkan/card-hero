@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardHero.Data.SqlServer
 {
-    public class MoveRepository : IMoveRepository
+    internal class MoveRepository : IMoveRepository
     {
         private readonly CardHeroDataDbContext _context;
 
