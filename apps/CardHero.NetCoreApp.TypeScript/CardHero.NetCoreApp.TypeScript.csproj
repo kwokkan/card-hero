@@ -46,6 +46,7 @@
     <ProjectReference Include="..\..\src\CardHero.Core.Abstractions\CardHero.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.Models\CardHero.Core.Models.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Core.SqlServer\CardHero.Core.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\CardHero.Data.PostgreSql.DependencyInjection\CardHero.Data.PostgreSql.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\CardHero.Data.SqlServer.DependencyInjection\CardHero.Data.SqlServer.DependencyInjection.csproj" />
   </ItemGroup>
 
