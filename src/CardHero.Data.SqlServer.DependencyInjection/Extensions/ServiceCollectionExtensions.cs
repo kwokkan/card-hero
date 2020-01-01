@@ -35,10 +35,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.UseSqlServer(options.ConnectionString);
             });
 
-            services
-                .AddScoped<ICardHeroDataDbContextFactory, CardHeroDataDbContextFactory>()
-            ;
-
             return services;
         }
 
