@@ -1,5 +1,6 @@
 ﻿using CardHero.Data.Abstractions;
 using CardHero.Data.PostgreSql;
+using CardHero.Data.PostgreSql.DependencyInjection;
 using CardHero.Data.PostgreSql.EntityFramework;
 
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +23,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static IServiceCollection AddCardHeroDataPostgreSqlDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("CardHeroSqlServerConnection");
+            var connectionString = configuration.GetConnectionString("CardHeroPostgreSqlConnection");
+            var connectionStringParser = new ConnectionStringParser();
+
             var options = new CardHeroDataDbOptions
             {
-                ConnectionString = connectionString,
+                ConnectionString = connectionStringParser.Parse(connectionString),
             };
 
             services.AddScoped(x => options);

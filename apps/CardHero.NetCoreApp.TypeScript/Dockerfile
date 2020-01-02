@@ -4,4 +4,4 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 COPY . .
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet CardHero.NetCoreApp.TypeScript.dll
+CMD ASPNETCORE_URLS=http://*:$PORT CARD_HERO_ConnectionStrings__CardHeroPostgreSqlConnection=$DATABASE_URL dotnet CardHero.NetCoreApp.TypeScript.dll
