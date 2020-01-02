@@ -17,9 +17,20 @@ namespace CardHero.Data.PostgreSql.DependencyInjection
         /// Url - postgres://username:password@localhost:5432/database
         /// </remarks>
         /// <param name="connectionString">The connection string.</param>
+        /// <param name="options">Options to use.</param>
         /// <returns></returns>
-        public string Parse(string connectionString)
+        public string Parse(string connectionString, ConnectionOptions options = null)
         {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentException("message", nameof(connectionString));
+            }
+
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             var builder = new NpgsqlConnectionStringBuilder();
 
             if (Uri.TryCreate(connectionString, UriKind.Absolute, out var connectionUri))
@@ -30,16 +41,19 @@ namespace CardHero.Data.PostgreSql.DependencyInjection
                 builder.Port = connectionUri.Port;
 
                 builder.Username = userinfo?[0];
-                builder.Passfile = userinfo?[1];
+                builder.Password = userinfo?[1];
 
                 builder.Database = connectionUri.LocalPath?.TrimStart('/');
-
-                // Heroku requires ssl mode
-                builder.SslMode = SslMode.Require;
             }
             else
             {
                 builder.ConnectionString = connectionString;
+            }
+
+            if (options != null)
+            {
+                builder.SslMode = options.SslMode;
+                builder.TrustServerCertificate = options.TrustServerCertificate;
             }
 
             return builder.ConnectionString;

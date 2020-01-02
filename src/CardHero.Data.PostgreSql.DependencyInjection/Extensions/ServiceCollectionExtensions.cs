@@ -24,18 +24,15 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddCardHeroDataPostgreSqlDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("CardHeroPostgreSqlConnection");
+            var connectionOptions = configuration.GetSection("ConnectionOptions:PostgreSql").Get<ConnectionOptions>() ?? new ConnectionOptions();
+
             var connectionStringParser = new ConnectionStringParser();
 
-            var options = new CardHeroDataDbOptions
-            {
-                ConnectionString = connectionStringParser.Parse(connectionString),
-            };
-
-            services.AddScoped(x => options);
+            var parsedConnectionString = connectionStringParser.Parse(connectionString, connectionOptions);
 
             services.AddDbContext<CardHeroDataDbContext>(x =>
             {
-                x.UseNpgsql(options.ConnectionString);
+                x.UseNpgsql(parsedConnectionString);
             });
 
             return services;
