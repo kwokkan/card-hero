@@ -165,17 +165,25 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            var useHttpOnly = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(CardHeroEnvironmentVariables.DisableHttps));
+
+            if (useHttpOnly)
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-            });
+                var forwardedHeadersOptions = new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                };
+                forwardedHeadersOptions.KnownNetworks.Clear();
+                forwardedHeadersOptions.KnownProxies.Clear();
+                app.UseForwardedHeaders(forwardedHeadersOptions);
+            }
 
             app.UseJsonException();
 
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
 
-            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(CardHeroEnvironmentVariables.DisableHttps)))
+            if (!useHttpOnly)
             {
                 app.UseHttpsRedirection();
             }
