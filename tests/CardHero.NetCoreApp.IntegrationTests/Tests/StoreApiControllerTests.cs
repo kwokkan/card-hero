@@ -5,36 +5,37 @@ using System.Threading.Tasks;
 using CardHero.Core.Models;
 using CardHero.NetCoreApp.TypeScript;
 
-using Microsoft.AspNetCore.Mvc.Testing;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class StoreApiControllerTests : IClassFixture<PostgreSqlWebApplicationFactory<Startup>>
+    public class StoreApiControllerTests : ApiControllerTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
-
-        public StoreApiControllerTests(PostgreSqlWebApplicationFactory<Startup> factory)
+        public StoreApiControllerTests(
+            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
+            SqlServerWebApplicationFactory<Startup> sqlServerFactory
+        ) : base(postgreSqlFactory, sqlServerFactory)
         {
-            _factory = factory;
         }
 
         [Fact]
         public async Task GetAsync_ExcludesInvalidBundles()
         {
-            var client = _factory.CreateClient();
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClient();
 
-            var response = await client.GetAsync("api/store");
-            var model = await response.Content.ReadAsAsync<StoreItemModel[]>();
+                var response = await client.GetAsync("api/store");
+                var model = await response.Content.ReadAsAsync<StoreItemModel[]>();
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            Assert.Equal(2, model.Length);
-            Assert.NotNull(model.Single(x => x.Id == 1));
-            Assert.NotNull(model.Single(x => x.Id == 3));
-            Assert.Equal(1, model.Single(x => x.Id == 1).ItemCount);
-            Assert.Equal(3, model.Single(x => x.Id == 3).ItemCount);
+                Assert.Equal(2, model.Length);
+                Assert.NotNull(model.Single(x => x.Id == 1));
+                Assert.NotNull(model.Single(x => x.Id == 3));
+                Assert.Equal(1, model.Single(x => x.Id == 1).ItemCount);
+                Assert.Equal(3, model.Single(x => x.Id == 3).ItemCount);
+            });
         }
     }
 }

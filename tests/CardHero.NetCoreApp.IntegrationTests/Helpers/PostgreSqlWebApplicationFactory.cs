@@ -227,7 +227,6 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 })
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    builder.AddJsonFile("appsettings.json");
                     builder.AddJsonFile("appsettings.PostgreSql.json");
                 })
             ;
