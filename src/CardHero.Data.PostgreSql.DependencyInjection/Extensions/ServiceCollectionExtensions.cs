@@ -12,20 +12,23 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddCardHeroDataPostgreSql(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCardHeroDataPostgreSqlDbContext(configuration);
+            var connectionString = configuration.GetConnectionString("CardHeroPostgreSqlConnection");
 
-            services.AddCardHeroDataPostgreSqlMappers();
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                var connectionOptions = configuration.GetSection("ConnectionOptions:PostgreSql").Get<ConnectionOptions>() ?? new ConnectionOptions();
+                services.AddCardHeroDataPostgreSqlDbContext(connectionString, connectionOptions);
 
-            services.AddCardHeroDataPostgreSqlRepositories();
+                services.AddCardHeroDataPostgreSqlMappers();
+
+                services.AddCardHeroDataPostgreSqlRepositories();
+            }
 
             return services;
         }
 
-        private static IServiceCollection AddCardHeroDataPostgreSqlDbContext(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddCardHeroDataPostgreSqlDbContext(this IServiceCollection services, string connectionString, ConnectionOptions connectionOptions)
         {
-            var connectionString = configuration.GetConnectionString("CardHeroPostgreSqlConnection");
-            var connectionOptions = configuration.GetSection("ConnectionOptions:PostgreSql").Get<ConnectionOptions>() ?? new ConnectionOptions();
-
             var connectionStringParser = new ConnectionStringParser();
 
             var parsedConnectionString = connectionStringParser.Parse(connectionString, connectionOptions);
