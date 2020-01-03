@@ -12,11 +12,11 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class CardCollectionApiControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class CardCollectionApiControllerTests : IClassFixture<PostgreSqlWebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
 
-        public CardCollectionApiControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public CardCollectionApiControllerTests(PostgreSqlWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }

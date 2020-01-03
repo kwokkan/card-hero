@@ -12,7 +12,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private readonly List<WebApplicationFactory<Startup>> _factories = new List<WebApplicationFactory<Startup>>();
 
-        public ApiControllerTestBase(CustomWebApplicationFactory<Startup> factory)
+        public ApiControllerTestBase(PostgreSqlWebApplicationFactory<Startup> factory)
         {
             _factories.Add(factory);
         }

@@ -9,9 +9,9 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class AccountApiControllerTests : ApiControllerTestBase, IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AccountApiControllerTests : ApiControllerTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>
     {
-        public AccountApiControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public AccountApiControllerTests(PostgreSqlWebApplicationFactory<Startup> factory)
             : base(factory)
         {
         }
