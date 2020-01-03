@@ -11,18 +11,22 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddCardHeroDataSqlServer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCardHeroDataSqlServerDbContext(configuration);
+            var connectionString = configuration.GetConnectionString("CardHeroSqlServerConnection");
 
-            services.AddCardHeroDataSqlServerMappers();
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                services.AddCardHeroDataSqlServerDbContext(connectionString);
 
-            services.AddCardHeroDataSqlServerRepositories();
+                services.AddCardHeroDataSqlServerMappers();
+
+                services.AddCardHeroDataSqlServerRepositories();
+            }
 
             return services;
         }
 
-        private static IServiceCollection AddCardHeroDataSqlServerDbContext(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddCardHeroDataSqlServerDbContext(this IServiceCollection services, string connectionString)
         {
-            var connectionString = configuration.GetConnectionString("CardHeroSqlServerConnection");
             var options = new CardHeroDataDbOptions
             {
                 ConnectionString = connectionString,

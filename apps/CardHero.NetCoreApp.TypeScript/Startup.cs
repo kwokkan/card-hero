@@ -157,7 +157,7 @@ namespace CardHero.NetCoreApp.TypeScript
             ;
 
             services.AddCardHeroDataPostgreSql(_configuration);
-            //services.AddCardHeroDataSqlServer(_configuration);
+            services.AddCardHeroDataSqlServer(_configuration);
 
             services.AddCardHeroSqlServerDbContext(_configuration);
         }

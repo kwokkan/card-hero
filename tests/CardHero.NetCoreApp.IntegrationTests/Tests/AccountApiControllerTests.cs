@@ -5,44 +5,48 @@ using System.Threading.Tasks;
 using CardHero.Core.Models;
 using CardHero.NetCoreApp.TypeScript;
 
-using Microsoft.AspNetCore.Mvc.Testing;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class AccountApiControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AccountApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
-
-        public AccountApiControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public AccountApiControllerTests(
+            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
+            SqlServerWebApplicationFactory<Startup> sqlServerFactory)
+            : base(postgreSqlFactory, sqlServerFactory)
         {
-            _factory = factory;
         }
 
         [Fact]
-        public async Task GetAsync_WithoutLogin_ReturnsUnauthorized()
+        public async Task GetAsync_WithoutLogin_ReturnsUnauthorizedAsync()
         {
-            var client = _factory.CreateClient();
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClient();
 
-            var response = await client.GetAsync("api/account");
+                var response = await client.GetAsync("api/account");
 
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+                Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            });
         }
 
         [Fact]
         public async Task GetAsync_ValidUser()
         {
-            var client = _factory.CreateClientWithAuth();
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClientWithAuth();
 
-            var response = await client.GetAsync("api/account");
-            var model = await response.Content.ReadAsAsync<UserModel>();
+                var response = await client.GetAsync("api/account");
+                var model = await response.Content.ReadAsAsync<UserModel>();
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            Assert.NotNull(model);
-            Assert.Equal("Test user", model.FullName);
-            Assert.Equal(123456, model.Coins);
+                Assert.NotNull(model);
+                Assert.Equal("Test user", model.FullName);
+                Assert.Equal(123456, model.Coins);
+            });
         }
     }
 }

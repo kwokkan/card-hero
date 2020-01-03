@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+    public class PostgreSqlWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
         where TStartup : class
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
@@ -227,7 +227,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 })
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    builder.AddJsonFile("appsettings.Development.json");
+                    builder.AddJsonFile("appsettings.PostgreSql.json");
                 })
             ;
         }
