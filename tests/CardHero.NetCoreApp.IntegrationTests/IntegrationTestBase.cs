@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public abstract class ApiControllerTestBase
+    public abstract class IntegrationTestBase
     {
         private readonly List<WebApplicationFactory<Startup>> _factories = new List<WebApplicationFactory<Startup>>();
 
-        public ApiControllerTestBase(
+        public IntegrationTestBase(
             PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
             SqlServerWebApplicationFactory<Startup> sqlServerFactory
         )
