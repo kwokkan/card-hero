@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript;
@@ -12,16 +13,27 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private readonly List<WebApplicationFactory<Startup>> _factories = new List<WebApplicationFactory<Startup>>();
 
-        public ApiControllerTestBase(PostgreSqlWebApplicationFactory<Startup> factory)
+        public ApiControllerTestBase(
+            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
+            SqlServerWebApplicationFactory<Startup> sqlServerFactory
+        )
         {
-            _factories.Add(factory);
+            _factories.Add(postgreSqlFactory);
+            _factories.Add(sqlServerFactory);
         }
 
-        protected async Task RunAsync(Func<WebApplicationFactory<Startup>, Task> action)
+        protected async Task RunAsync(Func<WebApplicationFactory<Startup>, Task> action, [CallerMemberName]string callerMemberName = "")
         {
             foreach (var factory in _factories)
             {
-                await action(factory);
+                try
+                {
+                    await action(factory);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(factory.ToString() + " - " + callerMemberName, e);
+                }
             }
         }
     }

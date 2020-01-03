@@ -41,7 +41,7 @@
     <None Update="appsettings.SqlServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.Development.json">
+    <None Update="appsettings.PostgreSql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="xunit.runner.json">
