@@ -82,6 +82,9 @@ namespace Microsoft.AspNetCore.Builder
                 x.ClientId = options.ClientId;
                 x.ClientSecret = options.ClientSecret;
 
+                x.CorrelationCookie.Name = ".ch.";
+                x.CorrelationCookie.SameSite = Http.SameSiteMode.Strict;
+
                 x.AuthorizationEndpoint = options.AuthorizationEndpoint;
                 x.TokenEndpoint = options.TokenEndpoint;
                 x.UserInformationEndpoint = options.UserInformationEndpoint;
