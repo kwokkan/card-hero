@@ -149,6 +149,29 @@
         }
       }
     },
+    "/api/packs": {
+      "get": {
+        "tags": [
+          "CardPackApi"
+        ],
+        "operationId": "CardPackApi_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardPackModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/collections": {
       "get": {
         "tags": [
@@ -1066,6 +1089,28 @@
           4,
           5
         ]
+      },
+      "CardPackModel": {
+        "type": "object",
+        "description": "Card pack.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description.",
+            "nullable": true
+          }
+        }
       },
       "CardCollectionModel": {
         "type": "object",
