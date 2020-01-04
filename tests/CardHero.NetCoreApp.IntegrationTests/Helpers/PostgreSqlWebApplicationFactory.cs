@@ -32,6 +32,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.CardFavourite.Remove(item);
             }
 
+            foreach (var item in context.CardPack)
+            {
+                context.CardPack.Remove(item);
+            }
+
             foreach (var item in context.Deck)
             {
                 context.Deck.Remove(item);
@@ -123,6 +128,17 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 UserFk = 2,
             });
 
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 600,
+                Name = "First pack",
+            });
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 601,
+                Name = "Second pack",
+            });
+
             context.Deck.Add(new Deck
             {
                 DeckPk = 1,
@@ -206,7 +222,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataMemoryDbContext");
+                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext");
                     });
 
                     var serviceProvider = services.BuildServiceProvider();
