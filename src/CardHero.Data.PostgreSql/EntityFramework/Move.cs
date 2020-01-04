@@ -6,7 +6,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
     public partial class Move
     {
         public int MovePk { get; set; }
-        public string Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public DateTime CreatedTime { get; set; }
         public int TurnFk { get; set; }
         public int GameDeckCardCollectionFk { get; set; }

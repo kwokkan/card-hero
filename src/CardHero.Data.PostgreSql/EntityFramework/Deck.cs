@@ -12,7 +12,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         }
 
         public int DeckPk { get; set; }
-        public byte[] Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
         public string Name { get; set; }

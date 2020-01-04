@@ -13,7 +13,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         }
 
         public int CardPk { get; set; }
-        public byte[] Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int UpAttack { get; set; }
@@ -25,6 +25,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         public int Defence { get; set; }
         public int RarityFk { get; set; }
         public int TotalStats { get; set; }
+        public int CardPackFk { get; set; }
+        public int CardPackId { get; set; }
 
         public virtual Rarity RarityFkNavigation { get; set; }
         public virtual ICollection<CardCollection> CardCollection { get; set; }

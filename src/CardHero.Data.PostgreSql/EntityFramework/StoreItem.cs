@@ -6,7 +6,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
     public partial class StoreItem
     {
         public int StoreItemPk { get; set; }
-        public byte[] Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Cost { get; set; }
