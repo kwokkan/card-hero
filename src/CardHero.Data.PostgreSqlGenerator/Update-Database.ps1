@@ -10,6 +10,7 @@ Npgsql.EntityFrameworkCore.PostgreSQL `
 Card,`
 CardCollection,`
 CardFavourite,`
+CardPack,`
 Deck,`
 DeckCardCollection,`
 DeckFavourite,`

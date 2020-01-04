@@ -16,6 +16,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardCollection> CardCollection { get; set; }
         public virtual DbSet<CardFavourite> CardFavourite { get; set; }
+        public virtual DbSet<CardPack> CardPack { get; set; }
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
@@ -140,6 +141,23 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasForeignKey(d => d.UserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CardFavourite_User_FK");
+            });
+
+            modelBuilder.Entity<CardPack>(entity =>
+            {
+                entity.HasKey(e => e.CardPackPk);
+
+                entity.Property(e => e.CardPackPk)
+                    .HasColumnName("CardPack_PK")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Deck>(entity =>
