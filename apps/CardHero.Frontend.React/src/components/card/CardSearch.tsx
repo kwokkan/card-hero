@@ -11,7 +11,7 @@ interface ICardSearchProps {
 interface ICardSearchState {
     name?: string;
     cardPacks?: ICardPackModel[];
-    selectedCardPackId?: number;
+    cardPackId?: number;
     page?: number;
     pageSize?: number;
 }
@@ -83,10 +83,10 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
                         </div>
 
                         <div className="form-group">
-                            <select name="selectedCardPackId" className="form-control" value={this.state.selectedCardPackId} onChange={(e) => this.onSelectChange("selectedCardPackId", e)} >
+                            <select name="cardPackId" className="form-control" value={this.state.cardPackId} onChange={(e) => this.onSelectChange("cardPackId", e)} >
                                 <option>All</option>
                                 {cardPacks && cardPacks.map(x =>
-                                    <option value={x.id}>{x.name}</option>
+                                    <option key={x.id} value={x.id}>{x.name}</option>
                                 )}
                             </select>
                         </div>

@@ -57,6 +57,24 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         [Fact]
+        public async Task GetAsync_WithCardPackFilters_ReturnsSome()
+        {
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClientWithAuth();
+
+                var response = await client.GetAsync("api/cards?cardPackId=601");
+                var model = await response.Content.ReadAsAsync<CardModel[]>();
+
+                response.EnsureSuccessStatusCode();
+
+                Assert.Single(model);
+                Assert.NotNull(model.Single(x => x.Id == 2));
+                Assert.Equal("Second card", model.Single(x => x.Id == 2).Name);
+            });
+        }
+
+        [Fact]
         public async Task FavouriteAsync_AddCardFavourite_ReturnsOk()
         {
             await RunAsync(async factory =>

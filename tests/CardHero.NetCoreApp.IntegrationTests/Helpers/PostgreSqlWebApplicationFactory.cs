@@ -98,12 +98,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
         {
             context.Card.Add(new Card
             {
+                CardPackFk = 600,
                 CardPk = 1,
                 Name = "First card",
                 RarityFk = 1,
             });
             context.Card.Add(new Card
             {
+                CardPackFk = 601,
                 CardPk = 2,
                 Name = "Second card",
                 RarityFk = 2,

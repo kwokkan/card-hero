@@ -78,7 +78,7 @@
             "x-position": 2
           },
           {
-            "name": "Page",
+            "name": "CardPackId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -88,7 +88,7 @@
             "x-position": 3
           },
           {
-            "name": "PageSize",
+            "name": "Page",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -98,13 +98,23 @@
             "x-position": 4
           },
           {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
             "name": "Sort",
             "in": "query",
             "schema": {
               "type": "string",
               "nullable": true
             },
-            "x-position": 5
+            "x-position": 6
           }
         ],
         "responses": {

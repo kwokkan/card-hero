@@ -2,6 +2,7 @@
 
 interface ICardSearchFilter {
     name?: string;
+    cardPackId?: number;
     page?: number;
     pageSize?: number;
     ids?: number[];
@@ -19,6 +20,7 @@ export class CardService {
         const model = client.get(
             filter.ids,
             filter.name,
+            filter.cardPackId,
             filter.page,
             filter.pageSize
         );
