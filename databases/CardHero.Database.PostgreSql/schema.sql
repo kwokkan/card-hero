@@ -603,7 +603,8 @@ CREATE TABLE public."StoreItem" (
     "Description" character varying(1000),
     "Cost" integer NOT NULL,
     "ItemCount" integer DEFAULT 1 NOT NULL,
-    "Expiry" timestamp without time zone
+    "Expiry" timestamp without time zone,
+    "CardPack_FK" integer
 );
 
 
@@ -1070,6 +1071,13 @@ CREATE INDEX "IX_Move_Turn_FK" ON public."Move" USING btree ("Turn_FK");
 
 
 --
+-- Name: IX_StoreItem_CardPack_FK; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "IX_StoreItem_CardPack_FK" ON public."StoreItem" USING btree ("CardPack_FK");
+
+
+--
 -- Name: IX_Turn_CurrentGameUser_FK; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1254,6 +1262,14 @@ ALTER TABLE ONLY public."Move"
 
 ALTER TABLE ONLY public."Move"
     ADD CONSTRAINT "FK_Move_Turn_FK" FOREIGN KEY ("Turn_FK") REFERENCES public."Turn"("Turn_PK") ON DELETE RESTRICT;
+
+
+--
+-- Name: StoreItem FK_StoreItem_CardPack_FK; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."StoreItem"
+    ADD CONSTRAINT "FK_StoreItem_CardPack_FK" FOREIGN KEY ("CardPack_FK") REFERENCES public."CardPack"("CardPack_PK") ON DELETE RESTRICT;
 
 
 --
