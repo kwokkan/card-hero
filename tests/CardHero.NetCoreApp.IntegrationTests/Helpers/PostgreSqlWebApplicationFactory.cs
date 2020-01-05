@@ -165,10 +165,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
             context.StoreItem.Add(new StoreItem
             {
+                CardPackFk = 601,
                 Cost = 100,
                 ItemCount = 1,
                 Name = "Valid Bundle",
-                StoreItemPk = 1
+                StoreItemPk = 501,
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -176,7 +177,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Expiry = DateTime.UtcNow.AddYears(-1),
                 ItemCount = 2,
                 Name = "Expired Bundle",
-                StoreItemPk = 2
+                StoreItemPk = 502,
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -184,7 +185,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Expiry = DateTime.UtcNow.AddDays(7),
                 ItemCount = 3,
                 Name = "Still Valid Bundle",
-                StoreItemPk = 3
+                StoreItemPk = 503,
             });
 
             context.User.Add(new User

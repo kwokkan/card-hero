@@ -84,6 +84,7 @@ namespace CardHero.Core.SqlServer.Services
             var cardResults = await _cardRepository.FindCardsAsync(
                 new Data.Abstractions.CardSearchFilter
                 {
+                    CardPackId = bundle.CardPackId,
                     PageSize = int.MaxValue,
                 },
                 cancellationToken: cancellationToken
