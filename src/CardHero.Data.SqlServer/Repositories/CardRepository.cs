@@ -88,6 +88,11 @@ namespace CardHero.Data.SqlServer
                 query = query.Where(x => x.Name.Contains(filter.Name));
             }
 
+            if (filter.CardPackId.HasValue)
+            {
+                query = query.Where(x => x.CardPackFk == filter.CardPackId.Value);
+            }
+
             var totalCount = await query.CountAsync(cancellationToken: cancellationToken);
 
             query = query.OrderBy(x => x.CardPk);
