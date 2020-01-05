@@ -11,7 +11,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         }
 
         public int RarityPk { get; set; }
-        public byte[] Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public string Name { get; set; }
         public int Frequency { get; set; }
 

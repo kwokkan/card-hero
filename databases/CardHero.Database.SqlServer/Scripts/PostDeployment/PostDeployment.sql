@@ -10,5 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+:r .\Data\CardPack.sql
 :r .\Data\GameType.sql
 :r .\Data\Rarity.sql

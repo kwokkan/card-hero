@@ -32,6 +32,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.CardFavourite.Remove(item);
             }
 
+            foreach (var item in context.CardPack)
+            {
+                context.CardPack.Remove(item);
+            }
+
             foreach (var item in context.Deck)
             {
                 context.Deck.Remove(item);
@@ -93,12 +98,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
         {
             context.Card.Add(new Card
             {
+                CardPackFk = 600,
                 CardPk = 1,
                 Name = "First card",
                 RarityFk = 1,
             });
             context.Card.Add(new Card
             {
+                CardPackFk = 601,
                 CardPk = 2,
                 Name = "Second card",
                 RarityFk = 2,
@@ -121,6 +128,17 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardCollectionPk = 3,
                 CardFk = 1,
                 UserFk = 2,
+            });
+
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 600,
+                Name = "First pack",
+            });
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 601,
+                Name = "Second pack",
             });
 
             context.Deck.Add(new Deck
@@ -206,7 +224,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataMemoryDbContext");
+                        context.UseInMemoryDatabase("CardHeroDataSqlServerMemoryDbContext");
                     });
 
                     var serviceProvider = services.BuildServiceProvider();

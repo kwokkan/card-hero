@@ -11,7 +11,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         }
 
         public int GameDeckCardCollectionPk { get; set; }
-        public byte[] Rowstamp { get; set; }
+        public int Rowstamp { get; set; }
         public int GameDeckFk { get; set; }
         public int CardFk { get; set; }
 

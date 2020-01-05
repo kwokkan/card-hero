@@ -69,7 +69,7 @@ export class AccountApiClient extends CardHeroApiClientBase implements IAccountA
 }
 
 export interface ICardApiClient {
-    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]>;
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, cardPackId?: number | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]>;
     favourite(id: number): Promise<void>;
 }
 
@@ -84,12 +84,14 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
         this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    get(ids?: number[] | null | undefined, name?: string | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]> {
+    get(ids?: number[] | null | undefined, name?: string | null | undefined, cardPackId?: number | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<CardModel[]> {
         let url_ = this.baseUrl + "/api/cards?";
         if (ids !== undefined)
             ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
+        if (cardPackId !== undefined)
+            url_ += "CardPackId=" + encodeURIComponent("" + cardPackId) + "&"; 
         if (page !== undefined)
             url_ += "Page=" + encodeURIComponent("" + page) + "&"; 
         if (pageSize !== undefined)
@@ -163,6 +165,60 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
             });
         }
         return Promise.resolve<void>(<any>null);
+    }
+}
+
+export interface ICardPackApiClient {
+    get(): Promise<CardPackModel[]>;
+}
+
+export class CardPackApiClient extends CardHeroApiClientBase implements ICardPackApiClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    get(): Promise<CardPackModel[]> {
+        let url_ = this.baseUrl + "/api/packs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<CardPackModel[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CardPackModel.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CardPackModel[]>(<any>null);
     }
 }
 
@@ -1108,6 +1164,58 @@ export enum Rarity {
     Rare = 3,
     Epic = 4,
     Legendary = 5,
+}
+
+/** Card pack. */
+export class CardPackModel implements ICardPackModel {
+    /** Id. */
+    id?: number;
+    /** Name. */
+    name?: string | undefined;
+    /** Description. */
+    description?: string | undefined;
+
+    constructor(data?: ICardPackModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): CardPackModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new CardPackModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data; 
+    }
+}
+
+/** Card pack. */
+export interface ICardPackModel {
+    /** Id. */
+    id?: number;
+    /** Name. */
+    name?: string | undefined;
+    /** Description. */
+    description?: string | undefined;
 }
 
 /** Card collection. */

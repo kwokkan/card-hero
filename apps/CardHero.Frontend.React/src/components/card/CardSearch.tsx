@@ -1,5 +1,6 @@
 ﻿import React, { ChangeEvent, Component } from "react";
-import { ICardModel } from "../../clients/clients";
+import { ICardModel, ICardPackModel } from "../../clients/clients";
+import { CardPackService } from "../../services/CardPackService";
 import { CardService } from "../../services/CardService";
 import { NumberDropDown } from "../shared/NumberDropDown";
 
@@ -9,6 +10,8 @@ interface ICardSearchProps {
 
 interface ICardSearchState {
     name?: string;
+    cardPacks?: ICardPackModel[];
+    cardPackId?: number;
     page?: number;
     pageSize?: number;
 }
@@ -21,7 +24,18 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
     }
 
     async componentDidMount() {
-        await this.getCards();
+        await Promise.all([
+            this.getCards(),
+            this.getCardPacks()
+        ]);
+    }
+
+    async getCardPacks() {
+        var cardPacks = await CardPackService.getCardPacks();
+
+        this.setState({
+            cardPacks: cardPacks
+        });
     }
 
     async getCards(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -54,6 +68,8 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
     }
 
     render() {
+        const cardPacks = this.state.cardPacks;
+
         return (
             <div className="card">
                 <h4 className="card-header">
@@ -64,6 +80,15 @@ export class CardSearch extends Component<ICardSearchProps, ICardSearchState> {
                     <div className="card-body">
                         <div className="form-group">
                             <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={(e) => this.onInputChange('name', e)} />
+                        </div>
+
+                        <div className="form-group">
+                            <select name="cardPackId" className="form-control" value={this.state.cardPackId} onChange={(e) => this.onSelectChange("cardPackId", e)} >
+                                <option>All</option>
+                                {cardPacks && cardPacks.map(x =>
+                                    <option key={x.id} value={x.id}>{x.name}</option>
+                                )}
+                            </select>
                         </div>
 
                         <div className="form-group">

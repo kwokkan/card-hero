@@ -16,6 +16,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         public virtual DbSet<Card> Card { get; set; }
         public virtual DbSet<CardCollection> CardCollection { get; set; }
         public virtual DbSet<CardFavourite> CardFavourite { get; set; }
+        public virtual DbSet<CardPack> CardPack { get; set; }
         public virtual DbSet<Deck> Deck { get; set; }
         public virtual DbSet<DeckCardCollection> DeckCardCollection { get; set; }
         public virtual DbSet<DeckFavourite> DeckFavourite { get; set; }
@@ -35,13 +36,27 @@ namespace CardHero.Data.PostgreSql.EntityFramework
             {
                 entity.HasKey(e => e.CardPk);
 
+                entity.HasIndex(e => e.CardPackFk);
+
                 entity.HasIndex(e => e.RarityFk);
 
                 entity.Property(e => e.CardPk).HasColumnName("Card_PK");
 
+                entity.Property(e => e.Attack).HasDefaultValueSql("1");
+
+                entity.Property(e => e.CardPackFk)
+                    .HasColumnName("CardPack_FK")
+                    .HasDefaultValueSql("1");
+
+                entity.Property(e => e.Defence).HasDefaultValueSql("1");
+
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
+                entity.Property(e => e.DownAttack).HasDefaultValueSql("1");
+
                 entity.Property(e => e.Health).HasDefaultValueSql("1");
+
+                entity.Property(e => e.LeftAttack).HasDefaultValueSql("1");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -51,9 +66,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasColumnName("Rarity_FK")
                     .HasDefaultValueSql("1");
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.RightAttack).HasDefaultValueSql("1");
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.TotalStats).HasComputedColumnSql("((((((\"UpAttack\" + \"RightAttack\") + \"DownAttack\") + \"LeftAttack\") + \"Health\") + \"Attack\") + \"Defence\")");
+
+                entity.Property(e => e.UpAttack).HasDefaultValueSql("1");
 
                 entity.HasOne(d => d.RarityFkNavigation)
                     .WithMany(p => p.Card)
@@ -78,7 +97,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
@@ -124,6 +143,23 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasConstraintName("FK_CardFavourite_User_FK");
             });
 
+            modelBuilder.Entity<CardPack>(entity =>
+            {
+                entity.HasKey(e => e.CardPackPk);
+
+                entity.Property(e => e.CardPackPk)
+                    .HasColumnName("CardPack_PK")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
+            });
+
             modelBuilder.Entity<Deck>(entity =>
             {
                 entity.HasKey(e => e.DeckPk);
@@ -141,6 +177,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UpdatedTime).HasColumnType("timestamp with time zone");
 
@@ -166,6 +204,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.Property(e => e.CardCollectionFk).HasColumnName("CardCollection_FK");
 
                 entity.Property(e => e.DeckFk).HasColumnName("Deck_FK");
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.CardCollectionFkNavigation)
                     .WithMany(p => p.DeckCardCollection)
@@ -237,7 +277,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Rows).HasDefaultValueSql("3");
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.StartTime)
                     .HasColumnType("timestamp with time zone")
@@ -274,7 +314,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.GameUserFkNavigation)
                     .WithMany(p => p.GameDeck)
@@ -296,6 +336,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.Property(e => e.CardFk).HasColumnName("Card_FK");
 
                 entity.Property(e => e.GameDeckFk).HasColumnName("GameDeck_FK");
+
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.CardFkNavigation)
                     .WithMany(p => p.GameDeckCardCollection)
@@ -326,7 +368,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
@@ -359,9 +401,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.GameDeckCardCollectionFk).HasColumnName("GameDeckCardCollection_FK");
 
-                entity.Property(e => e.Rowstamp)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 
@@ -388,7 +428,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<StoreItem>(entity =>
@@ -405,7 +445,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Turn>(entity =>
@@ -424,7 +464,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.GameFk).HasColumnName("Game_FK");
 
-                entity.Property(e => e.Rowstamp).IsRequired();
+                entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.StartTime)
                     .HasColumnType("timestamp with time zone")
