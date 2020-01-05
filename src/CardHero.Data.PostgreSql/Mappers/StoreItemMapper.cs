@@ -9,6 +9,7 @@ namespace CardHero.Data.PostgreSql
         {
             return new StoreItemData
             {
+                CardPackId = from.CardPackFk,
                 Cost = from.Cost,
                 Description = from.Description,
                 Expiry = from.Expiry,

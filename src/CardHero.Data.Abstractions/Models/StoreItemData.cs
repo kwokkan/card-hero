@@ -15,5 +15,7 @@ namespace CardHero.Data.Abstractions
         public int ItemCount { get; set; }
 
         public DateTime? Expiry { get; set; }
+
+        public int? CardPackId { get; set; }
     }
 }
