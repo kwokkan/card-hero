@@ -435,7 +435,11 @@ namespace CardHero.Data.PostgreSql.EntityFramework
             {
                 entity.HasKey(e => e.StoreItemPk);
 
+                entity.HasIndex(e => e.CardPackFk);
+
                 entity.Property(e => e.StoreItemPk).HasColumnName("StoreItem_PK");
+
+                entity.Property(e => e.CardPackFk).HasColumnName("CardPack_FK");
 
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
@@ -446,6 +450,11 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasMaxLength(100);
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.CardPackFkNavigation)
+                    .WithMany(p => p.StoreItem)
+                    .HasForeignKey(d => d.CardPackFk)
+                    .HasConstraintName("FK_StoreItem_CardPack_FK");
             });
 
             modelBuilder.Entity<Turn>(entity =>

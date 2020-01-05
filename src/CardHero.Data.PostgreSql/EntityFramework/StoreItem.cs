@@ -12,5 +12,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
         public int Cost { get; set; }
         public int ItemCount { get; set; }
         public DateTime? Expiry { get; set; }
+        public int? CardPackFk { get; set; }
+
+        public virtual CardPack CardPackFkNavigation { get; set; }
     }
 }
