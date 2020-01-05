@@ -6,5 +6,11 @@
 	[Cost]         INT             NOT NULL,
 	[ItemCount]    INT             NOT NULL DEFAULT(1),
 	[Expiry]       DATETIME2       NULL,
-    CONSTRAINT [PK_StoreItem] PRIMARY KEY CLUSTERED ([StoreItem_PK] ASC)
+    [CardPack_FK]  INT             NULL,
+    CONSTRAINT [PK_StoreItem] PRIMARY KEY CLUSTERED ([StoreItem_PK] ASC),
+    CONSTRAINT [FK_StoreItem_CardPack_FK] FOREIGN KEY ([CardPack_FK]) REFERENCES [dbo].[CardPack] ([CardPack_PK])
 );
+
+GO
+CREATE NONCLUSTERED INDEX [IX_StoreItem_CardPack_FK]
+    ON [dbo].[StoreItem]([CardPack_FK] ASC);

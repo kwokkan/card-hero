@@ -8,6 +8,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public CardPack()
         {
             Card = new HashSet<Card>();
+            StoreItem = new HashSet<StoreItem>();
         }
 
         public int CardPackPk { get; set; }
@@ -16,5 +17,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
         public string Description { get; set; }
 
         public virtual ICollection<Card> Card { get; set; }
+        public virtual ICollection<StoreItem> StoreItem { get; set; }
     }
 }
