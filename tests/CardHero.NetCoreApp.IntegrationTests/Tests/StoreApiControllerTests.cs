@@ -45,10 +45,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             {
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/store", new StoreItemModel
-                {
-                    Id = 501,
-                });
+                var response = await client.PostAsync("api/store/501/buy", null);
                 response.EnsureSuccessStatusCode();
                 var model = await response.Content.ReadAsAsync<CardCollectionModel[]>();
 

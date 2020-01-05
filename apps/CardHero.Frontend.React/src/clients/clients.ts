@@ -819,7 +819,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
 
 export interface IStoreApiClient {
     get(page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<StoreItemModel[]>;
-    buyStoreItem(storeItem: StoreItemModel): Promise<CardCollectionModel[]>;
+    buyStoreItem(id: number): Promise<CardCollectionModel[]>;
 }
 
 export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiClient {
@@ -877,17 +877,16 @@ export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiCl
         return Promise.resolve<StoreItemModel[]>(<any>null);
     }
 
-    buyStoreItem(storeItem: StoreItemModel): Promise<CardCollectionModel[]> {
-        let url_ = this.baseUrl + "/api/store";
+    buyStoreItem(id: number): Promise<CardCollectionModel[]> {
+        let url_ = this.baseUrl + "/api/store/{id}/buy";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(storeItem);
-
         let options_ = <RequestInit>{
-            body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };

@@ -906,24 +906,26 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/store/{id}/buy": {
       "post": {
         "tags": [
           "StoreApi"
         ],
         "operationId": "StoreApi_BuyStoreItem",
-        "requestBody": {
-          "x-name": "storeItem",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreItemModel"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "201": {
             "description": "",
