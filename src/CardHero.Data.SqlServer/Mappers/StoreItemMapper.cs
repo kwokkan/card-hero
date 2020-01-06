@@ -3,12 +3,13 @@ using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class StoreItemMapper : IMapper<StoreItem, StoreItemData>
+    internal class StoreItemMapper : IMapper<StoreItem, StoreItemData>
     {
         StoreItemData IMapper<StoreItem, StoreItemData>.Map(StoreItem from)
         {
             return new StoreItemData
             {
+                CardPackId = from.CardPackFk,
                 Cost = from.Cost,
                 Description = from.Description,
                 Expiry = from.Expiry,

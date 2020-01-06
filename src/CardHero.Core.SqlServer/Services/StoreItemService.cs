@@ -48,13 +48,13 @@ namespace CardHero.Core.SqlServer.Services
             return results;
         }
 
-        async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken)
+        async Task<IEnumerable<CardModel>> IStoreItemService.BuyStoreItemAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            var bundle = await _storeItemRepository.GetStoreItemById(storeItem.Id, cancellationToken: cancellationToken);
+            var bundle = await _storeItemRepository.GetStoreItemById(id, cancellationToken: cancellationToken);
 
             if (bundle == null)
             {
-                throw new InvalidStoreItemException($"Store item { storeItem.Id } not found in store.");
+                throw new InvalidStoreItemException($"Store item { id } not found in store.");
             }
 
             if (bundle.Expiry.HasValue && bundle.Expiry > DateTime.UtcNow)
@@ -84,6 +84,7 @@ namespace CardHero.Core.SqlServer.Services
             var cardResults = await _cardRepository.FindCardsAsync(
                 new Data.Abstractions.CardSearchFilter
                 {
+                    CardPackId = bundle.CardPackId,
                     PageSize = int.MaxValue,
                 },
                 cancellationToken: cancellationToken

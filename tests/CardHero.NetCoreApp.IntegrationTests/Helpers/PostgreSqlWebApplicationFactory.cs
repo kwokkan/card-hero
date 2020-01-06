@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using CardHero.Data.SqlServer.EntityFramework;
+using CardHero.Data.PostgreSql.EntityFramework;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+    public class PostgreSqlWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
         where TStartup : class
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
@@ -30,6 +30,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
             foreach (var item in context.CardFavourite)
             {
                 context.CardFavourite.Remove(item);
+            }
+
+            foreach (var item in context.CardPack)
+            {
+                context.CardPack.Remove(item);
             }
 
             foreach (var item in context.Deck)
@@ -93,12 +98,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
         {
             context.Card.Add(new Card
             {
+                CardPackFk = 600,
                 CardPk = 1,
                 Name = "First card",
                 RarityFk = 1,
             });
             context.Card.Add(new Card
             {
+                CardPackFk = 601,
                 CardPk = 2,
                 Name = "Second card",
                 RarityFk = 2,
@@ -121,6 +128,17 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardCollectionPk = 3,
                 CardFk = 1,
                 UserFk = 2,
+            });
+
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 600,
+                Name = "First pack",
+            });
+            context.CardPack.Add(new CardPack
+            {
+                CardPackPk = 601,
+                Name = "Second pack",
             });
 
             context.Deck.Add(new Deck
@@ -147,10 +165,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
             context.StoreItem.Add(new StoreItem
             {
+                CardPackFk = 601,
                 Cost = 100,
                 ItemCount = 1,
                 Name = "Valid Bundle",
-                StoreItemPk = 1
+                StoreItemPk = 501,
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -158,7 +177,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Expiry = DateTime.UtcNow.AddYears(-1),
                 ItemCount = 2,
                 Name = "Expired Bundle",
-                StoreItemPk = 2
+                StoreItemPk = 502,
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -166,7 +185,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Expiry = DateTime.UtcNow.AddDays(7),
                 ItemCount = 3,
                 Name = "Still Valid Bundle",
-                StoreItemPk = 3
+                StoreItemPk = 503,
             });
 
             context.User.Add(new User
@@ -197,13 +216,6 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureServices(services =>
                 {
-                    var existingDataDbContextFactory = services.SingleOrDefault(x => x.ServiceType == typeof(ICardHeroDataDbContextFactory));
-
-                    if (existingDataDbContextFactory != null)
-                    {
-                        services.Remove(existingDataDbContextFactory);
-                    }
-
                     var existingContext = services.SingleOrDefault(x => x.ServiceType == typeof(DbContextOptions<CardHeroDataDbContext>));
 
                     if (existingContext != null)
@@ -211,11 +223,9 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         services.Remove(existingContext);
                     }
 
-                    services.AddScoped<ICardHeroDataDbContextFactory, TestCardHeroDataDbContextFactory>();
-
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataMemoryDbContext");
+                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext");
                     });
 
                     var serviceProvider = services.BuildServiceProvider();
@@ -236,7 +246,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 })
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    builder.AddJsonFile("appsettings.Development.json");
+                    builder.AddJsonFile("appsettings.PostgreSql.json");
                 })
             ;
         }

@@ -5,7 +5,7 @@ using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class TurnMapper : IMapper<Turn, TurnData>
+    internal class TurnMapper : IMapper<Turn, TurnData>
     {
         TurnData IMapper<Turn, TurnData>.Map(Turn from)
         {

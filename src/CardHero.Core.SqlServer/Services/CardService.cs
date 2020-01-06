@@ -29,6 +29,7 @@ namespace CardHero.Core.SqlServer.Services
             var cardCollections = await _cardRepository.FindCardsAsync(
                 new Data.Abstractions.CardSearchFilter
                 {
+                    CardPackId = filter.CardPackId,
                     Ids = filter.Ids?.ToArray(),
                     Name = filter.Name,
                     UserId = filter.UserId,

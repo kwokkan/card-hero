@@ -42,15 +42,15 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             return storeItems;
         }
 
-        [HttpPost]
+        [HttpPost("{id:int}/buy")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(StoreItemModel storeItem, CancellationToken cancellationToken)
+        public async Task<ActionResult<CardCollectionModel[]>> BuyStoreItemAsync(int id, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 
-            var results = await _storeItemService.BuyStoreItemAsync(storeItem, user.Id, cancellationToken: cancellationToken);
+            var results = await _storeItemService.BuyStoreItemAsync(id, user.Id, cancellationToken: cancellationToken);
             var cardIds = results.Select(x => x.Id).ToArray();
 
             var newCards = await _cardCollectionService.AddCardsToCardCollectionAsync(cardIds, user.Id, cancellationToken: cancellationToken);

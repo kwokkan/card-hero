@@ -18,5 +18,10 @@ namespace CardHero.Core.Abstractions
         /// Name to search for.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Card pack to filter by.
+        /// </summary>
+        public int? CardPackId { get; set; }
     }
 }

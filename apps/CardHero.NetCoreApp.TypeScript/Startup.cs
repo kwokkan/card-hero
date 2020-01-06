@@ -10,6 +10,7 @@ using CardHero.Core.SqlServer.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,11 @@ namespace CardHero.NetCoreApp.TypeScript
 {
     public class Startup
     {
+        private static class CardHeroEnvironmentVariables
+        {
+            public const string DisableHttps = "CH_DISABLE_HTTPS";
+        }
+
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
 
@@ -150,6 +156,7 @@ namespace CardHero.NetCoreApp.TypeScript
                 })
             ;
 
+            services.AddCardHeroDataPostgreSql(_configuration);
             services.AddCardHeroDataSqlServer(_configuration);
 
             services.AddCardHeroSqlServerDbContext(_configuration);
@@ -158,11 +165,28 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var useHttpOnly = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(CardHeroEnvironmentVariables.DisableHttps));
+
+            if (useHttpOnly)
+            {
+                var forwardedHeadersOptions = new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                };
+                forwardedHeadersOptions.KnownNetworks.Clear();
+                forwardedHeadersOptions.KnownProxies.Clear();
+                app.UseForwardedHeaders(forwardedHeadersOptions);
+            }
+
             app.UseJsonException();
 
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
-            app.UseHttpsRedirection();
+
+            if (!useHttpOnly)
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseResponseCompression();
 

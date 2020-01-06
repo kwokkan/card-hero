@@ -8,10 +8,13 @@ namespace CardHero.NetCoreApp.TypeScript
 
         public string Name { get; set; }
 
+        public int? CardPackId { get; set; }
+
         public CardSearchFilter ToSearchFilter()
         {
             return new CardSearchFilter
             {
+                CardPackId = this.CardPackId,
                 Ids = this.Ids,
                 Name = this.Name,
                 Page = this.Page,

@@ -1,4 +1,4 @@
-﻿import { ICardCollectionModel, IStoreItemModel, StoreApiClient, StoreItemModel } from "../clients/clients";
+﻿import { ICardCollectionModel, IStoreItemModel, StoreApiClient } from "../clients/clients";
 
 export class StoreService {
     static async getStoreItems(): Promise<IStoreItemModel[] | null> {
@@ -11,10 +11,7 @@ export class StoreService {
     static async buyCardBundle(id: number): Promise<ICardCollectionModel[] | null> {
         const client = new StoreApiClient();
 
-        const postModel = new StoreItemModel({
-            id: id
-        });
-        const model = await client.buyStoreItem(postModel);
+        const model = await client.buyStoreItem(id);
 
         return model;
     }

@@ -22,10 +22,10 @@ namespace CardHero.Core.Abstractions
         /// <summary>
         /// Buy a store item.
         /// </summary>
-        /// <param name="storeItem">The store item to buy.</param>
+        /// <param name="id">The store item to buy.</param>
         /// <param name="userId">The user to buy for.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>List of items.</returns>
-        Task<IEnumerable<CardModel>> BuyStoreItemAsync(StoreItemModel storeItem, int userId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CardModel>> BuyStoreItemAsync(int id, int userId, CancellationToken cancellationToken = default);
     }
 }

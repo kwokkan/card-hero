@@ -230,6 +230,16 @@ module.exports = {
                         //options: {
                         //    experimentalWatchApi: true
                         //}
+                    },
+                    {
+                        loader: "eslint-loader",
+                        options: {
+                            cache: true,
+                            emitError: true,
+                            emitWarning: true,
+                            failOnError: true,
+                            failOnWarning: true,
+                        }
                     }
                 ]
             },

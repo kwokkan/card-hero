@@ -1,15 +1,12 @@
 ﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
 @{
-    var useExternal = false;
     var isDev = Microsoft.Extensions.Hosting.HostEnvironmentEnvExtensions.IsDevelopment(env);
 
     var title = ViewData["Title"];
-    string appScript = null;
 
     if (Model is ReactAppViewModel m)
     {
         title = m.Title;
-        appScript = m.AppScript;
     }
 }
 <!DOCTYPE html>
@@ -27,51 +24,12 @@
 
     <link rel="shortcut icon" href="~/favicon.ico" asp-append-version="true">
 
-    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />*@
-    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/all.min.css" integrity="sha256-cC4ByuxbguozEVx8jcKy94MFiGvxN9GwjCqZ8f3+yBk=" crossorigin="anonymous" />*@
-
     <link rel="stylesheet" async asp-href-include="~/dist/styles.vendor.*.min.css" asp-append-version="@isDev" />
-    <link rel="stylesheet" async asp-href-include="~/dist/styles.app.*.min.css" asp-append-version="@isDev" />
 
     @RenderSection("head", false)
 </head>
 <body>
-    <noscript>
-        You need to enable JavaScript to run this app.
-    </noscript>
-
-    <div id="root">
-        <h1>The app is currently loading.</h1>
-
-        <p>
-            If this is taking a long time, try refreshing the page.
-        </p>
-    </div>
-
     @RenderBody()
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous" defer></script>*@
-
-    @if (useExternal)
-    {
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.9.0/umd/react.development.js" integrity="sha256-WxLwqChHGMEY+a2GfnOzwRX6D1Nsf42IRPi4OV7BhPw=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js" integrity="sha256-qVsF1ftL3vUq8RFOLwPnKimXOLo72xguDliIxeffHRc=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.min.js" integrity="sha256-FW22WiuVHRjHTl/Z0FHNNwNxhkyS2fTrPEzxIkIwd9M=" crossorigin="anonymous"></script>
-    }
-
-    <script defer asp-src-include="~/dist/runtime.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/vendor.default.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/vendor.global.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/vendor.react.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/vendor.fortawesome.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/vendor.unused.*.min.js" asp-append-version="@isDev"></script>
-    <script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="@isDev"></script>
-
-    @if (!string.IsNullOrWhiteSpace(appScript))
-    {
-        <script defer asp-src-include="~/dist/app.@(appScript).*.min.js" asp-append-version="@isDev"></script>
-    }
 
     @RenderSection("scripts", false)
 </body>
