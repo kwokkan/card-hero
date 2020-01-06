@@ -938,6 +938,14 @@ ALTER TABLE ONLY public."User"
 
 
 --
+-- Name: Card UX_Card_CardPack_FK_CardPackId; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Card"
+    ADD CONSTRAINT "UX_Card_CardPack_FK_CardPackId" UNIQUE ("CardPack_FK", "CardPackId");
+
+
+--
 -- Name: IX_CardCollection_Card_FK; Type: INDEX; Schema: public; Owner: -
 --
 
