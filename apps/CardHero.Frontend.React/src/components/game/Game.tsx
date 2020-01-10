@@ -34,7 +34,7 @@ export class Game extends Component<IGameProps, IGameState> {
     private getPlayedGameDeckCardCollectionIds(game?: IGameViewModel): number[] {
         let playedGdccIds: number[];
 
-        if (game && game.type === GameType.TripleTriad) {
+        if (game && game.type === GameType.Standard) {
             const data = game.data as GameTripleTriadModel;
 
             if (data) {

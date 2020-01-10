@@ -1739,7 +1739,7 @@ export interface ITurnModel {
 
 /** Type of game. */
 export enum GameType {
-    TripleTriad = 1,
+    Standard = 1,
 }
 
 /** Deck for use within a game. */

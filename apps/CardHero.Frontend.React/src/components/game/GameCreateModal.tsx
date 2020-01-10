@@ -25,7 +25,7 @@ interface IGameCreateModalState {
 export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreateModalState> {
     static readonly defaultState: IGameCreateModalState = {
         name: undefined,
-        type: GameType.TripleTriad,
+        type: GameType.Standard,
         deckId: undefined,
         canSave: false
     }

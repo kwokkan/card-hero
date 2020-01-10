@@ -1441,7 +1441,7 @@
         "type": "integer",
         "description": "Type of game.",
         "x-enumNames": [
-          "TripleTriad"
+          "Standard"
         ],
         "enum": [
           1

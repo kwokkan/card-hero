@@ -22,7 +22,7 @@ exports[`<GameDetailWidget /> renders correctly with game 1`] = `
       </strong>
        
       <span>
-        TripleTriad
+        Standard
       </span>
     </li>
     <li

@@ -28,7 +28,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         }
 
         switch (game.type) {
-            case GameType.TripleTriad:
+            case GameType.Standard:
                 return <GameTripleTriadBoard
                     game={game}
                     onUpdated={this.onGameTripleTriadBoardUpdated}
