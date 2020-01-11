@@ -13,6 +13,8 @@ interface IGameBoardProps {
 }
 
 export class GameBoard extends Component<IGameBoardProps, {}> {
+    static readonly nullGameBoard = <p>No game selected</p>;
+
     private isSelected(row: number, column: number): boolean {
         return this.props.game.data.moves.findIndex((x: IGameMoveViewModel) => x.row === row && x.column === column) > -1;
     }
@@ -76,7 +78,13 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
     }
 
     render() {
-        const data = this.props.game.data;
+        const game = this.props.game;
+
+        if (!game) {
+            return GameBoard.nullGameBoard;
+        }
+
+        const data = game.data;
         const grid = this.getGameGrid(data);
 
         return (

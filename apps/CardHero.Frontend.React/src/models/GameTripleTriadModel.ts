@@ -1,10 +1,10 @@
-﻿import { CardModel, GameTripleTriadMoveViewModel, ICardModel, IGameTripleTriadMoveViewModel } from "../clients/clients";
+﻿import { CardModel, GameMoveViewModel, ICardModel, IGameMoveViewModel } from "../clients/clients";
 import { IMapper } from "../utils/mapper";
 
 export class GameTripleTriadModel implements IMapper<GameTripleTriadModel> {
     columns: number;
     rows: number;
-    moves: IGameTripleTriadMoveViewModel[];
+    moves: IGameMoveViewModel[];
     playedCards: ICardModel[];
 
     from(o?: any): GameTripleTriadModel {
@@ -14,7 +14,7 @@ export class GameTripleTriadModel implements IMapper<GameTripleTriadModel> {
         this.rows = o.rows;
 
         if (o.moves) {
-            this.moves = o.moves.map((x: IGameTripleTriadMoveViewModel) => new GameTripleTriadMoveViewModel(x));
+            this.moves = o.moves.map((x: IGameMoveViewModel) => new GameMoveViewModel(x));
         }
 
         if (o.playedCards) {
