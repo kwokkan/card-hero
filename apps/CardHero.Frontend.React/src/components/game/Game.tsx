@@ -68,14 +68,6 @@ export class Game extends Component<IGameProps, IGameState> {
         }, 5000);
     }
 
-    async componentWillReceiveProps(nextProps: IGameProps) {
-        const gameId: number = this.props.id;
-
-        if (nextProps.id !== gameId) {
-            await this.populateGame(gameId);
-        }
-    }
-
     componentWillUnmount() {
         window.clearInterval(this._interval);
     }
