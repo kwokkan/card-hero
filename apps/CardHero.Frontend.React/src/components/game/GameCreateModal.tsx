@@ -103,18 +103,6 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="mType">Type</label>
-                                    <select
-                                        id="mType"
-                                        className="form-control"
-                                        value={this.state.type}
-                                        onChange={(e) => this.onSelectChange("type", e)}
-                                    >
-                                        <option value="1">Triple Triad</option>
-                                    </select>
-                                </div>
-
-                                <div className="form-group">
                                     <label htmlFor="mDeckId">Deck</label>
                                     <select
                                         id="mDeckId"
