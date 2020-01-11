@@ -1,6 +1,5 @@
 ﻿import React, { Component } from "react";
-import { GameTripleTriadMoveViewModel, ICardModel, IGameTripleTriadMoveViewModel, IGameViewModel } from "../../clients/clients";
-import { GameTripleTriadModel } from "../../models/GameTripleTriadModel";
+import { ICardModel, IGameDataViewModel, IGameMoveViewModel, IGameViewModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
@@ -15,11 +14,11 @@ interface IGameBoardProps {
 
 export class GameBoard extends Component<IGameBoardProps, {}> {
     private isSelected(row: number, column: number): boolean {
-        return this.props.game.data.moves.findIndex((x: IGameTripleTriadMoveViewModel) => x.row === row && x.column === column) > -1;
+        return this.props.game.data.moves.findIndex((x: IGameMoveViewModel) => x.row === row && x.column === column) > -1;
     }
 
     private getCardIdAtPosition(row: number, column: number): number | null {
-        const move = this.props.game.data.moves.find((x: IGameTripleTriadMoveViewModel) => x.row === row && x.column === column);
+        const move = this.props.game.data.moves.find((x: IGameMoveViewModel) => x.row === row && x.column === column);
         return move ? move.cardId : null;
     }
 
@@ -33,7 +32,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
             console.log(data);
         }
 
-        await GameService.move(this.props.game.id, new GameTripleTriadMoveViewModel(data));
+        await GameService.move(this.props.game.id, data);
 
         if (this.props.onUpdated) {
             this.props.onUpdated({
@@ -42,7 +41,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         }
     }
 
-    private getGameGrid(data: GameTripleTriadModel): JSX.Element[] {
+    private getGameGrid(data: IGameDataViewModel): JSX.Element[] {
         if (!data) {
             return null;
         }

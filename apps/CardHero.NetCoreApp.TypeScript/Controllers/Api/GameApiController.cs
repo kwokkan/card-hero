@@ -58,10 +58,10 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             };
             var playedCards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
 
-            var data = new GameTripleTriadViewModel
+            var data = new GameDataViewModel
             {
                 Columns = game.Columns,
-                Moves = moves.Select(x => new GameTripleTriadMoveViewModel
+                Moves = moves.Select(x => new GameMoveViewModel
                 {
                     CardId = x.CardId,
                     GameDeckCardCollectionId = x.GameDeckCardCollectionId,
@@ -115,7 +115,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameTripleTriadMoveViewModel>> MoveAsync(int id, GameTripleTriadMoveViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult<GameMoveViewModel>> MoveAsync(int id, GameMoveViewModel model, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 

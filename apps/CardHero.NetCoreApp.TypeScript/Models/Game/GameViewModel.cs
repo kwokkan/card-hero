@@ -6,7 +6,7 @@ namespace CardHero.NetCoreApp.TypeScript
 {
     public class GameViewModel : GameModel
     {
-        public object Data { get; set; }
+        public GameDataViewModel Data { get; set; }
 
         public DateTime LastActivity { get; set; }
 
