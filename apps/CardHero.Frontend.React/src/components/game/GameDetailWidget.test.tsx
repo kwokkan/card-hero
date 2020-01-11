@@ -28,7 +28,7 @@ test("<GameDetailWidget /> renders correctly with game", () => {
     const game: IGameModel = {
         name: "Test Game",
         startTime: new Date(2019, 12, 18, 20, 30, 40),
-        type: GameType.TripleTriad
+        type: GameType.Standard
     };
     const tree = renderer
         .create(

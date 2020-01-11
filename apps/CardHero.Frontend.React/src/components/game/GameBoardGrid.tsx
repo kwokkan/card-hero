@@ -1,27 +1,27 @@
 ﻿import React from "react";
 import { useDrop } from "react-dnd";
-import { ICardModel } from "../../../clients/clients";
-import { CardWidget } from "../../shared/CardWidget";
-import { DragType } from "../../shared/DragType";
-import { IGameDeckCardCollectionDragObjectWithType } from "../IGameDeckCardCollectionDragObjectWithType";
+import { ICardModel } from "../../clients/clients";
+import { CardWidget } from "../shared/CardWidget";
+import { DragType } from "../shared/DragType";
+import { IGameDeckCardCollectionDragObjectWithType } from "./IGameDeckCardCollectionDragObjectWithType";
 
-export interface IGameTripleTriadBoardGridOnDropProps {
+export interface IGameBoardGridOnDropProps {
     row: number;
     column: number;
     gameDeckCardCollectionId: number;
 }
 
-interface IGameTripleTriadBoardGridProps {
+interface IGameBoardGridProps {
     row: number;
     column: number;
     card: ICardModel;
     isSelected: boolean;
     gameDeckCardCollectionId?: number;
 
-    onDrop?: (data: IGameTripleTriadBoardGridOnDropProps) => void;
+    onDrop?: (data: IGameBoardGridOnDropProps) => void;
 }
 
-export const GameTripleTriadBoardGrid: React.FC<IGameTripleTriadBoardGridProps> = (props: IGameTripleTriadBoardGridProps) => {
+export const GameBoardGrid: React.FC<IGameBoardGridProps> = (props: IGameBoardGridProps) => {
     //TODO: fix types
     const [{ isOver }, drop] = useDrop({
         accept: DragType.Card.toString(),
