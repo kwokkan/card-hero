@@ -35,6 +35,27 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         [Fact]
+        public async Task MoveAsync_InvalidGame_ReturnsNotFound()
+        {
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClientWithAuth();
+
+                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                {
+                    Column = 1,
+                    GameDeckCardCollectionId = 1,
+                    Row = 1,
+                });
+                var model = await response.Content.ReadAsAsync<ErrorViewModel>();
+
+                //TODO: Replace with NotFound
+                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+                Assert.Equal("Game 701 does not exist.", model.Message);
+            });
+        }
+
+        [Fact]
         public async Task MoveAsync_GameNotStarted_ReturnsBadRequest()
         {
             await RunAsync(async factory =>
