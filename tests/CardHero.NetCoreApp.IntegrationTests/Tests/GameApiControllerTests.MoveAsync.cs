@@ -99,7 +99,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 var model = await response.Content.ReadAsAsync<ErrorViewModel>();
 
                 Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-                Assert.Equal("Game has not started.", model.Message);
+                Assert.Equal("Game 701 has not started.", model.Message);
             });
         }
 

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript;
+
+using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
@@ -16,17 +20,26 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 new SqlServerWebApplicationFactory<Startup>(),
             };
 
+            var failed = new List<string>(factories.Length);
+
             foreach (var factory in factories)
             {
                 try
                 {
                     await action(factory);
                 }
-                catch (Exception e)
+                catch
                 {
-                    throw new Exception(factory.ToString() + " - " + callerMemberName, e);
+                    failed.Add(factory.ToString());
                 }
             }
+
+            if (failed.Any())
+            {
+                failed.Insert(0, callerMemberName);
+            }
+
+            Assert.Empty(failed);
         }
     }
 }
