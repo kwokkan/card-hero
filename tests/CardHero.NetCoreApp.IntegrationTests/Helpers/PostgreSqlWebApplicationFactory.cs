@@ -225,6 +225,15 @@ namespace CardHero.NetCoreApp.IntegrationTests
             context.SaveChanges();
         }
 
+        private static void ResetDataInternal(CardHeroDataDbContext context)
+        {
+            ClearDbContext(context);
+
+            SeedStaticData(context);
+
+            SeedDbContext(context);
+        }
+
         public override async Task AddDataAsync(params GameData[] data)
         {
             using (var scope = Services.CreateScope())
@@ -298,12 +307,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 var scopedServices = scope.ServiceProvider;
                 var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
 
-
-                ClearDbContext(context);
-
-                SeedStaticData(context);
-
-                SeedDbContext(context);
+                ResetDataInternal(context);
 
                 await context.SaveChangesAsync();
             }
@@ -340,11 +344,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                             context.Database.EnsureCreated();
 
-                            ClearDbContext(context);
-
-                            SeedStaticData(context);
-
-                            SeedDbContext(context);
+                            ResetDataInternal(context);
 
                             _context = context;
                         }
