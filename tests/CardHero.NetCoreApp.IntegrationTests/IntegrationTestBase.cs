@@ -1,30 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript;
 
-using Microsoft.AspNetCore.Mvc.Testing;
-
 namespace CardHero.NetCoreApp.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
-        private readonly List<WebApplicationFactory<Startup>> _factories = new List<WebApplicationFactory<Startup>>();
-
-        public IntegrationTestBase(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        )
+        protected async Task RunAsync(Func<BaseWebApplicationFactory<Startup>, Task> action, [CallerMemberName]string callerMemberName = "")
         {
-            _factories.Add(postgreSqlFactory);
-            _factories.Add(sqlServerFactory);
-        }
+            var factories = new BaseWebApplicationFactory<Startup>[]
+            {
+                new PostgreSqlWebApplicationFactory<Startup>(),
+                new SqlServerWebApplicationFactory<Startup>(),
+            };
 
-        protected async Task RunAsync(Func<WebApplicationFactory<Startup>, Task> action, [CallerMemberName]string callerMemberName = "")
-        {
-            foreach (var factory in _factories)
+            foreach (var factory in factories)
             {
                 try
                 {

@@ -50,9 +50,14 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException();
             }
 
+            if (!game.CurrentGameUserId.HasValue)
+            {
+                throw new InvalidMoveException("Game has not started.");
+            }
+
             if (game.CurrentUser.Id != gameUser.Id)
             {
-                throw new InvalidTurnException();
+                throw new InvalidTurnException("It is not your turn.");
             }
 
             var card = (await _gameDeckCardCollectionRepository.SearchAsync(

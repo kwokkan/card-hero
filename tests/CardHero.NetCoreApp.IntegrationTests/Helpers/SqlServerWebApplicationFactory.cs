@@ -5,14 +5,13 @@ using System.Linq;
 using CardHero.Data.SqlServer.EntityFramework;
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class SqlServerWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+    public class SqlServerWebApplicationFactory<TStartup> : BaseWebApplicationFactory<TStartup>
         where TStartup : class
     {
         private static void ClearDbContext(CardHeroDataDbContext context)
@@ -225,7 +224,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataSqlServerMemoryDbContext");
+                        context.UseInMemoryDatabase("CardHeroDataSqlServerMemoryDbContext/" + Id);
                     });
 
                     var serviceProvider = services.BuildServiceProvider();
