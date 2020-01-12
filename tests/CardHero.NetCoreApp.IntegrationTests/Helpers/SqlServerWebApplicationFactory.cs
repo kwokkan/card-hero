@@ -13,8 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class SqlServerWebApplicationFactory<TStartup> : BaseWebApplicationFactory<TStartup>
-        where TStartup : class
+    public class SqlServerWebApplicationFactory : BaseWebApplicationFactory
     {
         private CardHeroDataDbContext _context = null;
 
@@ -226,6 +225,15 @@ namespace CardHero.NetCoreApp.IntegrationTests
             context.SaveChanges();
         }
 
+        private static void ResetDataInternal(CardHeroDataDbContext context)
+        {
+            ClearDbContext(context);
+
+            SeedStaticData(context);
+
+            SeedDbContext(context);
+        }
+
         public override async Task AddDataAsync(params GameData[] data)
         {
             using (var scope = Services.CreateScope())
@@ -292,6 +300,19 @@ namespace CardHero.NetCoreApp.IntegrationTests
             }
         }
 
+        public override async Task ResetDataAsync()
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                ResetDataInternal(context);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
@@ -323,11 +344,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                             context.Database.EnsureCreated();
 
-                            ClearDbContext(context);
-
-                            SeedStaticData(context);
-
-                            SeedDbContext(context);
+                            ResetDataInternal(context);
 
                             _context = context;
                         }

@@ -8,8 +8,13 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class CardPackApiControllerTests : IntegrationTestBase
+    public class CardPackApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
+        public CardPackApiControllerTests(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
+            : base(postgresAplicationFactory, sqlServerAplicationFactory)
+        {
+        }
+
         [Fact]
         public async Task GetAsync_NoFilters_ReturnsAll()
         {

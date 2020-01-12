@@ -52,7 +52,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (!game.CurrentGameUserId.HasValue)
             {
-                throw new InvalidMoveException("Game has not started.");
+                throw new InvalidMoveException($"Game { game.Id } has not started.");
             }
 
             if (game.CurrentUser.Id != gameUser.Id)
