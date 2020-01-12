@@ -8,8 +8,13 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class AccountApiControllerTests : IntegrationTestBase
+    public class AccountApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
+        public AccountApiControllerTests(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
+            : base(postgresAplicationFactory, sqlServerAplicationFactory)
+        {
+        }
+
         [Fact]
         public async Task GetAsync_WithoutLogin_ReturnsUnauthorizedAsync()
         {

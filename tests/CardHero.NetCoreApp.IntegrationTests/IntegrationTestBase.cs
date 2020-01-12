@@ -4,33 +4,36 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using CardHero.NetCoreApp.TypeScript;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
-        protected async Task RunAsync(Func<BaseWebApplicationFactory<Startup>, Task> action, [CallerMemberName]string callerMemberName = "")
+        private readonly List<BaseWebApplicationFactory> _factories = new List<BaseWebApplicationFactory>();
+
+        public IntegrationTestBase(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
         {
-            var factories = new BaseWebApplicationFactory<Startup>[]
-            {
-                new PostgreSqlWebApplicationFactory<Startup>(),
-                new SqlServerWebApplicationFactory<Startup>(),
-            };
+            _factories.Add(postgresAplicationFactory);
+            _factories.Add(sqlServerAplicationFactory);
+        }
 
-            var failed = new List<string>(factories.Length);
+        protected async Task RunAsync(Func<BaseWebApplicationFactory, Task> action, [CallerMemberName]string callerMemberName = "")
+        {
+            var failed = new List<string>(_factories.Count);
 
-            foreach (var factory in factories)
+            foreach (var factory in _factories)
             {
+                await factory.ResetDataAsync();
+
                 try
                 {
                     await action(factory);
                 }
-                catch
+                catch (Exception e)
                 {
                     failed.Add(factory.ToString());
+                    failed.Add(e.Message);
                 }
             }
 

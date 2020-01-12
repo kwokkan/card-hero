@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 
 using CardHero.Data.Abstractions;
+using CardHero.NetCoreApp.TypeScript;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public abstract class BaseWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-        where TStartup : class
+    public abstract class BaseWebApplicationFactory : WebApplicationFactory<Startup>
     {
         protected string Id { get; } = Guid.NewGuid().ToString();
 
@@ -23,6 +23,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         public virtual Task AddDataAsync(params GameUserData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task ResetDataAsync()
         {
             return Task.CompletedTask;
         }

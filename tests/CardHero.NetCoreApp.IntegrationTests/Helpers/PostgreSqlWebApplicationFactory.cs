@@ -13,8 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class PostgreSqlWebApplicationFactory<TStartup> : BaseWebApplicationFactory<TStartup>
-        where TStartup : class
+    public class PostgreSqlWebApplicationFactory : BaseWebApplicationFactory
     {
         private CardHeroDataDbContext _context = null;
 
@@ -287,6 +286,24 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         UserFk = d.UserId,
                     });
                 }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task ResetDataAsync()
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+
+                ClearDbContext(context);
+
+                SeedStaticData(context);
+
+                SeedDbContext(context);
 
                 await context.SaveChangesAsync();
             }
