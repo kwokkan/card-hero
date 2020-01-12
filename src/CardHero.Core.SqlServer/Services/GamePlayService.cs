@@ -40,7 +40,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (game == null)
             {
-                throw new InvalidGameException();
+                throw new InvalidGameException($"Game { move.GameId } does not exist.");
             }
 
             var gameUser = game.Users.SingleOrDefault(x => x.UserId == move.UserId);
@@ -50,9 +50,14 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException();
             }
 
+            if (!game.CurrentGameUserId.HasValue)
+            {
+                throw new InvalidMoveException("Game has not started.");
+            }
+
             if (game.CurrentUser.Id != gameUser.Id)
             {
-                throw new InvalidTurnException();
+                throw new InvalidTurnException("It is not your turn.");
             }
 
             var card = (await _gameDeckCardCollectionRepository.SearchAsync(

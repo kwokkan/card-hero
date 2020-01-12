@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -112,10 +113,11 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost("{id:int}/move")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameMoveViewModel>> MoveAsync(int id, GameMoveViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult<GameMoveViewModel>> MoveAsync(int id, [FromBody]GameMoveViewModel model, CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 

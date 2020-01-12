@@ -3,21 +3,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using CardHero.Core.Models;
-using CardHero.NetCoreApp.TypeScript;
 
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class StoreApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
+    public class StoreApiControllerTests : IntegrationTestBase
     {
-        public StoreApiControllerTests(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        ) : base(postgreSqlFactory, sqlServerFactory)
-        {
-        }
-
         [Fact]
         public async Task GetAsync_ExcludesInvalidBundles()
         {

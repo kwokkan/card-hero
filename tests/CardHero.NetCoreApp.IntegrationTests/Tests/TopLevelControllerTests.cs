@@ -3,21 +3,12 @@ using System.Threading.Tasks;
 
 using AngleSharp;
 
-using CardHero.NetCoreApp.TypeScript;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class TopLevelControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
+    public class TopLevelControllerTests : IntegrationTestBase
     {
-        public TopLevelControllerTests(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        ) : base(postgreSqlFactory, sqlServerFactory)
-        {
-        }
-
         [Theory]
         [InlineData("/", "Home")]
         [InlineData("/Card", "Cards")]
