@@ -23,7 +23,7 @@
     "throttle-debounce": "2.1.0"
   },
   "devDependencies": {
-    "@babel/core": "7.8.0",
+    "@babel/core": "7.8.3",
     "@babel/plugin-transform-react-jsx": "7.8.0",
     "@types/chart.js": "2.9.9",
     "@types/jest": "24.0.25",
