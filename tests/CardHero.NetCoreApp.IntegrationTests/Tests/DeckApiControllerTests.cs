@@ -4,18 +4,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using CardHero.Core.Models;
-using CardHero.NetCoreApp.TypeScript;
 
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class DeckApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
+    public class DeckApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
-        public DeckApiControllerTests(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        ) : base(postgreSqlFactory, sqlServerFactory)
+        public DeckApiControllerTests(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
+            : base(postgresAplicationFactory, sqlServerAplicationFactory)
         {
         }
 

@@ -1,40 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-using CardHero.NetCoreApp.TypeScript;
-
-using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
-        private readonly List<WebApplicationFactory<Startup>> _factories = new List<WebApplicationFactory<Startup>>();
+        private readonly List<BaseWebApplicationFactory> _factories = new List<BaseWebApplicationFactory>();
 
-        public IntegrationTestBase(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        )
+        public IntegrationTestBase(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
         {
-            _factories.Add(postgreSqlFactory);
-            _factories.Add(sqlServerFactory);
+            _factories.Add(postgresAplicationFactory);
+            _factories.Add(sqlServerAplicationFactory);
         }
 
-        protected async Task RunAsync(Func<WebApplicationFactory<Startup>, Task> action, [CallerMemberName]string callerMemberName = "")
+        protected async Task RunAsync(Func<BaseWebApplicationFactory, Task> action, [CallerMemberName]string callerMemberName = "")
         {
+            var failed = new List<string>(_factories.Count);
+
             foreach (var factory in _factories)
             {
+                await factory.ResetDataAsync();
+
                 try
                 {
                     await action(factory);
                 }
                 catch (Exception e)
                 {
-                    throw new Exception(factory.ToString() + " - " + callerMemberName, e);
+                    failed.Add(factory.ToString());
+                    failed.Add(e.Message);
                 }
             }
+
+            if (failed.Any())
+            {
+                failed.Insert(0, callerMemberName);
+            }
+
+            Assert.Empty(failed);
         }
     }
 }

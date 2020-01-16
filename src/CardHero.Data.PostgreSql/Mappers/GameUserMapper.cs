@@ -11,9 +11,9 @@ namespace CardHero.Data.PostgreSql
         {
             return new GameUserData
             {
-                //GameDeckId = source.
+                GameId = from.GameFk,
                 Id = from.GameUserPk,
-                //JoinedTime = source.c,
+                JoinedTime = from.JoinedTime,
                 UserId = from.UserFk,
                 Order = from.Order,
             };

@@ -1,6 +1,6 @@
 ﻿namespace CardHero.NetCoreApp.TypeScript
 {
-    public class GameTripleTriadMoveViewModel
+    public class GameMoveViewModel
     {
         public int Row { get; set; }
 

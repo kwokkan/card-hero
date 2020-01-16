@@ -12,19 +12,17 @@
   "masterIssue": true,
   "packageRules": [
     {
+      "groupName": ".NET Core monorepo",
+      "sourceUrlPrefixes": [
+        "https://github.com/aspnet/",
+        "https://github.com/dotnet/"
+      ]
+    },
+    {
       "groupName": "create-react-app monorepo",
       "sourceUrlPrefixes": [
         "https://github.com/facebook/create-react-app"
       ]
-    },
-    {
-      "packageNames": [
-        "Microsoft.EntityFrameworkCore"
-      ],
-      "packagePatterns": [
-        "^Microsoft\\.EntityFrameworkCore\\..+$"
-      ],
-      "groupName": "Microsoft.EntityFrameworkCore monorepo"
     },
     {
       "groupName": "NSwag monorepo",

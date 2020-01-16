@@ -3,18 +3,14 @@ using System.Threading.Tasks;
 
 using AngleSharp;
 
-using CardHero.NetCoreApp.TypeScript;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class TopLevelControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory<Startup>>, IClassFixture<SqlServerWebApplicationFactory<Startup>>
+    public class TopLevelControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
-        public TopLevelControllerTests(
-            PostgreSqlWebApplicationFactory<Startup> postgreSqlFactory,
-            SqlServerWebApplicationFactory<Startup> sqlServerFactory
-        ) : base(postgreSqlFactory, sqlServerFactory)
+        public TopLevelControllerTests(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
+            : base(postgresAplicationFactory, sqlServerAplicationFactory)
         {
         }
 

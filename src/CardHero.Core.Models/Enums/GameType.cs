@@ -6,8 +6,8 @@
     public enum GameType
     {
         /// <summary>
-        /// Triple Triad game type.
+        /// Standard game type.
         /// </summary>
-        TripleTriad = 1,
+        Standard = 1,
     }
 }

@@ -813,7 +813,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GameTripleTriadMoveViewModel"
+                "$ref": "#/components/schemas/GameMoveViewModel"
               }
             }
           },
@@ -826,7 +826,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GameTripleTriadMoveViewModel"
+                  "$ref": "#/components/schemas/GameMoveViewModel"
                 }
               }
             }
@@ -1441,7 +1441,7 @@
         "type": "integer",
         "description": "Type of game.",
         "x-enumNames": [
-          "TripleTriad"
+          "Standard"
         ],
         "enum": [
           1
@@ -1523,7 +1523,12 @@
             "additionalProperties": false,
             "properties": {
               "data": {
-                "nullable": true
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GameDataViewModel"
+                  }
+                ]
               },
               "lastActivity": {
                 "type": "string",
@@ -1532,6 +1537,56 @@
             }
           }
         ]
+      },
+      "GameDataViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rows": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "columns": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moves": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GameMoveViewModel"
+            }
+          },
+          "playedCards": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CardModel"
+            }
+          }
+        }
+      },
+      "GameMoveViewModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "row": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "column": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gameDeckCardCollectionId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "GameCreateModel": {
         "type": "object",
@@ -1591,28 +1646,6 @@
         "additionalProperties": false,
         "properties": {
           "deckId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "GameTripleTriadMoveViewModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "row": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "column": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cardId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "gameDeckCardCollectionId": {
             "type": "integer",
             "format": "int32"
           }

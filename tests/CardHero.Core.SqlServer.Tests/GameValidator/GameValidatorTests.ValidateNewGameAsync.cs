@@ -21,7 +21,7 @@ namespace CardHero.Core.SqlServer.Tests
             {
                 Columns = 0,
                 Rows = 3,
-                Type = GameType.TripleTriad,
+                Type = GameType.Standard,
             };
 
             await _gameValidator.ValidateNewGameAsync(model);
@@ -34,7 +34,7 @@ namespace CardHero.Core.SqlServer.Tests
             {
                 Columns = -1,
                 Rows = 3,
-                Type = GameType.TripleTriad,
+                Type = GameType.Standard,
             };
 
             await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => _gameValidator.ValidateNewGameAsync(model));

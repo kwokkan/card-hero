@@ -2,7 +2,6 @@
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { GameType, IGameDeckModel, IGameViewModel } from "../../clients/clients";
-import { GameTripleTriadModel } from "../../models/GameTripleTriadModel";
 import { GameService } from "../../services/GameService";
 import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
@@ -34,8 +33,8 @@ export class Game extends Component<IGameProps, IGameState> {
     private getPlayedGameDeckCardCollectionIds(game?: IGameViewModel): number[] {
         let playedGdccIds: number[];
 
-        if (game && game.type === GameType.TripleTriad) {
-            const data = game.data as GameTripleTriadModel;
+        if (game && game.type === GameType.Standard) {
+            const data = game.data;
 
             if (data) {
                 playedGdccIds = data.moves.map(x => x.gameDeckCardCollectionId);
@@ -67,14 +66,6 @@ export class Game extends Component<IGameProps, IGameState> {
         this._interval = window.setInterval(async () => {
             await this.populateGame(gameId);
         }, 5000);
-    }
-
-    async componentWillReceiveProps(nextProps: IGameProps) {
-        const gameId: number = this.props.id;
-
-        if (nextProps.id !== gameId) {
-            await this.populateGame(gameId);
-        }
     }
 
     componentWillUnmount() {

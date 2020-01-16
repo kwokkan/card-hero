@@ -1,20 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
+using CardHero.Data.Abstractions;
 using CardHero.Data.PostgreSql.EntityFramework;
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class PostgreSqlWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-        where TStartup : class
+    public class PostgreSqlWebApplicationFactory : BaseWebApplicationFactory
     {
+        private CardHeroDataDbContext _context = null;
+
         private static void ClearDbContext(CardHeroDataDbContext context)
         {
             foreach (var item in context.Card)
@@ -50,6 +52,21 @@ namespace CardHero.NetCoreApp.IntegrationTests
             foreach (var item in context.DeckFavourite)
             {
                 context.DeckFavourite.Remove(item);
+            }
+
+            foreach (var item in context.Game)
+            {
+                context.Game.Remove(item);
+            }
+
+            foreach (var item in context.GameDeck)
+            {
+                context.GameDeck.Remove(item);
+            }
+
+            foreach (var item in context.GameUser)
+            {
+                context.GameUser.Remove(item);
             }
 
             foreach (var item in context.Rarity)
@@ -208,6 +225,94 @@ namespace CardHero.NetCoreApp.IntegrationTests
             context.SaveChanges();
         }
 
+        private static void ResetDataInternal(CardHeroDataDbContext context)
+        {
+            ClearDbContext(context);
+
+            SeedStaticData(context);
+
+            SeedDbContext(context);
+        }
+
+        public override async Task AddDataAsync(params GameData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Game.Add(new Game
+                    {
+                        Columns = d.Columns,
+                        CurrentGameUserFk = d.CurrentGameUserId,
+                        GamePk = d.Id,
+                        MaxPlayers = d.MaxPlayers,
+                        Rows = d.Rows,
+                        WinnerFk = d.WinnerId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params GameDeckData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.GameDeck.Add(new GameDeck
+                    {
+                        GameDeckPk = d.Id,
+                        GameUserFk = d.GameUserId,
+                        Name = d.Name,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params GameUserData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.GameUser.Add(new GameUser
+                    {
+                        GameFk = d.GameId,
+                        GameUserPk = d.Id,
+                        UserFk = d.UserId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task ResetDataAsync()
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                ResetDataInternal(context);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
@@ -225,23 +330,24 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext");
+                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext/" + Id);
                     });
 
-                    var serviceProvider = services.BuildServiceProvider();
-
-                    using (var scope = serviceProvider.CreateScope())
+                    if (_context == null)
                     {
-                        var scopedServices = scope.ServiceProvider;
-                        var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+                        var serviceProvider = services.BuildServiceProvider();
 
-                        context.Database.EnsureCreated();
+                        using (var scope = serviceProvider.CreateScope())
+                        {
+                            var scopedServices = scope.ServiceProvider;
+                            var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
 
-                        ClearDbContext(context);
+                            context.Database.EnsureCreated();
 
-                        SeedStaticData(context);
+                            ResetDataInternal(context);
 
-                        SeedDbContext(context);
+                            _context = context;
+                        }
                     }
                 })
                 .ConfigureAppConfiguration((context, builder) =>

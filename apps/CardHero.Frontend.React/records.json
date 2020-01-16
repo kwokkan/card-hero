@@ -76,6 +76,54 @@
       }
     }
   ],
+  "mini-css-extract-plugin d:\\Programming\\card-hero\\apps\\CardHero.Frontend.React\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/index.scss": [
+    {
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 323
+        },
+        "bySource": {},
+        "usedIds": [
+          323
+        ]
+      },
+      "modules": {
+        "byIdentifier": {
+          "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/index.scss": 939,
+          "./node_modules/css-loader/dist/runtime/api.js": 645
+        },
+        "usedIds": [
+          645,
+          939
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin d:\\Programming\\card-hero\\apps\\CardHero.Frontend.React\\node_modules\\css-loader\\dist\\cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/vendor.scss": [
+    {
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 323
+        },
+        "bySource": {},
+        "usedIds": [
+          323
+        ]
+      },
+      "modules": {
+        "byIdentifier": {
+          "./node_modules/css-loader/dist/cjs.js!./node_modules/chart.js/dist/Chart.min.css": 195,
+          "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/styles/vendor.scss": 160,
+          "./node_modules/css-loader/dist/runtime/api.js": 645
+        },
+        "usedIds": [
+          160,
+          195,
+          645
+        ]
+      }
+    }
+  ],
   "modules": {
     "byIdentifier": {
       "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js": 63349,
@@ -648,6 +696,7 @@
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/Game.tsx": 4248,
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameApp.tsx": 4153,
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameBoard.tsx": 3460,
+      "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameBoardGrid.tsx": 750,
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameCreateModal.tsx": 7683,
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameDeckCard.tsx": 7556,
       "./node_modules/ts-loader/index.js!./node_modules/eslint-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./src/components/game/GameDeckWidget.tsx": 1866,
@@ -768,8 +817,8 @@
       333,
       348,
       372,
+      750,
       783,
-      795,
       993,
       997,
       1204,
@@ -840,7 +889,6 @@
       6745,
       6756,
       6791,
-      6815,
       6865,
       6919,
       7319,
