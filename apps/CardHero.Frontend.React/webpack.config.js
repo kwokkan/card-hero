@@ -13,6 +13,9 @@ const isProd = process.env.NODE_ENV == "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
+const pathSep = path.sep;
+const modulePrefix = path.resolve(__dirname, "node_modules") + pathSep;
+const moduleLength = modulePrefix.length;
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -113,38 +116,22 @@ module.exports = {
                 },
                 "vendor.default": {
                     chunks: "all",
-                    name: "vendor.default",
-                    test: /node_modules/,
+                    name: (module, chunk, cacheGroupKey) => {
+                        if (module.resource) {
+                            if (module.resource.startsWith(modulePrefix)) {
+                                const moduleFile = module.resource.substring(moduleLength);
+                                const packageName = moduleFile.substring(0, moduleFile.indexOf(pathSep));
+                                return "vendor." + packageName;
+                            }
+                        }
+
+                        return cacheGroupKey;
+                    },
+                    test: (module, chunk) => {
+                        return module.resource && module.resource.startsWith(modulePrefix);
+                    },
                     enforce: true,
                     priority: -100
-                },
-                "vendor.fortawesome": {
-                    chunks: "all",
-                    name: "vendor.fortawesome",
-                    test: /node_modules[\\/]@fortawesome[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.global": {
-                    chunks: "all",
-                    name: "vendor.global",
-                    test: /node_modules[\\/](bootstrap|jquery)[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.react": {
-                    chunks: "all",
-                    name: "vendor.react",
-                    test: /node_modules[\\/](react|react-.+)[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.unused": {
-                    chunks: "all",
-                    name: "vendor.unused",
-                    test: /node_modules[\\/](moment|popper\.js)[\\/]/,
-                    enforce: true,
-                    priority: -10
                 }
             }
         }
