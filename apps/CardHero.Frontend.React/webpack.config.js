@@ -90,7 +90,7 @@ module.exports = {
         runtimeChunk: {
             name: "runtime"
         },
-        sideEffects: false,
+        sideEffects: true,
         usedExports: true,
         splitChunks: {
             cacheGroups: {
@@ -151,7 +151,7 @@ module.exports = {
 
     plugins: [
         new webpack.EnvironmentPlugin({
-            "NODE_ENV": "production"
+            "NODE_ENV": process.env.NODE_ENV
         }),
         new webpack.DefinePlugin({
             "Constants": constants
