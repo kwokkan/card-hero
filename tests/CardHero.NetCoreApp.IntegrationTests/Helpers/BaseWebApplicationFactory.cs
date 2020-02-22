@@ -17,12 +17,22 @@ namespace CardHero.NetCoreApp.IntegrationTests
             return Task.CompletedTask;
         }
 
+        public virtual Task AddDataAsync(params GameDeckCardCollectionData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
         public virtual Task AddDataAsync(params GameDeckData[] data)
         {
             return Task.CompletedTask;
         }
 
         public virtual Task AddDataAsync(params GameUserData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task AddDataAsync(params TurnData[] data)
         {
             return Task.CompletedTask;
         }

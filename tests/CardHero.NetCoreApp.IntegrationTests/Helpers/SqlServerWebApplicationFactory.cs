@@ -258,6 +258,27 @@ namespace CardHero.NetCoreApp.IntegrationTests
             }
         }
 
+        public override async Task AddDataAsync(params GameDeckCardCollectionData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.GameDeckCardCollection.Add(new GameDeckCardCollection
+                    {
+                        CardFk = d.CardId,
+                        GameDeckCardCollectionPk = d.Id,
+                        GameDeckFk = d.GameDeckId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         public override async Task AddDataAsync(params GameDeckData[] data)
         {
             using (var scope = Services.CreateScope())
@@ -293,6 +314,29 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameFk = d.GameId,
                         GameUserPk = d.Id,
                         UserFk = d.UserId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params TurnData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Turn.Add(new Turn
+                    {
+                        CurrentGameUserFk = d.CurrentGameUserId,
+                        EndTime = d.EndTime,
+                        GameFk = d.GameId,
+                        StartTime = d.StartTime,
+                        TurnPk = d.Id,
                     });
                 }
 
