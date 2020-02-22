@@ -64,6 +64,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.GameDeck.Remove(item);
             }
 
+            foreach (var item in context.GameDeckCardCollection)
+            {
+                context.GameDeckCardCollection.Remove(item);
+            }
+
             foreach (var item in context.GameUser)
             {
                 context.GameUser.Remove(item);
@@ -77,6 +82,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
             foreach (var item in context.StoreItem)
             {
                 context.StoreItem.Remove(item);
+            }
+
+            foreach (var item in context.Turn)
+            {
+                context.Turn.Remove(item);
             }
 
             foreach (var item in context.User)
