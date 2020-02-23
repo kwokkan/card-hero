@@ -2017,8 +2017,6 @@ export interface IGameMoveViewModel {
 
 /** Model for creating a new game. */
 export class GameCreateModel implements IGameCreateModel {
-    /** Name of game. */
-    name?: string | undefined;
     /** Type of game. */
     type?: GameType;
     /** Deck to use. */
@@ -2045,7 +2043,6 @@ export class GameCreateModel implements IGameCreateModel {
 
     init(_data?: any) {
         if (_data) {
-            this.name = _data["name"];
             this.type = _data["type"];
             this.deckId = _data["deckId"];
             if (Array.isArray(_data["users"])) {
@@ -2069,7 +2066,6 @@ export class GameCreateModel implements IGameCreateModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
         data["type"] = this.type;
         data["deckId"] = this.deckId;
         if (Array.isArray(this.users)) {
@@ -2087,8 +2083,6 @@ export class GameCreateModel implements IGameCreateModel {
 
 /** Model for creating a new game. */
 export interface IGameCreateModel {
-    /** Name of game. */
-    name?: string | undefined;
     /** Type of game. */
     type?: GameType;
     /** Deck to use. */
