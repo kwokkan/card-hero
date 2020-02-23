@@ -29,6 +29,7 @@ namespace CardHero.Core.SqlServer.Web
 
             services
                 .AddScoped<IGameValidator, GameValidator>()
+                .AddScoped<IMoveValidator, MoveValidator>()
             ;
 
             services

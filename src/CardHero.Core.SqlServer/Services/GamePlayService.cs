@@ -18,12 +18,15 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IMoveRepository _moveRepository;
         private readonly ITurnRepository _turnRepository;
 
+        private readonly IMoveValidator _moveValidator;
+
         public GamePlayService(
             IGameService gamseService,
             IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
-            ITurnRepository turnRepository
+            ITurnRepository turnRepository,
+            IMoveValidator moveValidator
         )
         {
             _gameService = gamseService;
@@ -32,6 +35,8 @@ namespace CardHero.Core.SqlServer.Services
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
             _turnRepository = turnRepository;
+
+            _moveValidator = moveValidator;
         }
 
         private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
@@ -72,17 +77,7 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidCardException();
             }
 
-            if (move.Row < 0 || move.Row >= game.Rows || move.Column < 0 || move.Column >= game.Columns)
-            {
-                throw new InvalidMoveException("Move must be made on the board.");
-            }
-
-            var moves = await _gameRepository.GetMovesByGameIdAsync(move.GameId);
-
-            if (moves.Any(x => x.Row == move.Row && x.Column == move.Column))
-            {
-                throw new InvalidMoveException("There is already a card in this location.");
-            }
+            await _moveValidator.ValidateMoveAsync(move, game, cancellationToken: cancellationToken);
 
             return game;
         }
