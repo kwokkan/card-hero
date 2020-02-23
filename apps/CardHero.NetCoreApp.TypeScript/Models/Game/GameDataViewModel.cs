@@ -13,6 +13,6 @@ namespace CardHero.NetCoreApp.TypeScript
 
         public IEnumerable<GameMoveViewModel> Moves { get; set; }
 
-        public ReadOnlyCollection<CardModel> PlayedCards { get; set; }
+        public IEnumerable<CardModel> PlayedCards { get; set; }
     }
 }

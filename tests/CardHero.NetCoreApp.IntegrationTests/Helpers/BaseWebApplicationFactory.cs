@@ -12,6 +12,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         protected string Id { get; } = Guid.NewGuid().ToString();
 
+        public virtual Task AddDataAsync(params CardData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
         public virtual Task AddDataAsync(params GameData[] data)
         {
             return Task.CompletedTask;
