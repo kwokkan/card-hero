@@ -16,7 +16,6 @@ namespace CardHero.Data.PostgreSql
                 EndTime = from.EndTime,
                 Id = from.GamePk,
                 MaxPlayers = from.MaxPlayers,
-                Name = from.Name,
                 Rows = from.Rows,
                 StartTime = from.StartTime,
                 Type = (GameType)from.GameTypeFk,

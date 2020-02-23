@@ -11,16 +11,16 @@ namespace CardHero.Core.SqlServer
 {
     internal class GameValidator : IGameValidator
     {
-        private readonly IGameDataService _gameService;
+        private readonly IGameDataService _gameDataService;
 
-        public GameValidator(IGameDataService gameService)
+        public GameValidator(IGameDataService gameDataService)
         {
-            _gameService = gameService;
+            _gameDataService = gameDataService;
         }
 
         async Task<GameModel> IGameValidator.ValidateGameForMoveAsync(int id, int userId, CancellationToken cancellationToken)
         {
-            var games = await _gameService.GetGamesAsync(
+            var games = await _gameDataService.GetGamesAsync(
                 new GameSearchFilter
                 {
                     GameId = id,

@@ -86,7 +86,7 @@ export class GameSelectDeckModal extends Component<IGameSelectDeckModalProps, IG
                         <div className="container">
                             <form className="form auto-post">
                                 <div className="form-group">
-                                    Join game <strong>{this.props.game.name}</strong>?
+                                    Join game <strong>#{this.props.game.id}</strong>?
                                 </div>
 
                                 <div className="form-group">

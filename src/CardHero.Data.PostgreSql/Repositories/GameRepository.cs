@@ -80,7 +80,6 @@ namespace CardHero.Data.PostgreSql
             {
                 Columns = game.Columns,
                 GameTypeFk = (int)game.Type,
-                Name = game.Name,
                 Rows = game.Rows,
                 StartTime = DateTime.UtcNow,
             };

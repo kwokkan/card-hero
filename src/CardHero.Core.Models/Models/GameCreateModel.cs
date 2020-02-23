@@ -6,11 +6,6 @@
     public class GameCreateModel
     {
         /// <summary>
-        /// Name of game.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Type of game.
         /// </summary>
         public GameType Type { get; set; }

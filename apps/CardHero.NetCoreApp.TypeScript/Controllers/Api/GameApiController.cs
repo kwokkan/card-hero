@@ -92,7 +92,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var game = new GameCreateModel
             {
                 DeckId = model.DeckId,
-                Name = model.Name,
                 Type = model.Type,
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };

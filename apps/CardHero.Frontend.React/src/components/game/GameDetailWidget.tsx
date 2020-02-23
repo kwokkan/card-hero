@@ -13,7 +13,7 @@ export function GameDetailWidget(props: IGameDetailWidgetProps) {
         <div className="card">
             <h4 className="card-header">
                 {game ?
-                    (<span>{game.name}</span>)
+                    (<span>#{game.id}</span>)
                     :
                     (<span>Unknown</span>)
                 }

@@ -16,8 +16,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-SET default_tablespace = '';
-
 SET default_table_access_method = heap;
 
 --
@@ -309,7 +307,6 @@ ALTER SEQUENCE public."Deck_Rowstamp_seq" OWNED BY public."Deck"."Rowstamp";
 CREATE TABLE public."Game" (
     "Game_PK" integer NOT NULL,
     "Rowstamp" integer NOT NULL,
-    "Name" character varying(100),
     "StartTime" timestamp with time zone DEFAULT now() NOT NULL,
     "EndTime" timestamp with time zone,
     "CurrentGameUser_FK" integer,

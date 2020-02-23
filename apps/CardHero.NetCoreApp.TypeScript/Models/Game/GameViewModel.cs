@@ -26,7 +26,6 @@ namespace CardHero.NetCoreApp.TypeScript
             this.GameDeckId = game.GameDeckId;
             this.Id = game.Id;
             this.MaxUsers = game.MaxUsers;
-            this.Name = game.Name;
             this.Rows = game.Rows;
             this.StartTime = game.StartTime;
             this.Turns = game.Turns;
