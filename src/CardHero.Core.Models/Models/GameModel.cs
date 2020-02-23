@@ -14,11 +14,6 @@ namespace CardHero.Core.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// Sart time.
         /// </summary>
         public DateTime StartTime { get; set; }

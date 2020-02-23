@@ -1449,8 +1449,6 @@ export interface IDeckCreateModel {
 export class GameModel implements IGameModel {
     /** Id. */
     id?: number;
-    /** Name. */
-    name?: string | undefined;
     /** Sart time. */
     startTime?: Date;
     /** End time. */
@@ -1498,7 +1496,6 @@ export class GameModel implements IGameModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.name = _data["name"];
             this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
             this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
             if (Array.isArray(_data["users"])) {
@@ -1537,7 +1534,6 @@ export class GameModel implements IGameModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["name"] = this.name;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         if (Array.isArray(this.users)) {
@@ -1571,8 +1567,6 @@ export class GameModel implements IGameModel {
 export interface IGameModel {
     /** Id. */
     id?: number;
-    /** Name. */
-    name?: string | undefined;
     /** Sart time. */
     startTime?: Date;
     /** End time. */
