@@ -32,6 +32,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
             return Task.CompletedTask;
         }
 
+        public virtual Task AddDataAsync(params MoveData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
         public virtual Task AddDataAsync(params TurnData[] data)
         {
             return Task.CompletedTask;

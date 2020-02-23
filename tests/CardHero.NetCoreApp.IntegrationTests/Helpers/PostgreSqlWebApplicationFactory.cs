@@ -74,6 +74,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.GameUser.Remove(item);
             }
 
+            foreach (var item in context.Move)
+            {
+                context.Move.Remove(item);
+            }
+
             foreach (var item in context.Rarity)
             {
                 context.Rarity.Remove(item);
@@ -324,6 +329,28 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameFk = d.GameId,
                         GameUserPk = d.Id,
                         UserFk = d.UserId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params MoveData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Move.Add(new Move
+                    {
+                        Column = d.Column,
+                        GameDeckCardCollectionFk = d.GameDeckCardCollectionId,
+                        Row = d.Row,
+                        TurnFk = d.TurnId,
                     });
                 }
 

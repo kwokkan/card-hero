@@ -263,5 +263,96 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 Assert.Equal("It is not your turn.", model.Message);
             });
         }
+
+        [Fact]
+        public async Task MoveAsync_YourTurnExistingCell_ReturnsBadRequest()
+        {
+            await RunAsync(async factory =>
+            {
+                await factory.AddDataAsync(
+                    new GameData
+                    {
+                        Columns = 3,
+                        CurrentGameUserId = 801,
+                        MaxPlayers = 2,
+                        Id = 701,
+                        Rows = 3,
+                    }
+                );
+
+                await factory.AddDataAsync(
+                    new GameUserData
+                    {
+                        GameId = 701,
+                        Id = 801,
+                        UserId = 1,
+                    },
+                    new GameUserData
+                    {
+                        GameId = 701,
+                        Id = 802,
+                        UserId = 2,
+                    }
+                );
+
+                await factory.AddDataAsync(
+                    new GameDeckData
+                    {
+                        GameUserId = 801,
+                        Id = 901,
+                        Name = "First deck",
+                    },
+                    new GameDeckData
+                    {
+                        GameUserId = 802,
+                        Id = 902,
+                        Name = "Second deck",
+                    }
+                );
+
+                await factory.AddDataAsync(
+                    new GameDeckCardCollectionData
+                    {
+                        CardId = 600,
+                        GameDeckId = 901,
+                        Id = 1001,
+                    }
+                );
+
+                await factory.AddDataAsync(
+                    new MoveData
+                    {
+                        Column = 0,
+                        GameUserId = 802,
+                        Row = 2,
+                        TurnId = 1101,
+                    }
+                );
+
+                await factory.AddDataAsync(
+                    new TurnData
+                    {
+                        CurrentGameUserId = 802,
+                        EndTime = DateTime.UtcNow.AddSeconds(-10),
+                        GameId = 701,
+                        Id = 1101,
+                        StartTime = DateTime.UtcNow.AddMinutes(-1),
+                    }
+                );
+
+                var client = factory.CreateClientWithAuth();
+
+                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                {
+                    Column = 0,
+                    GameDeckCardCollectionId = 1001,
+                    Row = 2,
+                });
+                var model = await response.Content.ReadAsAsync<ErrorViewModel>();
+
+                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+                Assert.Equal("There is already a card in this location.", model.Message);
+            });
+        }
     }
 }
