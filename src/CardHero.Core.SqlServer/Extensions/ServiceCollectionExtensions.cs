@@ -1,5 +1,6 @@
 ﻿using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+using CardHero.Core.SqlServer.DataServices;
 using CardHero.Core.SqlServer.Services;
 using CardHero.Data.Abstractions;
 
@@ -25,6 +26,10 @@ namespace CardHero.Core.SqlServer.Web
                 .AddScoped<IMoveService, MoveService>()
                 .AddScoped<IStoreItemService, StoreItemService>()
                 .AddScoped<IUserService, UserService>()
+            ;
+
+            services
+                .AddScoped<IGameDataService, GameDataService>()
             ;
 
             services
