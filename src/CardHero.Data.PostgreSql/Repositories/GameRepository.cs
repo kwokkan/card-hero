@@ -113,25 +113,6 @@ namespace CardHero.Data.PostgreSql
             return result;
         }
 
-        async Task<MoveData[]> IGameRepository.GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken)
-        {
-            var result = await _context
-                .Move
-                .Include(x => x.TurnFkNavigation)
-                .Where(x => x.TurnFkNavigation.GameFk == gameId)
-                .Select(x => new MoveData
-                {
-                    GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
-                    Column = x.Column,
-                    GameId = x.TurnFkNavigation.GameFk,
-                    Row = x.Row,
-                    GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
-                })
-                .ToArrayAsync(cancellationToken: cancellationToken);
-
-            return result;
-        }
-
         async Task<GameData> IGameRepository.UpdateGameAsync(int id, GameUpdateData update, CancellationToken cancellationToken)
         {
             var existingGame = await _context.Game.SingleOrDefaultAsync(x => x.GamePk == id, cancellationToken: cancellationToken);

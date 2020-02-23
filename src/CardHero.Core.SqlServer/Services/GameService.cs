@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+using CardHero.Core.SqlServer.DataServices;
 using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.SqlServer.Services
@@ -26,6 +27,7 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         private readonly ICardService _cardService;
+        private readonly IGameDataService _gameDataService;
 
         public GameService(
             IGameValidator gameValidator,
@@ -39,7 +41,8 @@ namespace CardHero.Core.SqlServer.Services
             IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
             IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
             IDataMapper<GameUserData, GameUserModel> gameUserMapper,
-            ICardService cardService
+            ICardService cardService,
+            IGameDataService gameDataService
         )
         {
             _gameValidator = gameValidator;
@@ -57,6 +60,7 @@ namespace CardHero.Core.SqlServer.Services
             _gameUserMapper = gameUserMapper;
 
             _cardService = cardService;
+            _gameDataService = gameDataService;
         }
 
         private async Task<GameUserModel> AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
@@ -127,47 +131,6 @@ namespace CardHero.Core.SqlServer.Services
             return _gameUserMapper.Map(newGameUser);
         }
 
-        private async Task<Abstractions.SearchResult<GameModel>> GetGamesInternalAsync(Abstractions.GameSearchFilter filter, int? userId = null, CancellationToken cancellationToken = default)
-        {
-            var result = await _gameRepository.FindGamesAsync(
-                new Data.Abstractions.GameSearchFilter
-                {
-                    GameId = filter.GameId,
-                    Type = (Data.Abstractions.GameType?)(int?)filter.Type,
-                },
-                cancellationToken: cancellationToken
-            );
-
-            var results = new Abstractions.SearchResult<GameModel>
-            {
-                Count = result.TotalCount,
-                Results = result.Results.Select(_gameMapper.Map).ToArray(),
-            };
-
-            if (userId.HasValue)
-            {
-                var uid = userId.Value;
-
-                foreach (var game in results.Results)
-                {
-                    //TODO: Fix loop to no make multiple calls
-                    await PopulateGameUsersInternalAsync(game, uid, cancellationToken: cancellationToken);
-                }
-            }
-
-            return results;
-        }
-
-        private async Task PopulateGameUsersInternalAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
-        {
-            var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
-            var userIds = users.Select(x => x.UserId).ToArray();
-            game.CanJoin = !game.EndTime.HasValue && userIds.Length < game.MaxUsers && !userIds.Contains(userId);
-            game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentUser?.Id == userId;
-
-            game.Users = users.Select(x => _gameUserMapper.Map(x)).ToArray();
-        }
-
         Task<GameUserModel> IGameService.AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
         {
             return AddUserToGameInternalAsync(id, userId, deckId, cancellationToken: cancellationToken);
@@ -198,7 +161,7 @@ namespace CardHero.Core.SqlServer.Services
             {
                 GameId = id,
             };
-            var game = (await GetGamesInternalAsync(filter, userId: userId, cancellationToken: cancellationToken)).Results.SingleOrDefault();
+            var game = (await _gameDataService.GetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken)).Results.SingleOrDefault();
 
             if (game == null)
             {
@@ -207,7 +170,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (userId.HasValue)
             {
-                await PopulateGameUsersInternalAsync(game, userId.Value, cancellationToken: cancellationToken);
+                await _gameDataService.PopulateGameUsersAsync(game, userId.Value, cancellationToken: cancellationToken);
                 var gameUser = game.Users.SingleOrDefault(x => x.UserId == userId.Value);
 
                 if (gameUser != null)
@@ -238,7 +201,7 @@ namespace CardHero.Core.SqlServer.Services
 
         Task<Abstractions.SearchResult<GameModel>> IGameService.GetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)
         {
-            return GetGamesInternalAsync(filter, userId: userId, cancellationToken: cancellationToken);
+            return _gameDataService.GetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken);
         }
     }
 }

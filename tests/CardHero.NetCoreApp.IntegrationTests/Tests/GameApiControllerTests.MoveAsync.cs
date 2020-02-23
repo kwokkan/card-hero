@@ -317,6 +317,12 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         CardId = 600,
                         GameDeckId = 901,
                         Id = 1001,
+                    },
+                    new GameDeckCardCollectionData
+                    {
+                        CardId = 600,
+                        GameDeckId = 902,
+                        Id = 1002,
                     }
                 );
 
@@ -324,6 +330,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new MoveData
                     {
                         Column = 0,
+                        GameDeckCardCollectionId = 1002,
                         GameUserId = 802,
                         Row = 2,
                         TurnId = 1101,
