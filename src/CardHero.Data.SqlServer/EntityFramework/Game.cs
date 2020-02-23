@@ -13,7 +13,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
         public int GamePk { get; set; }
         public byte[] Rowstamp { get; set; }
-        public string Name { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int? CurrentGameUserFk { get; set; }

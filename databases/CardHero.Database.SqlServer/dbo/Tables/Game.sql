@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Game] (
     [Game_PK]            INT            IDENTITY (10000, 1) NOT NULL,
     [Rowstamp]           ROWVERSION     NOT NULL,
-    [Name]               NVARCHAR (100) NULL,
     [StartTime]          DATETIME2 (7)  DEFAULT (getutcdate()) NOT NULL,
     [EndTime]            DATETIME2 (7)  NULL,
     [CurrentGameUser_FK] INT            NULL,

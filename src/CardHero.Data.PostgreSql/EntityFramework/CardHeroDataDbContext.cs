@@ -40,6 +40,10 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.HasIndex(e => e.RarityFk);
 
+                entity.HasIndex(e => new { e.CardPackFk, e.CardPackId })
+                    .HasName("UX_Card_CardPack_FK_CardPackId")
+                    .IsUnique();
+
                 entity.Property(e => e.CardPk).HasColumnName("Card_PK");
 
                 entity.Property(e => e.Attack).HasDefaultValueSql("1");
@@ -272,8 +276,6 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasDefaultValueSql("1");
 
                 entity.Property(e => e.MaxPlayers).HasDefaultValueSql("2");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.Rows).HasDefaultValueSql("3");
 

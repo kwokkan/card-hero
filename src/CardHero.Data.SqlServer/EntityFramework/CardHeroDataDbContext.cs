@@ -268,8 +268,6 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.MaxPlayers).HasDefaultValueSql("((2))");
 
-                entity.Property(e => e.Name).HasMaxLength(100);
-
                 entity.Property(e => e.Rows).HasDefaultValueSql("((3))");
 
                 entity.Property(e => e.Rowstamp)
