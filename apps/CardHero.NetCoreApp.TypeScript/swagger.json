@@ -1267,14 +1267,11 @@
             "format": "int32",
             "nullable": true
           },
-          "winner": {
-            "description": "Winner.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
+          "winnerGameUserId": {
+            "type": "integer",
+            "description": "Winner game user id.",
+            "format": "int32",
+            "nullable": true
           },
           "columns": {
             "type": "integer",

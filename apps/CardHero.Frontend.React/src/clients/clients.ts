@@ -1457,8 +1457,8 @@ export class GameModel implements IGameModel {
     users?: GameUserModel[] | undefined;
     /** Current game user id. */
     currentGameUserId?: number | undefined;
-    /** Winner. */
-    winner?: UserModel | undefined;
+    /** Winner game user id. */
+    winnerGameUserId?: number | undefined;
     /** Columns. */
     columns?: number;
     /** Rows. */
@@ -1500,7 +1500,7 @@ export class GameModel implements IGameModel {
                     this.users!.push(GameUserModel.fromJS(item));
             }
             this.currentGameUserId = _data["currentGameUserId"];
-            this.winner = _data["winner"] ? UserModel.fromJS(_data["winner"]) : <any>undefined;
+            this.winnerGameUserId = _data["winnerGameUserId"];
             this.columns = _data["columns"];
             this.rows = _data["rows"];
             this.type = _data["type"];
@@ -1532,7 +1532,7 @@ export class GameModel implements IGameModel {
                 data["users"].push(item.toJSON());
         }
         data["currentGameUserId"] = this.currentGameUserId;
-        data["winner"] = this.winner ? this.winner.toJSON() : <any>undefined;
+        data["winnerGameUserId"] = this.winnerGameUserId;
         data["columns"] = this.columns;
         data["rows"] = this.rows;
         data["type"] = this.type;
@@ -1559,8 +1559,8 @@ export interface IGameModel {
     users?: GameUserModel[] | undefined;
     /** Current game user id. */
     currentGameUserId?: number | undefined;
-    /** Winner. */
-    winner?: UserModel | undefined;
+    /** Winner game user id. */
+    winnerGameUserId?: number | undefined;
     /** Columns. */
     columns?: number;
     /** Rows. */

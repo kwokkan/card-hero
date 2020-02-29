@@ -16,6 +16,7 @@ namespace CardHero.Core.Abstractions
                 Rows = from.Rows,
                 StartTime = from.StartTime,
                 Type = (Models.GameType)(int)from.Type,
+                WinnerGameUserId = from.WinnerId,
             };
         }
 
@@ -29,7 +30,7 @@ namespace CardHero.Core.Abstractions
                 Rows = from.Rows,
                 StartTime = from.StartTime,
                 Type = (Data.Abstractions.GameType)(int)from.Type,
-                WinnerId = from.Winner?.Id,
+                WinnerId = from.WinnerGameUserId,
             };
         }
     }
