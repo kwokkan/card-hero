@@ -1455,8 +1455,6 @@ export class GameModel implements IGameModel {
     endTime?: Date | undefined;
     /** Users. */
     users?: GameUserModel[] | undefined;
-    /** Turns. */
-    turns?: TurnModel[] | undefined;
     /** Current game user id. */
     currentGameUserId?: number | undefined;
     /** Current user. */
@@ -1503,11 +1501,6 @@ export class GameModel implements IGameModel {
                 for (let item of _data["users"])
                     this.users!.push(GameUserModel.fromJS(item));
             }
-            if (Array.isArray(_data["turns"])) {
-                this.turns = [] as any;
-                for (let item of _data["turns"])
-                    this.turns!.push(TurnModel.fromJS(item));
-            }
             this.currentGameUserId = _data["currentGameUserId"];
             this.currentUser = _data["currentUser"] ? UserModel.fromJS(_data["currentUser"]) : <any>undefined;
             this.winner = _data["winner"] ? UserModel.fromJS(_data["winner"]) : <any>undefined;
@@ -1541,11 +1534,6 @@ export class GameModel implements IGameModel {
             for (let item of this.users)
                 data["users"].push(item.toJSON());
         }
-        if (Array.isArray(this.turns)) {
-            data["turns"] = [];
-            for (let item of this.turns)
-                data["turns"].push(item.toJSON());
-        }
         data["currentGameUserId"] = this.currentGameUserId;
         data["currentUser"] = this.currentUser ? this.currentUser.toJSON() : <any>undefined;
         data["winner"] = this.winner ? this.winner.toJSON() : <any>undefined;
@@ -1573,8 +1561,6 @@ export interface IGameModel {
     endTime?: Date | undefined;
     /** Users. */
     users?: GameUserModel[] | undefined;
-    /** Turns. */
-    turns?: TurnModel[] | undefined;
     /** Current game user id. */
     currentGameUserId?: number | undefined;
     /** Current user. */
@@ -1665,70 +1651,6 @@ export interface IGameUserModel {
     gameId?: number;
     /** Order of the players. */
     order?: number | undefined;
-}
-
-/** Turn. */
-export class TurnModel implements ITurnModel {
-    /** Id. */
-    id?: number;
-    /** Start time. */
-    startTime?: Date;
-    /** End time. */
-    endTime?: Date | undefined;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game. */
-    game?: GameModel | undefined;
-
-    constructor(data?: ITurnModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
-            this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
-            this.user = _data["user"] ? UserModel.fromJS(_data["user"]) : <any>undefined;
-            this.game = _data["game"] ? GameModel.fromJS(_data["game"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): TurnModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new TurnModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
-        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["game"] = this.game ? this.game.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Turn. */
-export interface ITurnModel {
-    /** Id. */
-    id?: number;
-    /** Start time. */
-    startTime?: Date;
-    /** End time. */
-    endTime?: Date | undefined;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game. */
-    game?: GameModel | undefined;
 }
 
 /** Type of game. */

@@ -1261,14 +1261,6 @@
               "$ref": "#/components/schemas/GameUserModel"
             }
           },
-          "turns": {
-            "type": "array",
-            "description": "Turns.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/TurnModel"
-            }
-          },
           "currentGameUserId": {
             "type": "integer",
             "description": "Current game user id.",
@@ -1388,47 +1380,6 @@
             "description": "Order of the players.",
             "format": "int32",
             "nullable": true
-          }
-        }
-      },
-      "TurnModel": {
-        "type": "object",
-        "description": "Turn.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Id.",
-            "format": "int32"
-          },
-          "startTime": {
-            "type": "string",
-            "description": "Start time.",
-            "format": "date-time"
-          },
-          "endTime": {
-            "type": "string",
-            "description": "End time.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "user": {
-            "description": "User.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
-          },
-          "game": {
-            "description": "Game.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GameModel"
-              }
-            ]
           }
         }
       },
