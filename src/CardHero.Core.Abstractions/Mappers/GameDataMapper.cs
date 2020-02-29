@@ -11,10 +11,6 @@ namespace CardHero.Core.Abstractions
             {
                 Columns = from.Columns,
                 CurrentGameUserId = from.CurrentGameUserId,
-                CurrentUser = from.CurrentGameUserId == null ? null : new UserModel
-                {
-                    Id = from.CurrentGameUserId.Value,
-                },
                 EndTime = from.EndTime,
                 Id = from.Id,
                 Rows = from.Rows,
@@ -28,7 +24,6 @@ namespace CardHero.Core.Abstractions
             return new GameData
             {
                 Columns = from.Columns,
-                CurrentGameUserId = from.CurrentUser?.Id,
                 EndTime = from.EndTime,
                 Id = from.Id,
                 Rows = from.Rows,

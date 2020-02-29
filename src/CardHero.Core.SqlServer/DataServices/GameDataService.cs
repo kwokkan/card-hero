@@ -33,7 +33,7 @@ namespace CardHero.Core.SqlServer.DataServices
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
             var userIds = users.Select(x => x.UserId).ToArray();
             game.CanJoin = !game.EndTime.HasValue && userIds.Length < game.MaxUsers && !userIds.Contains(userId);
-            game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentUser?.Id == userId;
+            game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentGameUserId == userId;
 
             game.Users = users.Select(x => _gameUserMapper.Map(x)).ToArray();
         }

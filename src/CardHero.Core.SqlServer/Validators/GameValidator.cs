@@ -47,7 +47,7 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidMoveException($"Game { game.Id } has not started.");
             }
 
-            if (game.CurrentUser.Id != gameUser.Id)
+            if (game.CurrentGameUserId.Value != gameUser.Id)
             {
                 throw new InvalidTurnException("It is not your turn.");
             }

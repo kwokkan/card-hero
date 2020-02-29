@@ -18,7 +18,6 @@ namespace CardHero.NetCoreApp.TypeScript
         {
             this.Columns = game.Columns;
             this.CurrentGameUserId = game.CurrentGameUserId;
-            this.CurrentUser = game.CurrentUser;
             this.Deck = game.Deck;
             this.DeckId = game.DeckId;
             this.EndTime = game.EndTime;

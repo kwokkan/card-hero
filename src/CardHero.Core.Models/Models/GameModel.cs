@@ -34,11 +34,6 @@ namespace CardHero.Core.Models
         public int? CurrentGameUserId { get; set; }
 
         /// <summary>
-        /// Current user.
-        /// </summary>
-        public UserModel CurrentUser { get; set; }
-
-        /// <summary>
         /// Winner.
         /// </summary>
         public UserModel Winner { get; set; }

@@ -1267,15 +1267,6 @@
             "format": "int32",
             "nullable": true
           },
-          "currentUser": {
-            "description": "Current user.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
-          },
           "winner": {
             "description": "Winner.",
             "nullable": true,
