@@ -127,9 +127,9 @@ namespace CardHero.Data.PostgreSql
                 existingGame.CurrentUserFk = update.CurrentUserId.Value;
             }
 
-            if (update.WinnerId.IsSet)
+            if (update.WinnerUserId.IsSet)
             {
-                existingGame.WinnerUserFk = update.WinnerId.Value;
+                existingGame.WinnerUserFk = update.WinnerUserId.Value;
             }
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);

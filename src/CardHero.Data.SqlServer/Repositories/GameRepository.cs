@@ -127,9 +127,9 @@ namespace CardHero.Data.SqlServer
                 existingGame.CurrentGameUserFk = update.CurrentUserId.Value;
             }
 
-            if (update.WinnerId.IsSet)
+            if (update.WinnerUserId.IsSet)
             {
-                existingGame.WinnerFk = update.WinnerId.Value;
+                existingGame.WinnerFk = update.WinnerUserId.Value;
             }
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);
