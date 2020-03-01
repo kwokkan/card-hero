@@ -71,7 +71,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IGameDeckCardCollectionRepository, GameDeckCardCollectionRepository>()
                 .AddScoped<IGameDeckRepository, GameDeckRepository>()
                 .AddScoped<IGameRepository, GameRepository>()
-                .AddScoped<IGameUserRepository, GameUserRepository>()
                 .AddScoped<IMoveRepository, MoveRepository>()
                 .AddScoped<IStoreItemRepository, StoreItemRepository>()
                 .AddScoped<ITurnRepository, TurnRepository>()
