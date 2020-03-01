@@ -42,12 +42,12 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidPlayerException();
             }
 
-            if (!game.CurrentGameUserId.HasValue)
+            if (!game.CurrentUserId.HasValue)
             {
                 throw new InvalidMoveException($"Game { game.Id } has not started.");
             }
 
-            if (game.CurrentGameUserId.Value != gameUser.Id)
+            if (game.CurrentUserId.Value != gameUser.Id)
             {
                 throw new InvalidTurnException("It is not your turn.");
             }

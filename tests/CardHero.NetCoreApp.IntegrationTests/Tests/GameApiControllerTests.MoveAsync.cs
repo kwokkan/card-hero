@@ -114,7 +114,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new GameData
                     {
                         Columns = 3,
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         MaxPlayers = 2,
                         Id = 701,
                         Rows = 3,
@@ -195,7 +195,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new GameData
                     {
                         Columns = 3,
-                        CurrentGameUserId = 802,
+                        CurrentUserId = 1,
                         MaxPlayers = 2,
                         Id = 701,
                         Rows = 3,
@@ -274,7 +274,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new GameData
                     {
                         Columns = 3,
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         MaxPlayers = 2,
                         Id = 701,
                         Rows = 3,
@@ -387,7 +387,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new GameData
                     {
                         Columns = 3,
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         MaxPlayers = 2,
                         Id = 701,
                         Rows = 3,

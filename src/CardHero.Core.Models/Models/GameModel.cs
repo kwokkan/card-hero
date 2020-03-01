@@ -29,9 +29,9 @@ namespace CardHero.Core.Models
         public IEnumerable<UserModel> Users { get; set; }
 
         /// <summary>
-        /// Current game user id.
+        /// Current user id.
         /// </summary>
-        public int? CurrentGameUserId { get; set; }
+        public int? CurrentUserId { get; set; }
 
         /// <summary>
         /// Winner game user id.

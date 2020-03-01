@@ -1254,9 +1254,9 @@
               "$ref": "#/components/schemas/UserModel"
             }
           },
-          "currentGameUserId": {
+          "currentUserId": {
             "type": "integer",
-            "description": "Current game user id.",
+            "description": "Current user id.",
             "format": "int32",
             "nullable": true
           },
