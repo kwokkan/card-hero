@@ -166,11 +166,11 @@ namespace CardHero.Core.SqlServer.Services
             if (userId.HasValue)
             {
                 await _gameDataService.PopulateGameUsersAsync(game, userId.Value, cancellationToken: cancellationToken);
-                var gameUser = game.Users.SingleOrDefault(x => x.Id == userId.Value);
+                var user = game.Users.SingleOrDefault(x => x.Id == userId.Value);
 
-                if (gameUser != null)
+                if (user != null)
                 {
-                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameUserIdAsync(gameUser.Id, cancellationToken: cancellationToken);
+                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameAndUserIdAsync(id, user.Id, cancellationToken: cancellationToken);
                     var deckCards = await _gameDeckRepository.GetGameDeckCardCollectionAsync(gameDeck.Id, cancellationToken: cancellationToken);
 
                     game.GameDeckId = gameDeck.Id;

@@ -195,7 +195,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new GameData
                     {
                         Columns = 3,
-                        CurrentUserId = 1,
+                        CurrentUserId = 2,
                         MaxPlayers = 2,
                         Id = 701,
                         Rows = 3,

@@ -60,11 +60,12 @@ namespace CardHero.Data.PostgreSql
             return data;
         }
 
-        async Task<GameDeckData> IGameDeckRepository.GetGameDeckByGameUserIdAsync(int gameUserId, CancellationToken cancellationToken)
+        async Task<GameDeckData> IGameDeckRepository.GetGameDeckByGameAndUserIdAsync(int gameId, int userId, CancellationToken cancellationToken)
         {
             var gameDeck = await _context
-                .GameDeck
-                .Where(x => x.GameUserFk == gameUserId)
+                .GameUser
+                .Where(x => x.GameFk == gameId && x.UserFk == userId)
+                .SelectMany(x => x.GameDeck)
                 .Select(x => _gameDeckMapper.Map(x))
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
