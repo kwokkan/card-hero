@@ -14,28 +14,28 @@ namespace CardHero.Core.SqlServer.DataServices
         private readonly IGameRepository _gameRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
-        private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
+        private readonly IDataMapper<UserData, UserModel> _userMapper;
 
         public GameDataService(
             IGameRepository gameRepository,
             IDataMapper<GameData, GameModel> gameMapper,
-            IDataMapper<GameUserData, GameUserModel> gameUserMapper
+            IDataMapper<UserData, UserModel> userMapper
         )
         {
             _gameRepository = gameRepository;
 
             _gameMapper = gameMapper;
-            _gameUserMapper = gameUserMapper;
+            _userMapper = userMapper;
         }
 
         private async Task PopulateGameUsersInternalAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
         {
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
-            var userIds = users.Select(x => x.UserId).ToArray();
+            var userIds = users.Select(x => x.Id).ToArray();
             game.CanJoin = !game.EndTime.HasValue && userIds.Length < game.MaxUsers && !userIds.Contains(userId);
             game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentGameUserId == userId;
 
-            game.Users = users.Select(x => _gameUserMapper.Map(x)).ToArray();
+            game.Users = users.Select(x => _userMapper.Map(x)).ToArray();
         }
 
         async Task<Abstractions.SearchResult<GameModel>> IGameDataService.GetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)

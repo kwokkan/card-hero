@@ -16,18 +16,18 @@ namespace CardHero.Data.PostgreSql
 
         private readonly CardHeroDataDbContext _context;
         private readonly IMapper<Game, GameData> _gameMapper;
-        private readonly IMapper<GameUser, GameUserData> _gameUserMapper;
+        private readonly IMapper<User, UserData> _userMapper;
 
         public GameRepository(
             CardHeroDataDbContext context,
             IMapper<Game, GameData> gameMapper,
-            IMapper<GameUser, GameUserData> gameUseMapper
+            IMapper<User, UserData> userMapper
         )
         {
             _context = context;
 
             _gameMapper = gameMapper;
-            _gameUserMapper = gameUseMapper;
+            _userMapper = userMapper;
         }
 
         private async Task<SearchResult<GameData>> FindGamesInternalAsync(GameSearchFilter filter, CancellationToken cancellationToken)
@@ -101,12 +101,13 @@ namespace CardHero.Data.PostgreSql
             return GetGameByIdInternalAsync(id, cancellationToken);
         }
 
-        async Task<GameUserData[]> IGameRepository.GetGameUsersAsync(int gameId, CancellationToken cancellationToken)
+        async Task<UserData[]> IGameRepository.GetGameUsersAsync(int gameId, CancellationToken cancellationToken)
         {
             var result = await _context
                 .GameUser
+                .Include(x => x.UserFkNavigation)
                 .Where(x => x.GameFk == gameId)
-                .Select(x => _gameUserMapper.Map(x))
+                .Select(x => _userMapper.Map(x.UserFkNavigation))
                 .ToArrayAsync(cancellationToken: cancellationToken);
 
             return result;

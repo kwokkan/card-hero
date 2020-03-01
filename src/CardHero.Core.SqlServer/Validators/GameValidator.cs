@@ -35,7 +35,7 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidGameException($"Game { id } does not exist.");
             }
 
-            var gameUser = game.Users.SingleOrDefault(x => x.UserId == userId);
+            var gameUser = game.Users.SingleOrDefault(x => x.Id == userId);
 
             if (gameUser == null)
             {

@@ -87,7 +87,7 @@ namespace CardHero.Core.SqlServer.Services
             await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
             var nextUser = game.Users
-                .SkipWhile(x => x.UserId != move.UserId)
+                .SkipWhile(x => x.Id != move.UserId)
                 .Skip(1)
                 .FirstOrDefault();
 

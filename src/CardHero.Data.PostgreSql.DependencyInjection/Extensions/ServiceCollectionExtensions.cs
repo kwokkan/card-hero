@@ -52,7 +52,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
                 .AddScoped<IMapper<GameDeck, GameDeckData>, GameDeckMapper>()
                 .AddScoped<IMapper<GameDeckCardCollection, GameDeckCardCollectionData>, GameDeckCardCollectionMapper>()
-                .AddScoped<IMapper<GameUser, GameUserData>, GameUserMapper>()
                 .AddScoped<IMapper<StoreItem, StoreItemData>, StoreItemMapper>()
                 .AddScoped<IMapper<Turn, TurnData>, TurnMapper>()
                 .AddScoped<IMapper<User, UserData>, UserMapper>()

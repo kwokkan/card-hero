@@ -11,7 +11,7 @@ namespace CardHero.Data.Abstractions
 
         Task<GameData> GetGameByIdAsync(int id, CancellationToken cancellationToken = default);
 
-        Task<GameUserData[]> GetGameUsersAsync(int gameId, CancellationToken cancellationToken = default);
+        Task<UserData[]> GetGameUsersAsync(int gameId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a game.
