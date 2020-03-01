@@ -17,7 +17,6 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDeckRepository _deckRepository;
         private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly IGameUserRepository _gameUserRepository;
         private readonly ITurnRepository _turnRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
@@ -33,7 +32,6 @@ namespace CardHero.Core.SqlServer.Services
             IDeckRepository deckRepository,
             IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
-            IGameUserRepository gameUserRepository,
             ITurnRepository turnRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
@@ -48,7 +46,6 @@ namespace CardHero.Core.SqlServer.Services
             _deckRepository = deckRepository;
             _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
-            _gameUserRepository = gameUserRepository;
             _turnRepository = turnRepository;
 
             _gameMapper = gameMapper;
@@ -94,8 +91,6 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException($"Deck { deckId } does not belong to user { userId }.");
             }
 
-            var newGameUser = await _gameUserRepository.AddGameUserAsync(id, userId, cancellationToken: cancellationToken);
-
             var dc = deck.Cards.Select(x => x.CardId).ToArray();
             var dcc = dc.Length;
             if (dcc < deck.MaxCards)
@@ -103,11 +98,11 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException($"Deck { deckId } needs { deck.MaxCards } cards. Currently only has { dcc }.");
             }
 
-            await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
+            await _gameDeckRepository.AddGameDeckAsync(id, userId, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
 
             if (gul + 1 == game.MaxPlayers)
             {
-                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { newGameUser.Id }).ToArray();
+                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
                 var currentUserIdx = new Random().Next(0, allUsers.Length);
                 var currentUserId = allUsers[currentUserIdx];
                 var updateGame = new GameUpdateData

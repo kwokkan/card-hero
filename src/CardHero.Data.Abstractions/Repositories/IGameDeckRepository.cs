@@ -6,7 +6,8 @@ namespace CardHero.Data.Abstractions
     public interface IGameDeckRepository
     {
         Task<GameDeckData> AddGameDeckAsync(
-            int gameUserId,
+            int gameId,
+            int userId,
             string name,
             string description,
             int[] cardIds,

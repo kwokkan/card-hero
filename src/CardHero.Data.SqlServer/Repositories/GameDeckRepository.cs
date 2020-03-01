@@ -26,13 +26,20 @@ namespace CardHero.Data.SqlServer
             _gameDeckMapper = gameDeckMapper;
         }
 
-        async Task<GameDeckData> IGameDeckRepository.AddGameDeckAsync(int gameUserId, string name, string description, int[] cardIds, CancellationToken cancellationToken)
+        async Task<GameDeckData> IGameDeckRepository.AddGameDeckAsync(int gameId, int userId, string name, string description, int[] cardIds, CancellationToken cancellationToken)
         {
+            var gameUser = new GameUser
+            {
+                GameFk = gameId,
+                JoinedTime = DateTime.UtcNow,
+                UserFk = userId,
+            };
+
             var gameDeck = new GameDeck
             {
                 CreatedTime = DateTime.UtcNow,
                 Description = description,
-                GameUserFk = gameUserId,
+                GameUserFkNavigation = gameUser,
                 Name = name,
             };
 
@@ -52,7 +59,7 @@ namespace CardHero.Data.SqlServer
             {
                 CreatedTime = gameDeck.CreatedTime,
                 Description = description,
-                GameUserId = gameUserId,
+                GameUserId = gameUser.GameUserPk,
                 Id = gameDeck.GameDeckPk,
                 Name = name,
             };
