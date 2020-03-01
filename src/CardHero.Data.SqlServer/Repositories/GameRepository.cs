@@ -122,9 +122,9 @@ namespace CardHero.Data.SqlServer
                 throw new CardHeroDataException($"Game { id } does not exist.");
             }
 
-            if (update.CurrentGameUserId.IsSet)
+            if (update.CurrentUserId.IsSet)
             {
-                existingGame.CurrentGameUserFk = update.CurrentGameUserId.Value;
+                existingGame.CurrentGameUserFk = update.CurrentUserId.Value;
             }
 
             if (update.WinnerId.IsSet)

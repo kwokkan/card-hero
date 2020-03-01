@@ -122,14 +122,14 @@ namespace CardHero.Data.PostgreSql
                 throw new CardHeroDataException($"Game { id } does not exist.");
             }
 
-            if (update.CurrentGameUserId.IsSet)
+            if (update.CurrentUserId.IsSet)
             {
-                existingGame.CurrentGameUserFk = update.CurrentGameUserId.Value;
+                existingGame.CurrentUserFk = update.CurrentUserId.Value;
             }
 
             if (update.WinnerId.IsSet)
             {
-                existingGame.WinnerFk = update.WinnerId.Value;
+                existingGame.WinnerUserFk = update.WinnerId.Value;
             }
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);

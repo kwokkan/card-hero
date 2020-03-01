@@ -109,17 +109,17 @@ namespace CardHero.Core.SqlServer.Services
             {
                 var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { newGameUser.Id }).ToArray();
                 var currentUserIdx = new Random().Next(0, allUsers.Length);
-                var currentGameUserId = allUsers[currentUserIdx];
+                var currentUserId = allUsers[currentUserIdx];
                 var updateGame = new GameUpdateData
                 {
-                    CurrentGameUserId = currentGameUserId,
+                    CurrentUserId = currentUserId,
                 };
 
                 await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
 
                 var newTurn = new TurnData
                 {
-                    CurrentGameUserId = currentGameUserId,
+                    CurrentGameUserId = currentUserId,
                     GameId = game.Id,
                 };
                 await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);

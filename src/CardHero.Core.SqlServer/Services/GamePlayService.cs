@@ -107,7 +107,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var gameUpdate = new GameUpdateData
             {
-                CurrentGameUserId = nextUser.Id,
+                CurrentUserId = nextUser.Id,
             };
             await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
         }
