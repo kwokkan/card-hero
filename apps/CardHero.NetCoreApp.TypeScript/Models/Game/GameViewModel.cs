@@ -29,7 +29,7 @@ namespace CardHero.NetCoreApp.TypeScript
             this.StartTime = game.StartTime;
             this.Type = game.Type;
             this.Users = game.Users;
-            this.WinnerGameUserId = game.WinnerGameUserId;
+            this.WinnerUserId = game.WinnerUserId;
         }
     }
 }

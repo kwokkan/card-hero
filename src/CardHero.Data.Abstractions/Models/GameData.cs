@@ -12,7 +12,7 @@ namespace CardHero.Data.Abstractions
 
         public int? CurrentUserId { get; set; }
 
-        public int? WinnerId { get; set; }
+        public int? WinnerUserId { get; set; }
 
         public int Rows { get; set; }
 

@@ -265,7 +265,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GamePk = d.Id,
                         MaxPlayers = d.MaxPlayers,
                         Rows = d.Rows,
-                        WinnerFk = d.WinnerId,
+                        WinnerFk = d.WinnerUserId,
                     });
                 }
 

@@ -19,7 +19,7 @@ namespace CardHero.Data.PostgreSql
                 Rows = from.Rows,
                 StartTime = from.StartTime,
                 Type = (GameType)from.GameTypeFk,
-                WinnerId = from.WinnerFk,
+                WinnerUserId = from.WinnerFk,
             };
         }
 

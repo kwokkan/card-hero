@@ -1260,9 +1260,9 @@
             "format": "int32",
             "nullable": true
           },
-          "winnerGameUserId": {
+          "winnerUserId": {
             "type": "integer",
-            "description": "Winner game user id.",
+            "description": "Winner user id.",
             "format": "int32",
             "nullable": true
           },
