@@ -261,11 +261,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     context.Game.Add(new Game
                     {
                         Columns = d.Columns,
-                        CurrentGameUserFk = d.CurrentGameUserId,
+                        CurrentUserFk = d.CurrentUserId,
                         GamePk = d.Id,
                         MaxPlayers = d.MaxPlayers,
                         Rows = d.Rows,
-                        WinnerFk = d.WinnerId,
+                        WinnerUserFk = d.WinnerUserId,
                     });
                 }
 

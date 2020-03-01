@@ -17,14 +17,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDeckRepository _deckRepository;
         private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly IGameUserRepository _gameUserRepository;
         private readonly ITurnRepository _turnRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
         private readonly IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> _gameDeckCardCollectionMapper;
         private readonly IDataMapper<GameDeckData, GameDeckModel> _gameDeckMapper;
-        private readonly IDataMapper<GameUserData, GameUserModel> _gameUserMapper;
 
         private readonly ICardService _cardService;
         private readonly IGameDataService _gameDataService;
@@ -34,13 +32,11 @@ namespace CardHero.Core.SqlServer.Services
             IDeckRepository deckRepository,
             IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
-            IGameUserRepository gameUserRepository,
             ITurnRepository turnRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
             IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
             IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
-            IDataMapper<GameUserData, GameUserModel> gameUserMapper,
             ICardService cardService,
             IGameDataService gameDataService
         )
@@ -50,20 +46,18 @@ namespace CardHero.Core.SqlServer.Services
             _deckRepository = deckRepository;
             _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
-            _gameUserRepository = gameUserRepository;
             _turnRepository = turnRepository;
 
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
             _gameDeckCardCollectionMapper = gameDeckCardCollectionMapper;
             _gameDeckMapper = gameDeckMapper;
-            _gameUserMapper = gameUserMapper;
 
             _cardService = cardService;
             _gameDataService = gameDataService;
         }
 
-        private async Task<GameUserModel> AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
+        private async Task AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetGameByIdAsync(id);
 
@@ -74,7 +68,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var gameUsers = await _gameRepository.GetGameUsersAsync(id, cancellationToken: cancellationToken);
 
-            if (gameUsers.Any(x => x.UserId == userId))
+            if (gameUsers.Any(x => x.Id == userId))
             {
                 throw new InvalidPlayerException($"User { userId } is already in game { id }.");
             }
@@ -97,8 +91,6 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException($"Deck { deckId } does not belong to user { userId }.");
             }
 
-            var newGameUser = await _gameUserRepository.AddGameUserAsync(id, userId, cancellationToken: cancellationToken);
-
             var dc = deck.Cards.Select(x => x.CardId).ToArray();
             var dcc = dc.Length;
             if (dcc < deck.MaxCards)
@@ -106,32 +98,30 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidDeckException($"Deck { deckId } needs { deck.MaxCards } cards. Currently only has { dcc }.");
             }
 
-            await _gameDeckRepository.AddGameDeckAsync(newGameUser.Id, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
+            await _gameDeckRepository.AddGameDeckAsync(id, userId, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
 
             if (gul + 1 == game.MaxPlayers)
             {
-                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { newGameUser.Id }).ToArray();
+                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
                 var currentUserIdx = new Random().Next(0, allUsers.Length);
-                var currentGameUserId = allUsers[currentUserIdx];
+                var currentUserId = allUsers[currentUserIdx];
                 var updateGame = new GameUpdateData
                 {
-                    CurrentGameUserId = currentGameUserId,
+                    CurrentUserId = currentUserId,
                 };
 
                 await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
 
                 var newTurn = new TurnData
                 {
-                    CurrentGameUserId = currentGameUserId,
+                    CurrentGameUserId = currentUserId,
                     GameId = game.Id,
                 };
                 await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
             }
-
-            return _gameUserMapper.Map(newGameUser);
         }
 
-        Task<GameUserModel> IGameService.AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
+        Task IGameService.AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
         {
             return AddUserToGameInternalAsync(id, userId, deckId, cancellationToken: cancellationToken);
         }
@@ -171,11 +161,11 @@ namespace CardHero.Core.SqlServer.Services
             if (userId.HasValue)
             {
                 await _gameDataService.PopulateGameUsersAsync(game, userId.Value, cancellationToken: cancellationToken);
-                var gameUser = game.Users.SingleOrDefault(x => x.UserId == userId.Value);
+                var user = game.Users.SingleOrDefault(x => x.Id == userId.Value);
 
-                if (gameUser != null)
+                if (user != null)
                 {
-                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameUserIdAsync(gameUser.Id, cancellationToken: cancellationToken);
+                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameAndUserIdAsync(id, user.Id, cancellationToken: cancellationToken);
                     var deckCards = await _gameDeckRepository.GetGameDeckCardCollectionAsync(gameDeck.Id, cancellationToken: cancellationToken);
 
                     game.GameDeckId = gameDeck.Id;

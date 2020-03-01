@@ -12,14 +12,14 @@ namespace CardHero.Data.SqlServer
             return new GameData
             {
                 Columns = from.Columns,
-                CurrentGameUserId = from.CurrentGameUserFk,
+                CurrentUserId = from.CurrentUserFk,
                 EndTime = from.EndTime,
                 Id = from.GamePk,
                 MaxPlayers = from.MaxPlayers,
                 Rows = from.Rows,
                 StartTime = from.StartTime,
                 Type = (GameType)from.GameTypeFk,
-                WinnerId = from.WinnerFk,
+                WinnerUserId = from.WinnerUserFk,
             };
         }
 

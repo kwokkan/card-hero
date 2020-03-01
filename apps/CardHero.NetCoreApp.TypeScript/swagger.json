@@ -778,14 +778,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GameUserModel"
-                }
-              }
-            }
+            "description": ""
           }
         }
       }
@@ -1258,40 +1251,20 @@
             "description": "Users.",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/GameUserModel"
+              "$ref": "#/components/schemas/UserModel"
             }
           },
-          "turns": {
-            "type": "array",
-            "description": "Turns.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/TurnModel"
-            }
-          },
-          "currentGameUserId": {
+          "currentUserId": {
             "type": "integer",
-            "description": "Current game user id.",
+            "description": "Current user id.",
             "format": "int32",
             "nullable": true
           },
-          "currentUser": {
-            "description": "Current user.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
-          },
-          "winner": {
-            "description": "Winner.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
+          "winnerUserId": {
+            "type": "integer",
+            "description": "Winner user id.",
+            "format": "int32",
+            "nullable": true
           },
           "columns": {
             "type": "integer",
@@ -1351,84 +1324,6 @@
           "canPlay": {
             "type": "boolean",
             "description": "Whether the user can make their move."
-          }
-        }
-      },
-      "GameUserModel": {
-        "type": "object",
-        "description": "User belonging to a game.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Game user id.",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "integer",
-            "description": "User id.",
-            "format": "int32"
-          },
-          "user": {
-            "description": "User.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
-          },
-          "gameId": {
-            "type": "integer",
-            "description": "Game id.",
-            "format": "int32"
-          },
-          "order": {
-            "type": "integer",
-            "description": "Order of the players.",
-            "format": "int32",
-            "nullable": true
-          }
-        }
-      },
-      "TurnModel": {
-        "type": "object",
-        "description": "Turn.",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Id.",
-            "format": "int32"
-          },
-          "startTime": {
-            "type": "string",
-            "description": "Start time.",
-            "format": "date-time"
-          },
-          "endTime": {
-            "type": "string",
-            "description": "End time.",
-            "format": "date-time",
-            "nullable": true
-          },
-          "user": {
-            "description": "User.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserModel"
-              }
-            ]
-          },
-          "game": {
-            "description": "Game.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GameModel"
-              }
-            ]
           }
         }
       },

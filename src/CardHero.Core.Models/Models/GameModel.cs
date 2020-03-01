@@ -26,27 +26,17 @@ namespace CardHero.Core.Models
         /// <summary>
         /// Users.
         /// </summary>
-        public IEnumerable<GameUserModel> Users { get; set; }
+        public IEnumerable<UserModel> Users { get; set; }
 
         /// <summary>
-        /// Turns.
+        /// Current user id.
         /// </summary>
-        public IEnumerable<TurnModel> Turns { get; set; }
+        public int? CurrentUserId { get; set; }
 
         /// <summary>
-        /// Current game user id.
+        /// Winner user id.
         /// </summary>
-        public int? CurrentGameUserId { get; set; }
-
-        /// <summary>
-        /// Current user.
-        /// </summary>
-        public UserModel CurrentUser { get; set; }
-
-        /// <summary>
-        /// Winner.
-        /// </summary>
-        public UserModel Winner { get; set; }
+        public int? WinnerUserId { get; set; }
 
         /// <summary>
         /// Columns.

@@ -10,9 +10,9 @@ namespace CardHero.Data.Abstractions
 
         public DateTime? EndTime { get; set; }
 
-        public int? CurrentGameUserId { get; set; }
+        public int? CurrentUserId { get; set; }
 
-        public int? WinnerId { get; set; }
+        public int? WinnerUserId { get; set; }
 
         public int Rows { get; set; }
 

@@ -556,7 +556,7 @@ export interface IGameApiClient {
     get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
     post(model: GameCreateModel): Promise<GameModel>;
     getById(id: number): Promise<GameViewModel>;
-    join(id: number, model: JoinGameViewModel): Promise<GameUserModel>;
+    join(id: number, model: JoinGameViewModel): Promise<void>;
     move(id: number, model: GameMoveViewModel): Promise<GameMoveViewModel>;
 }
 
@@ -720,7 +720,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GameViewModel>(<any>null);
     }
 
-    join(id: number, model: JoinGameViewModel): Promise<GameUserModel> {
+    join(id: number, model: JoinGameViewModel): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{id}/join";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -734,7 +734,6 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
             }
         };
 
@@ -743,22 +742,19 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         });
     }
 
-    protected processJoin(response: Response): Promise<GameUserModel> {
+    protected processJoin(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameUserModel.fromJS(resultData200);
-            return result200;
+            return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameUserModel>(<any>null);
+        return Promise.resolve<void>(<any>null);
     }
 
     move(id: number, model: GameMoveViewModel): Promise<GameMoveViewModel> {
@@ -1454,15 +1450,11 @@ export class GameModel implements IGameModel {
     /** End time. */
     endTime?: Date | undefined;
     /** Users. */
-    users?: GameUserModel[] | undefined;
-    /** Turns. */
-    turns?: TurnModel[] | undefined;
-    /** Current game user id. */
-    currentGameUserId?: number | undefined;
-    /** Current user. */
-    currentUser?: UserModel | undefined;
-    /** Winner. */
-    winner?: UserModel | undefined;
+    users?: UserModel[] | undefined;
+    /** Current user id. */
+    currentUserId?: number | undefined;
+    /** Winner user id. */
+    winnerUserId?: number | undefined;
     /** Columns. */
     columns?: number;
     /** Rows. */
@@ -1501,16 +1493,10 @@ export class GameModel implements IGameModel {
             if (Array.isArray(_data["users"])) {
                 this.users = [] as any;
                 for (let item of _data["users"])
-                    this.users!.push(GameUserModel.fromJS(item));
+                    this.users!.push(UserModel.fromJS(item));
             }
-            if (Array.isArray(_data["turns"])) {
-                this.turns = [] as any;
-                for (let item of _data["turns"])
-                    this.turns!.push(TurnModel.fromJS(item));
-            }
-            this.currentGameUserId = _data["currentGameUserId"];
-            this.currentUser = _data["currentUser"] ? UserModel.fromJS(_data["currentUser"]) : <any>undefined;
-            this.winner = _data["winner"] ? UserModel.fromJS(_data["winner"]) : <any>undefined;
+            this.currentUserId = _data["currentUserId"];
+            this.winnerUserId = _data["winnerUserId"];
             this.columns = _data["columns"];
             this.rows = _data["rows"];
             this.type = _data["type"];
@@ -1541,14 +1527,8 @@ export class GameModel implements IGameModel {
             for (let item of this.users)
                 data["users"].push(item.toJSON());
         }
-        if (Array.isArray(this.turns)) {
-            data["turns"] = [];
-            for (let item of this.turns)
-                data["turns"].push(item.toJSON());
-        }
-        data["currentGameUserId"] = this.currentGameUserId;
-        data["currentUser"] = this.currentUser ? this.currentUser.toJSON() : <any>undefined;
-        data["winner"] = this.winner ? this.winner.toJSON() : <any>undefined;
+        data["currentUserId"] = this.currentUserId;
+        data["winnerUserId"] = this.winnerUserId;
         data["columns"] = this.columns;
         data["rows"] = this.rows;
         data["type"] = this.type;
@@ -1572,15 +1552,11 @@ export interface IGameModel {
     /** End time. */
     endTime?: Date | undefined;
     /** Users. */
-    users?: GameUserModel[] | undefined;
-    /** Turns. */
-    turns?: TurnModel[] | undefined;
-    /** Current game user id. */
-    currentGameUserId?: number | undefined;
-    /** Current user. */
-    currentUser?: UserModel | undefined;
-    /** Winner. */
-    winner?: UserModel | undefined;
+    users?: UserModel[] | undefined;
+    /** Current user id. */
+    currentUserId?: number | undefined;
+    /** Winner user id. */
+    winnerUserId?: number | undefined;
     /** Columns. */
     columns?: number;
     /** Rows. */
@@ -1601,134 +1577,6 @@ export interface IGameModel {
     canJoin?: boolean;
     /** Whether the user can make their move. */
     canPlay?: boolean;
-}
-
-/** User belonging to a game. */
-export class GameUserModel implements IGameUserModel {
-    /** Game user id. */
-    id?: number;
-    /** User id. */
-    userId?: number;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game id. */
-    gameId?: number;
-    /** Order of the players. */
-    order?: number | undefined;
-
-    constructor(data?: IGameUserModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userId = _data["userId"];
-            this.user = _data["user"] ? UserModel.fromJS(_data["user"]) : <any>undefined;
-            this.gameId = _data["gameId"];
-            this.order = _data["order"];
-        }
-    }
-
-    static fromJS(data: any): GameUserModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new GameUserModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userId"] = this.userId;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["gameId"] = this.gameId;
-        data["order"] = this.order;
-        return data; 
-    }
-}
-
-/** User belonging to a game. */
-export interface IGameUserModel {
-    /** Game user id. */
-    id?: number;
-    /** User id. */
-    userId?: number;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game id. */
-    gameId?: number;
-    /** Order of the players. */
-    order?: number | undefined;
-}
-
-/** Turn. */
-export class TurnModel implements ITurnModel {
-    /** Id. */
-    id?: number;
-    /** Start time. */
-    startTime?: Date;
-    /** End time. */
-    endTime?: Date | undefined;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game. */
-    game?: GameModel | undefined;
-
-    constructor(data?: ITurnModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
-            this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
-            this.user = _data["user"] ? UserModel.fromJS(_data["user"]) : <any>undefined;
-            this.game = _data["game"] ? GameModel.fromJS(_data["game"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): TurnModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new TurnModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
-        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["game"] = this.game ? this.game.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Turn. */
-export interface ITurnModel {
-    /** Id. */
-    id?: number;
-    /** Start time. */
-    startTime?: Date;
-    /** End time. */
-    endTime?: Date | undefined;
-    /** User. */
-    user?: UserModel | undefined;
-    /** Game. */
-    game?: GameModel | undefined;
 }
 
 /** Type of game. */
