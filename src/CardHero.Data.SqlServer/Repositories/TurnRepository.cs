@@ -31,7 +31,7 @@ namespace CardHero.Data.SqlServer
         {
             var newTurn = new Turn
             {
-                CurrentGameUserFk = turn.CurrentGameUserId,
+                CurrentGameUserFk = turn.CurrentUserId,
                 GameFk = turn.GameId,
                 StartTime = DateTime.UtcNow,
             };

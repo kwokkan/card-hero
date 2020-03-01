@@ -6,7 +6,7 @@ namespace CardHero.Data.Abstractions
     {
         public int Id { get; set; }
 
-        public int CurrentGameUserId { get; set; }
+        public int CurrentUserId { get; set; }
 
         public int GameId { get; set; }
 

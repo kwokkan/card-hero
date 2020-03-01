@@ -369,7 +369,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 {
                     context.Turn.Add(new Turn
                     {
-                        CurrentGameUserFk = d.CurrentGameUserId,
+                        CurrentGameUserFk = d.CurrentUserId,
                         EndTime = d.EndTime,
                         GameFk = d.GameId,
                         StartTime = d.StartTime,
