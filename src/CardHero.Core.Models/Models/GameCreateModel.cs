@@ -21,11 +21,6 @@
         public UserModel[] Users { get; set; }
 
         /// <summary>
-        /// Current game user id.
-        /// </summary>
-        public int CurrentGameUserId { get; set; }
-
-        /// <summary>
         /// Max players in game.
         /// </summary>
         public int MaxPlayers { get; set; }

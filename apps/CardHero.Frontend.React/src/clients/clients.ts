@@ -1871,8 +1871,6 @@ export class GameCreateModel implements IGameCreateModel {
     deckId?: number;
     /** Users in game. */
     users?: UserModel[] | undefined;
-    /** Current game user id. */
-    currentGameUserId?: number;
     /** Max players in game. */
     maxPlayers?: number;
     /** Columns in game. */
@@ -1898,7 +1896,6 @@ export class GameCreateModel implements IGameCreateModel {
                 for (let item of _data["users"])
                     this.users!.push(UserModel.fromJS(item));
             }
-            this.currentGameUserId = _data["currentGameUserId"];
             this.maxPlayers = _data["maxPlayers"];
             this.columns = _data["columns"];
             this.rows = _data["rows"];
@@ -1921,7 +1918,6 @@ export class GameCreateModel implements IGameCreateModel {
             for (let item of this.users)
                 data["users"].push(item.toJSON());
         }
-        data["currentGameUserId"] = this.currentGameUserId;
         data["maxPlayers"] = this.maxPlayers;
         data["columns"] = this.columns;
         data["rows"] = this.rows;
@@ -1937,8 +1933,6 @@ export interface IGameCreateModel {
     deckId?: number;
     /** Users in game. */
     users?: UserModel[] | undefined;
-    /** Current game user id. */
-    currentGameUserId?: number;
     /** Max players in game. */
     maxPlayers?: number;
     /** Columns in game. */

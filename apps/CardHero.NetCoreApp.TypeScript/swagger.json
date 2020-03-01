@@ -1504,11 +1504,6 @@
               "$ref": "#/components/schemas/UserModel"
             }
           },
-          "currentGameUserId": {
-            "type": "integer",
-            "description": "Current game user id.",
-            "format": "int32"
-          },
           "maxPlayers": {
             "type": "integer",
             "description": "Max players in game.",
