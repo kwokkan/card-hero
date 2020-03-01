@@ -488,7 +488,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .WithMany(p => p.Turn)
                     .HasForeignKey(d => d.CurrentGameUserFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Turn_CurrentUser_FK");
+                    .HasConstraintName("FK_Turn_CurrentGameUser_FK");
 
                 entity.HasOne(d => d.GameFkNavigation)
                     .WithMany(p => p.Turn)
