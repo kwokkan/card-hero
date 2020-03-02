@@ -12,7 +12,17 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         protected string Id { get; } = Guid.NewGuid().ToString();
 
+        public virtual Task AddDataAsync(params CardData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
         public virtual Task AddDataAsync(params GameData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task AddDataAsync(params GameDeckCardCollectionData[] data)
         {
             return Task.CompletedTask;
         }
@@ -23,6 +33,16 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         public virtual Task AddDataAsync(params GameUserData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task AddDataAsync(params MoveData[] data)
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual Task AddDataAsync(params TurnData[] data)
         {
             return Task.CompletedTask;
         }

@@ -40,6 +40,10 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.HasIndex(e => e.RarityFk);
 
+                entity.HasIndex(e => new { e.CardPackFk, e.CardPackId })
+                    .HasName("UX_Card_CardPack_FK_CardPackId")
+                    .IsUnique();
+
                 entity.Property(e => e.CardPk).HasColumnName("Card_PK");
 
                 entity.Property(e => e.Attack).HasDefaultValueSql("1");
@@ -253,17 +257,17 @@ namespace CardHero.Data.PostgreSql.EntityFramework
             {
                 entity.HasKey(e => e.GamePk);
 
-                entity.HasIndex(e => e.CurrentGameUserFk);
+                entity.HasIndex(e => e.CurrentUserFk);
 
                 entity.HasIndex(e => e.GameTypeFk);
 
-                entity.HasIndex(e => e.WinnerFk);
+                entity.HasIndex(e => e.WinnerUserFk);
 
                 entity.Property(e => e.GamePk).HasColumnName("Game_PK");
 
                 entity.Property(e => e.Columns).HasDefaultValueSql("3");
 
-                entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
+                entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
 
                 entity.Property(e => e.EndTime).HasColumnType("timestamp with time zone");
 
@@ -273,8 +277,6 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.MaxPlayers).HasDefaultValueSql("2");
 
-                entity.Property(e => e.Name).HasMaxLength(100);
-
                 entity.Property(e => e.Rows).HasDefaultValueSql("3");
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
@@ -283,17 +285,17 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                     .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.WinnerFk).HasColumnName("Winner_FK");
+                entity.Property(e => e.WinnerUserFk).HasColumnName("WinnerUser_FK");
 
-                entity.HasOne(d => d.CurrentGameUserFkNavigation)
-                    .WithMany(p => p.GameCurrentGameUserFkNavigation)
-                    .HasForeignKey(d => d.CurrentGameUserFk)
+                entity.HasOne(d => d.CurrentUserFkNavigation)
+                    .WithMany(p => p.GameCurrentUserFkNavigation)
+                    .HasForeignKey(d => d.CurrentUserFk)
                     .HasConstraintName("FK_Game_CurrentUser_FK");
 
-                entity.HasOne(d => d.WinnerFkNavigation)
-                    .WithMany(p => p.GameWinnerFkNavigation)
-                    .HasForeignKey(d => d.WinnerFk)
-                    .HasConstraintName("FK_Game_Winner_FK");
+                entity.HasOne(d => d.WinnerUserFkNavigation)
+                    .WithMany(p => p.GameWinnerUserFkNavigation)
+                    .HasForeignKey(d => d.WinnerUserFk)
+                    .HasConstraintName("FK_Game_WinnerUser_FK");
             });
 
             modelBuilder.Entity<GameDeck>(entity =>

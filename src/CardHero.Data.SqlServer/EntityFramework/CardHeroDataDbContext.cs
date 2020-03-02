@@ -250,25 +250,23 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.GamePk);
 
-                entity.HasIndex(e => e.CurrentGameUserFk);
+                entity.HasIndex(e => e.CurrentUserFk);
 
                 entity.HasIndex(e => e.GameTypeFk);
 
-                entity.HasIndex(e => e.WinnerFk);
+                entity.HasIndex(e => e.WinnerUserFk);
 
                 entity.Property(e => e.GamePk).HasColumnName("Game_PK");
 
                 entity.Property(e => e.Columns).HasDefaultValueSql("((3))");
 
-                entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
+                entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
 
                 entity.Property(e => e.GameTypeFk)
                     .HasColumnName("GameType_FK")
                     .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.MaxPlayers).HasDefaultValueSql("((2))");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.Rows).HasDefaultValueSql("((3))");
 
@@ -279,17 +277,17 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.StartTime).HasDefaultValueSql("(getutcdate())");
 
-                entity.Property(e => e.WinnerFk).HasColumnName("Winner_FK");
+                entity.Property(e => e.WinnerUserFk).HasColumnName("WinnerUser_FK");
 
-                entity.HasOne(d => d.CurrentGameUserFkNavigation)
-                    .WithMany(p => p.GameCurrentGameUserFkNavigation)
-                    .HasForeignKey(d => d.CurrentGameUserFk)
+                entity.HasOne(d => d.CurrentUserFkNavigation)
+                    .WithMany(p => p.GameCurrentUserFkNavigation)
+                    .HasForeignKey(d => d.CurrentUserFk)
                     .HasConstraintName("FK_Game_CurrentUser_FK");
 
-                entity.HasOne(d => d.WinnerFkNavigation)
-                    .WithMany(p => p.GameWinnerFkNavigation)
-                    .HasForeignKey(d => d.WinnerFk)
-                    .HasConstraintName("FK_Game_Winner_FK");
+                entity.HasOne(d => d.WinnerUserFkNavigation)
+                    .WithMany(p => p.GameWinnerUserFkNavigation)
+                    .HasForeignKey(d => d.WinnerUserFk)
+                    .HasConstraintName("FK_Game_WinnerUser_FK");
             });
 
             modelBuilder.Entity<GameDeck>(entity =>

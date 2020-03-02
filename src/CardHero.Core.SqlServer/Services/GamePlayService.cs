@@ -11,54 +11,35 @@ namespace CardHero.Core.SqlServer.Services
 {
     public class GamePlayService : BaseService, IGamePlayService
     {
-        private readonly IGameService _gameService;
-
         private readonly IGameDeckCardCollectionRepository _gameDeckCardCollectionRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IMoveRepository _moveRepository;
         private readonly ITurnRepository _turnRepository;
 
+        private readonly IGameValidator _gameValidator;
+        private readonly IMoveValidator _moveValidator;
+
         public GamePlayService(
-            IGameService gamseService,
             IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
-            ITurnRepository turnRepository
+            ITurnRepository turnRepository,
+            IGameValidator gameValidator,
+            IMoveValidator moveValidator
         )
         {
-            _gameService = gamseService;
-
             _gameDeckCardCollectionRepository = gameDeckCardCollectionRepository;
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
             _turnRepository = turnRepository;
+
+            _gameValidator = gameValidator;
+            _moveValidator = moveValidator;
         }
 
         private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = await _gameService.GetGameByIdAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
-
-            if (game == null)
-            {
-                throw new InvalidGameException($"Game { move.GameId } does not exist.");
-            }
-
-            var gameUser = game.Users.SingleOrDefault(x => x.UserId == move.UserId);
-
-            if (gameUser == null)
-            {
-                throw new InvalidPlayerException();
-            }
-
-            if (!game.CurrentGameUserId.HasValue)
-            {
-                throw new InvalidMoveException($"Game { game.Id } has not started.");
-            }
-
-            if (game.CurrentUser.Id != gameUser.Id)
-            {
-                throw new InvalidTurnException("It is not your turn.");
-            }
+            var game = await _gameValidator.ValidateGameForMoveAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
 
             var card = (await _gameDeckCardCollectionRepository.SearchAsync(
                 new GameDeckCardCollectionSearchFilter
@@ -72,17 +53,7 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidCardException();
             }
 
-            if (move.Row < 0 || move.Row >= game.Rows || move.Column < 0 || move.Column >= game.Columns)
-            {
-                throw new InvalidMoveException("Move must be made on the board.");
-            }
-
-            var moves = await _gameRepository.GetMovesByGameIdAsync(move.GameId);
-
-            if (moves.Any(x => x.Row == move.Row && x.Column == move.Column))
-            {
-                throw new InvalidMoveException("There is already a card in this location.");
-            }
+            await _moveValidator.ValidateMoveAsync(move, game, cancellationToken: cancellationToken);
 
             return game;
         }
@@ -116,7 +87,7 @@ namespace CardHero.Core.SqlServer.Services
             await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
             var nextUser = game.Users
-                .SkipWhile(x => x.UserId != move.UserId)
+                .SkipWhile(x => x.Id != move.UserId)
                 .Skip(1)
                 .FirstOrDefault();
 
@@ -136,7 +107,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var gameUpdate = new GameUpdateData
             {
-                CurrentGameUserId = nextUser.Id,
+                CurrentUserId = nextUser.Id,
             };
             await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
         }

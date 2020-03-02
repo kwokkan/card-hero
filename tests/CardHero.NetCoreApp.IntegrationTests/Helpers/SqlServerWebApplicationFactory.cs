@@ -64,9 +64,19 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 context.GameDeck.Remove(item);
             }
 
+            foreach (var item in context.GameDeckCardCollection)
+            {
+                context.GameDeckCardCollection.Remove(item);
+            }
+
             foreach (var item in context.GameUser)
             {
                 context.GameUser.Remove(item);
+            }
+
+            foreach (var item in context.Move)
+            {
+                context.Move.Remove(item);
             }
 
             foreach (var item in context.Rarity)
@@ -77,6 +87,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
             foreach (var item in context.StoreItem)
             {
                 context.StoreItem.Remove(item);
+            }
+
+            foreach (var item in context.Turn)
+            {
+                context.Turn.Remove(item);
             }
 
             foreach (var item in context.User)
@@ -246,11 +261,32 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     context.Game.Add(new Game
                     {
                         Columns = d.Columns,
-                        CurrentGameUserFk = d.CurrentGameUserId,
+                        CurrentUserFk = d.CurrentUserId,
                         GamePk = d.Id,
                         MaxPlayers = d.MaxPlayers,
                         Rows = d.Rows,
-                        WinnerFk = d.WinnerId,
+                        WinnerUserFk = d.WinnerUserId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params GameDeckCardCollectionData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.GameDeckCardCollection.Add(new GameDeckCardCollection
+                    {
+                        CardFk = d.CardId,
+                        GameDeckCardCollectionPk = d.Id,
+                        GameDeckFk = d.GameDeckId,
                     });
                 }
 
@@ -293,6 +329,51 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameFk = d.GameId,
                         GameUserPk = d.Id,
                         UserFk = d.UserId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params MoveData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Move.Add(new Move
+                    {
+                        Column = d.Column,
+                        GameDeckCardCollectionFk = d.GameDeckCardCollectionId,
+                        Row = d.Row,
+                        TurnFk = d.TurnId,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params TurnData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Turn.Add(new Turn
+                    {
+                        CurrentGameUserFk = d.CurrentGameUserId,
+                        EndTime = d.EndTime,
+                        GameFk = d.GameId,
+                        StartTime = d.StartTime,
+                        TurnPk = d.Id,
                     });
                 }
 

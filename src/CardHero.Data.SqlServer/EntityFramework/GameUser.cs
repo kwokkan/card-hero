@@ -7,9 +7,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
     {
         public GameUser()
         {
-            GameCurrentGameUserFkNavigation = new HashSet<Game>();
             GameDeck = new HashSet<GameDeck>();
-            GameWinnerFkNavigation = new HashSet<Game>();
             Turn = new HashSet<Turn>();
         }
 
@@ -22,9 +20,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
         public virtual Game GameFkNavigation { get; set; }
         public virtual User UserFkNavigation { get; set; }
-        public virtual ICollection<Game> GameCurrentGameUserFkNavigation { get; set; }
         public virtual ICollection<GameDeck> GameDeck { get; set; }
-        public virtual ICollection<Game> GameWinnerFkNavigation { get; set; }
         public virtual ICollection<Turn> Turn { get; set; }
     }
 }

@@ -16,18 +16,18 @@ namespace CardHero.Data.SqlServer
 
         private readonly CardHeroDataDbContext _context;
         private readonly IMapper<Game, GameData> _gameMapper;
-        private readonly IMapper<GameUser, GameUserData> _gameUserMapper;
+        private readonly IMapper<User, UserData> _userMapper;
 
         public GameRepository(
             CardHeroDataDbContext context,
             IMapper<Game, GameData> gameMapper,
-            IMapper<GameUser, GameUserData> gameUseMapper
+            IMapper<User, UserData> userMapper
         )
         {
             _context = context;
 
             _gameMapper = gameMapper;
-            _gameUserMapper = gameUseMapper;
+            _userMapper = userMapper;
         }
 
         private async Task<SearchResult<GameData>> FindGamesInternalAsync(GameSearchFilter filter, CancellationToken cancellationToken)
@@ -80,7 +80,6 @@ namespace CardHero.Data.SqlServer
             {
                 Columns = game.Columns,
                 GameTypeFk = (int)game.Type,
-                Name = game.Name,
                 Rows = game.Rows,
                 StartTime = DateTime.UtcNow,
             };
@@ -102,31 +101,13 @@ namespace CardHero.Data.SqlServer
             return GetGameByIdInternalAsync(id, cancellationToken);
         }
 
-        async Task<GameUserData[]> IGameRepository.GetGameUsersAsync(int gameId, CancellationToken cancellationToken)
+        async Task<UserData[]> IGameRepository.GetGameUsersAsync(int gameId, CancellationToken cancellationToken)
         {
             var result = await _context
                 .GameUser
+                .Include(x => x.UserFkNavigation)
                 .Where(x => x.GameFk == gameId)
-                .Select(x => _gameUserMapper.Map(x))
-                .ToArrayAsync(cancellationToken: cancellationToken);
-
-            return result;
-        }
-
-        async Task<MoveData[]> IGameRepository.GetMovesByGameIdAsync(int gameId, CancellationToken cancellationToken)
-        {
-            var result = await _context
-                .Move
-                .Include(x => x.TurnFkNavigation)
-                .Where(x => x.TurnFkNavigation.GameFk == gameId)
-                .Select(x => new MoveData
-                {
-                    GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
-                    Column = x.Column,
-                    GameId = x.TurnFkNavigation.GameFk,
-                    Row = x.Row,
-                    GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
-                })
+                .Select(x => _userMapper.Map(x.UserFkNavigation))
                 .ToArrayAsync(cancellationToken: cancellationToken);
 
             return result;
@@ -141,14 +122,14 @@ namespace CardHero.Data.SqlServer
                 throw new CardHeroDataException($"Game { id } does not exist.");
             }
 
-            if (update.CurrentGameUserId.IsSet)
+            if (update.CurrentUserId.IsSet)
             {
-                existingGame.CurrentGameUserFk = update.CurrentGameUserId.Value;
+                existingGame.CurrentUserFk = update.CurrentUserId.Value;
             }
 
-            if (update.WinnerId.IsSet)
+            if (update.WinnerUserId.IsSet)
             {
-                existingGame.WinnerFk = update.WinnerId.Value;
+                existingGame.WinnerUserFk = update.WinnerUserId.Value;
             }
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);

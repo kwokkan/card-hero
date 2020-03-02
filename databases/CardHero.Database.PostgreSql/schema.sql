@@ -16,8 +16,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-SET default_tablespace = '';
-
 SET default_table_access_method = heap;
 
 --
@@ -309,11 +307,10 @@ ALTER SEQUENCE public."Deck_Rowstamp_seq" OWNED BY public."Deck"."Rowstamp";
 CREATE TABLE public."Game" (
     "Game_PK" integer NOT NULL,
     "Rowstamp" integer NOT NULL,
-    "Name" character varying(100),
     "StartTime" timestamp with time zone DEFAULT now() NOT NULL,
     "EndTime" timestamp with time zone,
-    "CurrentGameUser_FK" integer,
-    "Winner_FK" integer,
+    "CurrentUser_FK" integer,
+    "WinnerUser_FK" integer,
     "Rows" integer DEFAULT 3 NOT NULL,
     "Columns" integer DEFAULT 3 NOT NULL,
     "GameType_FK" integer DEFAULT 1 NOT NULL,
@@ -1044,10 +1041,10 @@ CREATE INDEX "IX_GameUser_User_FK" ON public."GameUser" USING btree ("User_FK");
 
 
 --
--- Name: IX_Game_CurrentGameUser_FK; Type: INDEX; Schema: public; Owner: -
+-- Name: IX_Game_CurrentUser_FK; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "IX_Game_CurrentGameUser_FK" ON public."Game" USING btree ("CurrentGameUser_FK");
+CREATE INDEX "IX_Game_CurrentUser_FK" ON public."Game" USING btree ("CurrentUser_FK");
 
 
 --
@@ -1058,10 +1055,10 @@ CREATE INDEX "IX_Game_GameType_FK" ON public."Game" USING btree ("GameType_FK");
 
 
 --
--- Name: IX_Game_Winner_FK; Type: INDEX; Schema: public; Owner: -
+-- Name: IX_Game_WinnerUser_FK; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "IX_Game_Winner_FK" ON public."Game" USING btree ("Winner_FK");
+CREATE INDEX "IX_Game_WinnerUser_FK" ON public."Game" USING btree ("WinnerUser_FK");
 
 
 --
@@ -1245,15 +1242,15 @@ ALTER TABLE ONLY public."GameUser"
 --
 
 ALTER TABLE ONLY public."Game"
-    ADD CONSTRAINT "FK_Game_CurrentUser_FK" FOREIGN KEY ("CurrentGameUser_FK") REFERENCES public."GameUser"("GameUser_PK") ON DELETE RESTRICT;
+    ADD CONSTRAINT "FK_Game_CurrentUser_FK" FOREIGN KEY ("CurrentUser_FK") REFERENCES public."User"("User_PK") ON DELETE RESTRICT;
 
 
 --
--- Name: Game FK_Game_Winner_FK; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: Game FK_Game_WinnerUser_FK; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Game"
-    ADD CONSTRAINT "FK_Game_Winner_FK" FOREIGN KEY ("Winner_FK") REFERENCES public."GameUser"("GameUser_PK") ON DELETE RESTRICT;
+    ADD CONSTRAINT "FK_Game_WinnerUser_FK" FOREIGN KEY ("WinnerUser_FK") REFERENCES public."User"("User_PK") ON DELETE RESTRICT;
 
 
 --

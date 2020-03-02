@@ -92,7 +92,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             var game = new GameCreateModel
             {
                 DeckId = model.DeckId,
-                Name = model.Name,
                 Type = model.Type,
                 Users = new UserModel[] { new UserModel { Id = userId } },
             };
@@ -103,13 +102,14 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost("{id:int}/join")]
-        public async Task<ActionResult<GameUserModel>> Join(int id, [FromBody]JoinGameViewModel model, CancellationToken cancellationToken = default)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> Join(int id, [FromBody]JoinGameViewModel model, CancellationToken cancellationToken = default)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
 
-            var result = await _gameService.AddUserToGameAsync(id, user.Id, model.DeckId, cancellationToken: cancellationToken);
+            await _gameService.AddUserToGameAsync(id, user.Id, model.DeckId, cancellationToken: cancellationToken);
 
-            return result;
+            return Ok();
         }
 
         [HttpPost("{id:int}/move")]
