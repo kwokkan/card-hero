@@ -6,7 +6,7 @@
     [CurrentGameUser_FK] INT           NOT NULL,
     [Game_FK]            INT           NOT NULL,
     CONSTRAINT [PK_Turn] PRIMARY KEY CLUSTERED ([Turn_PK] ASC),
-    CONSTRAINT [FK_Turn_CurrentUser_FK] FOREIGN KEY ([CurrentGameUser_FK]) REFERENCES [dbo].[GameUser] ([GameUser_PK]),
+    CONSTRAINT [FK_Turn_CurrentGameUser_FK] FOREIGN KEY ([CurrentGameUser_FK]) REFERENCES [dbo].[GameUser] ([GameUser_PK]),
     CONSTRAINT [FK_Turn_Game_FK] FOREIGN KEY ([Game_FK]) REFERENCES [dbo].[Game] ([Game_PK])
 );
 

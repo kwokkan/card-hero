@@ -1284,20 +1284,6 @@
               }
             ]
           },
-          "deckId": {
-            "type": "integer",
-            "description": "Deck id.",
-            "format": "int32"
-          },
-          "deck": {
-            "description": "Deck.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/DeckModel"
-              }
-            ]
-          },
           "gameDeckId": {
             "type": "integer",
             "description": "Game deck id.",
@@ -1503,11 +1489,6 @@
             "items": {
               "$ref": "#/components/schemas/UserModel"
             }
-          },
-          "currentGameUserId": {
-            "type": "integer",
-            "description": "Current game user id.",
-            "format": "int32"
           },
           "maxPlayers": {
             "type": "integer",

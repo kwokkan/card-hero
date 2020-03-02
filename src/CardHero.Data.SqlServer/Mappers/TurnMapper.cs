@@ -11,7 +11,7 @@ namespace CardHero.Data.SqlServer
         {
             return new TurnData
             {
-                CurrentGameUserId = from.CurrentGameUserFk,
+                CurrentUserId = from.CurrentGameUserFk,
                 EndTime = from.EndTime,
                 GameId = from.GameFk,
                 Id = from.TurnPk,

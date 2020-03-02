@@ -54,16 +54,6 @@ namespace CardHero.Core.Models
         public GameType Type { get; set; }
 
         /// <summary>
-        /// Deck id.
-        /// </summary>
-        public int DeckId { get; set; }
-
-        /// <summary>
-        /// Deck.
-        /// </summary>
-        public DeckModel Deck { get; set; }
-
-        /// <summary>
         /// Game deck id.
         /// </summary>
         public int GameDeckId { get; set; }

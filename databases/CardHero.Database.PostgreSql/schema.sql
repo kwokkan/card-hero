@@ -1278,11 +1278,11 @@ ALTER TABLE ONLY public."StoreItem"
 
 
 --
--- Name: Turn FK_Turn_CurrentUser_FK; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: Turn FK_Turn_CurrentGameUser_FK; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Turn"
-    ADD CONSTRAINT "FK_Turn_CurrentUser_FK" FOREIGN KEY ("CurrentGameUser_FK") REFERENCES public."GameUser"("GameUser_PK") ON DELETE RESTRICT;
+    ADD CONSTRAINT "FK_Turn_CurrentGameUser_FK" FOREIGN KEY ("CurrentGameUser_FK") REFERENCES public."GameUser"("GameUser_PK") ON DELETE RESTRICT;
 
 
 --

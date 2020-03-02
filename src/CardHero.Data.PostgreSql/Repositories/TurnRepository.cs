@@ -27,11 +27,23 @@ namespace CardHero.Data.PostgreSql
             _turnMapper = turnMapper;
         }
 
+        private async Task<int> GetGameUserIdAsync(int gameId, int userId, CancellationToken cancellationToken = default)
+        {
+            var gameUser = await _context
+                .GameUser
+                .SingleAsync(x => x.GameFk == gameId && x.UserFk == userId, cancellationToken: cancellationToken)
+            ;
+
+            return gameUser.GameUserPk;
+        }
+
         async Task<TurnData> ITurnRepository.AddTurnAsync(TurnData turn, CancellationToken cancellationToken)
         {
+            var gameUserId = await GetGameUserIdAsync(turn.GameId, turn.CurrentUserId, cancellationToken: cancellationToken);
+
             var newTurn = new Turn
             {
-                CurrentGameUserFk = turn.CurrentGameUserId,
+                CurrentGameUserFk = gameUserId,
                 GameFk = turn.GameId,
                 StartTime = DateTime.UtcNow,
             };

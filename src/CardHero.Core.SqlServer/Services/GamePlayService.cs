@@ -98,7 +98,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var newTurn = new TurnData
             {
-                CurrentGameUserId = nextUser.Id,
+                CurrentUserId = nextUser.Id,
                 GameId = game.Id,
                 StartTime = DateTime.UtcNow,
             };

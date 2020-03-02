@@ -163,7 +163,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
                     }
@@ -244,7 +244,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
                     }
@@ -340,7 +340,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 802,
+                        CurrentUserId = 2,
                         EndTime = DateTime.UtcNow.AddSeconds(-10),
                         GameId = 701,
                         Id = 1101,
@@ -453,7 +453,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 802,
+                        CurrentUserId = 2,
                         EndTime = DateTime.UtcNow.AddMinutes(-5),
                         GameId = 701,
                         Id = 1101,
@@ -461,7 +461,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     },
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         Id = 1102,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),

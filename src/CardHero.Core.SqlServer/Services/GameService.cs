@@ -114,7 +114,7 @@ namespace CardHero.Core.SqlServer.Services
 
                 var newTurn = new TurnData
                 {
-                    CurrentGameUserId = currentUserId,
+                    CurrentUserId = currentUserId,
                     GameId = game.Id,
                 };
                 await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
