@@ -1,5 +1,5 @@
 ﻿{
-  "x-generator": "NSwag v13.2.3.0 (NJsonSchema v10.1.5.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.2.5.0 (NJsonSchema v10.1.7.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "Card Hero API",
@@ -951,7 +951,6 @@
     "schemas": {
       "UserModel": {
         "type": "object",
-        "description": "User.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1005,7 +1004,6 @@
       },
       "CardModel": {
         "type": "object",
-        "description": "Card.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1079,7 +1077,7 @@
       },
       "Rarity": {
         "type": "integer",
-        "description": "Rarity.",
+        "description": "",
         "x-enumNames": [
           "Common",
           "Uncommon",
@@ -1097,7 +1095,6 @@
       },
       "CardPackModel": {
         "type": "object",
-        "description": "Card pack.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1119,7 +1116,6 @@
       },
       "CardCollectionModel": {
         "type": "object",
-        "description": "Card collection.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1150,7 +1146,6 @@
       },
       "DeckModel": {
         "type": "object",
-        "description": "Deck.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1189,7 +1184,6 @@
       },
       "DeckCardModel": {
         "type": "object",
-        "description": "Deck caard.",
         "additionalProperties": false,
         "properties": {
           "cardCollectionId": {
@@ -1210,7 +1204,6 @@
       },
       "DeckCreateModel": {
         "type": "object",
-        "description": "Model for creating a new deck.",
         "additionalProperties": false,
         "properties": {
           "name": {
@@ -1227,7 +1220,6 @@
       },
       "GameModel": {
         "type": "object",
-        "description": "Game.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1315,7 +1307,7 @@
       },
       "GameType": {
         "type": "integer",
-        "description": "Type of game.",
+        "description": "",
         "x-enumNames": [
           "Standard"
         ],
@@ -1325,7 +1317,6 @@
       },
       "GameDeckModel": {
         "type": "object",
-        "description": "Deck for use within a game.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1360,7 +1351,6 @@
       },
       "GameDeckCardCollectionModel": {
         "type": "object",
-        "description": "Card to use within a game deck.",
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -1466,7 +1456,6 @@
       },
       "GameCreateModel": {
         "type": "object",
-        "description": "Model for creating a new game.",
         "additionalProperties": false,
         "properties": {
           "type": {
@@ -1519,7 +1508,6 @@
       },
       "StoreItemModel": {
         "type": "object",
-        "description": "Store item.",
         "additionalProperties": false,
         "properties": {
           "id": {
