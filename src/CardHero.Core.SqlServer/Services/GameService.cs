@@ -21,10 +21,7 @@ namespace CardHero.Core.SqlServer.Services
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
-        private readonly IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> _gameDeckCardCollectionMapper;
-        private readonly IDataMapper<GameDeckData, GameDeckModel> _gameDeckMapper;
 
-        private readonly ICardService _cardService;
         private readonly IGameDataService _gameDataService;
 
         public GameService(
@@ -35,9 +32,6 @@ namespace CardHero.Core.SqlServer.Services
             ITurnRepository turnRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
-            IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
-            IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
-            ICardService cardService,
             IGameDataService gameDataService
         )
         {
@@ -50,10 +44,7 @@ namespace CardHero.Core.SqlServer.Services
 
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
-            _gameDeckCardCollectionMapper = gameDeckCardCollectionMapper;
-            _gameDeckMapper = gameDeckMapper;
 
-            _cardService = cardService;
             _gameDataService = gameDataService;
         }
 
@@ -161,29 +152,6 @@ namespace CardHero.Core.SqlServer.Services
             if (userId.HasValue)
             {
                 await _gameDataService.PopulateGameUsersAsync(game, cancellationToken: cancellationToken);
-                var uid = game.UserIds.SingleOrDefault(x => x == userId.Value);
-
-                if (uid != default)
-                {
-                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameAndUserIdAsync(id, uid, cancellationToken: cancellationToken);
-                    var deckCards = await _gameDeckRepository.GetGameDeckCardCollectionAsync(gameDeck.Id, cancellationToken: cancellationToken);
-
-                    game.GameDeckId = gameDeck.Id;
-                    game.GameDeck = _gameDeckMapper.Map(gameDeck);
-                    game.GameDeck.CardCollection = deckCards.Select(_gameDeckCardCollectionMapper.Map).ToArray();
-
-                    //TODO: Replace with data layer
-                    var cardFilter = new Abstractions.CardSearchFilter
-                    {
-                        Ids = deckCards.Select(x => x.CardId).ToArray(),
-                    };
-                    var cards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
-
-                    foreach (var cc in game.GameDeck.CardCollection)
-                    {
-                        cc.Card = cards.Results.SingleOrDefault(x => x.Id == cc.CardId);
-                    }
-                }
             }
 
             return game;

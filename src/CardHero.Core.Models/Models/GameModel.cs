@@ -54,16 +54,6 @@ namespace CardHero.Core.Models
         public GameType Type { get; set; }
 
         /// <summary>
-        /// Game deck id.
-        /// </summary>
-        public int GameDeckId { get; set; }
-
-        /// <summary>
-        /// Game deck.
-        /// </summary>
-        public GameDeckModel GameDeck { get; set; }
-
-        /// <summary>
         /// Maximum number of people who can play the game.
         /// </summary>
         public int MaxUsers { get; set; } = 2;

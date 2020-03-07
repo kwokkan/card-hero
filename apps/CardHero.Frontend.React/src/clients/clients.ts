@@ -1445,10 +1445,6 @@ export class GameModel implements IGameModel {
     rows?: number;
     /** Game type. */
     type?: GameType;
-    /** Game deck id. */
-    gameDeckId?: number;
-    /** Game deck. */
-    gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
 
@@ -1476,8 +1472,6 @@ export class GameModel implements IGameModel {
             this.columns = _data["columns"];
             this.rows = _data["rows"];
             this.type = _data["type"];
-            this.gameDeckId = _data["gameDeckId"];
-            this.gameDeck = _data["gameDeck"] ? GameDeckModel.fromJS(_data["gameDeck"]) : <any>undefined;
             this.maxUsers = _data["maxUsers"];
         }
     }
@@ -1504,8 +1498,6 @@ export class GameModel implements IGameModel {
         data["columns"] = this.columns;
         data["rows"] = this.rows;
         data["type"] = this.type;
-        data["gameDeckId"] = this.gameDeckId;
-        data["gameDeck"] = this.gameDeck ? this.gameDeck.toJSON() : <any>undefined;
         data["maxUsers"] = this.maxUsers;
         return data; 
     }
@@ -1530,16 +1522,158 @@ export interface IGameModel {
     rows?: number;
     /** Game type. */
     type?: GameType;
-    /** Game deck id. */
-    gameDeckId?: number;
-    /** Game deck. */
-    gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
 }
 
 export enum GameType {
     Standard = 1,
+}
+
+export class GamePlayModel implements IGamePlayModel {
+    /** Game. */
+    game?: GameModel | undefined;
+    /** Cards played in game. */
+    playedCards?: CardModel[] | undefined;
+    /** Moves played in game. */
+    moves?: MoveModel[] | undefined;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Game deck. */
+    gameDeck?: GameDeckModel | undefined;
+
+    constructor(data?: IGamePlayModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.game = _data["game"] ? GameModel.fromJS(_data["game"]) : <any>undefined;
+            if (Array.isArray(_data["playedCards"])) {
+                this.playedCards = [] as any;
+                for (let item of _data["playedCards"])
+                    this.playedCards!.push(CardModel.fromJS(item));
+            }
+            if (Array.isArray(_data["moves"])) {
+                this.moves = [] as any;
+                for (let item of _data["moves"])
+                    this.moves!.push(MoveModel.fromJS(item));
+            }
+            this.gameDeckId = _data["gameDeckId"];
+            this.gameDeck = _data["gameDeck"] ? GameDeckModel.fromJS(_data["gameDeck"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GamePlayModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GamePlayModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["game"] = this.game ? this.game.toJSON() : <any>undefined;
+        if (Array.isArray(this.playedCards)) {
+            data["playedCards"] = [];
+            for (let item of this.playedCards)
+                data["playedCards"].push(item.toJSON());
+        }
+        if (Array.isArray(this.moves)) {
+            data["moves"] = [];
+            for (let item of this.moves)
+                data["moves"].push(item.toJSON());
+        }
+        data["gameDeckId"] = this.gameDeckId;
+        data["gameDeck"] = this.gameDeck ? this.gameDeck.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGamePlayModel {
+    /** Game. */
+    game?: GameModel | undefined;
+    /** Cards played in game. */
+    playedCards?: CardModel[] | undefined;
+    /** Moves played in game. */
+    moves?: MoveModel[] | undefined;
+    /** Game deck id. */
+    gameDeckId?: number;
+    /** Game deck. */
+    gameDeck?: GameDeckModel | undefined;
+}
+
+export class MoveModel implements IMoveModel {
+    /** The game to make a move on. */
+    gameId?: number;
+    /** The card id played. */
+    cardId?: number;
+    /** The card to play. */
+    gameDeckCardCollectionId?: number;
+    /** Zero based index of the row. */
+    row?: number;
+    /** Zero based index of the column. */
+    column?: number;
+    /** The user making the move. */
+    userId?: number;
+
+    constructor(data?: IMoveModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.gameId = _data["gameId"];
+            this.cardId = _data["cardId"];
+            this.gameDeckCardCollectionId = _data["gameDeckCardCollectionId"];
+            this.row = _data["row"];
+            this.column = _data["column"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): MoveModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new MoveModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gameId"] = this.gameId;
+        data["cardId"] = this.cardId;
+        data["gameDeckCardCollectionId"] = this.gameDeckCardCollectionId;
+        data["row"] = this.row;
+        data["column"] = this.column;
+        data["userId"] = this.userId;
+        return data; 
+    }
+}
+
+export interface IMoveModel {
+    /** The game to make a move on. */
+    gameId?: number;
+    /** The card id played. */
+    cardId?: number;
+    /** The card to play. */
+    gameDeckCardCollectionId?: number;
+    /** Zero based index of the row. */
+    row?: number;
+    /** Zero based index of the column. */
+    column?: number;
+    /** The user making the move. */
+    userId?: number;
 }
 
 export class GameDeckModel implements IGameDeckModel {
@@ -1666,140 +1800,6 @@ export interface IGameDeckCardCollectionModel {
     cardId?: number;
     /** Card. */
     card?: CardModel | undefined;
-}
-
-export class GamePlayModel implements IGamePlayModel {
-    /** Game. */
-    game?: GameModel | undefined;
-    /** Cards played in game. */
-    playedCards?: CardModel[] | undefined;
-    /** Moves played in game. */
-    moves?: MoveModel[] | undefined;
-
-    constructor(data?: IGamePlayModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.game = _data["game"] ? GameModel.fromJS(_data["game"]) : <any>undefined;
-            if (Array.isArray(_data["playedCards"])) {
-                this.playedCards = [] as any;
-                for (let item of _data["playedCards"])
-                    this.playedCards!.push(CardModel.fromJS(item));
-            }
-            if (Array.isArray(_data["moves"])) {
-                this.moves = [] as any;
-                for (let item of _data["moves"])
-                    this.moves!.push(MoveModel.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): GamePlayModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new GamePlayModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["game"] = this.game ? this.game.toJSON() : <any>undefined;
-        if (Array.isArray(this.playedCards)) {
-            data["playedCards"] = [];
-            for (let item of this.playedCards)
-                data["playedCards"].push(item.toJSON());
-        }
-        if (Array.isArray(this.moves)) {
-            data["moves"] = [];
-            for (let item of this.moves)
-                data["moves"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IGamePlayModel {
-    /** Game. */
-    game?: GameModel | undefined;
-    /** Cards played in game. */
-    playedCards?: CardModel[] | undefined;
-    /** Moves played in game. */
-    moves?: MoveModel[] | undefined;
-}
-
-export class MoveModel implements IMoveModel {
-    /** The game to make a move on. */
-    gameId?: number;
-    /** The card id played. */
-    cardId?: number;
-    /** The card to play. */
-    gameDeckCardCollectionId?: number;
-    /** Zero based index of the row. */
-    row?: number;
-    /** Zero based index of the column. */
-    column?: number;
-    /** The user making the move. */
-    userId?: number;
-
-    constructor(data?: IMoveModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.gameId = _data["gameId"];
-            this.cardId = _data["cardId"];
-            this.gameDeckCardCollectionId = _data["gameDeckCardCollectionId"];
-            this.row = _data["row"];
-            this.column = _data["column"];
-            this.userId = _data["userId"];
-        }
-    }
-
-    static fromJS(data: any): MoveModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new MoveModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["gameId"] = this.gameId;
-        data["cardId"] = this.cardId;
-        data["gameDeckCardCollectionId"] = this.gameDeckCardCollectionId;
-        data["row"] = this.row;
-        data["column"] = this.column;
-        data["userId"] = this.userId;
-        return data; 
-    }
-}
-
-export interface IMoveModel {
-    /** The game to make a move on. */
-    gameId?: number;
-    /** The card id played. */
-    cardId?: number;
-    /** The card to play. */
-    gameDeckCardCollectionId?: number;
-    /** Zero based index of the row. */
-    row?: number;
-    /** Zero based index of the column. */
-    column?: number;
-    /** The user making the move. */
-    userId?: number;
 }
 
 export class GameCreateModel implements IGameCreateModel {

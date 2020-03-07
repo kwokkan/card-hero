@@ -49,7 +49,7 @@ export class Game extends Component<IGameProps, IGameState> {
             if (this.state.lastUpdate < lastActivity) {
                 this.setState({
                     game: game,
-                    gameDeck: game.game.gameDeck,
+                    gameDeck: game.gameDeck,
                     lastUpdate: lastActivity
                 });
             }

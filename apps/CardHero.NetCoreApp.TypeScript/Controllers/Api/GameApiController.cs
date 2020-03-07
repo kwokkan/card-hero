@@ -50,7 +50,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         public async Task<ActionResult<GamePlayModel>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var userId = (await GetUserAsync(cancellationToken: cancellationToken))?.Id;
-            var game = await _gameService.GetGameByIdAsync(id, userId, cancellationToken: cancellationToken);
+            var gamePlay = await _gamePlayService.GetGamePlayByIdAsync(id, userId, cancellationToken: cancellationToken);
             var moves = await _moveService.GetMovesAsync(id, cancellationToken: cancellationToken);
 
             var cardFilter = new CardSearchFilter
@@ -59,20 +59,17 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             };
             var playedCards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
 
-            var model = new GamePlayModel
+            gamePlay.Moves = moves.Select(x => new MoveModel
             {
-                Game = game,
-                Moves = moves.Select(x => new MoveModel
-                {
-                    CardId = x.CardId,
-                    GameDeckCardCollectionId = x.GameDeckCardCollectionId,
-                    Column = x.Column,
-                    Row = x.Row,
-                }).ToList(),
-                PlayedCards = Array.AsReadOnly(playedCards.Results),
-            };
+                CardId = x.CardId,
+                GameDeckCardCollectionId = x.GameDeckCardCollectionId,
+                Column = x.Column,
+                Row = x.Row,
+            }).ToList();
 
-            return model;
+            gamePlay.PlayedCards = Array.AsReadOnly(playedCards.Results);
+
+            return gamePlay;
         }
 
         [HttpPost]

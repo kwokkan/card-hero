@@ -1277,20 +1277,6 @@
               }
             ]
           },
-          "gameDeckId": {
-            "type": "integer",
-            "description": "Game deck id.",
-            "format": "int32"
-          },
-          "gameDeck": {
-            "description": "Game deck.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GameDeckModel"
-              }
-            ]
-          },
           "maxUsers": {
             "type": "integer",
             "description": "Maximum number of people who can play the game.",
@@ -1307,6 +1293,87 @@
         "enum": [
           1
         ]
+      },
+      "GamePlayModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "game": {
+            "description": "Game.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameModel"
+              }
+            ]
+          },
+          "playedCards": {
+            "type": "array",
+            "description": "Cards played in game.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CardModel"
+            }
+          },
+          "moves": {
+            "type": "array",
+            "description": "Moves played in game.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MoveModel"
+            }
+          },
+          "gameDeckId": {
+            "type": "integer",
+            "description": "Game deck id.",
+            "format": "int32"
+          },
+          "gameDeck": {
+            "description": "Game deck.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameDeckModel"
+              }
+            ]
+          }
+        }
+      },
+      "MoveModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "description": "The game to make a move on.",
+            "format": "int32"
+          },
+          "cardId": {
+            "type": "integer",
+            "description": "The card id played.",
+            "format": "int32"
+          },
+          "gameDeckCardCollectionId": {
+            "type": "integer",
+            "description": "The card to play.",
+            "format": "int32"
+          },
+          "row": {
+            "type": "integer",
+            "description": "Zero based index of the row.",
+            "format": "int32"
+          },
+          "column": {
+            "type": "integer",
+            "description": "Zero based index of the column.",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The user making the move.",
+            "format": "int32"
+          }
+        }
       },
       "GameDeckModel": {
         "type": "object",
@@ -1369,73 +1436,6 @@
                 "$ref": "#/components/schemas/CardModel"
               }
             ]
-          }
-        }
-      },
-      "GamePlayModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "game": {
-            "description": "Game.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GameModel"
-              }
-            ]
-          },
-          "playedCards": {
-            "type": "array",
-            "description": "Cards played in game.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/CardModel"
-            }
-          },
-          "moves": {
-            "type": "array",
-            "description": "Moves played in game.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/MoveModel"
-            }
-          }
-        }
-      },
-      "MoveModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "gameId": {
-            "type": "integer",
-            "description": "The game to make a move on.",
-            "format": "int32"
-          },
-          "cardId": {
-            "type": "integer",
-            "description": "The card id played.",
-            "format": "int32"
-          },
-          "gameDeckCardCollectionId": {
-            "type": "integer",
-            "description": "The card to play.",
-            "format": "int32"
-          },
-          "row": {
-            "type": "integer",
-            "description": "Zero based index of the row.",
-            "format": "int32"
-          },
-          "column": {
-            "type": "integer",
-            "description": "Zero based index of the column.",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "integer",
-            "description": "The user making the move.",
-            "format": "int32"
           }
         }
       },

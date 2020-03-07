@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,18 +13,15 @@ namespace CardHero.Core.SqlServer.DataServices
         private readonly IGameRepository _gameRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
-        private readonly IDataMapper<UserData, UserModel> _userMapper;
 
         public GameDataService(
             IGameRepository gameRepository,
-            IDataMapper<GameData, GameModel> gameMapper,
-            IDataMapper<UserData, UserModel> userMapper
+            IDataMapper<GameData, GameModel> gameMapper
         )
         {
             _gameRepository = gameRepository;
 
             _gameMapper = gameMapper;
-            _userMapper = userMapper;
         }
 
         private async Task PopulateGameUsersInternalAsync(GameModel game, CancellationToken cancellationToken = default)
