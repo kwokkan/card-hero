@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import { ICardModel, IGameDataViewModel, IGameMoveViewModel, IGameViewModel } from "../../clients/clients";
+import { ICardModel, IGameMoveViewModel, IGameViewModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
@@ -43,7 +43,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         }
     }
 
-    private getGameGrid(data: IGameDataViewModel): JSX.Element[] {
+    private getGameGrid(data: IGameViewModel): JSX.Element[] {
         if (!data) {
             return null;
         }
@@ -84,8 +84,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
             return GameBoard.nullGameBoard;
         }
 
-        const data = game.data;
-        const grid = this.getGameGrid(data);
+        const grid = this.getGameGrid(game);
 
         return (
             <div id="current-game" className="card-text ch-cards game-cards" data-game-id={this.props.game.id}>

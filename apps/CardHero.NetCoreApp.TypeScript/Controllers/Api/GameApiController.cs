@@ -61,7 +61,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
             var data = new GameDataViewModel
             {
-                Columns = game.Columns,
                 Moves = moves.Select(x => new GameMoveViewModel
                 {
                     CardId = x.CardId,
@@ -70,7 +69,6 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
                     Row = x.Row,
                 }).ToList(),
                 PlayedCards = Array.AsReadOnly(playedCards.Results),
-                Rows = game.Rows,
             };
 
             var model = new GameViewModel(game)

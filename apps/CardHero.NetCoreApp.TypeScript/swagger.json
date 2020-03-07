@@ -1408,14 +1408,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "rows": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "columns": {
-            "type": "integer",
-            "format": "int32"
-          },
           "moves": {
             "type": "array",
             "nullable": true,

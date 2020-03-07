@@ -1718,8 +1718,6 @@ export interface IGameViewModel extends IGameModel {
 }
 
 export class GameDataViewModel implements IGameDataViewModel {
-    rows?: number;
-    columns?: number;
     moves?: GameMoveViewModel[] | undefined;
     playedCards?: CardModel[] | undefined;
 
@@ -1734,8 +1732,6 @@ export class GameDataViewModel implements IGameDataViewModel {
 
     init(_data?: any) {
         if (_data) {
-            this.rows = _data["rows"];
-            this.columns = _data["columns"];
             if (Array.isArray(_data["moves"])) {
                 this.moves = [] as any;
                 for (let item of _data["moves"])
@@ -1758,8 +1754,6 @@ export class GameDataViewModel implements IGameDataViewModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["rows"] = this.rows;
-        data["columns"] = this.columns;
         if (Array.isArray(this.moves)) {
             data["moves"] = [];
             for (let item of this.moves)
@@ -1775,8 +1769,6 @@ export class GameDataViewModel implements IGameDataViewModel {
 }
 
 export interface IGameDataViewModel {
-    rows?: number;
-    columns?: number;
     moves?: GameMoveViewModel[] | undefined;
     playedCards?: CardModel[] | undefined;
 }
