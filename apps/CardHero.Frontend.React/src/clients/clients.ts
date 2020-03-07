@@ -1451,10 +1451,6 @@ export class GameModel implements IGameModel {
     gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
-    /** Whether a user can join this game. */
-    canJoin?: boolean;
-    /** Whether the user can make their move. */
-    canPlay?: boolean;
 
     constructor(data?: IGameModel) {
         if (data) {
@@ -1483,8 +1479,6 @@ export class GameModel implements IGameModel {
             this.gameDeckId = _data["gameDeckId"];
             this.gameDeck = _data["gameDeck"] ? GameDeckModel.fromJS(_data["gameDeck"]) : <any>undefined;
             this.maxUsers = _data["maxUsers"];
-            this.canJoin = _data["canJoin"];
-            this.canPlay = _data["canPlay"];
         }
     }
 
@@ -1513,8 +1507,6 @@ export class GameModel implements IGameModel {
         data["gameDeckId"] = this.gameDeckId;
         data["gameDeck"] = this.gameDeck ? this.gameDeck.toJSON() : <any>undefined;
         data["maxUsers"] = this.maxUsers;
-        data["canJoin"] = this.canJoin;
-        data["canPlay"] = this.canPlay;
         return data; 
     }
 }
@@ -1544,10 +1536,6 @@ export interface IGameModel {
     gameDeck?: GameDeckModel | undefined;
     /** Maximum number of people who can play the game. */
     maxUsers?: number;
-    /** Whether a user can join this game. */
-    canJoin?: boolean;
-    /** Whether the user can make their move. */
-    canPlay?: boolean;
 }
 
 export enum GameType {

@@ -1294,14 +1294,6 @@
             "type": "integer",
             "description": "Maximum number of people who can play the game.",
             "format": "int32"
-          },
-          "canJoin": {
-            "type": "boolean",
-            "description": "Whether a user can join this game."
-          },
-          "canPlay": {
-            "type": "boolean",
-            "description": "Whether the user can make their move."
           }
         }
       },
