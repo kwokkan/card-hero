@@ -555,9 +555,8 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
 export interface IGameApiClient {
     get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
     post(model: GameCreateModel): Promise<GameModel>;
-    getById(id: number): Promise<GamePlayModel>;
+    getById(id: number): Promise<GameModel>;
     join(id: number, model: GameJoinModel): Promise<void>;
-    move(id: number, model: MoveModel): Promise<MoveModel>;
 }
 
 export class GameApiClient extends CardHeroApiClientBase implements IGameApiClient {
@@ -676,8 +675,106 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GameModel>(<any>null);
     }
 
-    getById(id: number): Promise<GamePlayModel> {
+    getById(id: number): Promise<GameModel> {
         let url_ = this.baseUrl + "/api/games/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetById(_response);
+        });
+    }
+
+    protected processGetById(response: Response): Promise<GameModel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GameModel.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ErrorViewModel.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GameModel>(<any>null);
+    }
+
+    join(id: number, model: GameJoinModel): Promise<void> {
+        let url_ = this.baseUrl + "/api/games/{id}/join";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processJoin(_response);
+        });
+    }
+
+    protected processJoin(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+}
+
+export interface IGamePlayApiClient {
+    getById(id: number): Promise<GamePlayModel>;
+    move(id: number, model: MoveModel): Promise<MoveModel>;
+}
+
+export class GamePlayApiClient extends CardHeroApiClientBase implements IGamePlayApiClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    getById(id: number): Promise<GamePlayModel> {
+        let url_ = this.baseUrl + "/api/play/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
@@ -720,45 +817,8 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GamePlayModel>(<any>null);
     }
 
-    join(id: number, model: GameJoinModel): Promise<void> {
-        let url_ = this.baseUrl + "/api/games/{id}/join";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processJoin(_response);
-        });
-    }
-
-    protected processJoin(response: Response): Promise<void> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            return;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<void>(<any>null);
-    }
-
     move(id: number, model: MoveModel): Promise<MoveModel> {
-        let url_ = this.baseUrl + "/api/games/{id}/move";
+        let url_ = this.baseUrl + "/api/play/{id}/move";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
@@ -1530,6 +1590,126 @@ export enum GameType {
     Standard = 1,
 }
 
+export class GameCreateModel implements IGameCreateModel {
+    /** Type of game. */
+    type?: GameType;
+    /** Deck to use. */
+    deckId?: number;
+    /** Users in game. */
+    users?: UserModel[] | undefined;
+    /** Max players in game. */
+    maxPlayers?: number;
+    /** Columns in game. */
+    columns?: number;
+    /** Rows in game. */
+    rows?: number;
+
+    constructor(data?: IGameCreateModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.type = _data["type"];
+            this.deckId = _data["deckId"];
+            if (Array.isArray(_data["users"])) {
+                this.users = [] as any;
+                for (let item of _data["users"])
+                    this.users!.push(UserModel.fromJS(item));
+            }
+            this.maxPlayers = _data["maxPlayers"];
+            this.columns = _data["columns"];
+            this.rows = _data["rows"];
+        }
+    }
+
+    static fromJS(data: any): GameCreateModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameCreateModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["deckId"] = this.deckId;
+        if (Array.isArray(this.users)) {
+            data["users"] = [];
+            for (let item of this.users)
+                data["users"].push(item.toJSON());
+        }
+        data["maxPlayers"] = this.maxPlayers;
+        data["columns"] = this.columns;
+        data["rows"] = this.rows;
+        return data; 
+    }
+}
+
+export interface IGameCreateModel {
+    /** Type of game. */
+    type?: GameType;
+    /** Deck to use. */
+    deckId?: number;
+    /** Users in game. */
+    users?: UserModel[] | undefined;
+    /** Max players in game. */
+    maxPlayers?: number;
+    /** Columns in game. */
+    columns?: number;
+    /** Rows in game. */
+    rows?: number;
+}
+
+export class GameJoinModel implements IGameJoinModel {
+    /** User joining. */
+    userId?: number;
+    /** Deck to use. */
+    deckId?: number;
+
+    constructor(data?: IGameJoinModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.deckId = _data["deckId"];
+        }
+    }
+
+    static fromJS(data: any): GameJoinModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new GameJoinModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["deckId"] = this.deckId;
+        return data; 
+    }
+}
+
+export interface IGameJoinModel {
+    /** User joining. */
+    userId?: number;
+    /** Deck to use. */
+    deckId?: number;
+}
+
 export class GamePlayModel implements IGamePlayModel {
     /** Game. */
     game?: GameModel | undefined;
@@ -1800,126 +1980,6 @@ export interface IGameDeckCardCollectionModel {
     cardId?: number;
     /** Card. */
     card?: CardModel | undefined;
-}
-
-export class GameCreateModel implements IGameCreateModel {
-    /** Type of game. */
-    type?: GameType;
-    /** Deck to use. */
-    deckId?: number;
-    /** Users in game. */
-    users?: UserModel[] | undefined;
-    /** Max players in game. */
-    maxPlayers?: number;
-    /** Columns in game. */
-    columns?: number;
-    /** Rows in game. */
-    rows?: number;
-
-    constructor(data?: IGameCreateModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.type = _data["type"];
-            this.deckId = _data["deckId"];
-            if (Array.isArray(_data["users"])) {
-                this.users = [] as any;
-                for (let item of _data["users"])
-                    this.users!.push(UserModel.fromJS(item));
-            }
-            this.maxPlayers = _data["maxPlayers"];
-            this.columns = _data["columns"];
-            this.rows = _data["rows"];
-        }
-    }
-
-    static fromJS(data: any): GameCreateModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new GameCreateModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["deckId"] = this.deckId;
-        if (Array.isArray(this.users)) {
-            data["users"] = [];
-            for (let item of this.users)
-                data["users"].push(item.toJSON());
-        }
-        data["maxPlayers"] = this.maxPlayers;
-        data["columns"] = this.columns;
-        data["rows"] = this.rows;
-        return data; 
-    }
-}
-
-export interface IGameCreateModel {
-    /** Type of game. */
-    type?: GameType;
-    /** Deck to use. */
-    deckId?: number;
-    /** Users in game. */
-    users?: UserModel[] | undefined;
-    /** Max players in game. */
-    maxPlayers?: number;
-    /** Columns in game. */
-    columns?: number;
-    /** Rows in game. */
-    rows?: number;
-}
-
-export class GameJoinModel implements IGameJoinModel {
-    /** User joining. */
-    userId?: number;
-    /** Deck to use. */
-    deckId?: number;
-
-    constructor(data?: IGameJoinModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.userId = _data["userId"];
-            this.deckId = _data["deckId"];
-        }
-    }
-
-    static fromJS(data: any): GameJoinModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new GameJoinModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["deckId"] = this.deckId;
-        return data; 
-    }
-}
-
-export interface IGameJoinModel {
-    /** User joining. */
-    userId?: number;
-    /** Deck to use. */
-    deckId?: number;
 }
 
 export class StoreItemModel implements IStoreItemModel {
