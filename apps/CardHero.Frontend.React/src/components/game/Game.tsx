@@ -87,7 +87,7 @@ export class Game extends Component<IGameProps, IGameState> {
 
                         <GameUsersWidget
                             currentUserId={game ? game.currentUserId : null}
-                            users={game ? game.users : null}
+                            userIds={game ? game.userIds : null}
                         />
 
                         <GameHistoryWidget game={game} />

@@ -86,19 +86,19 @@ namespace CardHero.Core.SqlServer.Services
 
             await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
-            var nextUser = game.Users
-                .SkipWhile(x => x.Id != move.UserId)
+            var nextUserId = game.UserIds
+                .SkipWhile(x => x != move.UserId)
                 .Skip(1)
                 .FirstOrDefault();
 
-            if (nextUser == null)
+            if (nextUserId == default)
             {
-                nextUser = game.Users.First();
+                nextUserId = game.UserIds.First();
             }
 
             var newTurn = new TurnData
             {
-                CurrentUserId = nextUser.Id,
+                CurrentUserId = nextUserId,
                 GameId = game.Id,
                 StartTime = DateTime.UtcNow,
             };
@@ -107,7 +107,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var gameUpdate = new GameUpdateData
             {
-                CurrentUserId = nextUser.Id,
+                CurrentUserId = nextUserId,
             };
             await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
         }

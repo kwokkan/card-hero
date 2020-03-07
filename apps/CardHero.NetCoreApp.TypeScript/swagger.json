@@ -1238,12 +1238,13 @@
             "format": "date-time",
             "nullable": true
           },
-          "users": {
+          "userIds": {
             "type": "array",
             "description": "Users.",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/UserModel"
+              "type": "integer",
+              "format": "int32"
             }
           },
           "currentUserId": {

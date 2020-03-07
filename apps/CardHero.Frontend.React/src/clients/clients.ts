@@ -1434,7 +1434,7 @@ export class GameModel implements IGameModel {
     /** End time. */
     endTime?: Date | undefined;
     /** Users. */
-    users?: UserModel[] | undefined;
+    userIds?: number[] | undefined;
     /** Current user id. */
     currentUserId?: number | undefined;
     /** Winner user id. */
@@ -1466,10 +1466,10 @@ export class GameModel implements IGameModel {
             this.id = _data["id"];
             this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
             this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
-            if (Array.isArray(_data["users"])) {
-                this.users = [] as any;
-                for (let item of _data["users"])
-                    this.users!.push(UserModel.fromJS(item));
+            if (Array.isArray(_data["userIds"])) {
+                this.userIds = [] as any;
+                for (let item of _data["userIds"])
+                    this.userIds!.push(item);
             }
             this.currentUserId = _data["currentUserId"];
             this.winnerUserId = _data["winnerUserId"];
@@ -1494,10 +1494,10 @@ export class GameModel implements IGameModel {
         data["id"] = this.id;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
-        if (Array.isArray(this.users)) {
-            data["users"] = [];
-            for (let item of this.users)
-                data["users"].push(item.toJSON());
+        if (Array.isArray(this.userIds)) {
+            data["userIds"] = [];
+            for (let item of this.userIds)
+                data["userIds"].push(item);
         }
         data["currentUserId"] = this.currentUserId;
         data["winnerUserId"] = this.winnerUserId;
@@ -1519,7 +1519,7 @@ export interface IGameModel {
     /** End time. */
     endTime?: Date | undefined;
     /** Users. */
-    users?: UserModel[] | undefined;
+    userIds?: number[] | undefined;
     /** Current user id. */
     currentUserId?: number | undefined;
     /** Winner user id. */

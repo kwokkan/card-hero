@@ -28,12 +28,12 @@ namespace CardHero.Core.SqlServer.DataServices
             _userMapper = userMapper;
         }
 
-        private async Task PopulateGameUsersInternalAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
+        private async Task PopulateGameUsersInternalAsync(GameModel game, CancellationToken cancellationToken = default)
         {
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
             var userIds = users.Select(x => x.Id).ToArray();
 
-            game.Users = users.Select(x => _userMapper.Map(x)).ToArray();
+            game.UserIds = userIds;
         }
 
         async Task<Abstractions.SearchResult<GameModel>> IGameDataService.GetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)
@@ -55,21 +55,19 @@ namespace CardHero.Core.SqlServer.DataServices
 
             if (userId.HasValue)
             {
-                var uid = userId.Value;
-
                 foreach (var game in results.Results)
                 {
                     //TODO: Fix loop to no make multiple calls
-                    await PopulateGameUsersInternalAsync(game, uid, cancellationToken: cancellationToken);
+                    await PopulateGameUsersInternalAsync(game, cancellationToken: cancellationToken);
                 }
             }
 
             return results;
         }
 
-        Task IGameDataService.PopulateGameUsersAsync(GameModel game, int userId, CancellationToken cancellationToken)
+        Task IGameDataService.PopulateGameUsersAsync(GameModel game, CancellationToken cancellationToken)
         {
-            return PopulateGameUsersInternalAsync(game, userId, cancellationToken);
+            return PopulateGameUsersInternalAsync(game, cancellationToken);
         }
     }
 }

@@ -56,7 +56,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
         let canPlay = false;
 
         if (user && !game.endTime) {
-            const userIds = game.users.map(x => x.id);
+            const userIds = game.userIds;
             canJoin = userIds.length < game.maxUsers && userIds.indexOf(user.id) === -1;
             canPlay = userIds.indexOf(user.id) > -1 && game.currentUserId === user.id;
         }

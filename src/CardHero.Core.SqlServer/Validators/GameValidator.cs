@@ -35,9 +35,9 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidGameException($"Game { id } does not exist.");
             }
 
-            var gameUser = game.Users.SingleOrDefault(x => x.Id == userId);
+            var gameUserId = game.UserIds.SingleOrDefault(x => x == userId);
 
-            if (gameUser == null)
+            if (gameUserId == default)
             {
                 throw new InvalidPlayerException();
             }
@@ -47,7 +47,7 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidMoveException($"Game { game.Id } has not started.");
             }
 
-            if (game.CurrentUserId.Value != gameUser.Id)
+            if (game.CurrentUserId.Value != gameUserId)
             {
                 throw new InvalidTurnException("It is not your turn.");
             }
