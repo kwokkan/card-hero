@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.NetCoreApp.TypeScript;
 
@@ -30,7 +31,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClient();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel { });
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel { });
 
                 Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
             });
@@ -43,7 +44,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             {
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -92,7 +93,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -171,14 +172,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
                     Row = 2,
                 });
                 response.EnsureSuccessStatusCode();
-                var model = await response.Content.ReadAsAsync<GameMoveViewModel>();
+                var model = await response.Content.ReadAsAsync<MoveModel>();
 
                 Assert.Equal(0, model.Column);
                 Assert.Equal(1001, model.GameDeckCardCollectionId);
@@ -252,7 +253,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -350,7 +351,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -470,7 +471,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1001,
@@ -479,11 +480,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 response.EnsureSuccessStatusCode();
 
                 response = await client.GetAsync("api/games/701");
-                var model = await response.Content.ReadAsAsync<GameViewModel>();
+                var model = await response.Content.ReadAsAsync<GamePlayModel>();
 
-                Assert.Equal(2, model.Data.Moves.Count());
-                Assert.Contains(model.Data.Moves, x => x.Column == 1 && x.Row == 1 && x.GameDeckCardCollectionId == 1002);
-                Assert.Contains(model.Data.Moves, x => x.Column == 1 && x.Row == 0 && x.GameDeckCardCollectionId == 1001);
+                Assert.Equal(2, model.Moves.Count());
+                Assert.Contains(model.Moves, x => x.Column == 1 && x.Row == 1 && x.GameDeckCardCollectionId == 1002);
+                Assert.Contains(model.Moves, x => x.Column == 1 && x.Row == 0 && x.GameDeckCardCollectionId == 1001);
             });
         }
     }

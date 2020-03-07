@@ -555,9 +555,9 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
 export interface IGameApiClient {
     get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
     post(model: GameCreateModel): Promise<GameModel>;
-    getById(id: number): Promise<GameViewModel>;
+    getById(id: number): Promise<GamePlayModel>;
     join(id: number, model: GameJoinModel): Promise<void>;
-    move(id: number, model: GameMoveViewModel): Promise<GameMoveViewModel>;
+    move(id: number, model: MoveModel): Promise<MoveModel>;
 }
 
 export class GameApiClient extends CardHeroApiClientBase implements IGameApiClient {
@@ -676,7 +676,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GameModel>(<any>null);
     }
 
-    getById(id: number): Promise<GameViewModel> {
+    getById(id: number): Promise<GamePlayModel> {
         let url_ = this.baseUrl + "/api/games/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -695,14 +695,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         });
     }
 
-    protected processGetById(response: Response): Promise<GameViewModel> {
+    protected processGetById(response: Response): Promise<GamePlayModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GameViewModel.fromJS(resultData200);
+            result200 = GamePlayModel.fromJS(resultData200);
             return result200;
             });
         } else if (status === 404) {
@@ -717,7 +717,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameViewModel>(<any>null);
+        return Promise.resolve<GamePlayModel>(<any>null);
     }
 
     join(id: number, model: GameJoinModel): Promise<void> {
@@ -757,7 +757,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<void>(<any>null);
     }
 
-    move(id: number, model: GameMoveViewModel): Promise<GameMoveViewModel> {
+    move(id: number, model: MoveModel): Promise<MoveModel> {
         let url_ = this.baseUrl + "/api/games/{id}/move";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -780,14 +780,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         });
     }
 
-    protected processMove(response: Response): Promise<GameMoveViewModel> {
+    protected processMove(response: Response): Promise<MoveModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = GameMoveViewModel.fromJS(resultData201);
+            result201 = MoveModel.fromJS(resultData201);
             return result201;
             });
         } else if (status === 401) {
@@ -809,7 +809,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<GameMoveViewModel>(<any>null);
+        return Promise.resolve<MoveModel>(<any>null);
     }
 }
 
@@ -1680,48 +1680,15 @@ export interface IGameDeckCardCollectionModel {
     card?: CardModel | undefined;
 }
 
-export class GameViewModel extends GameModel implements IGameViewModel {
-    data?: GameDataViewModel | undefined;
-    lastActivity?: Date;
-
-    constructor(data?: IGameViewModel) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.data = _data["data"] ? GameDataViewModel.fromJS(_data["data"]) : <any>undefined;
-            this.lastActivity = _data["lastActivity"] ? new Date(_data["lastActivity"].toString()) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): GameViewModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new GameViewModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
-        data["lastActivity"] = this.lastActivity ? this.lastActivity.toISOString() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IGameViewModel extends IGameModel {
-    data?: GameDataViewModel | undefined;
-    lastActivity?: Date;
-}
-
-export class GameDataViewModel implements IGameDataViewModel {
-    moves?: GameMoveViewModel[] | undefined;
+export class GamePlayModel implements IGamePlayModel {
+    /** Game. */
+    game?: GameModel | undefined;
+    /** Cards played in game. */
     playedCards?: CardModel[] | undefined;
+    /** Moves played in game. */
+    moves?: MoveModel[] | undefined;
 
-    constructor(data?: IGameDataViewModel) {
+    constructor(data?: IGamePlayModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1732,54 +1699,68 @@ export class GameDataViewModel implements IGameDataViewModel {
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["moves"])) {
-                this.moves = [] as any;
-                for (let item of _data["moves"])
-                    this.moves!.push(GameMoveViewModel.fromJS(item));
-            }
+            this.game = _data["game"] ? GameModel.fromJS(_data["game"]) : <any>undefined;
             if (Array.isArray(_data["playedCards"])) {
                 this.playedCards = [] as any;
                 for (let item of _data["playedCards"])
                     this.playedCards!.push(CardModel.fromJS(item));
             }
+            if (Array.isArray(_data["moves"])) {
+                this.moves = [] as any;
+                for (let item of _data["moves"])
+                    this.moves!.push(MoveModel.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): GameDataViewModel {
+    static fromJS(data: any): GamePlayModel {
         data = typeof data === 'object' ? data : {};
-        let result = new GameDataViewModel();
+        let result = new GamePlayModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.moves)) {
-            data["moves"] = [];
-            for (let item of this.moves)
-                data["moves"].push(item.toJSON());
-        }
+        data["game"] = this.game ? this.game.toJSON() : <any>undefined;
         if (Array.isArray(this.playedCards)) {
             data["playedCards"] = [];
             for (let item of this.playedCards)
                 data["playedCards"].push(item.toJSON());
         }
+        if (Array.isArray(this.moves)) {
+            data["moves"] = [];
+            for (let item of this.moves)
+                data["moves"].push(item.toJSON());
+        }
         return data; 
     }
 }
 
-export interface IGameDataViewModel {
-    moves?: GameMoveViewModel[] | undefined;
+export interface IGamePlayModel {
+    /** Game. */
+    game?: GameModel | undefined;
+    /** Cards played in game. */
     playedCards?: CardModel[] | undefined;
+    /** Moves played in game. */
+    moves?: MoveModel[] | undefined;
 }
 
-export class GameMoveViewModel implements IGameMoveViewModel {
-    row?: number;
-    column?: number;
+export class MoveModel implements IMoveModel {
+    /** The game to make a move on. */
+    gameId?: number;
+    /** The card id played. */
     cardId?: number;
+    /** The card to play. */
     gameDeckCardCollectionId?: number;
+    /** Zero based index of the row. */
+    row?: number;
+    /** Zero based index of the column. */
+    column?: number;
+    /** The user making the move. */
+    userId?: number;
 
-    constructor(data?: IGameMoveViewModel) {
+    constructor(data?: IMoveModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1790,35 +1771,47 @@ export class GameMoveViewModel implements IGameMoveViewModel {
 
     init(_data?: any) {
         if (_data) {
-            this.row = _data["row"];
-            this.column = _data["column"];
+            this.gameId = _data["gameId"];
             this.cardId = _data["cardId"];
             this.gameDeckCardCollectionId = _data["gameDeckCardCollectionId"];
+            this.row = _data["row"];
+            this.column = _data["column"];
+            this.userId = _data["userId"];
         }
     }
 
-    static fromJS(data: any): GameMoveViewModel {
+    static fromJS(data: any): MoveModel {
         data = typeof data === 'object' ? data : {};
-        let result = new GameMoveViewModel();
+        let result = new MoveModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["row"] = this.row;
-        data["column"] = this.column;
+        data["gameId"] = this.gameId;
         data["cardId"] = this.cardId;
         data["gameDeckCardCollectionId"] = this.gameDeckCardCollectionId;
+        data["row"] = this.row;
+        data["column"] = this.column;
+        data["userId"] = this.userId;
         return data; 
     }
 }
 
-export interface IGameMoveViewModel {
-    row?: number;
-    column?: number;
+export interface IMoveModel {
+    /** The game to make a move on. */
+    gameId?: number;
+    /** The card id played. */
     cardId?: number;
+    /** The card to play. */
     gameDeckCardCollectionId?: number;
+    /** Zero based index of the row. */
+    row?: number;
+    /** Zero based index of the column. */
+    column?: number;
+    /** The user making the move. */
+    userId?: number;
 }
 
 export class GameCreateModel implements IGameCreateModel {
