@@ -61,10 +61,12 @@ export class GameList extends Component<IGameListProps, IGameListState> {
             canPlay = userIds.indexOf(user.id) > -1 && game.currentUserId === user.id;
         }
 
+        const linkTo = routePrefix + game.id;
+
         return (
             <tr key={game.id}>
                 <th scope="row">
-                    <Link to={routePrefix + game.id}>#{game.id}</Link>
+                    <Link to={linkTo}>#{game.id}</Link>
                 </th>
                 <td>{GameType[game.type]}</td>
                 <td><DateFormat date={game.startTime} /></td>
@@ -78,10 +80,10 @@ export class GameList extends Component<IGameListProps, IGameListState> {
                             >Join</button>
                         }
                         {canPlay &&
-                            <button
-                                type="button"
+                            <Link
+                                to={linkTo}
                                 className="btn btn-primary"
-                            >Play</button>
+                            >Play</Link>
                         }
                     </td>
                 }

@@ -728,7 +728,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GamePlayModel"
+                  "$ref": "#/components/schemas/GameModel"
                 }
               }
             }
@@ -783,12 +783,54 @@
         }
       }
     },
-    "/api/games/{id}/move": {
+    "/api/play/{id}": {
+      "get": {
+        "tags": [
+          "GamePlayApi"
+        ],
+        "operationId": "GamePlayApi_GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GamePlayModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/play/{id}/move": {
       "post": {
         "tags": [
-          "GameApi"
+          "GamePlayApi"
         ],
-        "operationId": "GameApi_Move",
+        "operationId": "GamePlayApi_Move",
         "parameters": [
           {
             "name": "id",
@@ -1294,6 +1336,64 @@
           1
         ]
       },
+      "GameCreateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "Type of game.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameType"
+              }
+            ]
+          },
+          "deckId": {
+            "type": "integer",
+            "description": "Deck to use.",
+            "format": "int32"
+          },
+          "users": {
+            "type": "array",
+            "description": "Users in game.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/UserModel"
+            }
+          },
+          "maxPlayers": {
+            "type": "integer",
+            "description": "Max players in game.",
+            "format": "int32"
+          },
+          "columns": {
+            "type": "integer",
+            "description": "Columns in game.",
+            "format": "int32"
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Rows in game.",
+            "format": "int32"
+          }
+        }
+      },
+      "GameJoinModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "User joining.",
+            "format": "int32"
+          },
+          "deckId": {
+            "type": "integer",
+            "description": "Deck to use.",
+            "format": "int32"
+          }
+        }
+      },
       "GamePlayModel": {
         "type": "object",
         "additionalProperties": false,
@@ -1436,64 +1536,6 @@
                 "$ref": "#/components/schemas/CardModel"
               }
             ]
-          }
-        }
-      },
-      "GameCreateModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "description": "Type of game.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GameType"
-              }
-            ]
-          },
-          "deckId": {
-            "type": "integer",
-            "description": "Deck to use.",
-            "format": "int32"
-          },
-          "users": {
-            "type": "array",
-            "description": "Users in game.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/UserModel"
-            }
-          },
-          "maxPlayers": {
-            "type": "integer",
-            "description": "Max players in game.",
-            "format": "int32"
-          },
-          "columns": {
-            "type": "integer",
-            "description": "Columns in game.",
-            "format": "int32"
-          },
-          "rows": {
-            "type": "integer",
-            "description": "Rows in game.",
-            "format": "int32"
-          }
-        }
-      },
-      "GameJoinModel": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "description": "User joining.",
-            "format": "int32"
-          },
-          "deckId": {
-            "type": "integer",
-            "description": "Deck to use.",
-            "format": "int32"
           }
         }
       },

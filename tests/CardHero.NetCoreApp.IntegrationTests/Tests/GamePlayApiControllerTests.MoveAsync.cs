@@ -12,7 +12,7 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public partial class GameApiControllerTests
+    public partial class GamePlayApiControllerTests
     {
         [Fact]
         public async Task MoveAsync_Unauthorized_ReturnsUnauthorized()
@@ -31,7 +31,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClient();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel { });
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel { });
 
                 Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
             });
@@ -44,7 +44,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             {
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -93,7 +93,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -172,7 +172,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -253,7 +253,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -351,7 +351,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -471,7 +471,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new MoveModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1001,
@@ -479,7 +479,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 });
                 response.EnsureSuccessStatusCode();
 
-                response = await client.GetAsync("api/games/701");
+                response = await client.GetAsync("api/play/701");
                 var model = await response.Content.ReadAsAsync<GamePlayModel>();
 
                 Assert.Equal(2, model.Moves.Count());
