@@ -1,6 +1,6 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { GameType, IDeckModel, IGameModel } from "../../clients/clients";
+import { GameType, IDeckModel, IGameModel, IUserModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 import { GameService } from "../../services/GameService";
 import { getRoutePrefix } from "../../utils/route";
@@ -51,12 +51,50 @@ export class GameList extends Component<IGameListProps, IGameListState> {
         await GameService.join(props.gameId, props.deckId);
     }
 
+    private renderRow(game: IGameModel, routePrefix: string, user?: IUserModel): JSX.Element {
+        let canJoin = false;
+        let canPlay = false;
+
+        if (user && !game.endTime) {
+            const userIds = game.userIds;
+            canJoin = userIds.length < game.maxUsers && userIds.indexOf(user.id) === -1;
+            canPlay = userIds.indexOf(user.id) > -1 && game.currentUserId === user.id;
+        }
+
+        return (
+            <tr key={game.id}>
+                <th scope="row">
+                    <Link to={routePrefix + game.id}>#{game.id}</Link>
+                </th>
+                <td>{GameType[game.type]}</td>
+                <td><DateFormat date={game.startTime} /></td>
+                {user &&
+                    <td>
+                        {canJoin &&
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={() => this.selectGame(game)}
+                            >Join</button>
+                        }
+                        {canPlay &&
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                            >Play</button>
+                        }
+                    </td>
+                }
+            </tr>
+        );
+    }
+
     render() {
         const user = this.context.user;
         const routePrefix = getRoutePrefix(this.props.routePrefix);
 
         return (
-            <>
+            <Fragment>
                 <div className="row">
                     <table className="table table-striped">
                         <thead className="thead-inverse">
@@ -72,30 +110,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
 
                         <tbody>
                             {this.props.games.map(g =>
-                                <tr key={g.id}>
-                                    <th scope="row">
-                                        <Link to={routePrefix + g.id}>#{g.id}</Link>
-                                    </th>
-                                    <td>{GameType[g.type]}</td>
-                                    <td><DateFormat date={g.startTime} /></td>
-                                    {user &&
-                                        <td>
-                                            {g.canJoin &&
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-success"
-                                                    onClick={() => this.selectGame(g)}
-                                                >Join</button>
-                                            }
-                                            {g.canPlay &&
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-primary"
-                                                >Play</button>
-                                            }
-                                        </td>
-                                    }
-                                </tr>
+                                this.renderRow(g, routePrefix, user)
                             )}
                         </tbody>
                     </table>
@@ -108,7 +123,7 @@ export class GameList extends Component<IGameListProps, IGameListState> {
                     onHide={() => this.onHide()}
                     onJoined={(props) => this.onGameJoined(props)}
                 />
-            </>
+            </Fragment>
         );
     }
 }

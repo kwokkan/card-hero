@@ -21,5 +21,15 @@ namespace CardHero.Core.Models
         /// Moves played in game.
         /// </summary>
         public IEnumerable<MoveModel> Moves { get; set; }
+
+        /// <summary>
+        /// Game deck id.
+        /// </summary>
+        public int GameDeckId { get; set; }
+
+        /// <summary>
+        /// Game deck.
+        /// </summary>
+        public GameDeckModel GameDeck { get; set; }
     }
 }

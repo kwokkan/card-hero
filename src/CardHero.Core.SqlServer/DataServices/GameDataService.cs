@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,28 +13,23 @@ namespace CardHero.Core.SqlServer.DataServices
         private readonly IGameRepository _gameRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
-        private readonly IDataMapper<UserData, UserModel> _userMapper;
 
         public GameDataService(
             IGameRepository gameRepository,
-            IDataMapper<GameData, GameModel> gameMapper,
-            IDataMapper<UserData, UserModel> userMapper
+            IDataMapper<GameData, GameModel> gameMapper
         )
         {
             _gameRepository = gameRepository;
 
             _gameMapper = gameMapper;
-            _userMapper = userMapper;
         }
 
-        private async Task PopulateGameUsersInternalAsync(GameModel game, int userId, CancellationToken cancellationToken = default)
+        private async Task PopulateGameUsersInternalAsync(GameModel game, CancellationToken cancellationToken = default)
         {
             var users = await _gameRepository.GetGameUsersAsync(game.Id, cancellationToken: cancellationToken);
             var userIds = users.Select(x => x.Id).ToArray();
-            game.CanJoin = !game.EndTime.HasValue && userIds.Length < game.MaxUsers && !userIds.Contains(userId);
-            game.CanPlay = !game.EndTime.HasValue && userIds.Contains(userId) && game.CurrentUserId == userId;
 
-            game.Users = users.Select(x => _userMapper.Map(x)).ToArray();
+            game.UserIds = userIds;
         }
 
         async Task<Abstractions.SearchResult<GameModel>> IGameDataService.GetGamesAsync(Abstractions.GameSearchFilter filter, int? userId, CancellationToken cancellationToken)
@@ -57,21 +51,19 @@ namespace CardHero.Core.SqlServer.DataServices
 
             if (userId.HasValue)
             {
-                var uid = userId.Value;
-
                 foreach (var game in results.Results)
                 {
                     //TODO: Fix loop to no make multiple calls
-                    await PopulateGameUsersInternalAsync(game, uid, cancellationToken: cancellationToken);
+                    await PopulateGameUsersInternalAsync(game, cancellationToken: cancellationToken);
                 }
             }
 
             return results;
         }
 
-        Task IGameDataService.PopulateGameUsersAsync(GameModel game, int userId, CancellationToken cancellationToken)
+        Task IGameDataService.PopulateGameUsersAsync(GameModel game, CancellationToken cancellationToken)
         {
-            return PopulateGameUsersInternalAsync(game, userId, cancellationToken);
+            return PopulateGameUsersInternalAsync(game, cancellationToken);
         }
     }
 }

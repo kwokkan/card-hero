@@ -10,6 +10,6 @@ namespace CardHero.Core.SqlServer.DataServices
     {
         Task<SearchResult<GameModel>> GetGamesAsync(GameSearchFilter filter, int? userId = null, CancellationToken cancellationToken = default);
 
-        Task PopulateGameUsersAsync(GameModel game, int userId, CancellationToken cancellationToken = default);
+        Task PopulateGameUsersAsync(GameModel game, CancellationToken cancellationToken = default);
     }
 }
