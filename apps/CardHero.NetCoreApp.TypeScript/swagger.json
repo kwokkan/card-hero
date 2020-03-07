@@ -728,7 +728,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GameViewModel"
+                  "$ref": "#/components/schemas/GamePlayModel"
                 }
               }
             }
@@ -769,7 +769,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/JoinGameViewModel"
+                "$ref": "#/components/schemas/GameJoinModel"
               }
             }
           },
@@ -806,7 +806,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GameMoveViewModel"
+                "$ref": "#/components/schemas/MoveModel"
               }
             }
           },
@@ -819,7 +819,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GameMoveViewModel"
+                  "$ref": "#/components/schemas/MoveModel"
                 }
               }
             }
@@ -1379,77 +1379,69 @@
           }
         }
       },
-      "GameViewModel": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/GameModel"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "data": {
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/GameDataViewModel"
-                  }
-                ]
-              },
-              "lastActivity": {
-                "type": "string",
-                "format": "date-time"
-              }
-            }
-          }
-        ]
-      },
-      "GameDataViewModel": {
+      "GamePlayModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "rows": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "columns": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "moves": {
-            "type": "array",
+          "game": {
+            "description": "Game.",
             "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/GameMoveViewModel"
-            }
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GameModel"
+              }
+            ]
           },
           "playedCards": {
             "type": "array",
+            "description": "Cards played in game.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/CardModel"
             }
+          },
+          "moves": {
+            "type": "array",
+            "description": "Moves played in game.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MoveModel"
+            }
           }
         }
       },
-      "GameMoveViewModel": {
+      "MoveModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "row": {
+          "gameId": {
             "type": "integer",
-            "format": "int32"
-          },
-          "column": {
-            "type": "integer",
+            "description": "The game to make a move on.",
             "format": "int32"
           },
           "cardId": {
             "type": "integer",
+            "description": "The card id played.",
             "format": "int32"
           },
           "gameDeckCardCollectionId": {
             "type": "integer",
+            "description": "The card to play.",
+            "format": "int32"
+          },
+          "row": {
+            "type": "integer",
+            "description": "Zero based index of the row.",
+            "format": "int32"
+          },
+          "column": {
+            "type": "integer",
+            "description": "Zero based index of the column.",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The user making the move.",
             "format": "int32"
           }
         }
@@ -1496,12 +1488,18 @@
           }
         }
       },
-      "JoinGameViewModel": {
+      "GameJoinModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "User joining.",
+            "format": "int32"
+          },
           "deckId": {
             "type": "integer",
+            "description": "Deck to use.",
             "format": "int32"
           }
         }
