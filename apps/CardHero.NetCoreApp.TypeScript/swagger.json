@@ -769,7 +769,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/JoinGameViewModel"
+                "$ref": "#/components/schemas/GameJoinModel"
               }
             }
           },
@@ -1488,12 +1488,18 @@
           }
         }
       },
-      "JoinGameViewModel": {
+      "GameJoinModel": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "User joining.",
+            "format": "int32"
+          },
           "deckId": {
             "type": "integer",
+            "description": "Deck to use.",
             "format": "int32"
           }
         }

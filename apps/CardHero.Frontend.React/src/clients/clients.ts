@@ -556,7 +556,7 @@ export interface IGameApiClient {
     get(gameId?: number | null | undefined, name?: string | null | undefined, startTime?: Date | null | undefined, endTime?: Date | null | undefined, playerCount?: number | null | undefined, activeOnly?: boolean | undefined, type?: GameType | null | undefined, page?: number | null | undefined, pageSize?: number | null | undefined, sort?: string | null | undefined): Promise<GameModel[]>;
     post(model: GameCreateModel): Promise<GameModel>;
     getById(id: number): Promise<GameViewModel>;
-    join(id: number, model: JoinGameViewModel): Promise<void>;
+    join(id: number, model: GameJoinModel): Promise<void>;
     move(id: number, model: GameMoveViewModel): Promise<GameMoveViewModel>;
 }
 
@@ -720,7 +720,7 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
         return Promise.resolve<GameViewModel>(<any>null);
     }
 
-    join(id: number, model: JoinGameViewModel): Promise<void> {
+    join(id: number, model: GameJoinModel): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{id}/join";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1897,10 +1897,13 @@ export interface IGameCreateModel {
     rows?: number;
 }
 
-export class JoinGameViewModel implements IJoinGameViewModel {
+export class GameJoinModel implements IGameJoinModel {
+    /** User joining. */
+    userId?: number;
+    /** Deck to use. */
     deckId?: number;
 
-    constructor(data?: IJoinGameViewModel) {
+    constructor(data?: IGameJoinModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1911,25 +1914,30 @@ export class JoinGameViewModel implements IJoinGameViewModel {
 
     init(_data?: any) {
         if (_data) {
+            this.userId = _data["userId"];
             this.deckId = _data["deckId"];
         }
     }
 
-    static fromJS(data: any): JoinGameViewModel {
+    static fromJS(data: any): GameJoinModel {
         data = typeof data === 'object' ? data : {};
-        let result = new JoinGameViewModel();
+        let result = new GameJoinModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
         data["deckId"] = this.deckId;
         return data; 
     }
 }
 
-export interface IJoinGameViewModel {
+export interface IGameJoinModel {
+    /** User joining. */
+    userId?: number;
+    /** Deck to use. */
     deckId?: number;
 }
 

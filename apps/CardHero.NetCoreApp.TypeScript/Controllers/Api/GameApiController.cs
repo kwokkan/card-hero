@@ -101,11 +101,12 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 
         [HttpPost("{id:int}/join")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Join(int id, [FromBody]JoinGameViewModel model, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> Join(int id, [FromBody]GameJoinModel model, CancellationToken cancellationToken = default)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
+            model.UserId = user.Id;
 
-            await _gameService.AddUserToGameAsync(id, user.Id, model.DeckId, cancellationToken: cancellationToken);
+            await _gameService.AddUserToGameAsync(id, model, cancellationToken: cancellationToken);
 
             return Ok();
         }

@@ -121,9 +121,9 @@ namespace CardHero.Core.SqlServer.Services
             }
         }
 
-        Task IGameService.AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
+        Task IGameService.AddUserToGameAsync(int id, GameJoinModel join, CancellationToken cancellationToken)
         {
-            return AddUserToGameInternalAsync(id, userId, deckId, cancellationToken: cancellationToken);
+            return AddUserToGameInternalAsync(id, join.UserId, join.DeckId, cancellationToken: cancellationToken);
         }
 
         async Task<GameModel> IGameService.CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken)
