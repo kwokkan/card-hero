@@ -45,7 +45,7 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
                     return;
                 }
 
-                if (context.Request.Path.StartsWithSegments("/api"))
+                if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Response.StatusCode = 400;
                     context.Response.ContentType = "application/json";

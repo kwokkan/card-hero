@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 
 using CardHero.NetCoreApp.TypeScript;
@@ -22,7 +23,7 @@ namespace Microsoft.AspNetCore.Builder
                     {
                         OnRedirectToIdentityProvider = (context) =>
                         {
-                            if (context.Request.Path.StartsWithSegments("/api"))
+                            if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                             {
                                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                                 return Task.CompletedTask;

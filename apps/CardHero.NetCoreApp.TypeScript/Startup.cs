@@ -18,7 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using WebMarkupMin.AspNet.Common.UrlMatchers;
 using WebMarkupMin.AspNetCore3;
 
 namespace CardHero.NetCoreApp.TypeScript
@@ -59,7 +58,7 @@ namespace CardHero.NetCoreApp.TypeScript
 
                     x.Events.OnRedirectToLogin = context =>
                     {
-                        if (context.Request.Path.StartsWithSegments("/api"))
+                        if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                         {
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         }
@@ -194,7 +193,7 @@ namespace CardHero.NetCoreApp.TypeScript
 
             app.UseResponseCompression();
 
-            app.MapWhen(context => context.Request.Path.StartsWithSegments("/swagger"), childApp =>
+            app.MapWhen(context => context.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase), childApp =>
             {
                 childApp.UseCardHeroHttpHeaders(true);
 
