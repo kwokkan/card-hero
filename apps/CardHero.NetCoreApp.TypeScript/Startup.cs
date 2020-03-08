@@ -157,8 +157,6 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.MinificationSettings.WhitespaceMinificationMode = WebMarkupMin.Core.WhitespaceMinificationMode.Aggressive;
 
                     x.SupportedHttpMethods.Add("POST");
-
-                    x.ExcludedPages.Add(new WildcardUrlMatcher("/swagger/*"));
                 })
             ;
 
@@ -195,6 +193,16 @@ namespace CardHero.NetCoreApp.TypeScript
             }
 
             app.UseResponseCompression();
+
+            app.MapWhen(context => context.Request.Path.StartsWithSegments("/swagger"), childApp =>
+            {
+                childApp.UseCardHeroHttpHeaders(true);
+
+                childApp
+                    .UseOpenApi()
+                    .UseSwaggerUi3()
+                ;
+            });
 
             app.UseCardHeroHttpHeaders();
 
@@ -234,10 +242,6 @@ namespace CardHero.NetCoreApp.TypeScript
             {
                 x.MapDefaultControllerRoute();
             });
-
-            app.UseOpenApi(); // serve OpenAPI/Swagger documents
-            app.UseSwaggerUi3(); // serve Swagger UI
-            //app.UseReDoc(); // serve ReDoc UI
         }
     }
 }
