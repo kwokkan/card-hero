@@ -42,7 +42,7 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
 
                 if (context.Response.HasStarted)
                 {
-                    _logger.LogWarning("Skipping " + nameof(JsonExceptionMiddleware) + ". Response has alreaady started.");
+                    _logger.LogWarning("Skipping " + nameof(JsonExceptionMiddleware) + ". Response has already started.");
                     return;
                 }
 
