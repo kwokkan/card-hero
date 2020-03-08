@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using CardHero.AspNetCore.Authentication.FileSystem;
@@ -111,6 +112,11 @@ namespace CardHero.NetCoreApp.TypeScript
 
             services
                 .AddControllersWithViews()
+                .AddJsonOptions(x =>
+                {
+                    x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    x.JsonSerializerOptions.IgnoreNullValues = true;
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
