@@ -35,7 +35,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 var document = await context.OpenAsync(req => req.Content(content));
 
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                Assert.Equal(title + " - CardHero.NetCoreApp.TypeScript", document.Title);
+                Assert.Equal(title + " - Card Hero", document.Title);
             });
         }
 
@@ -56,7 +56,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 var document = await context.OpenAsync(req => req.Content(content));
 
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                Assert.Equal("Sign In - CardHero.NetCoreApp.TypeScript", document.Title);
+                Assert.Equal("Sign In - Card Hero", document.Title);
                 Assert.Equal("/SignIn", response.RequestMessage.RequestUri.AbsolutePath);
             });
         }

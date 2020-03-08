@@ -3,7 +3,7 @@
 exports[`<Home /> renders correctly 1`] = `
 Array [
   <div
-    className="jumbotron"
+    className="jumbotron text-center"
   >
     <h1
       className="display-3"
@@ -114,7 +114,7 @@ Array [
 exports[`<Home /> renders correctly with route prefix 1`] = `
 Array [
   <div
-    className="jumbotron"
+    className="jumbotron text-center"
   >
     <h1
       className="display-3"
