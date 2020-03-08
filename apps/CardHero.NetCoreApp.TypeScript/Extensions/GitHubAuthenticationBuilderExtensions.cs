@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -59,7 +60,7 @@ namespace Microsoft.AspNetCore.Builder
                 },
                 OnRedirectToAuthorizationEndpoint = context =>
                 {
-                    if (context.Request.Path.StartsWithSegments("/api"))
+                    if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
