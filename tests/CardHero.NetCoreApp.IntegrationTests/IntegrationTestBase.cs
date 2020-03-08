@@ -12,10 +12,10 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         private readonly List<BaseWebApplicationFactory> _factories = new List<BaseWebApplicationFactory>();
 
-        public IntegrationTestBase(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
+        public IntegrationTestBase(PostgreSqlWebApplicationFactory postgresApplicationFactory, SqlServerWebApplicationFactory sqlServerApplicationFactory)
         {
-            _factories.Add(postgresAplicationFactory);
-            _factories.Add(sqlServerAplicationFactory);
+            _factories.Add(postgresApplicationFactory);
+            _factories.Add(sqlServerApplicationFactory);
         }
 
         protected async Task RunAsync(Func<BaseWebApplicationFactory, Task> action, [CallerMemberName]string callerMemberName = "")

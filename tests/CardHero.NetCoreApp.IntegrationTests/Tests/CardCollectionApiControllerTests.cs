@@ -11,8 +11,8 @@ namespace CardHero.NetCoreApp.IntegrationTests
 {
     public class CardCollectionApiControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
-        public CardCollectionApiControllerTests(PostgreSqlWebApplicationFactory postgresAplicationFactory, SqlServerWebApplicationFactory sqlServerAplicationFactory)
-            : base(postgresAplicationFactory, sqlServerAplicationFactory)
+        public CardCollectionApiControllerTests(PostgreSqlWebApplicationFactory postgresApplicationFactory, SqlServerWebApplicationFactory sqlServerApplicationFactory)
+            : base(postgresApplicationFactory, sqlServerApplicationFactory)
         {
         }
 
