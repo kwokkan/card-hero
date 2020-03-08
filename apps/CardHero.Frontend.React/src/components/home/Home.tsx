@@ -13,7 +13,7 @@ export function Home(props: IHomeProps) {
 
     return (
         <Fragment>
-            <div className="jumbotron">
+            <div className="jumbotron text-center">
                 <h1 className="display-3">{appName}</h1>
 
                 <p className="lead">
