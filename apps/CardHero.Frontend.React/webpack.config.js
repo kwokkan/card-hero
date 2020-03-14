@@ -7,7 +7,6 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
-const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
 
 const isProd = process.env.NODE_ENV == "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
@@ -189,8 +188,7 @@ module.exports = {
                 version: false,
                 reasons: false
             }
-        }) : null,
-        isProd ? new WebpackDeepScopeAnalysisPlugin() : null
+        }) : null
     ].filter(Boolean),
 
     module: {
