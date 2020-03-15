@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,13 +17,21 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         private readonly ICardService _cardService;
         private readonly IGamePlayService _gamePlayService;
         private readonly IMoveService _moveService;
+        private readonly IMoveUserService _moveUserService;
 
-        public GamePlayApiController(IUserService userService, ICardService cardService, IGamePlayService gamePlayService, IMoveService moveService)
+        public GamePlayApiController(
+            IUserService userService,
+            ICardService cardService,
+            IGamePlayService gamePlayService,
+            IMoveService moveService,
+            IMoveUserService moveUserService
+        )
             : base(userService)
         {
             _cardService = cardService;
             _gamePlayService = gamePlayService;
             _moveService = moveService;
+            _moveUserService = moveUserService;
         }
 
         [HttpGet("{id:int}")]
@@ -42,15 +49,9 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
             };
             var playedCards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
 
-            gamePlay.Moves = moves.Select(x => new MoveModel
-            {
-                CardId = x.CardId,
-                GameDeckCardCollectionId = x.GameDeckCardCollectionId,
-                Column = x.Column,
-                Row = x.Row,
-            }).ToList();
+            gamePlay.Moves = await _moveUserService.PopulateMoveUsersAsync(moves, playedCards.Results, gamePlay.Game.UserIds, cancellationToken: cancellationToken);
 
-            gamePlay.PlayedCards = Array.AsReadOnly(playedCards.Results);
+            gamePlay.PlayedCards = playedCards.Results;
 
             return gamePlay;
         }

@@ -1801,6 +1801,8 @@ export class MoveModel implements IMoveModel {
     column?: number;
     /** The user making the move. */
     userId?: number;
+    /** Time the move was made. */
+    startTime?: Date;
 
     constructor(data?: IMoveModel) {
         if (data) {
@@ -1819,6 +1821,7 @@ export class MoveModel implements IMoveModel {
             this.row = _data["row"];
             this.column = _data["column"];
             this.userId = _data["userId"];
+            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
         }
     }
 
@@ -1837,6 +1840,7 @@ export class MoveModel implements IMoveModel {
         data["row"] = this.row;
         data["column"] = this.column;
         data["userId"] = this.userId;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         return data; 
     }
 }
@@ -1854,6 +1858,8 @@ export interface IMoveModel {
     column?: number;
     /** The user making the move. */
     userId?: number;
+    /** Time the move was made. */
+    startTime?: Date;
 }
 
 export class GameDeckModel implements IGameDeckModel {

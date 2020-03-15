@@ -1472,6 +1472,11 @@
             "type": "integer",
             "description": "The user making the move.",
             "format": "int32"
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Time the move was made.",
+            "format": "date-time"
           }
         }
       },

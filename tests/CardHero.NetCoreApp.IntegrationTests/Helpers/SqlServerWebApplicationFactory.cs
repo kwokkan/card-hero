@@ -249,6 +249,30 @@ namespace CardHero.NetCoreApp.IntegrationTests
             SeedDbContext(context);
         }
 
+        public override async Task AddDataAsync(params CardData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Card.Add(new Card
+                    {
+                        CardPk = d.Id,
+                        DownAttack = d.DownAttack,
+                        LeftAttack = d.LeftAttack,
+                        RarityFk = d.Rarity?.Id ?? 1,
+                        RightAttack = d.RightAttack,
+                        UpAttack = d.UpAttack,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         public override async Task AddDataAsync(params GameData[] data)
         {
             using (var scope = Services.CreateScope())
