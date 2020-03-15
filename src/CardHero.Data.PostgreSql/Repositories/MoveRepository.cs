@@ -45,14 +45,16 @@ namespace CardHero.Data.PostgreSql
                 .Include(x => x.GameDeckCardCollectionFkNavigation)
                 .Include(x => x.TurnFkNavigation)
                 .Where(x => x.TurnFkNavigation.GameFk == gameId)
+                .OrderByDescending(x => x.MovePk)
                 .Select(x => new MoveData
                 {
                     CardId = x.GameDeckCardCollectionFkNavigation.CardFk,
-                    GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
                     Column = x.Column,
+                    GameDeckCardCollectionId = x.GameDeckCardCollectionFk,
                     GameId = x.TurnFkNavigation.GameFk,
-                    Row = x.Row,
                     GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
+                    Row = x.Row,
+                    StartTime = x.TurnFkNavigation.StartTime,
                 })
                 .ToArrayAsync(cancellationToken: cancellationToken);
 
