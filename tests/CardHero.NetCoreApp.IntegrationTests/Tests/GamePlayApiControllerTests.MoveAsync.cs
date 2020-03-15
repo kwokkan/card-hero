@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.NetCoreApp.TypeScript;
 
@@ -11,7 +12,7 @@ using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public partial class GameApiControllerTests
+    public partial class GamePlayApiControllerTests
     {
         [Fact]
         public async Task MoveAsync_Unauthorized_ReturnsUnauthorized()
@@ -30,7 +31,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClient();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel { });
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel { });
 
                 Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
             });
@@ -43,7 +44,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             {
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -92,7 +93,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1,
@@ -163,7 +164,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
                     }
@@ -171,14 +172,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
                     Row = 2,
                 });
                 response.EnsureSuccessStatusCode();
-                var model = await response.Content.ReadAsAsync<GameMoveViewModel>();
+                var model = await response.Content.ReadAsAsync<MoveModel>();
 
                 Assert.Equal(0, model.Column);
                 Assert.Equal(1001, model.GameDeckCardCollectionId);
@@ -244,7 +245,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
                     }
@@ -252,7 +253,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -340,7 +341,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 802,
+                        CurrentUserId = 2,
                         EndTime = DateTime.UtcNow.AddSeconds(-10),
                         GameId = 701,
                         Id = 1101,
@@ -350,7 +351,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 0,
                     GameDeckCardCollectionId = 1001,
@@ -453,7 +454,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentGameUserId = 802,
+                        CurrentUserId = 2,
                         EndTime = DateTime.UtcNow.AddMinutes(-5),
                         GameId = 701,
                         Id = 1101,
@@ -461,7 +462,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     },
                     new TurnData
                     {
-                        CurrentGameUserId = 801,
+                        CurrentUserId = 1,
                         GameId = 701,
                         Id = 1102,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
@@ -470,7 +471,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 var client = factory.CreateClientWithAuth();
 
-                var response = await client.PostJsonAsync("api/games/701/move", new GameMoveViewModel
+                var response = await client.PostJsonAsync("api/play/701/move", new MoveModel
                 {
                     Column = 1,
                     GameDeckCardCollectionId = 1001,
@@ -478,12 +479,12 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 });
                 response.EnsureSuccessStatusCode();
 
-                response = await client.GetAsync("api/games/701");
-                var model = await response.Content.ReadAsAsync<GameViewModel>();
+                response = await client.GetAsync("api/play/701");
+                var model = await response.Content.ReadAsAsync<GamePlayModel>();
 
-                Assert.Equal(2, model.Data.Moves.Count());
-                Assert.Contains(model.Data.Moves, x => x.Column == 1 && x.Row == 1 && x.GameDeckCardCollectionId == 1002);
-                Assert.Contains(model.Data.Moves, x => x.Column == 1 && x.Row == 0 && x.GameDeckCardCollectionId == 1001);
+                Assert.Equal(2, model.Moves.Count());
+                Assert.Contains(model.Moves, x => x.Column == 1 && x.Row == 1 && x.GameDeckCardCollectionId == 1002);
+                Assert.Contains(model.Moves, x => x.Column == 1 && x.Row == 0 && x.GameDeckCardCollectionId == 1001);
             });
         }
     }

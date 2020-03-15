@@ -2,7 +2,7 @@
 {
     public static class HttpHeaderApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseCardHeroHttpHeaders(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCardHeroHttpHeaders(this IApplicationBuilder app, bool allowInline = false)
         {
             app.UseSecurityHeaders(policy =>
             {
@@ -13,17 +13,20 @@
 
                         x.AddConnectSrc().Self();
 
-                        x.AddImgSrc().Self();
+                        var imgBuilder = x.AddImgSrc().Self();
 
-                        x.AddScriptSrc()
-                            .Self()
-                            //.From("https://cdnjs.cloudflare.com")
-                        ;
+                        var scriptBuilder = x.AddScriptSrc().Self();
 
-                        x.AddStyleSrc()
-                            .Self()
-                            //.From("https://cdnjs.cloudflare.com")
-                        ;
+                        var styleBuilder = x.AddStyleSrc().Self();
+
+                        // for dodgy Swagger CSP
+                        // https://github.com/swagger-api/swagger-ui/issues/3370
+                        if (allowInline)
+                        {
+                            imgBuilder.Data();
+                            scriptBuilder.UnsafeInline();
+                            styleBuilder.UnsafeInline();
+                        }
                     })
                     .AddFeaturePolicy(x =>
                     {

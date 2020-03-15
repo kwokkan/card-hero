@@ -5,28 +5,27 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace CardHero.NetCoreApp.TypeScript.Middleware
 {
     public class JsonExceptionMiddleware
     {
         private static readonly string _newLine = Environment.NewLine;
-        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            IgnoreNullValues = true,
-        };
 
         private readonly ILogger<JsonExceptionMiddleware> _logger;
         private readonly IWebHostEnvironment _environment;
+        private readonly JsonSerializerOptions _options;
         private readonly RequestDelegate _next;
 
-        public JsonExceptionMiddleware(ILogger<JsonExceptionMiddleware> logger, IWebHostEnvironment environment, RequestDelegate next)
+        public JsonExceptionMiddleware(ILogger<JsonExceptionMiddleware> logger, IWebHostEnvironment environment, IOptions<JsonOptions> jsonOptions, RequestDelegate next)
         {
             _logger = logger;
             _environment = environment;
+            _options = jsonOptions?.Value?.JsonSerializerOptions;
             _next = next;
         }
 
@@ -42,11 +41,11 @@ namespace CardHero.NetCoreApp.TypeScript.Middleware
 
                 if (context.Response.HasStarted)
                 {
-                    _logger.LogWarning("Skipping " + nameof(JsonExceptionMiddleware) + ". Response has alreaady started.");
+                    _logger.LogWarning("Skipping " + nameof(JsonExceptionMiddleware) + ". Response has already started.");
                     return;
                 }
 
-                if (context.Request.Path.StartsWithSegments("/api"))
+                if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Response.StatusCode = 400;
                     context.Response.ContentType = "application/json";

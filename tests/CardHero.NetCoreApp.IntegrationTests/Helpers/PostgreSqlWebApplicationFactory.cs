@@ -367,9 +367,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                 foreach (var d in data)
                 {
+                    var gameUserId = context.GameUser.Single(x => x.GameFk == d.GameId && x.UserFk == d.CurrentUserId).GameUserPk;
+
                     context.Turn.Add(new Turn
                     {
-                        CurrentGameUserFk = d.CurrentGameUserId,
+                        CurrentGameUserFk = gameUserId,
                         EndTime = d.EndTime,
                         GameFk = d.GameId,
                         StartTime = d.StartTime,

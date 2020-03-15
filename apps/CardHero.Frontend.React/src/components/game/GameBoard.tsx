@@ -1,14 +1,14 @@
 ﻿import React, { Component } from "react";
-import { ICardModel, IGameDataViewModel, IGameMoveViewModel, IGameViewModel } from "../../clients/clients";
-import { GameService } from "../../services/GameService";
+import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
+import { GamePlayService } from "../../services/GamePlayService";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
 export interface IGameBoardOnUpdatedProps {
-    game: IGameViewModel;
+    gamePlay: IGamePlayModel;
 }
 
 interface IGameBoardProps {
-    game: IGameViewModel;
+    gamePlay: IGamePlayModel;
     onUpdated?: (event: IGameBoardOnUpdatedProps) => void;
 }
 
@@ -16,16 +16,16 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
     static readonly nullGameBoard = <p>No game selected</p>;
 
     private isSelected(row: number, column: number): boolean {
-        return this.props.game.data.moves.findIndex((x: IGameMoveViewModel) => x.row === row && x.column === column) > -1;
+        return this.props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column) > -1;
     }
 
     private getCardIdAtPosition(row: number, column: number): number | null {
-        const move = this.props.game.data.moves.find((x: IGameMoveViewModel) => x.row === row && x.column === column);
+        const move = this.props.gamePlay.moves.find((x: IMoveModel) => x.row === row && x.column === column);
         return move ? move.cardId : null;
     }
 
     private getCard(cardId: number): ICardModel {
-        const card = this.props.game.data.playedCards.find((x: ICardModel) => x.id === cardId);
+        const card = this.props.gamePlay.playedCards.find((x: ICardModel) => x.id === cardId);
         return card;
     }
 
@@ -34,16 +34,16 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
             console.log(data);
         }
 
-        await GameService.move(this.props.game.id, data);
+        await GamePlayService.move(this.props.gamePlay.game.id, data);
 
         if (this.props.onUpdated) {
             this.props.onUpdated({
-                game: this.props.game
+                gamePlay: this.props.gamePlay
             });
         }
     }
 
-    private getGameGrid(data: IGameDataViewModel): JSX.Element[] {
+    private getGameGrid(data: IGamePlayModel): JSX.Element[] {
         if (!data) {
             return null;
         }
@@ -51,10 +51,10 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         const grids: JSX.Element[] = [];
         let key = 0;
 
-        for (var i = 0; i < data.rows; i++) {
+        for (var i = 0; i < data.game.rows; i++) {
             key++;
 
-            for (var j = 0; j < data.columns; j++) {
+            for (var j = 0; j < data.game.columns; j++) {
                 key++;
 
                 const gameDeckCardCollectionId = this.getCardIdAtPosition(i, j);
@@ -78,17 +78,16 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
     }
 
     render() {
-        const game = this.props.game;
+        const game = this.props.gamePlay;
 
         if (!game) {
             return GameBoard.nullGameBoard;
         }
 
-        const data = game.data;
-        const grid = this.getGameGrid(data);
+        const grid = this.getGameGrid(game);
 
         return (
-            <div id="current-game" className="card-text ch-cards game-cards" data-game-id={this.props.game.id}>
+            <div id="current-game" className="card-text ch-cards game-cards" data-game-id={this.props.gamePlay.game.id}>
                 {grid}
             </div>
         );

@@ -26,7 +26,7 @@ namespace CardHero.Core.Models
         /// <summary>
         /// Users.
         /// </summary>
-        public IEnumerable<UserModel> Users { get; set; }
+        public IEnumerable<int> UserIds { get; set; }
 
         /// <summary>
         /// Current user id.
@@ -54,40 +54,8 @@ namespace CardHero.Core.Models
         public GameType Type { get; set; }
 
         /// <summary>
-        /// Deck id.
-        /// </summary>
-        public int DeckId { get; set; }
-
-        /// <summary>
-        /// Deck.
-        /// </summary>
-        public DeckModel Deck { get; set; }
-
-        /// <summary>
-        /// Game deck id.
-        /// </summary>
-        public int GameDeckId { get; set; }
-
-        /// <summary>
-        /// Game deck.
-        /// </summary>
-        public GameDeckModel GameDeck { get; set; }
-
-        /// <summary>
         /// Maximum number of people who can play the game.
         /// </summary>
         public int MaxUsers { get; set; } = 2;
-
-        /// <summary>
-        /// Whether a user can join this game.
-        /// </summary>
-        /// <remarks>Needs to be logged in.</remarks>
-        public bool CanJoin { get; set; }
-
-        /// <summary>
-        /// Whether the user can make their move.
-        /// </summary>
-        /// <remarks>Needs to be logged in.</remarks>
-        public bool CanPlay { get; set; }
     }
 }

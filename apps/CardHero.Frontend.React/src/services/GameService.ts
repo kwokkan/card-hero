@@ -1,4 +1,4 @@
-﻿import { GameApiClient, GameCreateModel, GameMoveViewModel, IGameModel, IGameMoveViewModel, IGameViewModel, JoinGameViewModel } from "../clients/clients";
+﻿import { GameApiClient, GameCreateModel, GameJoinModel, IGameModel } from "../clients/clients";
 
 interface IGameSearchFilter {
     name?: string;
@@ -9,7 +9,7 @@ interface IGameSearchFilter {
 }
 
 export class GameService {
-    static async getGameById(id: number): Promise<IGameViewModel | null> {
+    static async getGameById(id: number): Promise<IGameModel | null> {
         const client = new GameApiClient();
         const model = await client.getById(id);
 
@@ -50,18 +50,9 @@ export class GameService {
     static async join(id: number, deckId: number): Promise<void> {
         const client = new GameApiClient();
 
-        const postModel = new JoinGameViewModel({
+        const postModel = new GameJoinModel({
             deckId: deckId
         });
         await client.join(id, postModel);
-    }
-
-    static async move(id: number, model: IGameMoveViewModel): Promise<IGameMoveViewModel> {
-        const client = new GameApiClient();
-
-        const postModel = new GameMoveViewModel(model);
-        const newModel = await client.move(id, postModel);
-
-        return newModel;
     }
 }

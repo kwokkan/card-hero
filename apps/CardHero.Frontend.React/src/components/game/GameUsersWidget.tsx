@@ -1,9 +1,8 @@
 ﻿import React, { useContext } from "react";
-import { IUserModel } from "../../clients/clients";
 import { AccountContext } from "../../contexts/AccountContext";
 
 interface IGameUsersWidgetProps {
-    users?: IUserModel[];
+    userIds?: number[];
     currentUserId?: number;
 }
 
@@ -18,16 +17,16 @@ export function GameUsersWidget(props: IGameUsersWidgetProps) {
                 Players
             </h4>
             <ul className="list-group list-group-flush" >
-                {props.users && props.users.length > 0 ?
+                {props.userIds && props.userIds.length > 0 ?
                     (
-                        props.users.map(x =>
-                            <li key={x.id} className={'list-group-item' + (props.currentUserId === x.id ? ' current' : '') + (user && user.id === x.id ? ' you' : '')}>
-                                {props.currentUserId === x.id ?
-                                    <strong title="Current player">{x.id}</strong>
+                        props.userIds.map(x =>
+                            <li key={x} className={'list-group-item' + (props.currentUserId === x ? ' current' : '') + (user && user.id === x ? ' you' : '')}>
+                                {props.currentUserId === x ?
+                                    <strong title="Current player">{x}</strong>
                                     :
-                                    (x.id)
+                                    (x)
                                 }
-                                {user && user.id === x.id ? ' (You)' : ''}
+                                {user && user.id === x ? ' (You)' : ''}
                             </li>
                         )
                     )

@@ -1,8 +1,8 @@
 ﻿import React, { Component } from "react";
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import { GameType, IGameDeckModel, IGameViewModel } from "../../clients/clients";
-import { GameService } from "../../services/GameService";
+import { GameType, IGameDeckModel, IGamePlayModel } from "../../clients/clients";
+import { GamePlayService } from "../../services/GamePlayService";
 import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
 import { GameDetailWidget } from "./GameDetailWidget";
@@ -14,7 +14,7 @@ interface IGameProps {
 }
 
 interface IGameState {
-    game?: IGameViewModel;
+    gamePlay?: IGamePlayModel;
     gameDeck?: IGameDeckModel;
     lastUpdate: Date;
 }
@@ -30,29 +30,27 @@ export class Game extends Component<IGameProps, IGameState> {
         };
     }
 
-    private getPlayedGameDeckCardCollectionIds(game?: IGameViewModel): number[] {
+    private getPlayedGameDeckCardCollectionIds(gamePlay?: IGamePlayModel): number[] {
         let playedGdccIds: number[];
 
-        if (game && game.type === GameType.Standard) {
-            const data = game.data;
-
-            if (data) {
-                playedGdccIds = data.moves.map(x => x.gameDeckCardCollectionId);
-            }
+        if (gamePlay && gamePlay.game.type === GameType.Standard) {
+            playedGdccIds = gamePlay.moves.map(x => x.gameDeckCardCollectionId);
         }
 
         return playedGdccIds;
     }
 
     private async populateGame(id: number) {
-        const game = await GameService.getGameById(id);
+        const gamePlay = await GamePlayService.getGamePlayById(id);
 
-        if (game) {
-            if (this.state.lastUpdate < game.lastActivity) {
+        if (gamePlay) {
+            const lastActivity = new Date(gamePlay.game.startTime.getTime() + gamePlay.moves.length);
+
+            if (this.state.lastUpdate < lastActivity) {
                 this.setState({
-                    game: game,
-                    gameDeck: game.gameDeck,
-                    lastUpdate: game.lastActivity
+                    gamePlay: gamePlay,
+                    gameDeck: gamePlay.gameDeck,
+                    lastUpdate: lastActivity
                 });
             }
         }
@@ -73,12 +71,13 @@ export class Game extends Component<IGameProps, IGameState> {
     }
 
     onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {
-        await this.populateGame(event.game.id);
+        await this.populateGame(event.gamePlay.game.id);
     };
 
     render() {
-        const game = this.state.game;
-        const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(game);
+        const gamePlay = this.state.gamePlay;
+        const game = (gamePlay || {}).game;
+        const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(gamePlay);
 
         return (
             <div className="col-lg-12">
@@ -88,7 +87,7 @@ export class Game extends Component<IGameProps, IGameState> {
 
                         <GameUsersWidget
                             currentUserId={game ? game.currentUserId : null}
-                            users={game ? game.users : null}
+                            userIds={game ? game.userIds : null}
                         />
 
                         <GameHistoryWidget game={game} />
@@ -97,7 +96,7 @@ export class Game extends Component<IGameProps, IGameState> {
                     <DndProvider backend={HTML5Backend}>
                         <div className="col-lg-6">
                             <GameBoard
-                                game={game}
+                                gamePlay={gamePlay}
                                 onUpdated={this.onGameBoardUpdated}
                             />
                         </div>

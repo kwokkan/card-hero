@@ -15,11 +15,10 @@ namespace CardHero.Core.Abstractions
         /// Adds an user to a game.
         /// </summary>
         /// <param name="id">The game id.</param>
-        /// <param name="userId">The user id.</param>
-        /// <param name="deckId">The deck id.</param>
+        /// <param name="join">Model containing join details.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task AddUserToGameAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default);
+        Task AddUserToGameAsync(int id, GameJoinModel join, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Starts a new game with the required users.
