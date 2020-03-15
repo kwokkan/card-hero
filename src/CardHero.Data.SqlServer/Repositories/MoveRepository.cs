@@ -44,6 +44,7 @@ namespace CardHero.Data.SqlServer
                 .Move
                 .Include(x => x.GameDeckCardCollectionFkNavigation)
                 .Include(x => x.TurnFkNavigation)
+                    .ThenInclude(x => x.CurrentGameUserFkNavigation)
                 .Where(x => x.TurnFkNavigation.GameFk == gameId)
                 .OrderByDescending(x => x.MovePk)
                 .Select(x => new MoveData
@@ -55,6 +56,7 @@ namespace CardHero.Data.SqlServer
                     GameUserId = x.TurnFkNavigation.CurrentGameUserFk,
                     Row = x.Row,
                     StartTime = x.TurnFkNavigation.StartTime,
+                    UserId = x.TurnFkNavigation.CurrentGameUserFkNavigation.UserFk,
                 })
                 .ToArrayAsync(cancellationToken: cancellationToken);
 

@@ -30,7 +30,12 @@ namespace CardHero.Data.Abstractions
         public int Column { get; set; }
 
         /// <summary>
-        /// The user making the move.
+        /// The user who owns the move.
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// The game user making the move.
         /// </summary>
         public int GameUserId { get; set; }
 
