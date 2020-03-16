@@ -24,4 +24,13 @@
 
 .game-card .card {
     margin-bottom: auto;
+    border: 1px solid red;
+    border-radius: 0.25rem;
+    box-shadow: inset 0 0 0.5rem 0.25rem red;
+}
+
+.game-card.selected .card {
+    border: 1px solid blue;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 0.5rem 0.25rem blue;
 }

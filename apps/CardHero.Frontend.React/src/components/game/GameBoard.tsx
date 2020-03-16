@@ -1,5 +1,6 @@
 ﻿import React, { Component } from "react";
 import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
+import { AccountContext } from "../../contexts/AccountContext";
 import { GamePlayService } from "../../services/GamePlayService";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
@@ -13,10 +14,12 @@ interface IGameBoardProps {
 }
 
 export class GameBoard extends Component<IGameBoardProps, {}> {
+    static contextType = AccountContext;
+
     static readonly nullGameBoard = <p>No game selected</p>;
 
-    private isSelected(row: number, column: number): boolean {
-        return this.props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column) > -1;
+    private isSelected(row: number, column: number, currentUserId: number): boolean {
+        return this.props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column && x.userId === currentUserId) > -1;
     }
 
     private getCardIdAtPosition(row: number, column: number): number | null {
@@ -43,7 +46,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         }
     }
 
-    private getGameGrid(data: IGamePlayModel): JSX.Element[] {
+    private getGameGrid(data: IGamePlayModel, currentUserId: number): JSX.Element[] {
         if (!data) {
             return null;
         }
@@ -51,10 +54,10 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         const grids: JSX.Element[] = [];
         let key = 0;
 
-        for (var i = 0; i < data.game.rows; i++) {
+        for (let i = 0; i < data.game.rows; i++) {
             key++;
 
-            for (var j = 0; j < data.game.columns; j++) {
+            for (let j = 0; j < data.game.columns; j++) {
                 key++;
 
                 const gameDeckCardCollectionId = this.getCardIdAtPosition(i, j);
@@ -66,7 +69,7 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
                         row={i}
                         column={j}
                         card={card}
-                        isSelected={this.isSelected(i, j)}
+                        isSelected={this.isSelected(i, j, currentUserId)}
                         gameDeckCardCollectionId={gameDeckCardCollectionId}
                         onDrop={(x) => this.onCardDropped(x)}
                     />
@@ -84,7 +87,8 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
             return GameBoard.nullGameBoard;
         }
 
-        const grid = this.getGameGrid(game);
+        const user = this.context.user;
+        const grid = this.getGameGrid(game, user.id);
 
         return (
             <div id="current-game" className="card-text ch-cards game-cards" data-game-id={this.props.gamePlay.game.id}>
