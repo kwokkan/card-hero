@@ -16,6 +16,8 @@ interface IGameBoardGridProps {
     column: number;
     card: ICardModel;
     isSelected: boolean;
+    selectedClass?: string;
+    nonSelectedClass?: string;
     gameDeckCardCollectionId?: number;
 
     onDrop?: (data: IGameBoardGridOnDropProps) => void;
@@ -42,7 +44,7 @@ export const GameBoardGrid: React.FC<IGameBoardGridProps> = (props: IGameBoardGr
     return (
         <div
             ref={drop}
-            className={'game-card' + (props.isSelected ? ' selected' : '') + (isOver ? ' bg-primary' : '')}
+            className={'game-card ' + (props.isSelected ? props.selectedClass : props.nonSelectedClass) + (isOver ? ' bg-primary' : '')}
             data-row={props.row}
             data-column={props.column}
             data-game-deck-card-collection-id={props.gameDeckCardCollectionId}

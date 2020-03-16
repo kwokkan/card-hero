@@ -70,6 +70,8 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
                         column={j}
                         card={card}
                         isSelected={this.isSelected(i, j, currentUserId)}
+                        selectedClass="your-card"
+                        nonSelectedClass="opponent-card"
                         gameDeckCardCollectionId={gameDeckCardCollectionId}
                         onDrop={(x) => this.onCardDropped(x)}
                     />
