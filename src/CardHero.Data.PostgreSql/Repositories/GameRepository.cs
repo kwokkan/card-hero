@@ -127,6 +127,11 @@ namespace CardHero.Data.PostgreSql
                 existingGame.CurrentUserFk = update.CurrentUserId.Value;
             }
 
+            if (update.EndTime.IsSet)
+            {
+                existingGame.EndTime = update.EndTime.Value;
+            }
+
             if (update.WinnerUserId.IsSet)
             {
                 existingGame.WinnerUserFk = update.WinnerUserId.Value;
