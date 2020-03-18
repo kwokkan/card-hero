@@ -127,12 +127,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 1,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 2,
                         UserId = 2,
                     }
                 );
@@ -188,7 +190,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
         }
 
         [Fact]
-        public async Task MoveAsync_TheirTurnYouMove_ReturnsBadRequest()
+        public async Task MoveAsync_TheirTurnYourMove_ReturnsBadRequest()
         {
             await RunAsync(async factory =>
             {
@@ -208,12 +210,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 2,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 1,
                         UserId = 2,
                     }
                 );
@@ -245,7 +249,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 await factory.AddDataAsync(
                     new TurnData
                     {
-                        CurrentUserId = 1,
+                        CurrentUserId = 2,
                         GameId = 701,
                         StartTime = DateTime.UtcNow.AddMinutes(-1),
                     }
@@ -287,12 +291,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 2,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 1,
                         UserId = 2,
                     }
                 );
@@ -400,12 +406,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 1,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 2,
                         UserId = 2,
                     }
                 );
@@ -518,12 +526,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 1,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 2,
                         UserId = 2,
                     }
                 );
@@ -660,7 +670,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     new MoveData
                     {
-                        Column = 3,
+                        Column = 2,
                         GameDeckCardCollectionId = 1004,
                         GameUserId = 801,
                         Row = 0,
@@ -807,12 +817,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 1,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 2,
                         UserId = 2,
                     }
                 );
@@ -949,7 +961,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     new MoveData
                     {
-                        Column = 3,
+                        Column = 2,
                         GameDeckCardCollectionId = 1004,
                         GameUserId = 801,
                         Row = 0,
@@ -1096,12 +1108,14 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameId = 701,
                         Id = 801,
+                        Order = 1,
                         UserId = 1,
                     },
                     new GameUserData
                     {
                         GameId = 701,
                         Id = 802,
+                        Order = 2,
                         UserId = 2,
                     }
                 );

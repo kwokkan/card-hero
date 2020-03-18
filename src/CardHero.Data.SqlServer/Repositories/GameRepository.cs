@@ -107,6 +107,7 @@ namespace CardHero.Data.SqlServer
                 .GameUser
                 .Include(x => x.UserFkNavigation)
                 .Where(x => x.GameFk == gameId)
+                .OrderBy(x => x.Order)
                 .Select(x => _userMapper.Map(x.UserFkNavigation))
                 .ToArrayAsync(cancellationToken: cancellationToken);
 

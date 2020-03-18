@@ -62,7 +62,7 @@ namespace CardHero.Core.SqlServer.Services
             _moveValidator = moveValidator;
         }
 
-        private async Task HandleWinnerAsync(int gameId, IEnumerable<int> userIds, int gridSize, CancellationToken cancellationToken = default)
+        private async Task HandleWinnerAsync(int gameId, IEnumerable<int> userIds, CancellationToken cancellationToken = default)
         {
             var moves = await _moveService.GetMovesAsync(gameId, cancellationToken: cancellationToken);
 
@@ -212,7 +212,7 @@ namespace CardHero.Core.SqlServer.Services
             var gridSize = game.Columns * game.Rows;
             if (turns.Count == gridSize)
             {
-                await HandleWinnerAsync(game.Id, game.UserIds, gridSize, cancellationToken: cancellationToken);
+                await HandleWinnerAsync(game.Id, game.UserIds, cancellationToken: cancellationToken);
                 return;
             }
 

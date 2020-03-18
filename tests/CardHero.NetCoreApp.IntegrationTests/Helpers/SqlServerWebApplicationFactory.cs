@@ -352,6 +352,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameFk = d.GameId,
                         GameUserPk = d.Id,
+                        Order = d.Order,
                         UserFk = d.UserId,
                     });
                 }
