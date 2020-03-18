@@ -81,6 +81,7 @@ namespace CardHero.Data.PostgreSql
             {
                 Columns = game.Columns,
                 GameTypeFk = (int)game.Type,
+                MaxPlayers = game.MaxPlayers,
                 Rows = game.Rows,
                 StartTime = DateTime.UtcNow,
             };

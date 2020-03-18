@@ -273,6 +273,43 @@ namespace CardHero.NetCoreApp.IntegrationTests
             }
         }
 
+        public override async Task AddDataAsync(params DeckData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    var newDeck = new Deck
+                    {
+                        DeckPk = d.Id,
+                        MaxCards = d.MaxCards,
+                        UserFk = d.UserId,
+                    };
+
+                    if (d.Cards != null)
+                    {
+                        foreach (var c in d.Cards)
+                        {
+                            newDeck.DeckCardCollection.Add(new DeckCardCollection
+                            {
+                                CardCollectionFkNavigation = new CardCollection
+                                {
+                                    CardFk = c.CardId,
+                                    UserFk = d.UserId,
+                                }
+                            });
+                        }
+                    }
+                    context.Deck.Add(newDeck);
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         public override async Task AddDataAsync(params GameData[] data)
         {
             using (var scope = Services.CreateScope())

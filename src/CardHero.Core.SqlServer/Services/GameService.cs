@@ -94,11 +94,19 @@ namespace CardHero.Core.SqlServer.Services
             if (gul + 1 == game.MaxPlayers)
             {
                 var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
-                await PrepareGameAsync(id, allUsers, cancellationToken);
+                await PrepareGameForPlayAsync(id, allUsers, cancellationToken);
             }
         }
 
-        private async Task PrepareGameAsync(int id, int[] userIds, CancellationToken cancellationToken)
+        private void PrepareGameForCreate(GameCreateModel game)
+        {
+            //TODO: Fix properly in code and not database defaults
+            game.Columns = 3;
+            game.Rows = 3;
+            game.MaxPlayers = 2;
+        }
+
+        private async Task PrepareGameForPlayAsync(int id, int[] userIds, CancellationToken cancellationToken)
         {
             var random = new Random();
             var randomUserIds = userIds.OrderBy(x => random.Next()).ToArray();
@@ -128,6 +136,8 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<GameModel> IGameService.CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken)
         {
+            PrepareGameForCreate(game);
+
             await _gameValidator.ValidateNewGameAsync(game, cancellationToken: cancellationToken);
 
             var newGameCreate = _gameCreateMapper.Map(game);
