@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -141,6 +142,39 @@ namespace CardHero.Data.PostgreSql
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             return await GetGameByIdInternalAsync(id, cancellationToken: cancellationToken);
+        }
+
+        async Task IGameRepository.UpdateGameUsersOrderAsync(int id, IEnumerable<int> userIds, CancellationToken cancellationToken)
+        {
+            if (userIds == null || !userIds.Any())
+            {
+                return;
+            }
+
+            var existingGame = await _context
+                .Game
+                .Include(x => x.GameUser)
+                .SingleOrDefaultAsync(x => x.GamePk == id, cancellationToken: cancellationToken);
+
+            if (existingGame == null)
+            {
+                throw new CardHeroDataException($"Game { id } does not exist.");
+            }
+
+            var counter = 1;
+            var gameUsers = existingGame.GameUser.ToArray();
+
+            foreach (var userId in userIds)
+            {
+                var gu = gameUsers.FirstOrDefault(x => x.UserFk == userId);
+
+                if (gu != null)
+                {
+                    gu.Order = counter++;
+                }
+            }
+
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
         }
     }
 }

@@ -94,22 +94,31 @@ namespace CardHero.Core.SqlServer.Services
             if (gul + 1 == game.MaxPlayers)
             {
                 var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
-                var currentUserIdx = new Random().Next(0, allUsers.Length);
-                var currentUserId = allUsers[currentUserIdx];
-                var updateGame = new GameUpdateData
-                {
-                    CurrentUserId = currentUserId,
-                };
-
-                await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
-
-                var newTurn = new TurnData
-                {
-                    CurrentUserId = currentUserId,
-                    GameId = game.Id,
-                };
-                await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
+                await PrepareGameAsync(id, allUsers, cancellationToken);
             }
+        }
+
+        private async Task PrepareGameAsync(int id, int[] userIds, CancellationToken cancellationToken)
+        {
+            var random = new Random();
+            var randomUserIds = userIds.OrderBy(x => random.Next()).ToArray();
+            var currentUserId = randomUserIds[0];
+
+            var updateGame = new GameUpdateData
+            {
+                CurrentUserId = currentUserId,
+            };
+
+            await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
+
+            await _gameRepository.UpdateGameUsersOrderAsync(id, randomUserIds, cancellationToken: cancellationToken);
+
+            var newTurn = new TurnData
+            {
+                CurrentUserId = currentUserId,
+                GameId = id,
+            };
+            await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
         }
 
         Task IGameService.AddUserToGameAsync(int id, GameJoinModel join, CancellationToken cancellationToken)
