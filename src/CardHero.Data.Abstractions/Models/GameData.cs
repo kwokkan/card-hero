@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CardHero.Core.Models;
+
 namespace CardHero.Data.Abstractions
 {
     public class GameData

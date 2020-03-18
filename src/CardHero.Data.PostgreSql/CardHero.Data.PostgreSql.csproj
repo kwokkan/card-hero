@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CardHero.Core.Models\CardHero.Core.Models.csproj" />
     <ProjectReference Include="..\CardHero.Data.Abstractions\CardHero.Data.Abstractions.csproj" />
   </ItemGroup>
 
