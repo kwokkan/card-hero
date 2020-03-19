@@ -58,14 +58,14 @@ namespace CardHero.Core.SqlServer.Services
                 }
             }
 
-            return null;
+            return moves;
         }
 
         Task<IEnumerable<MoveModel>> IMoveUserService.PopulateMoveUsersAsync(IEnumerable<MoveModel> moves, IEnumerable<CardModel> cards, IEnumerable<int> userIds, CancellationToken cancellationToken)
         {
             var validate = ValidateInternal(moves, cards, userIds);
 
-            if (validate != null)
+            if (!validate.Any())
             {
                 return Task.FromResult(validate);
             }
@@ -82,7 +82,7 @@ namespace CardHero.Core.SqlServer.Services
                 {
                     var currentCard = cards.First(x => x.Id == currentMove.CardId);
 
-                    var aboveMove = moves.Where(x => x.Column == currentMove.Column && x.Row == currentMove.Row - 1).FirstOrDefault();
+                    var aboveMove = moves.FirstOrDefault(x => x.Column == currentMove.Column && x.Row == currentMove.Row - 1);
                     if (aboveMove != null)
                     {
                         var aboveCard = cards.First(x => x.Id == aboveMove.CardId);
@@ -93,7 +93,7 @@ namespace CardHero.Core.SqlServer.Services
                         }
                     }
 
-                    var rightMove = moves.Where(x => x.Column == currentMove.Column + 1 && x.Row == currentMove.Row).FirstOrDefault();
+                    var rightMove = moves.FirstOrDefault(x => x.Column == currentMove.Column + 1 && x.Row == currentMove.Row);
                     if (rightMove != null)
                     {
                         var rightCard = cards.First(x => x.Id == rightMove.CardId);
@@ -104,7 +104,7 @@ namespace CardHero.Core.SqlServer.Services
                         }
                     }
 
-                    var downMove = moves.Where(x => x.Column == currentMove.Column && x.Row == currentMove.Row + 1).FirstOrDefault();
+                    var downMove = moves.FirstOrDefault(x => x.Column == currentMove.Column && x.Row == currentMove.Row + 1);
                     if (downMove != null)
                     {
                         var downCard = cards.First(x => x.Id == downMove.CardId);
@@ -115,7 +115,7 @@ namespace CardHero.Core.SqlServer.Services
                         }
                     }
 
-                    var leftMove = moves.Where(x => x.Column == currentMove.Column - 1 && x.Row == currentMove.Row).FirstOrDefault();
+                    var leftMove = moves.FirstOrDefault(x => x.Column == currentMove.Column - 1 && x.Row == currentMove.Row);
                     if (leftMove != null)
                     {
                         var leftCard = cards.First(x => x.Id == leftMove.CardId);
