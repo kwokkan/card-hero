@@ -1,4 +1,6 @@
-﻿namespace CardHero.Data.Abstractions
+﻿using CardHero.Core.Models;
+
+namespace CardHero.Data.Abstractions
 {
     public class GameCreateData
     {

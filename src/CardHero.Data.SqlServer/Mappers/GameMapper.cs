@@ -1,5 +1,6 @@
 ﻿using System;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 

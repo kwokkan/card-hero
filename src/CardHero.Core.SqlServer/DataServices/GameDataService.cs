@@ -38,7 +38,7 @@ namespace CardHero.Core.SqlServer.DataServices
                 new Data.Abstractions.GameSearchFilter
                 {
                     GameId = filter.GameId,
-                    Type = (Data.Abstractions.GameType?)(int?)filter.Type,
+                    Type = filter.Type,
                 },
                 cancellationToken: cancellationToken
             );
