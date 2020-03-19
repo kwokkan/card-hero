@@ -1244,7 +1244,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     new MoveData
                     {
                         Column = 1,
-                        GameDeckCardCollectionId = 1012,
+                        GameDeckCardCollectionId = 1013,
                         GameUserId = 802,
                         Row = 2,
                         TurnId = 1106,
