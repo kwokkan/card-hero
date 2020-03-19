@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -108,8 +108,7 @@ namespace CardHero.Core.SqlServer.Services
 
         private async Task PrepareGameForPlayAsync(int id, int[] userIds, CancellationToken cancellationToken)
         {
-            var random = new Random();
-            var randomUserIds = userIds.OrderBy(x => random.Next()).ToArray();
+            var randomUserIds = userIds.OrderBy(x => RandomNumberGenerator.GetInt32(int.MinValue, int.MaxValue)).ToArray();
             var currentUserId = randomUserIds[0];
 
             var updateGame = new GameUpdateData
