@@ -1430,6 +1430,10 @@ button.bg-dark:focus {
   color: #6c757d !important;
 }
 
+.visible {
+  visibility: visible !important;
+}
+
 @media print {
   *,
 *::before,

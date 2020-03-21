@@ -2,7 +2,10 @@
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { GameType, IGameDeckModel, IGamePlayModel } from "../../clients/clients";
+import { AccountContext } from "../../contexts/AccountContext";
+import { getGameBannerMessage } from "../../helpers/gameBannerHelpers";
 import { GamePlayService } from "../../services/GamePlayService";
+import { GameBanner } from "./GameBanner";
 import { GameBoard, IGameBoardOnUpdatedProps } from "./GameBoard";
 import { GameDeckWidget } from "./GameDeckWidget";
 import { GameDetailWidget } from "./GameDetailWidget";
@@ -20,6 +23,8 @@ interface IGameState {
 }
 
 export class Game extends Component<IGameProps, IGameState> {
+    static contextType = AccountContext;
+
     private _interval: number;
 
     constructor(props: IGameProps) {
@@ -44,7 +49,9 @@ export class Game extends Component<IGameProps, IGameState> {
         const gamePlay = await GamePlayService.getGamePlayById(id);
 
         if (gamePlay) {
-            const lastActivity = new Date(gamePlay.game.startTime.getTime() + gamePlay.moves.length);
+            const game = gamePlay.game;
+
+            const lastActivity = new Date(game.startTime.getTime() + gamePlay.moves.length);
 
             if (this.state.lastUpdate < lastActivity) {
                 this.setState({
@@ -52,6 +59,10 @@ export class Game extends Component<IGameProps, IGameState> {
                     gameDeck: gamePlay.gameDeck,
                     lastUpdate: lastActivity
                 });
+            }
+
+            if (game.endTime) {
+                window.clearInterval(this._interval);
             }
         }
     }
@@ -79,6 +90,9 @@ export class Game extends Component<IGameProps, IGameState> {
         const game = (gamePlay || {}).game;
         const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(gamePlay);
 
+        const user = this.context.user;
+        const gameBanner = getGameBannerMessage(game, user);
+
         return (
             <div className="col-lg-12">
                 <div className="row">
@@ -95,6 +109,8 @@ export class Game extends Component<IGameProps, IGameState> {
 
                     <DndProvider backend={HTML5Backend}>
                         <div className="col-lg-6">
+                            <GameBanner visible={gameBanner.shouldDisplay} message={gameBanner.message} additionalClasses={gameBanner.additionalClass} />
+
                             <GameBoard
                                 gamePlay={gamePlay}
                                 onUpdated={this.onGameBoardUpdated}
