@@ -20,7 +20,6 @@ interface IGameState {
     gamePlay?: IGamePlayModel;
     gameDeck?: IGameDeckModel;
     lastUpdate: Date;
-    winnerUserId?: number;
 }
 
 export class Game extends Component<IGameProps, IGameState> {
@@ -58,8 +57,7 @@ export class Game extends Component<IGameProps, IGameState> {
                 this.setState({
                     gamePlay: gamePlay,
                     gameDeck: gamePlay.gameDeck,
-                    lastUpdate: lastActivity,
-                    winnerUserId: game.winnerUserId
+                    lastUpdate: lastActivity
                 });
             }
 
