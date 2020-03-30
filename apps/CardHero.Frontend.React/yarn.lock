@@ -1267,10 +1267,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/chart.js@2.9.16":
-  version "2.9.16"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.16.tgz#ac9d268fa192c0ec0efd740f802683e3ed97642c"
-  integrity sha512-Mofg7xFIeAWME46YMVKHPCyUz2Z0KsVMNE1f4oF3T74mK3RiPQxOm9qzoeNTyMs6lpl4x0tiHL+Wsz2DHCxQlQ==
+"@types/chart.js@2.9.17":
+  version "2.9.17"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.17.tgz#c10c607fad33808a72f4fd7f886a9b1ea651aecd"
+  integrity sha512-1/LUNfbwX8RizyrigvEXhDSWPxgEjBCoVceu4DNsf8S0Eq1Wb16yB7uh0o+j4a6g+xkzcYebWCuzK1MGrz29FA==
   dependencies:
     moment "^2.10.2"
 
@@ -1349,10 +1349,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@13.9.5":
-  version "13.9.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.5.tgz#59738bf30b31aea1faa2df7f4a5f55613750cf00"
-  integrity sha512-hkzMMD3xu6BrJpGVLeQ3htQQNAcOrJjX7WFmtK8zWQpz2UJf13LCFF2ALA7c9OVdvc2vQJeDdjfR35M0sBCxvw==
+"@types/node@*", "@types/node@13.9.7":
+  version "13.9.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.7.tgz#53afa8bdb19c3ee7deb06290d50172e0b0a03985"
+  integrity sha512-zokUl6FsWqNN/H5Xl+7M+DBnqWUp3J1gwEQvoTSa/m8phUP5CjFdfsCQ8ptOTL5CTSfG3Is35XgVjjekdk9T7A==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
