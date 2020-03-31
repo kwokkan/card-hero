@@ -1267,10 +1267,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/chart.js@2.9.17":
-  version "2.9.17"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.17.tgz#c10c607fad33808a72f4fd7f886a9b1ea651aecd"
-  integrity sha512-1/LUNfbwX8RizyrigvEXhDSWPxgEjBCoVceu4DNsf8S0Eq1Wb16yB7uh0o+j4a6g+xkzcYebWCuzK1MGrz29FA==
+"@types/chart.js@2.9.18":
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.18.tgz#169e3c939facbfc7883223c2ebd5b0f88ab0a3f3"
+  integrity sha512-D7oaYQqYGdfoa1Wv9doxQJ9Sv/W7jfbiXMT/wVRiM0AsPJsHWLRn7U46xhDkPRGmLCpQGlN2oZYBIwEpMMleog==
   dependencies:
     moment "^2.10.2"
 
