@@ -14,8 +14,9 @@ import { NavMenu } from "../components/shared/NavMenu";
 import { NotificationWidget } from "../components/shared/NotificationWidget";
 import { StoreApp } from "../components/store/StoreApp";
 import { AccountContext } from "../contexts/AccountContext";
-import { NotificationContextProvider } from "../contexts/NotificationContextProvider";
+import { INotificationContextProviderProps, NotificationContextProvider } from "../contexts/NotificationContextProvider";
 import { AccountService } from "../services/AccountService";
+import { NotificationType } from "../types/NotificationType";
 import { getRoutePrefix } from "../utils/route";
 
 interface IMainAppProps {
@@ -26,6 +27,16 @@ interface IMainAppState {
     user?: IUserModel;
     setUser: (user: IUserModel) => void;
 }
+
+const defaultNotification: INotificationContextProviderProps = {
+    notifications: [
+        {
+            message: "Game will be having maintenance.",
+            title: "Status update",
+            type: NotificationType.Info
+        }
+    ]
+};
 
 export class MainApp extends Component<IMainAppProps, IMainAppState> {
     static contextType = AccountContext;
@@ -59,7 +70,7 @@ export class MainApp extends Component<IMainAppProps, IMainAppState> {
 
         return (
             <ErrorBoundary>
-                <NotificationContextProvider>
+                <NotificationContextProvider value={defaultNotification}>
                     <AccountContext.Provider value={this.state}>
                         <BrowserRouter basename={baseUrl}>
                             <NavMenu appName={appName} user={this.state.user} />

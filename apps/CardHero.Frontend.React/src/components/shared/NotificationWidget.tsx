@@ -11,11 +11,13 @@ export class NotificationWidget extends Component {
         const onRemove = this.context.removeNotification;
 
         return (
-            <div className="notifications text-center">
-                {notifications.map((x, index) =>
-                    <NotificationItem key={index} message={x.message} title={x.title} type={x.type} onDismiss={() => onRemove(x)} />
-                )}
-            </div>
+            (notifications.length > 0 &&
+                <div className="notifications text-center">
+                    {notifications.map((x, index) =>
+                        <NotificationItem key={index} message={x.message} title={x.title} type={x.type} onDismiss={() => onRemove(x)} />
+                    )}
+                </div>
+            )
         );
     }
 }

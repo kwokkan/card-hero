@@ -1,21 +1,18 @@
-﻿import React, { useContext, useState } from "react";
+﻿import React, { ProviderProps, useContext, useState } from "react";
 import { INotificationItem } from "../types/INotificationItem";
-import { NotificationType } from "../types/NotificationType";
 import { INotificationContextProps, NotificationContext } from "./NotificationContext";
+
+export interface INotificationContextProviderProps {
+    notifications?: INotificationItem[];
+}
 
 interface INotificationContextProviderState {
     notifications: INotificationItem[];
 }
 
-function NotificationContextProvider(props: any) {
+function NotificationContextProvider(props: ProviderProps<INotificationContextProviderProps>): JSX.Element {
     const [state, setState] = useState<INotificationContextProviderState>({
-        notifications: [
-            {
-                message: "Game will be having maintenance.",
-                title: "Status update",
-                type: NotificationType.Info
-            }
-        ]
+        notifications: (props.value || {}).notifications || []
     });
 
     const contextProps: INotificationContextProps = {
@@ -53,7 +50,7 @@ function NotificationContextProvider(props: any) {
     return (
         <NotificationContext.Provider
             value={contextProps}
-            {...props}
+            children={props.children}
         />
     );
 }
