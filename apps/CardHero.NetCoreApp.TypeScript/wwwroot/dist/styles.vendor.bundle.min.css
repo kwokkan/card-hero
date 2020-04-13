@@ -1045,6 +1045,10 @@ a.badge-secondary:focus {
   border-radius: 0.25rem;
 }
 
+.alert-heading {
+  color: inherit;
+}
+
 @keyframes progress-bar-stripes {
   from {
     background-position: 1rem 0;
