@@ -10,7 +10,7 @@ export class NotificationWidget extends Component {
         const notifications: INotificationItem[] = this.context.notifications;
 
         return (
-            <div className="notifications">
+            <div className="notifications text-center">
                 {notifications.map((x, index) =>
                     <NotificationItem key={index} message={x.message} title={x.title} type={x.type} />
                 )}
