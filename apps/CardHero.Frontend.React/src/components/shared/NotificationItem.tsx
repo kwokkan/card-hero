@@ -2,6 +2,10 @@
 import { INotificationItem } from "../../types/INotificationItem";
 import { NotificationType } from "../../types/NotificationType";
 
+interface INotificationItemProps extends INotificationItem {
+    onDismiss: () => void;
+}
+
 function typeToCss(type: NotificationType): string {
     switch (type) {
         case NotificationType.Danger:
@@ -17,17 +21,21 @@ function typeToCss(type: NotificationType): string {
     }
 }
 
-export class NotificationItem extends Component<INotificationItem, {}> {
+export class NotificationItem extends Component<INotificationItemProps, {}> {
     render() {
         const typeClass = typeToCss(this.props.type);
 
         return (
-            <div className={"notification-item alert " + typeClass}>
+            <div className={"notification-item alert alert-dismissible fade show " + typeClass}>
                 {this.props.title &&
                     <h4 className="alert-heading">{this.props.title}</h4>
                 }
 
                 <p>{this.props.message}</p>
+
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={() => this.props.onDismiss()}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         );
     }

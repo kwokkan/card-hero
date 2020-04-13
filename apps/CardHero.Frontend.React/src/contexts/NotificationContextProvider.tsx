@@ -31,6 +31,22 @@ function NotificationContextProvider(props: any) {
                 return { ...prevState, ...newState };
             })
         },
+        removeNotification: (notification) => {
+            const notifications = [...state.notifications];
+            const index = notifications.indexOf(notification);
+
+            if (index > -1) {
+                notifications.splice(index, 1);
+
+                const newState: INotificationContextProviderState = {
+                    notifications: notifications
+                };
+
+                setState(prevState => {
+                    return { ...prevState, ...newState };
+                })
+            }
+        },
         notifications: state.notifications
     };
 

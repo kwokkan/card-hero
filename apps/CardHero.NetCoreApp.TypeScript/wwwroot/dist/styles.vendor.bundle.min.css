@@ -642,6 +642,18 @@ a.btn.disabled {
   border-radius: 0.2rem;
 }
 
+.fade {
+  transition: opacity 0.15s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+  }
+}
+.fade:not(.show) {
+  opacity: 0;
+}
+
 .collapse:not(.show) {
   display: none;
 }
@@ -1049,6 +1061,17 @@ a.badge-secondary:focus {
   color: inherit;
 }
 
+.alert-dismissible {
+  padding-right: 4rem;
+}
+.alert-dismissible .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
 .alert-primary {
   color: #004085;
   background-color: #cce5ff;
@@ -1184,6 +1207,15 @@ a.close.disabled {
   margin: 0.5rem;
   pointer-events: none;
 }
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+  transform: translate(0, -50px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal.fade .modal-dialog {
+    transition: none;
+  }
+}
 .modal.show .modal-dialog {
   transform: none;
 }
@@ -1250,6 +1282,9 @@ a.close.disabled {
   width: 100vw;
   height: 100vh;
   background-color: #000;
+}
+.modal-backdrop.fade {
+  opacity: 0;
 }
 .modal-backdrop.show {
   opacity: 0.5;
