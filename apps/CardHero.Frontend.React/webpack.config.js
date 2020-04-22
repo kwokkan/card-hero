@@ -236,7 +236,9 @@ module.exports = {
                 test: /\.js$/,
                 include: /src/,
                 loader: [
-                    "source-map-loader"
+                    {
+                        "loader": "source-map-loader"
+                    }
                 ]
             },
             {
