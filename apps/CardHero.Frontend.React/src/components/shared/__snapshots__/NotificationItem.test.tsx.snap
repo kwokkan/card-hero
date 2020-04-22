@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotificationItem /> renders with title and message 1`] = `
+<div
+  className="notification-item alert alert-dismissible fade show alert-primary"
+>
+  <h4
+    className="alert-heading"
+  >
+    Test title
+  </h4>
+  <p>
+    Test message
+  </p>
+  <button
+    aria-label="Close"
+    className="close"
+    data-dismiss="alert"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ×
+    </span>
+  </button>
+</div>
+`;
+
+exports[`<NotificationItem /> renders with title, message and custom type 1`] = `
+<div
+  className="notification-item alert alert-dismissible fade show alert-danger"
+>
+  <h4
+    className="alert-heading"
+  >
+    Test title
+  </h4>
+  <p>
+    Test message
+  </p>
+  <button
+    aria-label="Close"
+    className="close"
+    data-dismiss="alert"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ×
+    </span>
+  </button>
+</div>
+`;
+
+exports[`<NotificationItem /> renders without title 1`] = `
+<div
+  className="notification-item alert alert-dismissible fade show alert-primary"
+>
+  <p>
+    Test message
+  </p>
+  <button
+    aria-label="Close"
+    className="close"
+    data-dismiss="alert"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ×
+    </span>
+  </button>
+</div>
+`;

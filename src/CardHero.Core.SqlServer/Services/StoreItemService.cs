@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -101,11 +102,10 @@ namespace CardHero.Core.SqlServer.Services
 
             var ic = bundle.ItemCount;
             var cards = new CardModel[ic];
-            var random = new Random();
 
             for (int i = 0; i < ic; i++)
             {
-                cards[i] = allCards[random.Next(acl)];
+                cards[i] = allCards[RandomNumberGenerator.GetInt32(acl)];
             }
 
             return cards;

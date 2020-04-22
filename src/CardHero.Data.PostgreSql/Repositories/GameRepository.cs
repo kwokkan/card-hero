@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -80,6 +81,7 @@ namespace CardHero.Data.PostgreSql
             {
                 Columns = game.Columns,
                 GameTypeFk = (int)game.Type,
+                MaxPlayers = game.MaxPlayers,
                 Rows = game.Rows,
                 StartTime = DateTime.UtcNow,
             };
@@ -107,6 +109,7 @@ namespace CardHero.Data.PostgreSql
                 .GameUser
                 .Include(x => x.UserFkNavigation)
                 .Where(x => x.GameFk == gameId)
+                .OrderBy(x => x.Order)
                 .Select(x => _userMapper.Map(x.UserFkNavigation))
                 .ToArrayAsync(cancellationToken: cancellationToken);
 
@@ -127,6 +130,11 @@ namespace CardHero.Data.PostgreSql
                 existingGame.CurrentUserFk = update.CurrentUserId.Value;
             }
 
+            if (update.EndTime.IsSet)
+            {
+                existingGame.EndTime = update.EndTime.Value;
+            }
+
             if (update.WinnerUserId.IsSet)
             {
                 existingGame.WinnerUserFk = update.WinnerUserId.Value;
@@ -135,6 +143,39 @@ namespace CardHero.Data.PostgreSql
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 
             return await GetGameByIdInternalAsync(id, cancellationToken: cancellationToken);
+        }
+
+        async Task IGameRepository.UpdateGameUsersOrderAsync(int id, IEnumerable<int> userIds, CancellationToken cancellationToken)
+        {
+            if (userIds == null || !userIds.Any())
+            {
+                return;
+            }
+
+            var existingGame = await _context
+                .Game
+                .Include(x => x.GameUser)
+                .SingleOrDefaultAsync(x => x.GamePk == id, cancellationToken: cancellationToken);
+
+            if (existingGame == null)
+            {
+                throw new CardHeroDataException($"Game { id } does not exist.");
+            }
+
+            var counter = 1;
+            var gameUsers = existingGame.GameUser.ToArray();
+
+            foreach (var userId in userIds)
+            {
+                var gu = gameUsers.FirstOrDefault(x => x.UserFk == userId);
+
+                if (gu != null)
+                {
+                    gu.Order = counter++;
+                }
+            }
+
+            await _context.SaveChangesAsync(cancellationToken: cancellationToken);
         }
     }
 }

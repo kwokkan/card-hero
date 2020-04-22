@@ -642,6 +642,18 @@ a.btn.disabled {
   border-radius: 0.2rem;
 }
 
+.fade {
+  transition: opacity 0.15s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+  }
+}
+.fade:not(.show) {
+  opacity: 0;
+}
+
 .collapse:not(.show) {
   display: none;
 }
@@ -1045,6 +1057,51 @@ a.badge-secondary:focus {
   border-radius: 0.25rem;
 }
 
+.alert-heading {
+  color: inherit;
+}
+
+.alert-dismissible {
+  padding-right: 4rem;
+}
+.alert-dismissible .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.75rem 1.25rem;
+  color: inherit;
+}
+
+.alert-primary {
+  color: #004085;
+  background-color: #cce5ff;
+  border-color: #b8daff;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
 @keyframes progress-bar-stripes {
   from {
     background-position: 1rem 0;
@@ -1150,6 +1207,15 @@ a.close.disabled {
   margin: 0.5rem;
   pointer-events: none;
 }
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+  transform: translate(0, -50px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal.fade .modal-dialog {
+    transition: none;
+  }
+}
 .modal.show .modal-dialog {
   transform: none;
 }
@@ -1216,6 +1282,9 @@ a.close.disabled {
   width: 100vw;
   height: 100vh;
   background-color: #000;
+}
+.modal-backdrop.fade {
+  opacity: 0;
 }
 .modal-backdrop.show {
   opacity: 0.5;
@@ -1428,6 +1497,10 @@ button.bg-dark:focus {
 
 .text-muted {
   color: #6c757d !important;
+}
+
+.visible {
+  visibility: visible !important;
 }
 
 @media print {

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotificationWidget /> renders with NotificationContextProvider and default notifications 1`] = `
+<div
+  className="notifications text-center"
+>
+  <div
+    className="notification-item alert alert-dismissible fade show alert-info"
+  >
+    <h4
+      className="alert-heading"
+    >
+      Test title
+    </h4>
+    <p>
+      Test message
+    </p>
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="alert"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+  <div
+    className="notification-item alert alert-dismissible fade show alert-danger"
+  >
+    <h4
+      className="alert-heading"
+    >
+      Danger title
+    </h4>
+    <p>
+      Danger message
+    </p>
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="alert"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`<NotificationWidget /> renders with NotificationContextProvider and null notifications 1`] = `null`;

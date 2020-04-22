@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace CardHero.Core.SqlServer.Services
 
         private readonly ICardService _cardService;
         private readonly IGameDataService _gameDataService;
-
+        private readonly IMoveService _moveService;
+        private readonly IMoveUserService _moveUserService;
         private readonly IGameValidator _gameValidator;
         private readonly IMoveValidator _moveValidator;
 
@@ -37,6 +39,8 @@ namespace CardHero.Core.SqlServer.Services
             IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
             ICardService cardService,
             IGameDataService gameDataService,
+            IMoveService moveService,
+            IMoveUserService moveUserService,
             IGameValidator gameValidator,
             IMoveValidator moveValidator
         )
@@ -52,9 +56,59 @@ namespace CardHero.Core.SqlServer.Services
 
             _cardService = cardService;
             _gameDataService = gameDataService;
-
+            _moveService = moveService;
+            _moveUserService = moveUserService;
             _gameValidator = gameValidator;
             _moveValidator = moveValidator;
+        }
+
+        private async Task HandleWinnerAsync(int gameId, IEnumerable<int> userIds, CancellationToken cancellationToken = default)
+        {
+            var moves = await _moveService.GetMovesAsync(gameId, cancellationToken: cancellationToken);
+
+            var cardIds = moves.Select(x => x.CardId).ToArray();
+            var result = await _cardService.GetCardsAsync(new Abstractions.CardSearchFilter
+            {
+                Ids = cardIds,
+            });
+            var cards = result.Results;
+
+            var newMoves = await _moveUserService.PopulateMoveUsersAsync(moves, cards, userIds, cancellationToken: cancellationToken);
+
+            var groupedMoves = newMoves
+                .GroupBy(x => x.UserId)
+                .Select(x =>
+                new
+                {
+                    UserId = x.Key,
+                    Count = x.Count() - (x.Key == userIds.First() ? 1 : 0),
+                })
+                .OrderByDescending(x => x.Count)
+                .ToArray()
+            ;
+
+            var highestValue = groupedMoves[0].Count;
+
+            var gameUpdate = new GameUpdateData
+            {
+                EndTime = DateTime.UtcNow,
+            };
+
+            if (groupedMoves.Skip(1).Any(x => x.Count == highestValue))
+            {
+                // draw
+            }
+            else if (groupedMoves.Skip(1).Any(x => x.Count > highestValue))
+            {
+                // winner is someone else
+                gameUpdate.WinnerUserId = groupedMoves.Skip(1).First(x => x.Count > highestValue).UserId;
+            }
+            else
+            {
+                gameUpdate.WinnerUserId = groupedMoves[0].UserId;
+            }
+
+            await _gameRepository.UpdateGameAsync(gameId, gameUpdate, cancellationToken: cancellationToken);
         }
 
         private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
@@ -154,6 +208,13 @@ namespace CardHero.Core.SqlServer.Services
             };
 
             await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
+
+            var gridSize = game.Columns * game.Rows;
+            if (turns.Count == gridSize)
+            {
+                await HandleWinnerAsync(game.Id, game.UserIds, cancellationToken: cancellationToken);
+                return;
+            }
 
             var nextUserId = game.UserIds
                 .SkipWhile(x => x != move.UserId)

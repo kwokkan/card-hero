@@ -19,7 +19,7 @@ namespace CardHero.Core.Abstractions
                 Columns = from.Columns,
                 MaxPlayers = from.MaxPlayers,
                 Rows = from.Rows,
-                Type = (Data.Abstractions.GameType)(int)from.Type,
+                Type = from.Type,
             };
         }
     }

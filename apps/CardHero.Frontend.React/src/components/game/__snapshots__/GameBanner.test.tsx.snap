@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GameBanner /> renders null when not visible 1`] = `null`;
+
+exports[`<GameBanner /> renders with message 1`] = `
+<div
+  className="game-banner"
+>
+  <span
+    className="game-banner-message"
+  >
+    My message
+  </span>
+</div>
+`;
+
+exports[`<GameBanner /> renders with message and additional class 1`] = `
+<div
+  className="game-banner"
+>
+  <span
+    className="game-banner-message new-class more-class"
+  >
+    My message
+  </span>
+</div>
+`;

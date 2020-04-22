@@ -249,6 +249,67 @@ namespace CardHero.NetCoreApp.IntegrationTests
             SeedDbContext(context);
         }
 
+        public override async Task AddDataAsync(params CardData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    context.Card.Add(new Card
+                    {
+                        CardPk = d.Id,
+                        DownAttack = d.DownAttack,
+                        LeftAttack = d.LeftAttack,
+                        RarityFk = d.Rarity?.Id ?? 1,
+                        RightAttack = d.RightAttack,
+                        UpAttack = d.UpAttack,
+                    });
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task AddDataAsync(params DeckData[] data)
+        {
+            using (var scope = Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<CardHeroDataDbContext>();
+
+                foreach (var d in data)
+                {
+                    var newDeck = new Deck
+                    {
+                        DeckPk = d.Id,
+                        MaxCards = d.MaxCards,
+                        UserFk = d.UserId,
+                    };
+
+                    if (d.Cards != null)
+                    {
+                        foreach (var c in d.Cards)
+                        {
+                            newDeck.DeckCardCollection.Add(new DeckCardCollection
+                            {
+                                CardCollectionFkNavigation = new CardCollection
+                                {
+                                    CardFk = c.CardId,
+                                    UserFk = d.UserId,
+                                }
+                            });
+                        }
+                    }
+                    context.Deck.Add(newDeck);
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         public override async Task AddDataAsync(params GameData[] data)
         {
             using (var scope = Services.CreateScope())
@@ -328,6 +389,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     {
                         GameFk = d.GameId,
                         GameUserPk = d.Id,
+                        Order = d.Order,
                         UserFk = d.UserId,
                     });
                 }

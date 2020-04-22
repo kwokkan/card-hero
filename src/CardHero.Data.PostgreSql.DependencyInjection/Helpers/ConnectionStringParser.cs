@@ -26,11 +26,6 @@ namespace CardHero.Data.PostgreSql.DependencyInjection
                 throw new ArgumentException("message", nameof(connectionString));
             }
 
-            if (options is null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
             var builder = new NpgsqlConnectionStringBuilder();
 
             if (Uri.TryCreate(connectionString, UriKind.Absolute, out var connectionUri))

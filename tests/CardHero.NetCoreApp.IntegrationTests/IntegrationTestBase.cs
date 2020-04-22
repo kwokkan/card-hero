@@ -10,6 +10,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
+        protected const int IdCard = 100;
+        protected const int IdDeck = 400;
+        protected const int IdGame = 700;
+        protected const int IdCardCollection = 900;
+
         private readonly List<BaseWebApplicationFactory> _factories = new List<BaseWebApplicationFactory>();
 
         public IntegrationTestBase(PostgreSqlWebApplicationFactory postgresApplicationFactory, SqlServerWebApplicationFactory sqlServerApplicationFactory)

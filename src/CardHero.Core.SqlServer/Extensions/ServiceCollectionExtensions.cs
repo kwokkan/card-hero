@@ -24,6 +24,7 @@ namespace CardHero.Core.SqlServer.Web
                 .AddScoped<IGamePlayService, GamePlayService>()
                 .AddScoped<IGameService, GameService>()
                 .AddScoped<IMoveService, MoveService>()
+                .AddScoped<IMoveUserService, MoveUserService>()
                 .AddScoped<IStoreItemService, StoreItemService>()
                 .AddScoped<IUserService, UserService>()
             ;

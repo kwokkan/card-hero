@@ -14,7 +14,8 @@ namespace CardHero.Core.Abstractions
                 GameDeckCardCollectionId = from.GameDeckCardCollectionId,
                 GameId = from.GameId,
                 Row = from.Row,
-                UserId = from.GameUserId,
+                StartTime = from.StartTime,
+                UserId = from.UserId,
             };
         }
 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -94,22 +94,38 @@ namespace CardHero.Core.SqlServer.Services
             if (gul + 1 == game.MaxPlayers)
             {
                 var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
-                var currentUserIdx = new Random().Next(0, allUsers.Length);
-                var currentUserId = allUsers[currentUserIdx];
-                var updateGame = new GameUpdateData
-                {
-                    CurrentUserId = currentUserId,
-                };
-
-                await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
-
-                var newTurn = new TurnData
-                {
-                    CurrentUserId = currentUserId,
-                    GameId = game.Id,
-                };
-                await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
+                await PrepareGameForPlayAsync(id, allUsers, cancellationToken);
             }
+        }
+
+        private void PrepareGameForCreate(GameCreateModel game)
+        {
+            //TODO: Fix properly in code and not database defaults
+            game.Columns = 3;
+            game.Rows = 3;
+            game.MaxPlayers = 2;
+        }
+
+        private async Task PrepareGameForPlayAsync(int id, int[] userIds, CancellationToken cancellationToken)
+        {
+            var randomUserIds = userIds.OrderBy(x => RandomNumberGenerator.GetInt32(int.MinValue, int.MaxValue)).ToArray();
+            var currentUserId = randomUserIds[0];
+
+            var updateGame = new GameUpdateData
+            {
+                CurrentUserId = currentUserId,
+            };
+
+            await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
+
+            await _gameRepository.UpdateGameUsersOrderAsync(id, randomUserIds, cancellationToken: cancellationToken);
+
+            var newTurn = new TurnData
+            {
+                CurrentUserId = currentUserId,
+                GameId = id,
+            };
+            await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
         }
 
         Task IGameService.AddUserToGameAsync(int id, GameJoinModel join, CancellationToken cancellationToken)
@@ -119,6 +135,8 @@ namespace CardHero.Core.SqlServer.Services
 
         async Task<GameModel> IGameService.CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken)
         {
+            PrepareGameForCreate(game);
+
             await _gameValidator.ValidateNewGameAsync(game, cancellationToken: cancellationToken);
 
             var newGameCreate = _gameCreateMapper.Map(game);

@@ -48,6 +48,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<GameModel>> PostAsync(GameCreateModel model, CancellationToken cancellationToken)
@@ -69,7 +70,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
         [HttpPost("{id:int}/join")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Join(int id, [FromBody]GameJoinModel model, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> JoinAsync(int id, [FromBody]GameJoinModel model, CancellationToken cancellationToken = default)
         {
             var user = await GetUserAsync(cancellationToken: cancellationToken);
             model.UserId = user.Id;

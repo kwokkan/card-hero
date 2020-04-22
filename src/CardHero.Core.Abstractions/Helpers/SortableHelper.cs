@@ -12,8 +12,7 @@ namespace CardHero.Core.Abstractions
             {
                 var property = typeof(T)
                     .GetProperties()
-                    .Where(x => x.Name == propertyName)
-                    .FirstOrDefault();
+                    .FirstOrDefault(x => x.Name == propertyName);
 
                 if (property != null)
                 {

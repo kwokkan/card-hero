@@ -8,6 +8,5 @@ namespace CardHero.NetCoreApp.IntegrationTests
             : base(postgresApplicationFactory, sqlServerApplicationFactory)
         {
         }
-
     }
 }

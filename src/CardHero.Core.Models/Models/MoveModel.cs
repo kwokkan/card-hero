@@ -1,4 +1,6 @@
-﻿namespace CardHero.Core.Models
+﻿using System;
+
+namespace CardHero.Core.Models
 {
     /// <summary>
     /// Represents a move by a player.
@@ -34,5 +36,10 @@
         /// The user making the move.
         /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Time the move was made.
+        /// </summary>
+        public DateTime StartTime { get; set; }
     }
 }
