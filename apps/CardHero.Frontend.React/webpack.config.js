@@ -235,7 +235,7 @@ module.exports = {
                 enforce: "pre",
                 test: /\.js$/,
                 include: /src/,
-                loader: [
+                use: [
                     {
                         "loader": "source-map-loader"
                     }
