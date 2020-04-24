@@ -237,7 +237,7 @@ module.exports = {
                 include: /src/,
                 use: [
                     {
-                        "loader": "source-map-loader"
+                        loader: "source-map-loader"
                     }
                 ]
             },
