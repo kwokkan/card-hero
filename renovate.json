@@ -29,6 +29,12 @@
       "sourceUrlPrefixes": [
         "https://github.com/RicoSuter/NSwag"
       ]
+    },
+    {
+      "groupName": "webpack-contrib monorepo",
+      "sourceUrlPrefixes": [
+        "https://github.com/webpack-contrib/"
+      ]
     }
   ],
   "postUpdateOptions": [

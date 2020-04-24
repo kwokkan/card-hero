@@ -222,9 +222,11 @@ module.exports = {
                 enforce: "pre",
                 test: /\.js$/,
                 include: /src/,
-                loader: [
+                use: [
                     "cache-loader",
-                    "source-map-loader"
+                    {
+                        loader: "source-map-loader"
+                    }
                 ]
             },
             {
