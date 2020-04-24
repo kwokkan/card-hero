@@ -58,7 +58,7 @@
     "purgecss-webpack-plugin": "2.1.2",
     "react-app-polyfill": "1.0.6",
     "react-test-renderer": "16.13.1",
-    "sass": "1.26.3",
+    "sass": "1.26.5",
     "sass-loader": "8.0.2",
     "source-map-loader": "0.2.4",
     "terser-webpack-plugin": "2.3.5",
