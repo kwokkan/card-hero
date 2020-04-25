@@ -14,7 +14,7 @@ const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
 const pathSep = path.sep;
-const modulePrefix = path.resolve(__dirname, ".yarn", "cache") + pathSep;
+const modulePrefix = path.resolve(__dirname, ".yarn") + pathSep;
 const moduleLength = modulePrefix.length;
 
 module.exports = {
@@ -117,7 +117,7 @@ module.exports = {
                     name: (module, chunk, cacheGroupKey) => {
                         const moduleFile = module.resource.substring(moduleLength);
                         const moduleParts = moduleFile.split(pathSep);
-                        const packageName = moduleParts[2];
+                        const packageName = moduleParts[moduleFile.startsWith("$$virtual") ? 6 : 3];
 
                         if (packageName) {
                             return "vendor." + packageName;
