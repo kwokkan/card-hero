@@ -41,10 +41,11 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             mv config/.yarnclean .yarnclean
-            yarn install --frozen-lockfile
+            yarn install --immutable --immutable-cache --check-cache
       - save_cache:
           key: yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
+            - << pipeline.parameters.node-project >>/.yarn
             - << pipeline.parameters.node-project >>/node_modules
 
   dotnet-build:
@@ -117,11 +118,10 @@ jobs:
           docker -v
       - run: |
           cd publish
-          yarn global add heroku
           docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
           docker build . -t card-hero/frontend -f Dockerfile
-          heroku container:push web -a card-hero
-          heroku container:release web -a card-hero
+          yarn dlx heroku container:push web -a card-hero
+          yarn dlx heroku container:release web -a card-hero
 
   npm-build:
     docker:
@@ -134,10 +134,10 @@ jobs:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-v3-{{ arch }}-
       - run:
-          name: npm build:prod
+          name: yarn build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            npm run build:prod
+            yarn build:prod
       - persist_to_workspace:
           root: .
           paths:
@@ -153,10 +153,10 @@ jobs:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
             - yarn-cache-v3-{{ arch }}-
       - run:
-          name: npm test
+          name: yarn test
           command: |
             cd << pipeline.parameters.node-project >>
-            npm run test
+            yarn test
       - persist_to_workspace:
           root: .
           paths:
