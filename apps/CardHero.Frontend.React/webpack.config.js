@@ -52,8 +52,6 @@ module.exports = {
         ]
     },
 
-    recordsPath: path.resolve(__dirname, "records.json"),
-
     optimization: {
         minimize: isProd,
         minimizer: isProd ? [
