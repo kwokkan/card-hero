@@ -8,7 +8,7 @@ const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 
-const isProd = process.env.NODE_ENV == "production";
+const isProd = process.env.NODE_ENV === "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
@@ -220,6 +220,7 @@ module.exports = {
                 enforce: "pre",
                 test: /\.js$/,
                 include: /src/,
+                exclude: /node_modules/,
                 use: [
                     "cache-loader",
                     {
