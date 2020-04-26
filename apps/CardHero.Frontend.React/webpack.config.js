@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
@@ -13,7 +14,7 @@ const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
 const pathSep = path.sep;
-const modulePrefix = path.resolve(__dirname, "node_modules") + pathSep;
+const modulePrefix = path.resolve(__dirname, ".yarn") + pathSep;
 const moduleLength = modulePrefix.length;
 
 module.exports = {
@@ -114,12 +115,12 @@ module.exports = {
                 "vendor.default": {
                     chunks: "all",
                     name: (module, chunk, cacheGroupKey) => {
-                        if (module.resource) {
-                            if (module.resource.startsWith(modulePrefix)) {
-                                const moduleFile = module.resource.substring(moduleLength);
-                                const packageName = moduleFile.substring(0, moduleFile.indexOf(pathSep));
-                                return "vendor." + packageName;
-                            }
+                        const moduleFile = module.resource.substring(moduleLength);
+                        const moduleParts = moduleFile.split(pathSep);
+                        const packageName = moduleParts[moduleFile.startsWith("$$virtual") ? 6 : 3];
+
+                        if (packageName) {
+                            return "vendor." + packageName;
                         }
 
                         return cacheGroupKey;
@@ -144,6 +145,15 @@ module.exports = {
         //    "react": "preact",
         //    "react-dom": "preact",
         //}
+        plugins: [
+            PnpWebpackPlugin
+        ]
+    },
+
+    resolveLoader: {
+        plugins: [
+            PnpWebpackPlugin.moduleLoader(module),
+        ],
     },
 
     plugins: [
