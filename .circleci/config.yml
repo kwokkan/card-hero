@@ -41,7 +41,7 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             mv config/.yarnclean .yarnclean
-            yarn install --immutable --immutable-cache --check-cache
+            yarn install
       - save_cache:
           key: yarn-cache-v4-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
