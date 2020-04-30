@@ -10,7 +10,7 @@
     "@fortawesome/react-fontawesome": "0.1.9",
     "bootstrap": "4.4.1",
     "chart.js": "2.9.3",
-    "dayjs": "1.8.25",
+    "dayjs": "1.8.26",
     "jquery": "3.5.0",
     "popper.js": "1.16.1",
     "react": "16.13.1",
