@@ -21,7 +21,7 @@ interface IMainProps {
 }
 
 export function Main(props: IMainProps) {
-    const { setUser, user } = useAccountContext();
+    const { setUser, user: contextUser } = useAccountContext();
 
     useEffect(() => {
         async function loadData() {
@@ -39,7 +39,7 @@ export function Main(props: IMainProps) {
 
     return (
         <BrowserRouter basename={baseUrl}>
-            <NavMenu appName={appName} user={user} />
+            <NavMenu appName={appName} user={contextUser} />
 
             <div className="container-fluid body-content">
                 <NotificationWidget />
