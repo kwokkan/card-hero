@@ -16,6 +16,7 @@ import { AccountService } from "../services/AccountService";
 import { getRoutePrefix } from "../utils/route";
 
 interface IMainProps {
+    appName: string;
     baseUrl?: string;
 }
 
@@ -33,7 +34,7 @@ export function Main(props: IMainProps) {
         loadData();
     }, []);  //eslint-disable-line react-hooks/exhaustive-deps
 
-    const appName = Constants.AppName;
+    const appName = props.appName;
     const baseUrl = getRoutePrefix(props.baseUrl);
 
     return (

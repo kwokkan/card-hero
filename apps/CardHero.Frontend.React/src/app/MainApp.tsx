@@ -4,23 +4,15 @@ import { ErrorBoundary } from "../components/shared/ErrorBoundary";
 import { IAccountContextProps } from "../contexts/AccountContext";
 import { AccountContextProvider } from "../contexts/AccountContextProvider";
 import { INotificationContextProviderProps, NotificationContextProvider } from "../contexts/NotificationContextProvider";
-import { NotificationType } from "../types/NotificationType";
+import { INotificationItem } from "../types/INotificationItem";
 import { getRoutePrefix } from "../utils/route";
 import { Main } from "./Main";
 
 interface IMainAppProps {
+    appName: string;
     baseUrl?: string;
+    defaultNotifications?: INotificationItem[];
 }
-
-const defaultNotification: INotificationContextProviderProps = {
-    notifications: [
-        {
-            message: "Game will be having maintenance.",
-            title: "Status update",
-            type: NotificationType.Info
-        }
-    ]
-};
 
 export function MainApp(props: IMainAppProps) {
     const [userState, setUserState] = useState<IUserModel>();
@@ -30,13 +22,17 @@ export function MainApp(props: IMainAppProps) {
         setUser: setUserState
     };
 
+    const notificationContextProps: INotificationContextProviderProps = {
+        notifications: props.defaultNotifications
+    };
+
     const baseUrl = getRoutePrefix(props.baseUrl);
 
     return (
         <ErrorBoundary>
             <AccountContextProvider value={contextProps}>
-                <NotificationContextProvider value={defaultNotification}>
-                    <Main baseUrl={baseUrl} />
+                <NotificationContextProvider value={notificationContextProps}>
+                    <Main appName={props.appName} baseUrl={baseUrl} />
                 </NotificationContextProvider>
             </AccountContextProvider>
         </ErrorBoundary>
