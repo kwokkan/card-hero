@@ -7,20 +7,16 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.DataServices;
+using CardHero.Core.SqlServer.Helpers;
 using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class GamePlayService : BaseService, IGamePlayService
     {
-        private readonly IGameDeckCardCollectionRepository _gameDeckCardCollectionRepository;
-        private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IMoveRepository _moveRepository;
         private readonly ITurnRepository _turnRepository;
-
-        private readonly IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> _gameDeckCardCollectionMapper;
-        private readonly IDataMapper<GameDeckData, GameDeckModel> _gameDeckMapper;
 
         private readonly ICardService _cardService;
         private readonly IGameDataService _gameDataService;
@@ -28,31 +24,24 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IMoveUserService _moveUserService;
         private readonly IGameValidator _gameValidator;
         private readonly IMoveValidator _moveValidator;
+        private readonly IGameDeckHelper _gameDeckHelper;
 
         public GamePlayService(
-            IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
-            IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
             ITurnRepository turnRepository,
-            IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel> gameDeckCardCollectionMapper,
-            IDataMapper<GameDeckData, GameDeckModel> gameDeckMapper,
             ICardService cardService,
             IGameDataService gameDataService,
             IMoveService moveService,
             IMoveUserService moveUserService,
             IGameValidator gameValidator,
-            IMoveValidator moveValidator
+            IMoveValidator moveValidator,
+            IGameDeckHelper gameDeckHelper
         )
         {
-            _gameDeckCardCollectionRepository = gameDeckCardCollectionRepository;
-            _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
             _turnRepository = turnRepository;
-
-            _gameDeckCardCollectionMapper = gameDeckCardCollectionMapper;
-            _gameDeckMapper = gameDeckMapper;
 
             _cardService = cardService;
             _gameDataService = gameDataService;
@@ -60,6 +49,7 @@ namespace CardHero.Core.SqlServer.Services
             _moveUserService = moveUserService;
             _gameValidator = gameValidator;
             _moveValidator = moveValidator;
+            _gameDeckHelper = gameDeckHelper;
         }
 
         private async Task HandleWinnerAsync(int gameId, IEnumerable<int> userIds, CancellationToken cancellationToken = default)
@@ -115,18 +105,6 @@ namespace CardHero.Core.SqlServer.Services
         {
             var game = await _gameValidator.ValidateGameForMoveAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
 
-            var card = (await _gameDeckCardCollectionRepository.SearchAsync(
-                new GameDeckCardCollectionSearchFilter
-                {
-                    Ids = new int[] { move.GameDeckCardCollectionId },
-                    UserId = move.UserId,
-                }, cancellationToken: cancellationToken)).SingleOrDefault(x => x.Id == move.GameDeckCardCollectionId);
-
-            if (card == null)
-            {
-                throw new InvalidCardException();
-            }
-
             await _moveValidator.ValidateMoveAsync(move, game, cancellationToken: cancellationToken);
 
             return game;
@@ -150,33 +128,7 @@ namespace CardHero.Core.SqlServer.Services
                 Game = game,
             };
 
-            if (userId.HasValue)
-            {
-                await _gameDataService.PopulateGameUsersAsync(game, cancellationToken: cancellationToken);
-                var uid = game.UserIds.SingleOrDefault(x => x == userId.Value);
-
-                if (uid != default)
-                {
-                    var gameDeck = await _gameDeckRepository.GetGameDeckByGameAndUserIdAsync(id, uid, cancellationToken: cancellationToken);
-                    var deckCards = await _gameDeckRepository.GetGameDeckCardCollectionAsync(gameDeck.Id, cancellationToken: cancellationToken);
-
-                    gamePlay.GameDeckId = gameDeck.Id;
-                    gamePlay.GameDeck = _gameDeckMapper.Map(gameDeck);
-                    gamePlay.GameDeck.CardCollection = deckCards.Select(_gameDeckCardCollectionMapper.Map).ToArray();
-
-                    //TODO: Replace with data layer
-                    var cardFilter = new Abstractions.CardSearchFilter
-                    {
-                        Ids = deckCards.Select(x => x.CardId).ToArray(),
-                    };
-                    var cards = await _cardService.GetCardsAsync(cardFilter, cancellationToken: cancellationToken);
-
-                    foreach (var cc in gamePlay.GameDeck.CardCollection)
-                    {
-                        cc.Card = cards.Results.SingleOrDefault(x => x.Id == cc.CardId);
-                    }
-                }
-            }
+            await _gameDeckHelper.PopulateDeckAsync(userId, game, gamePlay, cancellationToken: cancellationToken);
 
             return gamePlay;
         }
