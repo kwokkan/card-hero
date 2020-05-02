@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.DataServices;
+using CardHero.Core.SqlServer.Handlers;
 using CardHero.Core.SqlServer.Helpers;
 using CardHero.Data.Abstractions;
 
@@ -18,87 +18,34 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IMoveRepository _moveRepository;
         private readonly ITurnRepository _turnRepository;
 
-        private readonly ICardService _cardService;
         private readonly IGameDataService _gameDataService;
-        private readonly IMoveService _moveService;
-        private readonly IMoveUserService _moveUserService;
         private readonly IGameValidator _gameValidator;
         private readonly IMoveValidator _moveValidator;
         private readonly IGameDeckHelper _gameDeckHelper;
+        private readonly IHandleWinnerHandler _handleWinnerHandler;
 
         public GamePlayService(
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
             ITurnRepository turnRepository,
-            ICardService cardService,
             IGameDataService gameDataService,
-            IMoveService moveService,
-            IMoveUserService moveUserService,
             IGameValidator gameValidator,
             IMoveValidator moveValidator,
-            IGameDeckHelper gameDeckHelper
+            IGameDeckHelper gameDeckHelper,
+            IHandleWinnerHandler handleWinnerHandler
         )
         {
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
             _turnRepository = turnRepository;
 
-            _cardService = cardService;
             _gameDataService = gameDataService;
-            _moveService = moveService;
-            _moveUserService = moveUserService;
             _gameValidator = gameValidator;
             _moveValidator = moveValidator;
+
             _gameDeckHelper = gameDeckHelper;
-        }
 
-        private async Task HandleWinnerAsync(int gameId, IEnumerable<int> userIds, CancellationToken cancellationToken = default)
-        {
-            var moves = await _moveService.GetMovesAsync(gameId, cancellationToken: cancellationToken);
-
-            var cardIds = moves.Select(x => x.CardId).ToArray();
-            var result = await _cardService.GetCardsAsync(new Abstractions.CardSearchFilter
-            {
-                Ids = cardIds,
-            });
-            var cards = result.Results;
-
-            var newMoves = await _moveUserService.PopulateMoveUsersAsync(moves, cards, userIds, cancellationToken: cancellationToken);
-
-            var groupedMoves = newMoves
-                .GroupBy(x => x.UserId)
-                .Select(x =>
-                new
-                {
-                    UserId = x.Key,
-                    Count = x.Count() - (x.Key == userIds.First() ? 1 : 0),
-                })
-                .OrderByDescending(x => x.Count)
-                .ToArray()
-            ;
-
-            var highestValue = groupedMoves[0].Count;
-
-            var gameUpdate = new GameUpdateData
-            {
-                EndTime = DateTime.UtcNow,
-            };
-
-            if (groupedMoves.Skip(1).Any(x => x.Count == highestValue))
-            {
-                // draw
-            }
-            else if (groupedMoves.Skip(1).Any(x => x.Count > highestValue))
-            {
-                // winner is someone else
-                gameUpdate.WinnerUserId = groupedMoves.Skip(1).First(x => x.Count > highestValue).UserId;
-            }
-            else
-            {
-                gameUpdate.WinnerUserId = groupedMoves[0].UserId;
-            }
-
-            await _gameRepository.UpdateGameAsync(gameId, gameUpdate, cancellationToken: cancellationToken);
+            _handleWinnerHandler = handleWinnerHandler;
         }
 
         private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
@@ -164,7 +111,7 @@ namespace CardHero.Core.SqlServer.Services
             var gridSize = game.Columns * game.Rows;
             if (turns.Count == gridSize)
             {
-                await HandleWinnerAsync(game.Id, game.UserIds, cancellationToken: cancellationToken);
+                await _handleWinnerHandler.HandleAsync(game.Id, game.UserIds, cancellationToken: cancellationToken);
                 return;
             }
 
