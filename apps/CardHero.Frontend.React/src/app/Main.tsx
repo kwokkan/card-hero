@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useContext, useEffect } from "react";
+﻿import React, { Fragment, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Card } from "../components/card/Card";
 import { CardApp } from "../components/card/CardApp";
@@ -11,7 +11,7 @@ import { HomeApp } from "../components/home/HomeApp";
 import { NavMenu } from "../components/shared/NavMenu";
 import { NotificationWidget } from "../components/shared/NotificationWidget";
 import { StoreApp } from "../components/store/StoreApp";
-import { AccountContext } from "../contexts/AccountContext";
+import { useAccountContext } from "../contexts/AccountContextProvider";
 import { AccountService } from "../services/AccountService";
 import { getRoutePrefix } from "../utils/route";
 
@@ -20,25 +20,25 @@ interface IMainProps {
 }
 
 export function Main(props: IMainProps) {
-    const context = useContext(AccountContext);
+    const { setUser, user } = useAccountContext();
 
     useEffect(() => {
         async function loadData() {
             const user = await AccountService.getAccount();
 
             if (user) {
-                context.setUser(user);
+                setUser(user);
             }
         }
         loadData();
-    }, [context]);
+    }, []);  //eslint-disable-line react-hooks/exhaustive-deps
 
     const appName = Constants.AppName;
     const baseUrl = getRoutePrefix(props.baseUrl);
 
     return (
         <BrowserRouter basename={baseUrl}>
-            <NavMenu appName={appName} user={context.user} />
+            <NavMenu appName={appName} user={user} />
 
             <div className="container-fluid body-content">
                 <NotificationWidget />
