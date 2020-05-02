@@ -4,6 +4,7 @@ import { useAccountContext } from "../../contexts/AccountContextProvider";
 import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { AccountService } from "../../services/AccountService";
 import { StoreService } from "../../services/StoreService";
+import { NotificationType } from "../../types/NotificationType";
 import { StoreItemBuyModal } from "./StoreItemBuyModal";
 import { StoreItemDetails } from "./StoreItemDetails";
 
@@ -54,7 +55,9 @@ export function Store() {
         }
 
         addNotification({
-            message: "Purchased bundle " + item.name
+            title: "Purchased",
+            message: <Fragment>Purchased bundle <strong>{item.name}</strong></Fragment>,
+            type: NotificationType.Success
         });
     }
 

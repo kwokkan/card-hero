@@ -33,7 +33,7 @@ export class NotificationItem extends Component<INotificationItemProps, {}> {
 
                 <p>{this.props.message}</p>
 
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={() => this.props.onDismiss()}>
+                <button type="button" className="close" aria-label="Close" onClick={() => this.props.onDismiss()}>
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

@@ -6,45 +6,27 @@ export interface INotificationContextProviderProps {
     notifications?: INotificationItem[];
 }
 
-interface INotificationContextProviderState {
-    notifications: INotificationItem[];
-}
-
 function NotificationContextProvider(props: ProviderProps<INotificationContextProviderProps>): JSX.Element {
-    const [state, setState] = useState<INotificationContextProviderState>({
-        notifications: (props.value || {}).notifications || []
-    });
+    const [notificationsState, setNotificationsState] = useState<INotificationItem[]>((props.value || {}).notifications || []);
 
     const contextProps: INotificationContextProps = {
         addNotification: (notification: INotificationItem) => {
-            const newNotifications = [...state.notifications];
+            const newNotifications = [...notificationsState];
             newNotifications.push(notification);
 
-            const newState: INotificationContextProviderState = {
-                notifications: newNotifications
-            };
-
-            setState(prevState => {
-                return { ...prevState, ...newState };
-            })
+            setNotificationsState(newNotifications);
         },
         removeNotification: (notification) => {
-            const notifications = [...state.notifications];
+            const notifications = [...notificationsState];
             const index = notifications.indexOf(notification);
 
             if (index > -1) {
                 notifications.splice(index, 1);
 
-                const newState: INotificationContextProviderState = {
-                    notifications: notifications
-                };
-
-                setState(prevState => {
-                    return { ...prevState, ...newState };
-                })
+                setNotificationsState(notifications);
             }
         },
-        notifications: state.notifications
+        notifications: notificationsState
     };
 
     return (
