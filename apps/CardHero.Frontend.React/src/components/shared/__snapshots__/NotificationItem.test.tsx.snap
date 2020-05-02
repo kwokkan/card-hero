@@ -15,7 +15,6 @@ exports[`<NotificationItem /> renders with title and message 1`] = `
   <button
     aria-label="Close"
     className="close"
-    data-dismiss="alert"
     onClick={[Function]}
     type="button"
   >
@@ -43,7 +42,6 @@ exports[`<NotificationItem /> renders with title, message and custom type 1`] = 
   <button
     aria-label="Close"
     className="close"
-    data-dismiss="alert"
     onClick={[Function]}
     type="button"
   >
@@ -66,7 +64,6 @@ exports[`<NotificationItem /> renders without title 1`] = `
   <button
     aria-label="Close"
     className="close"
-    data-dismiss="alert"
     onClick={[Function]}
     type="button"
   >
