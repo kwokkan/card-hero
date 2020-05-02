@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 using CardHero.Core.SqlServer.DataServices;
+using CardHero.Core.SqlServer.Handlers;
 using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.SqlServer.Services
@@ -14,88 +14,34 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly IGameValidator _gameValidator;
 
-        private readonly IDeckRepository _deckRepository;
-        private readonly IGameDeckRepository _gameDeckRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly ITurnRepository _turnRepository;
 
         private readonly IDataMapper<GameData, GameModel> _gameMapper;
         private readonly IDataMapper<GameCreateData, GameCreateModel> _gameCreateMapper;
 
         private readonly IGameDataService _gameDataService;
 
+        private readonly IAddUserToGameHandler _addUserToGameHandler;
+
         public GameService(
             IGameValidator gameValidator,
-            IDeckRepository deckRepository,
-            IGameDeckRepository gameDeckRepository,
             IGameRepository gameRepository,
-            ITurnRepository turnRepository,
             IDataMapper<GameData, GameModel> gameMapper,
             IDataMapper<GameCreateData, GameCreateModel> gameCreateMapper,
-            IGameDataService gameDataService
+            IGameDataService gameDataService,
+            IAddUserToGameHandler addUserToGameHandler
         )
         {
             _gameValidator = gameValidator;
 
-            _deckRepository = deckRepository;
-            _gameDeckRepository = gameDeckRepository;
             _gameRepository = gameRepository;
-            _turnRepository = turnRepository;
 
             _gameMapper = gameMapper;
             _gameCreateMapper = gameCreateMapper;
 
             _gameDataService = gameDataService;
-        }
 
-        private async Task AddUserToGameInternalAsync(int id, int userId, int deckId, CancellationToken cancellationToken = default)
-        {
-            var game = await _gameRepository.GetGameByIdAsync(id);
-
-            if (game == null)
-            {
-                throw new InvalidGameException($"Game { id } does not exist.");
-            }
-
-            var gameUsers = await _gameRepository.GetGameUsersAsync(id, cancellationToken: cancellationToken);
-
-            if (gameUsers.Any(x => x.Id == userId))
-            {
-                throw new InvalidPlayerException($"User { userId } is already in game { id }.");
-            }
-
-            var gul = gameUsers.Length;
-            if (gul >= game.MaxPlayers)
-            {
-                throw new InvalidPlayerException($"Game { id } is already filled.");
-            }
-
-            var deck = await _deckRepository.GetDeckByIdAsync(deckId, userId, cancellationToken: cancellationToken);
-
-            if (deck == null)
-            {
-                throw new InvalidDeckException($"Deck { deckId } does not exist.");
-            }
-
-            if (deck.UserId != userId)
-            {
-                throw new InvalidDeckException($"Deck { deckId } does not belong to user { userId }.");
-            }
-
-            var dc = deck.Cards.Select(x => x.CardId).ToArray();
-            var dcc = dc.Length;
-            if (dcc < deck.MaxCards)
-            {
-                throw new InvalidDeckException($"Deck { deckId } needs { deck.MaxCards } cards. Currently only has { dcc }.");
-            }
-
-            await _gameDeckRepository.AddGameDeckAsync(id, userId, deck.Name, deck.Description, dc, cancellationToken: cancellationToken);
-
-            if (gul + 1 == game.MaxPlayers)
-            {
-                var allUsers = gameUsers.Select(x => x.Id).Concat(new int[] { userId }).ToArray();
-                await PrepareGameForPlayAsync(id, allUsers, cancellationToken);
-            }
+            _addUserToGameHandler = addUserToGameHandler;
         }
 
         private void PrepareGameForCreate(GameCreateModel game)
@@ -106,31 +52,9 @@ namespace CardHero.Core.SqlServer.Services
             game.MaxPlayers = 2;
         }
 
-        private async Task PrepareGameForPlayAsync(int id, int[] userIds, CancellationToken cancellationToken)
-        {
-            var randomUserIds = userIds.OrderBy(x => RandomNumberGenerator.GetInt32(int.MinValue, int.MaxValue)).ToArray();
-            var currentUserId = randomUserIds[0];
-
-            var updateGame = new GameUpdateData
-            {
-                CurrentUserId = currentUserId,
-            };
-
-            await _gameRepository.UpdateGameAsync(id, updateGame, cancellationToken: cancellationToken);
-
-            await _gameRepository.UpdateGameUsersOrderAsync(id, randomUserIds, cancellationToken: cancellationToken);
-
-            var newTurn = new TurnData
-            {
-                CurrentUserId = currentUserId,
-                GameId = id,
-            };
-            await _turnRepository.AddTurnAsync(newTurn, cancellationToken: cancellationToken);
-        }
-
         Task IGameService.AddUserToGameAsync(int id, GameJoinModel join, CancellationToken cancellationToken)
         {
-            return AddUserToGameInternalAsync(id, join.UserId, join.DeckId, cancellationToken: cancellationToken);
+            return _addUserToGameHandler.HandleAsync(id, join.UserId, join.DeckId, cancellationToken: cancellationToken);
         }
 
         async Task<GameModel> IGameService.CreateGameAsync(GameCreateModel game, CancellationToken cancellationToken)
@@ -147,7 +71,7 @@ namespace CardHero.Core.SqlServer.Services
             {
                 foreach (var user in game.Users)
                 {
-                    await AddUserToGameInternalAsync(newGame.Id, user.Id, game.DeckId, cancellationToken: cancellationToken);
+                    await _addUserToGameHandler.HandleAsync(newGame.Id, user.Id, game.DeckId, cancellationToken: cancellationToken);
                 }
             }
 
