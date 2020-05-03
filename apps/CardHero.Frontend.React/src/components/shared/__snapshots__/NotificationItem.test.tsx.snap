@@ -2,76 +2,112 @@
 
 exports[`<NotificationItem /> renders with title and message 1`] = `
 <div
-  className="notification-item alert alert-dismissible fade show alert-primary"
+  className="notification-item toast fade show"
 >
-  <h4
-    className="alert-heading"
-  >
-    Test title
-  </h4>
-  <p>
-    Test message
-  </p>
-  <button
-    aria-label="Close"
-    className="close"
-    onClick={[Function]}
-    type="button"
+  <div
+    className="toast-header"
   >
     <span
-      aria-hidden="true"
+      className="badge badge-pill badge-secondary mr-2 badge-primary"
     >
-      ×
+       
     </span>
-  </button>
+    <strong
+      className="mr-auto"
+    >
+      Test title
+    </strong>
+    <button
+      aria-label="Close"
+      className="ml-2 mb-1 close"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+  <p
+    className="toast-body"
+  >
+    Test message
+  </p>
 </div>
 `;
 
 exports[`<NotificationItem /> renders with title, message and custom type 1`] = `
 <div
-  className="notification-item alert alert-dismissible fade show alert-danger"
+  className="notification-item toast fade show"
 >
-  <h4
-    className="alert-heading"
-  >
-    Test title
-  </h4>
-  <p>
-    Test message
-  </p>
-  <button
-    aria-label="Close"
-    className="close"
-    onClick={[Function]}
-    type="button"
+  <div
+    className="toast-header"
   >
     <span
-      aria-hidden="true"
+      className="badge badge-pill badge-secondary mr-2 badge-danger"
     >
-      ×
+       
     </span>
-  </button>
+    <strong
+      className="mr-auto"
+    >
+      Test title
+    </strong>
+    <button
+      aria-label="Close"
+      className="ml-2 mb-1 close"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+  <p
+    className="toast-body"
+  >
+    Test message
+  </p>
 </div>
 `;
 
 exports[`<NotificationItem /> renders without title 1`] = `
 <div
-  className="notification-item alert alert-dismissible fade show alert-primary"
+  className="notification-item toast fade show"
 >
-  <p>
-    Test message
-  </p>
-  <button
-    aria-label="Close"
-    className="close"
-    onClick={[Function]}
-    type="button"
+  <div
+    className="toast-header"
   >
     <span
-      aria-hidden="true"
+      className="badge badge-pill badge-secondary mr-2 badge-primary"
     >
-      ×
+       
     </span>
-  </button>
+    <strong
+      className="mr-auto"
+    />
+    <button
+      aria-label="Close"
+      className="ml-2 mb-1 close"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+  <p
+    className="toast-body"
+  >
+    Test message
+  </p>
 </div>
 `;

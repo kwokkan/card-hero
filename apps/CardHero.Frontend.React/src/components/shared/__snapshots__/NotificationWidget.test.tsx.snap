@@ -2,55 +2,77 @@
 
 exports[`<NotificationWidget /> renders with NotificationContextProvider and default notifications 1`] = `
 <div
-  className="notifications text-center"
+  className="notifications mr-3"
 >
   <div
-    className="notification-item alert alert-dismissible fade show alert-info"
+    className="notification-item toast fade show"
   >
-    <h4
-      className="alert-heading"
+    <div
+      className="toast-header"
     >
-      Test title
-    </h4>
-    <p>
+      <span
+        className="badge badge-pill badge-secondary mr-2 badge-info"
+      >
+         
+      </span>
+      <strong
+        className="mr-auto"
+      >
+        Test title
+      </strong>
+      <button
+        aria-label="Close"
+        className="ml-2 mb-1 close"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+    <p
+      className="toast-body"
+    >
       Test message
     </p>
-    <button
-      aria-label="Close"
-      className="close"
-      onClick={[Function]}
-      type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
   </div>
   <div
-    className="notification-item alert alert-dismissible fade show alert-danger"
+    className="notification-item toast fade show"
   >
-    <h4
-      className="alert-heading"
-    >
-      Danger title
-    </h4>
-    <p>
-      Danger message
-    </p>
-    <button
-      aria-label="Close"
-      className="close"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="toast-header"
     >
       <span
-        aria-hidden="true"
+        className="badge badge-pill badge-secondary mr-2 badge-danger"
       >
-        ×
+         
       </span>
-    </button>
+      <strong
+        className="mr-auto"
+      >
+        Danger title
+      </strong>
+      <button
+        aria-label="Close"
+        className="ml-2 mb-1 close"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+    <p
+      className="toast-body"
+    >
+      Danger message
+    </p>
   </div>
 </div>
 `;
