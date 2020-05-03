@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import { ErrorViewModel, ICardModel, IGamePlayModel, IMoveModel, ApiException } from "../../clients/clients";
+import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
 import { useAccountContext } from "../../contexts/AccountContextProvider";
 import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { GamePlayService } from "../../services/GamePlayService";
-import { NotificationType } from "../../types/NotificationType";
+import { run } from "../../utils/clientHelper";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
 export interface IGameBoardOnUpdatedProps {
@@ -19,7 +19,7 @@ const nullGameBoard = <p>No game selected</p>;
 
 export function GameBoard(props: IGameBoardProps): JSX.Element {
     const { user } = useAccountContext();
-    const { addNotification } = useNotificationContext();
+    const notificationContext = useNotificationContext();
 
     const isSelected = (row: number, column: number, currentUserId: number): boolean => {
         return props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column && x.userId === currentUserId) > -1;
@@ -40,7 +40,7 @@ export function GameBoard(props: IGameBoardProps): JSX.Element {
             console.log(data);
         }
 
-        try {
+        await run(notificationContext, async () => {
             await GamePlayService.move(props.gamePlay.game.id, data);
 
             if (props.onUpdated) {
@@ -48,24 +48,7 @@ export function GameBoard(props: IGameBoardProps): JSX.Element {
                     gamePlay: props.gamePlay
                 });
             }
-        } catch (e) {
-            if (e instanceof ErrorViewModel) {
-                addNotification({
-                    message: e.message,
-                    type: NotificationType.Danger
-                });
-            }
-            else if (e instanceof ApiException) {
-                addNotification({
-                    message: e.message,
-                    title: e.name,
-                    type: NotificationType.Danger
-                });
-            }
-            else {
-                throw e;
-            }
-        }
+        });
     }
 
     const getGameGrid = (data: IGamePlayModel, currentUserId: number): JSX.Element[] => {
