@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardHero.NetCoreApp.TypeScript.Controllers.Api
 {
     [ApiController]
     [ProducesErrorResponseType(typeof(ErrorViewModel))]
+    [ProducesResponseType(typeof(ErrorViewModel), StatusCodes.Status400BadRequest)]
     public abstract class CardHeroControllerBase : ControllerBase
     {
         private readonly IUserService _userService;

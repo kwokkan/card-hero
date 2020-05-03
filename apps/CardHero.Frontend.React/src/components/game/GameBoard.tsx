@@ -1,7 +1,9 @@
-﻿import React, { Component } from "react";
+﻿import React from "react";
 import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
-import { AccountContext } from "../../contexts/AccountContext";
+import { useAccountContext } from "../../contexts/AccountContextProvider";
+import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { GamePlayService } from "../../services/GamePlayService";
+import { run } from "../../utils/clientHelper";
 import { GameBoardGrid, IGameBoardGridOnDropProps } from "./GameBoardGrid";
 
 export interface IGameBoardOnUpdatedProps {
@@ -13,40 +15,43 @@ interface IGameBoardProps {
     onUpdated?: (event: IGameBoardOnUpdatedProps) => void;
 }
 
-export class GameBoard extends Component<IGameBoardProps, {}> {
-    static contextType = AccountContext;
+const nullGameBoard = <p>No game selected</p>;
 
-    static readonly nullGameBoard = <p>No game selected</p>;
+export function GameBoard(props: IGameBoardProps): JSX.Element {
+    const { user } = useAccountContext();
+    const notificationContext = useNotificationContext();
 
-    private isSelected(row: number, column: number, currentUserId: number): boolean {
-        return this.props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column && x.userId === currentUserId) > -1;
+    const isSelected = (row: number, column: number, currentUserId: number): boolean => {
+        return props.gamePlay.moves.findIndex((x: IMoveModel) => x.row === row && x.column === column && x.userId === currentUserId) > -1;
     }
 
-    private getCardIdAtPosition(row: number, column: number): number | null {
-        const move = this.props.gamePlay.moves.find((x: IMoveModel) => x.row === row && x.column === column);
+    const getCardIdAtPosition = (row: number, column: number): number | null => {
+        const move = props.gamePlay.moves.find((x: IMoveModel) => x.row === row && x.column === column);
         return move ? move.cardId : null;
     }
 
-    private getCard(cardId: number): ICardModel {
-        const card = this.props.gamePlay.playedCards.find((x: ICardModel) => x.id === cardId);
+    const getCard = (cardId: number): ICardModel => {
+        const card = props.gamePlay.playedCards.find((x: ICardModel) => x.id === cardId);
         return card;
     }
 
-    private async onCardDropped(data: IGameBoardGridOnDropProps) {
+    const onCardDropped = async (data: IGameBoardGridOnDropProps) => {
         if (Constants.Debug) {
             console.log(data);
         }
 
-        await GamePlayService.move(this.props.gamePlay.game.id, data);
+        await run(notificationContext, async () => {
+            await GamePlayService.move(props.gamePlay.game.id, data);
 
-        if (this.props.onUpdated) {
-            this.props.onUpdated({
-                gamePlay: this.props.gamePlay
-            });
-        }
+            if (props.onUpdated) {
+                props.onUpdated({
+                    gamePlay: props.gamePlay
+                });
+            }
+        });
     }
 
-    private getGameGrid(data: IGamePlayModel, currentUserId: number): JSX.Element[] {
+    const getGameGrid = (data: IGamePlayModel, currentUserId: number): JSX.Element[] => {
         if (!data) {
             return null;
         }
@@ -60,8 +65,8 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
             for (let j = 0; j < data.game.columns; j++) {
                 key++;
 
-                const gameDeckCardCollectionId = this.getCardIdAtPosition(i, j);
-                const card = this.getCard(gameDeckCardCollectionId);
+                const gameDeckCardCollectionId = getCardIdAtPosition(i, j);
+                const card = getCard(gameDeckCardCollectionId);
 
                 grids.push(
                     <GameBoardGrid
@@ -69,11 +74,11 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
                         row={i}
                         column={j}
                         card={card}
-                        isSelected={this.isSelected(i, j, currentUserId)}
+                        isSelected={isSelected(i, j, currentUserId)}
                         selectedClass="your-card"
                         nonSelectedClass="opponent-card"
                         gameDeckCardCollectionId={gameDeckCardCollectionId}
-                        onDrop={(x) => this.onCardDropped(x)}
+                        onDrop={(x) => onCardDropped(x)}
                     />
                 );
             }
@@ -82,20 +87,17 @@ export class GameBoard extends Component<IGameBoardProps, {}> {
         return grids;
     }
 
-    render() {
-        const game = this.props.gamePlay;
+    const game = props.gamePlay;
 
-        if (!game) {
-            return GameBoard.nullGameBoard;
-        }
-
-        const user = this.context.user;
-        const grid = this.getGameGrid(game, user.id);
-
-        return (
-            <div id="current-game" className="card-text ch-cards game-cards" data-game-id={this.props.gamePlay.game.id}>
-                {grid}
-            </div>
-        );
+    if (!game) {
+        return nullGameBoard;
     }
+
+    const grid = getGameGrid(game, user.id);
+
+    return (
+        <div id="current-game" className="card-text ch-cards game-cards" data-game-id={props.gamePlay.game.id}>
+            {grid}
+        </div>
+    );
 }

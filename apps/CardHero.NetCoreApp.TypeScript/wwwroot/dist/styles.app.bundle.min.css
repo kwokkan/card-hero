@@ -182,6 +182,12 @@
   background-color: red;
 }
 
+.notifications {
+  position: fixed;
+  z-index: 1;
+  right: 0;
+}
+
 body {
   overflow-y: scroll;
 }
