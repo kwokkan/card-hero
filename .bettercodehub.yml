@@ -1,6 +1,10 @@
 component_depth: 2
 languages:
-- csharp
+- name: csharp
+  production:
+    exclude:
+      - /src/CardHero\.Data\.PostgreSql/EntityFramework/.*\.cs
+      - /src/CardHero\.Data\.SqlServer/EntityFramework/.*\.cs
 - name: typescript
   production:
     exclude:

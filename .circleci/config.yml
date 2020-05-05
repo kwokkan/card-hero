@@ -28,7 +28,7 @@ jobs:
 
   init-node:
     docker:
-      - image: node:14.0.0-buster
+      - image: node:14.1.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -87,7 +87,7 @@ jobs:
 
   go-live:
     docker:
-      - image: node:14.0.0-buster
+      - image: node:14.1.0-buster
     steps:
       - setup_remote_docker
       - attach_workspace:
@@ -95,7 +95,6 @@ jobs:
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - restore_cache:
           keys:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
@@ -125,14 +124,13 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:14.0.0-buster
+      - image: node:14.1.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - run:
           name: npm build:prod
           command: |
@@ -144,14 +142,13 @@ jobs:
             - << pipeline.parameters.publish-project >>/wwwroot
   npm-test:
     docker:
-      - image: node:14.0.0-buster
+      - image: node:14.1.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - run:
           name: npm test
           command: |
@@ -164,7 +161,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:14.0.0-buster
+      - image: node:14.1.0-buster
     steps:
       - attach_workspace:
           at: .

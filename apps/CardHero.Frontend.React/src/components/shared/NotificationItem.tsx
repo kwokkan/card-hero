@@ -9,15 +9,15 @@ interface INotificationItemProps extends INotificationItem {
 function typeToCss(type: NotificationType): string {
     switch (type) {
         case NotificationType.Danger:
-            return "alert-danger";
+            return "badge-danger";
         case NotificationType.Info:
-            return "alert-info";
+            return "badge-info";
         case NotificationType.Success:
-            return "alert-success";
+            return "badge-success";
         case NotificationType.Warning:
-            return "alert-warning";
+            return "badge-warning";
         default:
-            return "alert-primary";
+            return "badge-primary";
     }
 }
 
@@ -26,16 +26,18 @@ export class NotificationItem extends Component<INotificationItemProps, {}> {
         const typeClass = typeToCss(this.props.type);
 
         return (
-            <div className={"notification-item alert alert-dismissible fade show " + typeClass}>
-                {this.props.title &&
-                    <h4 className="alert-heading">{this.props.title}</h4>
-                }
+            <div className={"notification-item toast fade show"}>
+                <div className="toast-header">
+                    <span className={"badge badge-pill badge-secondary mr-2 " + typeClass}>&nbsp;</span>
 
-                <p>{this.props.message}</p>
+                    <strong className="mr-auto">{this.props.title}</strong>
 
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={() => this.props.onDismiss()}>
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <button type="button" className="ml-2 mb-1 close" aria-label="Close" onClick={() => this.props.onDismiss()}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <p className="toast-body">{this.props.message}</p>
             </div>
         );
     }

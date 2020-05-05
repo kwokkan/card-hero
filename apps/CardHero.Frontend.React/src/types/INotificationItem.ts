@@ -2,6 +2,6 @@
 
 export interface INotificationItem {
     title?: string;
-    message: string;
+    message: string | JSX.Element;
     type?: NotificationType;
 }

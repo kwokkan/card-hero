@@ -7,7 +7,7 @@ path_classifiers:
 
   generated:
     - exclude: apps/CardHero.Frontend.React/src/clients/clients.ts
-    - exclude: src/CardHero.Core.SqlServer/EntityFramework
+    - exclude: src/CardHero.Data.PostgreSql/EntityFramework
     - exclude: src/CardHero.Data.SqlServer/EntityFramework
 
 extraction: 

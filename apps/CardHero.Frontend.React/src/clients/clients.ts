@@ -43,7 +43,14 @@ export class AccountApiClient extends CardHeroApiClientBase implements IAccountA
     protected processGet(response: Response): Promise<UserModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -115,7 +122,14 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
     protected processGet(response: Response): Promise<CardModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -155,7 +169,14 @@ export class CardApiClient extends CardHeroApiClientBase implements ICardApiClie
     protected processFavourite(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             return;
             });
@@ -202,7 +223,14 @@ export class CardPackApiClient extends CardHeroApiClientBase implements ICardPac
     protected processGet(response: Response): Promise<CardPackModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -266,7 +294,14 @@ export class CollectionApiClient extends CardHeroApiClientBase implements IColle
     protected processGet(response: Response): Promise<CardCollectionModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -348,6 +383,13 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
             result401 = ErrorViewModel.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
@@ -397,6 +439,13 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
             result401 = ErrorViewModel.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
@@ -440,6 +489,13 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
             let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result401 = ErrorViewModel.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
@@ -495,6 +551,13 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
             result401 = ErrorViewModel.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
             return;
@@ -538,6 +601,13 @@ export class DeckApiClient extends CardHeroApiClientBase implements IDeckApiClie
             let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result401 = ErrorViewModel.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 200) {
             return response.text().then((_responseText) => {
@@ -611,7 +681,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
     protected processGet(response: Response): Promise<GameModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -653,7 +730,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
     protected processPost(response: Response): Promise<GameModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 201) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -697,7 +781,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
     protected processGetById(response: Response): Promise<GameModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -744,7 +835,14 @@ export class GameApiClient extends CardHeroApiClientBase implements IGameApiClie
     protected processJoin(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             return;
             });
@@ -795,7 +893,14 @@ export class GamePlayApiClient extends CardHeroApiClientBase implements IGamePla
     protected processGetById(response: Response): Promise<GamePlayModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -843,7 +948,14 @@ export class GamePlayApiClient extends CardHeroApiClientBase implements IGamePla
     protected processMove(response: Response): Promise<MoveModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 201) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -914,7 +1026,14 @@ export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiCl
     protected processGet(response: Response): Promise<StoreItemModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -955,7 +1074,14 @@ export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiCl
     protected processBuyStoreItem(response: Response): Promise<CardCollectionModel[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 201) {
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ErrorViewModel.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
@@ -980,6 +1106,54 @@ export class StoreApiClient extends CardHeroApiClientBase implements IStoreApiCl
         }
         return Promise.resolve<CardCollectionModel[]>(<any>null);
     }
+}
+
+export class ErrorViewModel implements IErrorViewModel {
+    message?: string | undefined;
+    stackTrace?: string[] | undefined;
+
+    constructor(data?: IErrorViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.message = _data["message"];
+            if (Array.isArray(_data["stackTrace"])) {
+                this.stackTrace = [] as any;
+                for (let item of _data["stackTrace"])
+                    this.stackTrace!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ErrorViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ErrorViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["message"] = this.message;
+        if (Array.isArray(this.stackTrace)) {
+            data["stackTrace"] = [];
+            for (let item of this.stackTrace)
+                data["stackTrace"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IErrorViewModel {
+    message?: string | undefined;
+    stackTrace?: string[] | undefined;
 }
 
 /** User. */
@@ -1050,54 +1224,6 @@ export interface IUserModel {
     idPsource?: string | undefined;
     /** Coins this user has. */
     coins?: number;
-}
-
-export class ErrorViewModel implements IErrorViewModel {
-    message?: string | undefined;
-    stackTrace?: string[] | undefined;
-
-    constructor(data?: IErrorViewModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.message = _data["message"];
-            if (Array.isArray(_data["stackTrace"])) {
-                this.stackTrace = [] as any;
-                for (let item of _data["stackTrace"])
-                    this.stackTrace!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ErrorViewModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new ErrorViewModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["message"] = this.message;
-        if (Array.isArray(this.stackTrace)) {
-            data["stackTrace"] = [];
-            for (let item of this.stackTrace)
-                data["stackTrace"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IErrorViewModel {
-    message?: string | undefined;
-    stackTrace?: string[] | undefined;
 }
 
 /** Card. */
