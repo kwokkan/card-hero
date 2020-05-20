@@ -68,6 +68,6 @@
         /// <summary>
         /// Rarity.
         /// </summary>
-        public Rarity Rarity { get; set; }
+        public RarityModel Rarity { get; set; }
     }
 }

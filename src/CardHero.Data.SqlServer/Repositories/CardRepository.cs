@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
@@ -16,11 +17,11 @@ namespace CardHero.Data.SqlServer
 
         private readonly CardHeroDataDbContext _context;
 
-        private readonly IMapper<Card, CardData> _cardMapper;
+        private readonly IMapper<Card, CardModel> _cardMapper;
 
         public CardRepository(
             CardHeroDataDbContext context,
-            IMapper<Card, CardData> cardMapper
+            IMapper<Card, CardModel> cardMapper
         )
         {
             _context = context;
@@ -28,7 +29,7 @@ namespace CardHero.Data.SqlServer
             _cardMapper = cardMapper;
         }
 
-        private async Task PopulateCardFavouriteAsync(int? userId, CardData[] cards, CancellationToken cancellationToken)
+        private async Task PopulateCardFavouriteAsync(int? userId, CardModel[] cards, CancellationToken cancellationToken)
         {
             if (userId.HasValue && cards.Any())
             {
@@ -74,7 +75,7 @@ namespace CardHero.Data.SqlServer
             }
         }
 
-        async Task<SearchResult<CardData>> ICardRepository.FindCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
+        async Task<SearchResult<CardModel>> ICardRepository.FindCardsAsync(CardSearchFilter filter, CancellationToken cancellationToken)
         {
             var query = _context.Card.AsQueryable();
 
@@ -103,7 +104,7 @@ namespace CardHero.Data.SqlServer
 
             var results = await query.Select(x => _cardMapper.Map(x)).ToArrayAsync(cancellationToken: cancellationToken);
 
-            var result = new SearchResult<CardData>
+            var result = new SearchResult<CardModel>
             {
                 CurrentPage = 0,
                 PageSize = DefaultPageSize,

@@ -12,16 +12,11 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly ICardRepository _cardRepository;
 
-        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
-
         public CardService(
-            ICardRepository cardRepository,
-            IDataMapper<CardData, CardModel> cardDataMapper
+            ICardRepository cardRepository
         )
         {
             _cardRepository = cardRepository;
-
-            _cardDataMapper = cardDataMapper;
         }
 
         async Task<Abstractions.SearchResult<CardModel>> ICardService.GetCardsAsync(Abstractions.CardSearchFilter filter, CancellationToken cancellationToken)
@@ -37,7 +32,7 @@ namespace CardHero.Core.SqlServer.Services
                 cancellationToken: cancellationToken
             );
 
-            var results = cardCollections.Results.Select(_cardDataMapper.Map).ToArray();
+            var results = cardCollections.Results;
 
             return new Abstractions.SearchResult<CardModel>
             {

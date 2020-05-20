@@ -18,23 +18,23 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 101,
-                        Rarity = new RarityData
+                        Rarity = new RarityModel
                         {
-                            Id = 1,
+                            Id = Rarity.Common,
                         },
                         UpAttack = 1,
                     },
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 102,
-                        Rarity = new RarityData
+                        Rarity = new RarityModel
                         {
-                            Id = 1,
+                            Id = Rarity.Common,
                         },
                         UpAttack = 1,
                     }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.Data.PostgreSql.EntityFramework;
 
@@ -10,6 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using Rarity = CardHero.Data.PostgreSql.EntityFramework.Rarity;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
@@ -249,7 +252,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             SeedDbContext(context);
         }
 
-        public override async Task AddDataAsync(params CardData[] data)
+        public override async Task AddDataAsync(params CardModel[] data)
         {
             using (var scope = Services.CreateScope())
             {
@@ -263,7 +266,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         CardPk = d.Id,
                         DownAttack = d.DownAttack,
                         LeftAttack = d.LeftAttack,
-                        RarityFk = d.Rarity?.Id ?? 1,
+                        RarityFk = (int?)d.Rarity?.Id ?? 1,
                         RightAttack = d.RightAttack,
                         UpAttack = d.UpAttack,
                     });

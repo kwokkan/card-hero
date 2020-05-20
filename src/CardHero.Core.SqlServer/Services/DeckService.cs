@@ -17,13 +17,11 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IDeckRepository _deckRepository;
 
         private readonly IDataMapper<DeckData, DeckModel> _deckDataMapper;
-        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
 
         public DeckService(
             ICardCollectionRepository cardCollectionRepository,
             ICardRepository cardRepository,
             IDeckRepository deckRepository,
-            IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<DeckData, DeckModel> deckDataMapper
         )
         {
@@ -31,7 +29,6 @@ namespace CardHero.Core.SqlServer.Services
             _cardRepository = cardRepository;
             _deckRepository = deckRepository;
 
-            _cardDataMapper = cardDataMapper;
             _deckDataMapper = deckDataMapper;
         }
 
@@ -54,7 +51,7 @@ namespace CardHero.Core.SqlServer.Services
                     cancellationToken: cancellationToken
                 );
 
-                var cards = cardResults.Results.Select(x => _cardDataMapper.Map(x)).ToList();
+                var cards = cardResults.Results;
 
                 model.Cards = model.Cards.Select(x => new DeckCardModel
                 {

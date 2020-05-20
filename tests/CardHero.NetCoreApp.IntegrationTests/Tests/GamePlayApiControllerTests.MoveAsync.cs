@@ -376,13 +376,13 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 101,
                         UpAttack = 1,
                     },
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 102,
@@ -502,7 +502,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 101,
@@ -785,13 +785,13 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 101,
                         UpAttack = 1,
                     },
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 2,
                         Id = 102,
@@ -1076,13 +1076,13 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 1,
                         Id = 101,
                         UpAttack = 1,
                     },
-                    new CardData
+                    new CardModel
                     {
                         DownAttack = 2,
                         Id = 102,

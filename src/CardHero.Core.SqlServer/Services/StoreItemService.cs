@@ -17,14 +17,12 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IStoreItemRepository _storeItemRepository;
         private readonly IUserRepository _userRepository;
 
-        private readonly IDataMapper<CardData, CardModel> _cardDataMapper;
         private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
 
         public StoreItemService(
             ICardRepository cardRepository,
             IStoreItemRepository storeItemRepository,
             IUserRepository userRepository,
-            IDataMapper<CardData, CardModel> cardDataMapper,
             IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
         )
         {
@@ -32,7 +30,6 @@ namespace CardHero.Core.SqlServer.Services
             _storeItemRepository = storeItemRepository;
             _userRepository = userRepository;
 
-            _cardDataMapper = cardDataMapper;
             _storeItemDataMapper = storeItemDataMapper;
         }
 
@@ -93,8 +90,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var allCards = cardResults
                 .Results
-                .SelectMany(x => Enumerable.Repeat(x, x.Rarity.Frequency)
-                .Select(x => _cardDataMapper.Map(x)))
+                .SelectMany(x => Enumerable.Repeat(x, x.Rarity.Frequency))
                 .ToArray()
             ;
 
