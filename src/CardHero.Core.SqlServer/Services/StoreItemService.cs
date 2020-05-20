@@ -57,7 +57,7 @@ namespace CardHero.Core.SqlServer.Services
 
             if (bundle.Expiry.HasValue && bundle.Expiry > DateTime.UtcNow)
             {
-                throw new InvalidStoreItemException($"Store item { bundle.Name } has expired.");
+                throw new InvalidStoreItemException($"Store item { bundle.StoreItem.Name } has expired.");
             }
 
             var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken: cancellationToken);
@@ -67,14 +67,14 @@ namespace CardHero.Core.SqlServer.Services
                 throw new InvalidPlayerException($"Player { userId } does not exist.");
             }
 
-            if (user.Coins < bundle.Cost)
+            if (user.Coins < bundle.StoreItem.Cost)
             {
                 throw new InvalidPlayerException($"Player { userId } does not have enough coins.");
             }
 
             var userUpdate = new UserUpdateData
             {
-                Coins = user.Coins - bundle.Cost,
+                Coins = user.Coins - bundle.StoreItem.Cost,
             };
 
             await _userRepository.UpdateUserAsync(userId, userUpdate, cancellationToken: cancellationToken);
@@ -96,7 +96,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var acl = allCards.Length;
 
-            var ic = bundle.ItemCount;
+            var ic = bundle.StoreItem.ItemCount;
             var cards = new CardModel[ic];
 
             for (int i = 0; i < ic; i++)
