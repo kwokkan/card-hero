@@ -15,7 +15,7 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.202-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - checkout
       - run: |
@@ -49,7 +49,7 @@ jobs:
 
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.202-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
@@ -59,7 +59,7 @@ jobs:
           dotnet build << pipeline.parameters.solution >> --no-restore
   dotnet-test:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.202-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
@@ -72,7 +72,7 @@ jobs:
 
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.202-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
