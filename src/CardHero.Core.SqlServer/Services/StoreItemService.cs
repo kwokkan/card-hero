@@ -17,20 +17,15 @@ namespace CardHero.Core.SqlServer.Services
         private readonly IStoreItemRepository _storeItemRepository;
         private readonly IUserRepository _userRepository;
 
-        private readonly IDataMapper<StoreItemData, StoreItemModel> _storeItemDataMapper;
-
         public StoreItemService(
             ICardRepository cardRepository,
             IStoreItemRepository storeItemRepository,
-            IUserRepository userRepository,
-            IDataMapper<StoreItemData, StoreItemModel> storeItemDataMapper
+            IUserRepository userRepository
         )
         {
             _cardRepository = cardRepository;
             _storeItemRepository = storeItemRepository;
             _userRepository = userRepository;
-
-            _storeItemDataMapper = storeItemDataMapper;
         }
 
         async Task<Abstractions.SearchResult<StoreItemModel>> IStoreItemService.GetStoreItemsAsync(StoreItemSearchFilter filter, CancellationToken cancellationToken)
@@ -40,7 +35,7 @@ namespace CardHero.Core.SqlServer.Services
             var results = new Abstractions.SearchResult<StoreItemModel>
             {
                 Count = result.Count,
-                Results = result.Select(_storeItemDataMapper.Map).ToArray(),
+                Results = result.Select(x => x.StoreItem).ToArray(),
             };
 
             return results;
