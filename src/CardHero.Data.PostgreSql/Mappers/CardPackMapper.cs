@@ -1,13 +1,13 @@
-﻿using CardHero.Data.Abstractions;
+﻿using CardHero.Core.Models;
 using CardHero.Data.PostgreSql.EntityFramework;
 
 namespace CardHero.Data.PostgreSql
 {
-    internal class CardPackMapper : IMapper<CardPack, CardPackData>
+    internal class CardPackMapper : IMapper<CardPack, CardPackModel>
     {
-        CardPackData IMapper<CardPack, CardPackData>.Map(CardPack from)
+        CardPackModel IMapper<CardPack, CardPackModel>.Map(CardPack from)
         {
-            return new CardPackData
+            return new CardPackModel
             {
                 Description = from.Description,
                 Id = from.CardPackPk,
@@ -15,7 +15,7 @@ namespace CardHero.Data.PostgreSql
             };
         }
 
-        CardPack IMapper<CardPack, CardPackData>.Map(CardPackData from)
+        CardPack IMapper<CardPack, CardPackModel>.Map(CardPackModel from)
         {
             throw new System.NotImplementedException();
         }

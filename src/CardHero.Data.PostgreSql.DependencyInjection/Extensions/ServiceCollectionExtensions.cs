@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services
                 .AddScoped<IMapper<CardCollection, CardCollectionData>, CardCollectionMapper>()
                 .AddScoped<IMapper<Card, CardModel>, CardMapper>()
-                .AddScoped<IMapper<CardPack, CardPackData>, CardPackMapper>()
+                .AddScoped<IMapper<CardPack, CardPackModel>, CardPackMapper>()
                 .AddScoped<IMapper<Deck, DeckData>, DeckMapper>()
                 .AddScoped<IMapper<DeckCardCollection, DeckCardData>, DeckCardMapper>()
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
