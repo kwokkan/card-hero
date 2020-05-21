@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.NetCoreApp.TypeScript;
 
@@ -12,7 +13,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
     {
         protected string Id { get; } = Guid.NewGuid().ToString();
 
-        public virtual Task AddDataAsync(params CardData[] data)
+        public virtual Task AddDataAsync(params CardModel[] data)
         {
             return Task.CompletedTask;
         }

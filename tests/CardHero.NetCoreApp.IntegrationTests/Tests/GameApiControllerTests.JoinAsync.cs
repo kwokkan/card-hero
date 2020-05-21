@@ -54,7 +54,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         Id = IdCard + 1,
                     }
@@ -120,7 +120,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
             await RunAsync(async factory =>
             {
                 await factory.AddDataAsync(
-                    new CardData
+                    new CardModel
                     {
                         Id = IdCard + 1,
                     }

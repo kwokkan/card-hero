@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
@@ -12,23 +11,18 @@ namespace CardHero.Core.SqlServer.Services
     {
         private readonly ICardPackRepository _cardPackRepository;
 
-        private readonly IDataMapper<CardPackData, CardPackModel> _cardPackDataMapper;
-
         public CardPackService(
-            ICardPackRepository cardPackRepository,
-            IDataMapper<CardPackData, CardPackModel> cardPackDataMapper
+            ICardPackRepository cardPackRepository
         )
         {
             _cardPackRepository = cardPackRepository;
-
-            _cardPackDataMapper = cardPackDataMapper;
         }
 
         async Task<Abstractions.SearchResult<CardPackModel>> ICardPackService.GetCardPacksAsync(CancellationToken cancellationToken)
         {
             var cardCollections = await _cardPackRepository.FindCardPacksAsync(cancellationToken: cancellationToken);
 
-            var results = cardCollections.Results.Select(_cardPackDataMapper.Map).ToArray();
+            var results = cardCollections.Results;
 
             return new Abstractions.SearchResult<CardPackModel>
             {
