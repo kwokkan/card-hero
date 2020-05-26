@@ -3315,10 +3315,10 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dnd-core@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-11.0.0.tgz#a5b6455566cbd86d2ea4561fabb28141c921b0b4"
-  integrity sha512-+g5Y5Wyql/BHAK8xGRYKmpcdltzA4mQOLUoMKMGOT3hCWjuSj3dqIpnSBbRLUhwm51oxAzPhBElYjZ/Utxwx5g==
+dnd-core@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-11.1.0.tgz#b118720b209a95b1279cb3fd58d5b3e178c80f83"
+  integrity sha512-4cl6nzqGSCypN7knZFLeK8cE7FH+iI9WcTs31IMbJsNe5orCBaUuxd5p9qSQwUDePj5qHpq5dPgKo7gEOaEhfg==
   dependencies:
     "@react-dnd/asap" "^4.0.0"
     "@react-dnd/invariant" "^2.0.0"
@@ -7339,21 +7339,21 @@ react-chartjs-2@2.9.0:
     lodash "^4.17.4"
     prop-types "^15.5.8"
 
-react-dnd-html5-backend@11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-11.0.0.tgz#63b530506bb0e364dd41557b6895a893c86befda"
-  integrity sha512-cjecSS6vh5/BazENECt5LrSdPwleZpc9ldFVgKriRLqlwmuLrlzjiztmEBguYePlz7shvSbCqwDqQSCnJXjlZQ==
+react-dnd-html5-backend@11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-11.1.0.tgz#8d0bdabfdfd6ce7392d85c098c3573b62fb6a030"
+  integrity sha512-gVauFMuQDdHANfxwAu3m7JRzMgYlbkmHUBR6/yBaJmYlVlrKohyaY68PyavPLP9dyaH2laYBF3zUcRaTVczdoA==
   dependencies:
-    dnd-core "^11.0.0"
+    dnd-core "^11.1.0"
 
-react-dnd@11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-11.0.0.tgz#93cbd8f359d9a9042b47d636c399312121242e26"
-  integrity sha512-X8qx1iOwHlRMPJpPfoZCgDlS3zAWtHZpZnMXzX8TaBJgxSuGUwC0kCkiyKoWZXwACZSxo0JMFFv3ft/gd9ggww==
+react-dnd@11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-11.1.0.tgz#a8f819aa43d2d902ee8352fc0841407336ab6341"
+  integrity sha512-2hWSDr9/ZMCnnWGQAN1x5hMZGo1K3y4Vina7DxDLICPQebvXHZxt/aeJ6f+ycsoIHCUqacKnABTyeFiWhpigUQ==
   dependencies:
     "@react-dnd/shallowequal" "^2.0.0"
     "@types/hoist-non-react-statics" "^3.3.1"
-    dnd-core "^11.0.0"
+    dnd-core "^11.1.0"
     hoist-non-react-statics "^3.3.0"
 
 react-dom@16.13.1:
