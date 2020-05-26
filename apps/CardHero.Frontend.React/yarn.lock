@@ -3308,10 +3308,10 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dnd-core@^11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-11.1.0.tgz#b118720b209a95b1279cb3fd58d5b3e178c80f83"
-  integrity sha512-4cl6nzqGSCypN7knZFLeK8cE7FH+iI9WcTs31IMbJsNe5orCBaUuxd5p9qSQwUDePj5qHpq5dPgKo7gEOaEhfg==
+dnd-core@^11.1.0, dnd-core@^11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-11.1.1.tgz#2356ad0406e6a9d65a263b3307ce8f47f517cf94"
+  integrity sha512-sSqNSTYnxE+j/cZTFL2BogtUuCXKkzYCGv9dKqBwBkYrwdCzayQdYt/91Gr2Je6aOBEw+c9LVVAb1GL9mvVWwQ==
   dependencies:
     "@react-dnd/asap" "^4.0.0"
     "@react-dnd/invariant" "^2.0.0"
@@ -7339,12 +7339,12 @@ react-chartjs-2@2.9.0:
     lodash "^4.17.4"
     prop-types "^15.5.8"
 
-react-dnd-html5-backend@11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-11.1.0.tgz#8d0bdabfdfd6ce7392d85c098c3573b62fb6a030"
-  integrity sha512-gVauFMuQDdHANfxwAu3m7JRzMgYlbkmHUBR6/yBaJmYlVlrKohyaY68PyavPLP9dyaH2laYBF3zUcRaTVczdoA==
+react-dnd-html5-backend@11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-11.1.1.tgz#794f81a53abeccca1bb56f021ec2aca4b34bf3d9"
+  integrity sha512-2cdi5P0HdZwjOq7iuX6cIOVzKukPgVJKNNxRLvZj/fDz5dHwCu/IOHj4e3SypZ+q37jAcd6+BHvCp1hRiGFNOg==
   dependencies:
-    dnd-core "^11.1.0"
+    dnd-core "^11.1.1"
 
 react-dnd@11.1.0:
   version "11.1.0"
