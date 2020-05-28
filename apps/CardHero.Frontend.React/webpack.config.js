@@ -13,8 +13,9 @@ const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
 const pathSep = path.sep;
-const modulePrefix = path.resolve(__dirname, "node_modules") + pathSep;
-const moduleLength = modulePrefix.length;
+const sourcePath = path.resolve(__dirname, "src") + pathSep;
+const modulePath = path.resolve(__dirname, "node_modules") + pathSep;
+const moduleLength = modulePath.length;
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -107,7 +108,7 @@ module.exports = {
                 "styles.vendor": {
                     chunks: "all",
                     name: "styles.vendor",
-                    test: /[\\/]src[\\/]styles[\\/]vendor\.s?css$/,
+                    test: path.resolve(sourcePath, "styles", "vendor.scss"),
                     enforce: true,
                     priority: 10
                 },
@@ -115,7 +116,7 @@ module.exports = {
                     chunks: "all",
                     name: (module, chunk, cacheGroupKey) => {
                         if (module.resource) {
-                            if (module.resource.startsWith(modulePrefix)) {
+                            if (module.resource.startsWith(modulePath)) {
                                 const moduleFile = module.resource.substring(moduleLength);
                                 const packageName = moduleFile.substring(0, moduleFile.indexOf(pathSep));
                                 return "vendor." + packageName;
@@ -125,7 +126,7 @@ module.exports = {
                         return cacheGroupKey;
                     },
                     test: (module, chunk) => {
-                        return module.resource && module.resource.startsWith(modulePrefix);
+                        return module.resource && module.resource.startsWith(modulePath);
                     },
                     enforce: true,
                     priority: -100
@@ -193,8 +194,8 @@ module.exports = {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                include: /src/,
-                exclude: /node_modules/,
+                include: sourcePath,
+                exclude: modulePath,
                 use: [
                     "cache-loader",
                     {
@@ -219,8 +220,8 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                include: /src/,
-                exclude: /node_modules/,
+                include: sourcePath,
+                exclude: modulePath,
                 use: [
                     "cache-loader",
                     {
@@ -229,9 +230,9 @@ module.exports = {
                 ]
             },
             {
-                test: /\.s?css$/,
-                include: /src/,
-                exclude: /node_modules/,
+                test: /\.scss$/,
+                include: sourcePath,
+                exclude: modulePath,
                 use: [
                     //"file-loader",
                     //"extract-loader",
