@@ -15,7 +15,7 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - checkout
       - run: |
@@ -28,7 +28,7 @@ jobs:
 
   init-node:
     docker:
-      - image: node:13.5.0-buster
+      - image: node:14.3.0-buster
     steps:
       - attach_workspace:
           at: .
@@ -49,7 +49,7 @@ jobs:
 
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
@@ -59,7 +59,7 @@ jobs:
           dotnet build << pipeline.parameters.solution >> --no-restore
   dotnet-test:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
@@ -72,7 +72,7 @@ jobs:
 
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.100-buster
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1.300-buster
     steps:
       - attach_workspace:
           at: .
@@ -87,17 +87,40 @@ jobs:
 
   go-live:
     docker:
-      - image: node:13.5.0-buster
+      - image: node:14.3.0-buster
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - restore_cache:
           keys:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+      - run: |
+          apt-get -y update
+          apt-get -y install \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg2 \
+            software-properties-common
+          curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+          add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/debian \
+            $(lsb_release -cs) \
+            stable"
+          apt-get -y update
+          apt-get -y install docker-ce docker-ce-cli containerd.io
+          docker -v
+      - run: |
+          cd publish
+          yarn global add heroku
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          docker build . -t card-hero/frontend -f Dockerfile
+          heroku container:push web -a card-hero
+          heroku container:release web -a card-hero
       - run: |
           cd publish
           yarn global add now
@@ -105,14 +128,13 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:13.5.0-buster
+      - image: node:14.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - run:
           name: npm build:prod
           command: |
@@ -124,14 +146,13 @@ jobs:
             - << pipeline.parameters.publish-project >>/wwwroot
   npm-test:
     docker:
-      - image: node:13.5.0-buster
+      - image: node:14.3.0-buster
     steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
       - run:
           name: npm test
           command: |
@@ -144,7 +165,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:13.5.0-buster
+      - image: node:14.3.0-buster
     steps:
       - attach_workspace:
           at: .

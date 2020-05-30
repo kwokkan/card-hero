@@ -10,17 +10,13 @@ namespace CardHero.Core.Abstractions
             return new GameModel
             {
                 Columns = from.Columns,
-                CurrentGameUserId = from.CurrentGameUserId,
-                CurrentUser = from.CurrentGameUserId == null ? null : new UserModel
-                {
-                    Id = from.CurrentGameUserId.Value,
-                },
+                CurrentUserId = from.CurrentUserId,
                 EndTime = from.EndTime,
                 Id = from.Id,
-                Name = from.Name,
                 Rows = from.Rows,
                 StartTime = from.StartTime,
-                Type = (Models.GameType)(int)from.Type,
+                Type = from.Type,
+                WinnerUserId = from.WinnerUserId,
             };
         }
 
@@ -29,14 +25,12 @@ namespace CardHero.Core.Abstractions
             return new GameData
             {
                 Columns = from.Columns,
-                CurrentGameUserId = from.CurrentUser?.Id,
                 EndTime = from.EndTime,
                 Id = from.Id,
-                Name = from.Name,
                 Rows = from.Rows,
                 StartTime = from.StartTime,
-                Type = (Data.Abstractions.GameType)(int)from.Type,
-                WinnerId = from.Winner?.Id,
+                Type = from.Type,
+                WinnerUserId = from.WinnerUserId,
             };
         }
     }

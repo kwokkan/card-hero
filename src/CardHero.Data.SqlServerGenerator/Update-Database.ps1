@@ -10,6 +10,7 @@ Microsoft.EntityFrameworkCore.SqlServer `
 Card,`
 CardCollection,`
 CardFavourite,`
+CardPack,`
 Deck,`
 DeckCardCollection,`
 DeckFavourite,`

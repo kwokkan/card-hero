@@ -8,7 +8,8 @@ exports[`<GameDetailWidget /> renders correctly with game 1`] = `
     className="card-header"
   >
     <span>
-      Test Game
+      #
+      10
     </span>
   </h4>
   <ul
@@ -22,7 +23,7 @@ exports[`<GameDetailWidget /> renders correctly with game 1`] = `
       </strong>
        
       <span>
-        TripleTriad
+        Standard
       </span>
     </li>
     <li

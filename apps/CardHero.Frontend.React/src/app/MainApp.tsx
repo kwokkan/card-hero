@@ -1,141 +1,40 @@
-﻿import React, { Component, Fragment } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+﻿import React, { useState } from "react";
 import { IUserModel } from "../clients/clients";
-import { Card } from "../components/card/Card";
-import { CardApp } from "../components/card/CardApp";
-import { CollectionApp } from "../components/collection/CollectionApp";
-import { Deck } from "../components/deck/Deck";
-import { DeckApp } from "../components/deck/DeckApp";
-import { Game } from "../components/game/Game";
-import { GameApp } from "../components/game/GameApp";
-import { HomeApp } from "../components/home/HomeApp";
 import { ErrorBoundary } from "../components/shared/ErrorBoundary";
-import { NavMenu } from "../components/shared/NavMenu";
-import { StoreApp } from "../components/store/StoreApp";
-import { AccountContext } from "../contexts/AccountContext";
-import { AccountService } from "../services/AccountService";
+import { IAccountContextProps } from "../contexts/AccountContext";
+import { AccountContextProvider } from "../contexts/AccountContextProvider";
+import { INotificationContextProviderProps, NotificationContextProvider } from "../contexts/NotificationContextProvider";
+import { INotificationItem } from "../types/INotificationItem";
 import { getRoutePrefix } from "../utils/route";
+import { Main } from "./Main";
 
 interface IMainAppProps {
+    appName: string;
     baseUrl?: string;
+    defaultNotifications?: INotificationItem[];
 }
 
-interface IMainAppState {
-    user?: IUserModel;
-    setUser: (user: IUserModel) => void;
-}
+export function MainApp(props: IMainAppProps) {
+    const [userState, setUserState] = useState<IUserModel>();
 
-export class MainApp extends Component<IMainAppProps, IMainAppState> {
-    static contextType = AccountContext;
+    const contextProps: IAccountContextProps = {
+        user: userState,
+        setUser: setUserState
+    };
 
-    constructor(props: IMainAppProps) {
-        super(props);
+    const notificationContextProps: INotificationContextProviderProps = {
+        notifications: props.defaultNotifications
+    };
 
-        this.state = {
-            setUser: (user) => {
-                this.setState({
-                    user: user
-                })
-            }
-        };
-    }
+    const baseUrl = getRoutePrefix(props.baseUrl);
 
-    async componentDidMount() {
-        const user = await AccountService.getAccount();
-
-        if (user) {
-            this.context.setUser(user);
-            this.setState({
-                user: user
-            });
-        }
-    }
-
-    render() {
-        const appName = Constants.AppName;
-        const baseUrl = getRoutePrefix(this.props.baseUrl);
-
-        return (
-            <ErrorBoundary>
-                <AccountContext.Provider value={this.state}>
-                    <BrowserRouter basename={baseUrl}>
-                        <NavMenu appName={appName} user={this.state.user} />
-
-                        <div className="container-fluid body-content">
-                            <div className="row">
-                                <Switch>
-                                    <Route exact path="/">
-                                        <HomeApp appName={appName} routePrefix={baseUrl} />
-                                    </Route>
-
-                                    <Route path="/Card"
-                                        render={({ match: { path } }) => (
-                                            <Fragment>
-                                                <Route exact path={`${path}/`}>
-                                                    <CardApp routePrefix={path} />
-                                                </Route>
-
-                                                <Route path={`${path}/:id`}
-                                                    render={({ match: { params, url } }) => (
-                                                        <Route exact path={url}>
-                                                            <Card id={params.id as number} />
-                                                        </Route>
-                                                    )}>
-                                                </Route>
-                                            </Fragment>
-                                        )}>
-                                    </Route>
-
-
-                                    <Route path="/Game"
-                                        render={({ match: { path } }) => (
-                                            <Fragment>
-                                                <Route exact path={`${path}/`}>
-                                                    <GameApp routePrefix={path} />
-                                                </Route>
-
-                                                <Route path={`${path}/:id`}
-                                                    render={({ match: { params, url } }) => (
-                                                        <Route exact path={url}>
-                                                            <Game id={params.id as number} />
-                                                        </Route>
-                                                    )}>
-                                                </Route>
-                                            </Fragment>
-                                        )}>
-                                    </Route>
-
-                                    <Route path="/Store">
-                                        <StoreApp />
-                                    </Route>
-
-                                    <Route path="/Collection">
-                                        <CollectionApp />
-                                    </Route>
-
-                                    <Route path="/Deck"
-                                        render={({ match: { path } }) => (
-                                            <Fragment>
-                                                <Route exact path={`${path}/`}>
-                                                    <DeckApp routePrefix={path} />
-                                                </Route>
-
-                                                <Route path={`${path}/:id`}
-                                                    render={({ match: { params, url } }) => (
-                                                        <Route exact path={url}>
-                                                            <Deck id={params.id as number} />
-                                                        </Route>
-                                                    )}>
-                                                </Route>
-                                            </Fragment>
-                                        )}>
-                                    </Route>
-                                </Switch>
-                            </div>
-                        </div>
-                    </BrowserRouter>
-                </AccountContext.Provider>
-            </ErrorBoundary>
-        );
-    }
+    return (
+        <ErrorBoundary>
+            <AccountContextProvider value={contextProps}>
+                <NotificationContextProvider value={notificationContextProps}>
+                    <Main appName={props.appName} baseUrl={baseUrl} />
+                </NotificationContextProvider>
+            </AccountContextProvider>
+        </ErrorBoundary>
+    );
 }

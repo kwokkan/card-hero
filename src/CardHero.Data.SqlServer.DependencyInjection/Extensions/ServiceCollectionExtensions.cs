@@ -1,4 +1,5 @@
-﻿using CardHero.Data.Abstractions;
+﻿using CardHero.Core.Models;
+using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer;
 using CardHero.Data.SqlServer.EntityFramework;
 
@@ -11,18 +12,22 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddCardHeroDataSqlServer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCardHeroDataSqlServerDbContext(configuration);
+            var connectionString = configuration.GetConnectionString("CardHeroSqlServerConnection");
 
-            services.AddCardHeroDataSqlServerMappers();
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                services.AddCardHeroDataSqlServerDbContext(connectionString);
 
-            services.AddCardHeroDataSqlServerRepositories();
+                services.AddCardHeroDataSqlServerMappers();
+
+                services.AddCardHeroDataSqlServerRepositories();
+            }
 
             return services;
         }
 
-        private static IServiceCollection AddCardHeroDataSqlServerDbContext(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddCardHeroDataSqlServerDbContext(this IServiceCollection services, string connectionString)
         {
-            var connectionString = configuration.GetConnectionString("CardHeroSqlServerConnection");
             var options = new CardHeroDataDbOptions
             {
                 ConnectionString = connectionString,
@@ -35,10 +40,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.UseSqlServer(options.ConnectionString);
             });
 
-            services
-                .AddScoped<ICardHeroDataDbContextFactory, CardHeroDataDbContextFactory>()
-            ;
-
             return services;
         }
 
@@ -46,13 +47,13 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services
                 .AddScoped<IMapper<CardCollection, CardCollectionData>, CardCollectionMapper>()
-                .AddScoped<IMapper<Card, CardData>, CardMapper>()
+                .AddScoped<IMapper<Card, CardModel>, CardMapper>()
+                .AddScoped<IMapper<CardPack, CardPackModel>, CardPackMapper>()
                 .AddScoped<IMapper<Deck, DeckData>, DeckMapper>()
                 .AddScoped<IMapper<DeckCardCollection, DeckCardData>, DeckCardMapper>()
                 .AddScoped<IMapper<Game, GameData>, GameMapper>()
                 .AddScoped<IMapper<GameDeck, GameDeckData>, GameDeckMapper>()
                 .AddScoped<IMapper<GameDeckCardCollection, GameDeckCardCollectionData>, GameDeckCardCollectionMapper>()
-                .AddScoped<IMapper<GameUser, GameUserData>, GameUserMapper>()
                 .AddScoped<IMapper<StoreItem, StoreItemData>, StoreItemMapper>()
                 .AddScoped<IMapper<Turn, TurnData>, TurnMapper>()
                 .AddScoped<IMapper<User, UserData>, UserMapper>()
@@ -65,12 +66,12 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services
                 .AddScoped<ICardCollectionRepository, CardCollectionRepository>()
+                .AddScoped<ICardPackRepository, CardPackRepository>()
                 .AddScoped<ICardRepository, CardRepository>()
                 .AddScoped<IDeckRepository, DeckRepository>()
                 .AddScoped<IGameDeckCardCollectionRepository, GameDeckCardCollectionRepository>()
                 .AddScoped<IGameDeckRepository, GameDeckRepository>()
                 .AddScoped<IGameRepository, GameRepository>()
-                .AddScoped<IGameUserRepository, GameUserRepository>()
                 .AddScoped<IMoveRepository, MoveRepository>()
                 .AddScoped<IStoreItemRepository, StoreItemRepository>()
                 .AddScoped<ITurnRepository, TurnRepository>()

@@ -138,6 +138,56 @@
   margin-bottom: auto;
 }
 
+.game-card.your-card .card {
+  border-color: blue;
+  box-shadow: 0 0 0.5rem 0.25rem blue;
+}
+
+.game-card.opponent-card .card {
+  border-color: red;
+  box-shadow: inset 0 0 0.5rem 0.25rem red;
+}
+
+.game-banner {
+  width: 100%;
+  height: calc(100% + 30px);
+  position: absolute;
+  z-index: 10;
+  background-color: #aaaaaaaa;
+  margin: -15px -15px -15px -15px;
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+}
+
+.game-banner-message {
+  width: 100%;
+  text-align: center;
+  font-size: 4rem;
+  text-transform: uppercase;
+  border-radius: 100px;
+  margin: 30px;
+}
+
+.game-banner-message.draw {
+  background-color: #aaaaaa;
+}
+
+.game-banner-message.win {
+  background-color: blue;
+  color: white;
+}
+
+.game-banner-message.lose {
+  background-color: red;
+}
+
+.notifications {
+  position: fixed;
+  z-index: 1;
+  right: 0;
+}
+
 body {
   overflow-y: scroll;
 }

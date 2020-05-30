@@ -1,20 +1,25 @@
-﻿using CardHero.Data.Abstractions;
+﻿using CardHero.Core.Models;
+using CardHero.Data.Abstractions;
 using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class StoreItemMapper : IMapper<StoreItem, StoreItemData>
+    internal class StoreItemMapper : IMapper<StoreItem, StoreItemData>
     {
         StoreItemData IMapper<StoreItem, StoreItemData>.Map(StoreItem from)
         {
             return new StoreItemData
             {
-                Cost = from.Cost,
-                Description = from.Description,
+                CardPackId = from.CardPackFk,
                 Expiry = from.Expiry,
-                Id = from.StoreItemPk,
-                ItemCount = from.ItemCount,
-                Name = from.Name,
+                StoreItem = new StoreItemModel
+                {
+                    Cost = from.Cost,
+                    Description = from.Description,
+                    Id = from.StoreItemPk,
+                    ItemCount = from.ItemCount,
+                    Name = from.Name,
+                },
             };
         }
 

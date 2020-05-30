@@ -1,11 +1,9 @@
-﻿namespace CardHero.Data.Abstractions
+﻿using CardHero.Core.Models;
+
+namespace CardHero.Data.Abstractions
 {
     public class GameCreateData
     {
-        public string Name { get; set; }
-
-        public int? CurrentGameUserId { get; set; }
-
         public int Rows { get; set; }
 
         public int Columns { get; set; }

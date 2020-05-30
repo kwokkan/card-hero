@@ -5,81 +5,79 @@ using System.Threading.Tasks;
 
 using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+using CardHero.Core.SqlServer.DataServices;
+using CardHero.Core.SqlServer.Handlers;
+using CardHero.Core.SqlServer.Helpers;
 using CardHero.Data.Abstractions;
 
 namespace CardHero.Core.SqlServer.Services
 {
     public class GamePlayService : BaseService, IGamePlayService
     {
-        private readonly IGameService _gameService;
-
-        private readonly IGameDeckCardCollectionRepository _gameDeckCardCollectionRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IMoveRepository _moveRepository;
         private readonly ITurnRepository _turnRepository;
 
+        private readonly IGameDataService _gameDataService;
+        private readonly IGameValidator _gameValidator;
+        private readonly IMoveValidator _moveValidator;
+        private readonly IGameDeckHelper _gameDeckHelper;
+        private readonly IHandleWinnerHandler _handleWinnerHandler;
+
         public GamePlayService(
-            IGameService gamseService,
-            IGameDeckCardCollectionRepository gameDeckCardCollectionRepository,
             IGameRepository gameRepository,
             IMoveRepository moveRepository,
-            ITurnRepository turnRepository
+            ITurnRepository turnRepository,
+            IGameDataService gameDataService,
+            IGameValidator gameValidator,
+            IMoveValidator moveValidator,
+            IGameDeckHelper gameDeckHelper,
+            IHandleWinnerHandler handleWinnerHandler
         )
         {
-            _gameService = gamseService;
-
-            _gameDeckCardCollectionRepository = gameDeckCardCollectionRepository;
             _gameRepository = gameRepository;
             _moveRepository = moveRepository;
             _turnRepository = turnRepository;
+
+            _gameDataService = gameDataService;
+            _gameValidator = gameValidator;
+            _moveValidator = moveValidator;
+
+            _gameDeckHelper = gameDeckHelper;
+
+            _handleWinnerHandler = handleWinnerHandler;
         }
 
         private async Task<GameModel> ValidateMoveInternalAsync(MoveModel move, CancellationToken cancellationToken = default)
         {
-            var game = await _gameService.GetGameByIdAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
+            var game = await _gameValidator.ValidateGameForMoveAsync(move.GameId, move.UserId, cancellationToken: cancellationToken);
+
+            await _moveValidator.ValidateMoveAsync(move, game, cancellationToken: cancellationToken);
+
+            return game;
+        }
+
+        async Task<GamePlayModel> IGamePlayService.GetGamePlayByIdAsync(int id, int? userId, CancellationToken cancellationToken)
+        {
+            var filter = new Abstractions.GameSearchFilter
+            {
+                GameId = id,
+            };
+            var game = (await _gameDataService.GetGamesAsync(filter, userId: userId, cancellationToken: cancellationToken)).Results.SingleOrDefault();
 
             if (game == null)
             {
-                throw new InvalidGameException();
+                throw new InvalidGameException($"Game { id } does not exist.");
             }
 
-            var gameUser = game.Users.SingleOrDefault(x => x.UserId == move.UserId);
-
-            if (gameUser == null)
+            var gamePlay = new GamePlayModel
             {
-                throw new InvalidPlayerException();
-            }
+                Game = game,
+            };
 
-            if (game.CurrentUser.Id != gameUser.Id)
-            {
-                throw new InvalidTurnException();
-            }
+            await _gameDeckHelper.PopulateDeckAsync(userId, game, gamePlay, cancellationToken: cancellationToken);
 
-            var card = (await _gameDeckCardCollectionRepository.SearchAsync(
-                new GameDeckCardCollectionSearchFilter
-                {
-                    Ids = new int[] { move.GameDeckCardCollectionId },
-                    UserId = move.UserId,
-                }, cancellationToken: cancellationToken)).SingleOrDefault(x => x.Id == move.GameDeckCardCollectionId);
-
-            if (card == null)
-            {
-                throw new InvalidCardException();
-            }
-
-            if (move.Row < 0 || move.Row >= game.Rows || move.Column < 0 || move.Column >= game.Columns)
-            {
-                throw new InvalidMoveException("Move must be made on the board.");
-            }
-
-            var moves = await _gameRepository.GetMovesByGameIdAsync(move.GameId);
-
-            if (moves.Any(x => x.Row == move.Row && x.Column == move.Column))
-            {
-                throw new InvalidMoveException("There is already a card in this location.");
-            }
-
-            return game;
+            return gamePlay;
         }
 
         async Task IGamePlayService.MakeMoveAsync(MoveModel move, CancellationToken cancellationToken)
@@ -110,19 +108,26 @@ namespace CardHero.Core.SqlServer.Services
 
             await _moveRepository.AddMoveAsync(currentMove, cancellationToken: cancellationToken);
 
-            var nextUser = game.Users
-                .SkipWhile(x => x.UserId != move.UserId)
+            var gridSize = game.Columns * game.Rows;
+            if (turns.Count == gridSize)
+            {
+                await _handleWinnerHandler.HandleAsync(game.Id, game.UserIds, cancellationToken: cancellationToken);
+                return;
+            }
+
+            var nextUserId = game.UserIds
+                .SkipWhile(x => x != move.UserId)
                 .Skip(1)
                 .FirstOrDefault();
 
-            if (nextUser == null)
+            if (nextUserId == default)
             {
-                nextUser = game.Users.First();
+                nextUserId = game.UserIds.First();
             }
 
             var newTurn = new TurnData
             {
-                CurrentGameUserId = nextUser.Id,
+                CurrentUserId = nextUserId,
                 GameId = game.Id,
                 StartTime = DateTime.UtcNow,
             };
@@ -131,7 +136,7 @@ namespace CardHero.Core.SqlServer.Services
 
             var gameUpdate = new GameUpdateData
             {
-                CurrentGameUserId = nextUser.Id,
+                CurrentUserId = nextUserId,
             };
             await _gameRepository.UpdateGameAsync(game.Id, gameUpdate, cancellationToken: cancellationToken);
         }

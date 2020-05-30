@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using CardHero.AspNetCore.Authentication.FileSystem;
@@ -10,19 +11,24 @@ using CardHero.Core.SqlServer.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using WebMarkupMin.AspNet.Common.UrlMatchers;
 using WebMarkupMin.AspNetCore3;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
     public class Startup
     {
+        private static class CardHeroEnvironmentVariables
+        {
+            public const string DisableHttps = "CH_DISABLE_HTTPS";
+        }
+
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _environment;
 
@@ -52,7 +58,7 @@ namespace CardHero.NetCoreApp.TypeScript
 
                     x.Events.OnRedirectToLogin = context =>
                     {
-                        if (context.Request.Path.StartsWithSegments("/api"))
+                        if (context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                         {
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         }
@@ -105,6 +111,11 @@ namespace CardHero.NetCoreApp.TypeScript
 
             services
                 .AddControllersWithViews()
+                .AddJsonOptions(x =>
+                {
+                    x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    x.JsonSerializerOptions.IgnoreNullValues = true;
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
@@ -145,11 +156,10 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.MinificationSettings.WhitespaceMinificationMode = WebMarkupMin.Core.WhitespaceMinificationMode.Aggressive;
 
                     x.SupportedHttpMethods.Add("POST");
-
-                    x.ExcludedPages.Add(new WildcardUrlMatcher("/swagger/*"));
                 })
             ;
 
+            services.AddCardHeroDataPostgreSql(_configuration);
             services.AddCardHeroDataSqlServer(_configuration);
 
             services.AddCardHeroSqlServerDbContext(_configuration);
@@ -158,13 +168,40 @@ namespace CardHero.NetCoreApp.TypeScript
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var useHttpOnly = !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(CardHeroEnvironmentVariables.DisableHttps));
+
+            if (useHttpOnly)
+            {
+                var forwardedHeadersOptions = new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                };
+                forwardedHeadersOptions.KnownNetworks.Clear();
+                forwardedHeadersOptions.KnownProxies.Clear();
+                app.UseForwardedHeaders(forwardedHeadersOptions);
+            }
+
             app.UseJsonException();
 
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
-            app.UseHttpsRedirection();
+
+            if (!useHttpOnly)
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseResponseCompression();
+
+            app.MapWhen(context => context.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase), childApp =>
+            {
+                childApp.UseCardHeroHttpHeaders(true);
+
+                childApp
+                    .UseOpenApi()
+                    .UseSwaggerUi3()
+                ;
+            });
 
             app.UseCardHeroHttpHeaders();
 
@@ -204,10 +241,6 @@ namespace CardHero.NetCoreApp.TypeScript
             {
                 x.MapDefaultControllerRoute();
             });
-
-            app.UseOpenApi(); // serve OpenAPI/Swagger documents
-            app.UseSwaggerUi3(); // serve Swagger UI
-            //app.UseReDoc(); // serve ReDoc UI
         }
     }
 }

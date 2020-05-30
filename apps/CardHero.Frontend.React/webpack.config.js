@@ -7,12 +7,15 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
-const WebpackDeepScopeAnalysisPlugin = require("webpack-deep-scope-plugin").default;
 
-const isProd = process.env.NODE_ENV == "production";
+const isProd = process.env.NODE_ENV === "production";
 const chAnalyse = !!process.env.CH_ANALYSE;
 
 const constants = require("./src/constants/constants.ts");
+const pathSep = path.sep;
+const sourcePath = path.resolve(__dirname, "src") + pathSep;
+const modulePath = path.resolve(__dirname, "node_modules") + pathSep;
+const moduleLength = modulePath.length;
 
 module.exports = {
     mode: isProd ? "production" : "development",
@@ -50,8 +53,6 @@ module.exports = {
         ]
     },
 
-    recordsPath: path.resolve(__dirname, "records.json"),
-
     optimization: {
         minimize: isProd,
         minimizer: isProd ? [
@@ -87,7 +88,7 @@ module.exports = {
         runtimeChunk: {
             name: "runtime"
         },
-        sideEffects: false,
+        sideEffects: true,
         usedExports: true,
         splitChunks: {
             cacheGroups: {
@@ -107,44 +108,28 @@ module.exports = {
                 "styles.vendor": {
                     chunks: "all",
                     name: "styles.vendor",
-                    test: /[\\/]src[\\/]styles[\\/]vendor\.s?css$/,
+                    test: path.resolve(sourcePath, "styles", "vendor.scss"),
                     enforce: true,
                     priority: 10
                 },
                 "vendor.default": {
                     chunks: "all",
-                    name: "vendor.default",
-                    test: /node_modules/,
+                    name: (module, chunk, cacheGroupKey) => {
+                        if (module.resource) {
+                            if (module.resource.startsWith(modulePath)) {
+                                const moduleFile = module.resource.substring(moduleLength);
+                                const packageName = moduleFile.substring(0, moduleFile.indexOf(pathSep));
+                                return "vendor." + packageName;
+                            }
+                        }
+
+                        return cacheGroupKey;
+                    },
+                    test: (module, chunk) => {
+                        return module.resource && module.resource.startsWith(modulePath);
+                    },
                     enforce: true,
                     priority: -100
-                },
-                "vendor.fortawesome": {
-                    chunks: "all",
-                    name: "vendor.fortawesome",
-                    test: /node_modules[\\/]@fortawesome[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.global": {
-                    chunks: "all",
-                    name: "vendor.global",
-                    test: /node_modules[\\/](bootstrap|jquery)[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.react": {
-                    chunks: "all",
-                    name: "vendor.react",
-                    test: /node_modules[\\/](react|react-.+)[\\/]/,
-                    enforce: true,
-                    priority: -10
-                },
-                "vendor.unused": {
-                    chunks: "all",
-                    name: "vendor.unused",
-                    test: /node_modules[\\/](moment|popper\.js)[\\/]/,
-                    enforce: true,
-                    priority: -10
                 }
             }
         }
@@ -164,7 +149,7 @@ module.exports = {
 
     plugins: [
         new webpack.EnvironmentPlugin({
-            "NODE_ENV": "production"
+            "NODE_ENV": process.env.NODE_ENV
         }),
         new webpack.DefinePlugin({
             "Constants": constants
@@ -202,16 +187,15 @@ module.exports = {
                 version: false,
                 reasons: false
             }
-        }) : null,
-        isProd ? new WebpackDeepScopeAnalysisPlugin() : null
+        }) : null
     ].filter(Boolean),
 
     module: {
         rules: [
             {
                 test: /\.ts(x?)$/,
-                include: /src/,
-                exclude: /node_modules/,
+                include: sourcePath,
+                exclude: modulePath,
                 use: [
                     "cache-loader",
                     {
@@ -236,16 +220,19 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                include: /src/,
-                loader: [
+                include: sourcePath,
+                exclude: modulePath,
+                use: [
                     "cache-loader",
-                    "source-map-loader"
+                    {
+                        loader: "source-map-loader"
+                    }
                 ]
             },
             {
-                test: /\.s?css$/,
-                include: /src/,
-                exclude: /node_modules/,
+                test: /\.scss$/,
+                include: sourcePath,
+                exclude: modulePath,
                 use: [
                     //"file-loader",
                     //"extract-loader",

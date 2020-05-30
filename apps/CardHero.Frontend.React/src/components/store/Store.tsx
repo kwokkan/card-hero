@@ -1,94 +1,81 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Fragment, useEffect, useState } from "react";
 import { IStoreItemModel } from "../../clients/clients";
-import { AccountContext } from "../../contexts/AccountContext";
+import { useAccountContext } from "../../contexts/AccountContextProvider";
+import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { AccountService } from "../../services/AccountService";
 import { StoreService } from "../../services/StoreService";
+import { NotificationType } from "../../types/NotificationType";
 import { StoreItemBuyModal } from "./StoreItemBuyModal";
 import { StoreItemDetails } from "./StoreItemDetails";
 
-interface IStoreProps {
-}
+export function Store() {
+    const [itemsState, setItemsState] = useState<IStoreItemModel[]>([]);
+    const [selectedItemState, setSelectedItemState] = useState<IStoreItemModel>();
+    const [modelShownState, setModelShownState] = useState<boolean>(false);
 
-interface IStoreState {
-    items: IStoreItemModel[];
-    selectedItem?: IStoreItemModel;
-    modalShown: boolean;
-}
+    const { setUser } = useAccountContext();
+    const { addNotification } = useNotificationContext();
 
-export class Store extends Component<IStoreProps, IStoreState> {
-    static contextType = AccountContext;
+    useEffect(() => {
+        async function loadData() {
+            const items = await StoreService.getStoreItems();
 
-    constructor(props: IStoreProps) {
-        super(props);
+            setItemsState(items);
+        }
 
-        this.state = {
-            items: [],
-            modalShown: false
-        };
+        loadData();
+    }, []);
+
+    const onModalHide = () => {
+        setModelShownState(false);
     }
 
-    async componentDidMount() {
-        const items = await StoreService.getStoreItems();
-
-        this.setState({
-            items: items
-        });
-    }
-
-    onModalHide() {
-        this.setState({
-            modalShown: false
-        });
-    }
-
-    onSelectItem(item: IStoreItemModel) {
+    const onSelectItem = (item: IStoreItemModel) => {
         if (Constants.Debug) {
             console.log(item);
         }
 
-        this.setState({
-            selectedItem: item,
-            modalShown: true
-        });
+        setSelectedItemState(item);
+        setModelShownState(true);
     }
 
-    async onPurchase(item: IStoreItemModel) {
+    const onPurchase = async (item: IStoreItemModel) => {
         const items = await StoreService.buyCardBundle(item.id);
 
         if (Constants.Debug) {
             console.log(items);
         }
 
-        this.setState({
-            modalShown: false
-        });
+        setModelShownState(false);
 
         const user = await AccountService.getAccount();
 
         if (user) {
-            this.context.setUser(user);
+            setUser(user);
         }
 
-        alert('Purchased bundle ' + item.name);
+        addNotification({
+            title: "Purchased",
+            message: <Fragment>Purchased bundle <strong>{item.name}</strong></Fragment>,
+            type: NotificationType.Success
+        });
     }
 
-    render() {
-        return (
-            <Fragment>
-                <div className="row">
-                    {this.state.items.map(x =>
-                        <div key={x.id} className="col-lg-4">
-                            <StoreItemDetails storeItem={x} onSelectItem={(item) => this.onSelectItem(item)} />
-                        </div>
-                    )}
-                </div>
-                <StoreItemBuyModal
-                    show={this.state.modalShown}
-                    onHide={() => this.onModalHide()}
-                    onPurchase={(item) => this.onPurchase(item)}
-                    storeItem={this.state.selectedItem}
-                />
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <div className="row">
+                {itemsState.map(x =>
+                    <div key={x.id} className="col-lg-4">
+                        <StoreItemDetails storeItem={x} onSelectItem={(item) => onSelectItem(item)} />
+                    </div>
+                )}
+            </div>
+            <StoreItemBuyModal
+                show={modelShownState}
+                onHide={() => onModalHide()}
+                onPurchase={(item) => onPurchase(item)}
+                storeItem={selectedItemState}
+            />
+        </Fragment>
+    );
 }

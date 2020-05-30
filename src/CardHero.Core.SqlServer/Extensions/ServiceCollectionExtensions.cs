@@ -1,5 +1,8 @@
 ﻿using CardHero.Core.Abstractions;
 using CardHero.Core.Models;
+using CardHero.Core.SqlServer.DataServices;
+using CardHero.Core.SqlServer.Handlers;
+using CardHero.Core.SqlServer.Helpers;
 using CardHero.Core.SqlServer.Services;
 using CardHero.Data.Abstractions;
 
@@ -17,30 +20,43 @@ namespace CardHero.Core.SqlServer.Web
 
             services
                 .AddScoped<ICardCollectionService, CardCollectionService>()
+                .AddScoped<ICardPackService, CardPackService>()
                 .AddScoped<ICardService, CardService>()
                 .AddScoped<IDeckService, DeckService>()
                 .AddScoped<IGamePlayService, GamePlayService>()
                 .AddScoped<IGameService, GameService>()
                 .AddScoped<IMoveService, MoveService>()
+                .AddScoped<IMoveUserService, MoveUserService>()
                 .AddScoped<IStoreItemService, StoreItemService>()
                 .AddScoped<IUserService, UserService>()
             ;
 
             services
+                .AddScoped<IGameDataService, GameDataService>()
+            ;
+
+            services
                 .AddScoped<IGameValidator, GameValidator>()
+                .AddScoped<IMoveValidator, MoveValidator>()
+            ;
+
+            services
+                .AddScoped<IGameDeckHelper, GameDeckHelper>()
+            ;
+
+            services
+                .AddScoped<IAddUserToGameHandler, AddUserToGameHandler>()
+                .AddScoped<IHandleWinnerHandler, HandleWinnerHandler>()
             ;
 
             services
                 .AddScoped<IDataMapper<CardCollectionData, CardCollectionModel>, CardCollectionDataMapper>()
-                .AddScoped<IDataMapper<CardData, CardModel>, CardDataMapper>()
                 .AddScoped<IDataMapper<DeckData, DeckModel>, DeckDataMapper>()
                 .AddScoped<IDataMapper<GameData, GameModel>, GameDataMapper>()
                 .AddScoped<IDataMapper<GameCreateData, GameCreateModel>, GameCreateDataMapper>()
                 .AddScoped<IDataMapper<GameDeckCardCollectionData, GameDeckCardCollectionModel>, GameDeckCardCollectionMapper>()
                 .AddScoped<IDataMapper<GameDeckData, GameDeckModel>, GameDeckDataMapper>()
-                .AddScoped<IDataMapper<GameUserData, GameUserModel>, GameUserDataMapper>()
                 .AddScoped<IDataMapper<MoveData, MoveModel>, MoveDataMapper>()
-                .AddScoped<IDataMapper<StoreItemData, StoreItemModel>, StoreItemDataMapper>()
                 .AddScoped<IDataMapper<UserData, UserModel>, UserDataMapper>()
             ;
 

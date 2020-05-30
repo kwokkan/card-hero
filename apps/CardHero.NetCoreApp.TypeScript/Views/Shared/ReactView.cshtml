@@ -13,24 +13,47 @@
     <link rel="stylesheet" async asp-href-include="~/dist/styles.app.*.min.css" asp-append-version="@isDev" />
 }
 
-<noscript>
-    You need to enable JavaScript to run this app.
-</noscript>
-
 <div id="root">
-    <h1>The app is currently loading.</h1>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header" aria-expanded="false" aria-label="Toggle navigation">
+            <Icon icon="bars" />
+        </button>
 
-    <p>
-        If this is taking a long time, try refreshing the page.
-    </p>
+        <a href="~/" class="navbar-brand">
+            <img src="~/favicon.ico" class="d-inline-block align-top" width="32" height="32" alt="Card Hero" />
+            Card Hero
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbar-header">
+        </div>
+    </nav>
+
+    <div class="container-fluid body-content">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <noscript>
+                    <h1 class="display-3">You need to enable JavaScript to run this app.</h1>
+                </noscript>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="jumbotron text-center">
+
+                    <h1 class="display-3">The app is currently loading.</h1>
+
+                    <p class="lead">
+                        If this is taking a long time, try refreshing the page.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script defer asp-src-include="~/dist/runtime.*.min.js" asp-append-version="@isDev"></script>
-<script defer asp-src-include="~/dist/vendor.default.*.min.js" asp-append-version="@isDev"></script>
-<script defer asp-src-include="~/dist/vendor.global.*.min.js" asp-append-version="@isDev"></script>
-<script defer asp-src-include="~/dist/vendor.react.*.min.js" asp-append-version="@isDev"></script>
-<script defer asp-src-include="~/dist/vendor.fortawesome.*.min.js" asp-append-version="@isDev"></script>
-<script defer asp-src-include="~/dist/vendor.unused.*.min.js" asp-append-version="@isDev"></script>
+<script defer asp-src-include="~/dist/vendor.*.min.js" asp-append-version="@isDev"></script>
 <script defer asp-src-include="~/dist/shared.*.min.js" asp-append-version="@isDev"></script>
 
 @if (!string.IsNullOrWhiteSpace(appScript))

@@ -5,13 +5,13 @@ using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    public class TurnMapper : IMapper<Turn, TurnData>
+    internal class TurnMapper : IMapper<Turn, TurnData>
     {
         TurnData IMapper<Turn, TurnData>.Map(Turn from)
         {
             return new TurnData
             {
-                CurrentGameUserId = from.CurrentGameUserFk,
+                CurrentUserId = from.CurrentGameUserFk,
                 EndTime = from.EndTime,
                 GameId = from.GameFk,
                 Id = from.TurnPk,

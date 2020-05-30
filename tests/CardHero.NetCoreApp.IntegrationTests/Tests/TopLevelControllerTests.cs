@@ -3,21 +3,15 @@ using System.Threading.Tasks;
 
 using AngleSharp;
 
-using CardHero.NetCoreApp.TypeScript;
-
-using Microsoft.AspNetCore.Mvc.Testing;
-
 using Xunit;
 
 namespace CardHero.NetCoreApp.IntegrationTests
 {
-    public class TopLevelControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class TopLevelControllerTests : IntegrationTestBase, IClassFixture<PostgreSqlWebApplicationFactory>, IClassFixture<SqlServerWebApplicationFactory>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
-
-        public TopLevelControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public TopLevelControllerTests(PostgreSqlWebApplicationFactory postgresApplicationFactory, SqlServerWebApplicationFactory sqlServerApplicationFactory)
+            : base(postgresApplicationFactory, sqlServerApplicationFactory)
         {
-            _factory = factory;
         }
 
         [Theory]
@@ -27,19 +21,22 @@ namespace CardHero.NetCoreApp.IntegrationTests
         [InlineData("/Store", "Store")]
         public async Task GetTopLevelView_WithoutAuthorization_ReturnsSuccess(string path, string title)
         {
-            var client = _factory.CreateClient();
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClient();
 
-            var response = await client.GetAsync(path);
+                var response = await client.GetAsync(path);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
 
-            var context = BrowsingContext.New(Configuration.Default);
-            var document = await context.OpenAsync(req => req.Content(content));
+                var context = BrowsingContext.New(Configuration.Default);
+                var document = await context.OpenAsync(req => req.Content(content));
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal(title + " - CardHero.NetCoreApp.TypeScript", document.Title);
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.Equal(title + " - Card Hero", document.Title);
+            });
         }
 
         [Theory]
@@ -47,18 +44,21 @@ namespace CardHero.NetCoreApp.IntegrationTests
         [InlineData("/Deck")]
         public async Task GetTopLevelView_WithoutAuthorization_ReturnsUnauthorized(string path)
         {
-            var client = _factory.CreateClient();
+            await RunAsync(async factory =>
+            {
+                var client = factory.CreateClient();
 
-            var response = await client.GetAsync(path);
+                var response = await client.GetAsync(path);
 
-            var content = await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
 
-            var context = BrowsingContext.New(Configuration.Default);
-            var document = await context.OpenAsync(req => req.Content(content));
+                var context = BrowsingContext.New(Configuration.Default);
+                var document = await context.OpenAsync(req => req.Content(content));
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal("Sign In - CardHero.NetCoreApp.TypeScript", document.Title);
-            Assert.Equal("/SignIn", response.RequestMessage.RequestUri.AbsolutePath);
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.Equal("Sign In - Card Hero", document.Title);
+                Assert.Equal("/SignIn", response.RequestMessage.RequestUri.AbsolutePath);
+            });
         }
     }
 }

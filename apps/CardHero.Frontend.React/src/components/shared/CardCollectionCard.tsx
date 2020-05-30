@@ -20,14 +20,15 @@ export function CardCollectionCard(props: ICardCollectionCardProps) {
     };
 
     const actionClassName = "btn btn-sm " + (props.actionClassName || "");
+    const rarity = card.card.rarity.id;
 
     return (
         <div className="list-group-item d-flex justify-content-between align-items-center" data-card-collection-id={card.id}>
             <span>
                 {card.card.name}
                 {" "}
-                <span className={"text-rarity_" + Rarity[card.card.rarity].toLowerCase()} title={Rarity[card.card.rarity]}>
-                    {Array(card.card.rarity).fill(0).map((_, i) =>
+                <span className={"text-rarity_" + Rarity[rarity].toLowerCase()} title={Rarity[rarity]}>
+                    {Array(rarity).fill(0).map((_, i) =>
                         <Icon key={i} icon="star" />
                     )}
                 </span>

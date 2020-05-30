@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { GameType, IDeckModel } from "../../clients/clients";
 
 export interface IGameCreateModalOnCreatedProps {
-    name: string;
     type: GameType;
     deckId: number;
 }
@@ -16,7 +15,6 @@ interface IGameCreateModalProps {
 }
 
 interface IGameCreateModalState {
-    name?: string;
     type?: GameType;
     deckId?: number;
     canSave: boolean;
@@ -24,8 +22,7 @@ interface IGameCreateModalState {
 
 export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreateModalState> {
     static readonly defaultState: IGameCreateModalState = {
-        name: undefined,
-        type: GameType.TripleTriad,
+        type: GameType.Standard,
         deckId: undefined,
         canSave: false
     }
@@ -40,9 +37,9 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
         this.props.onHide();
 
         if (this.props.onCreated) {
-            const { name, type, deckId } = this.state;
+            const { type, deckId } = this.state;
 
-            this.props.onCreated({ name, type, deckId });
+            this.props.onCreated({ type, deckId });
         }
     }
 
@@ -67,7 +64,7 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
     }
 
     canSave(): boolean {
-        return !!this.state.name && !!this.state.type && !!this.state.deckId;
+        return !!this.state.type && !!this.state.deckId;
     }
 
     onExited() {
@@ -90,30 +87,6 @@ export class GameCreateModal extends Component<IGameCreateModalProps, IGameCreat
                     <div className="row">
                         <div className="container">
                             <form className="form auto-post">
-                                <div className="form-group">
-                                    <label htmlFor="mName">Name</label>
-                                    <input
-                                        type="text"
-                                        id="mName"
-                                        className="form-control"
-                                        placeholder="Name"
-                                        value={this.state.name}
-                                        onChange={(e) => this.onInputChange("name", e)}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="mType">Type</label>
-                                    <select
-                                        id="mType"
-                                        className="form-control"
-                                        value={this.state.type}
-                                        onChange={(e) => this.onSelectChange("type", e)}
-                                    >
-                                        <option value="1">Triple Triad</option>
-                                    </select>
-                                </div>
-
                                 <div className="form-group">
                                     <label htmlFor="mDeckId">Deck</label>
                                     <select

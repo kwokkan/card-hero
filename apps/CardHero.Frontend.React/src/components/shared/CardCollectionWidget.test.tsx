@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import renderer from "react-test-renderer";
-import { CardModel, ICardCollectionModel, ICardModel, Rarity } from "../../clients/clients";
+import { CardModel, ICardCollectionModel, ICardModel, Rarity, RarityModel } from "../../clients/clients";
 import { CardCollectionWidget } from "./CardCollectionWidget";
 
 test("<CardCollectionWidget /> renders no cards", () => {
@@ -31,12 +31,16 @@ test("<CardCollectionWidget /> renders card with cards", () => {
     const data1: ICardModel = {
         id: 1,
         name: "Test card",
-        rarity: Rarity.Legendary
+        rarity: RarityModel.fromJS({
+            id: Rarity.Legendary
+        })
     };
     const data2: ICardModel = {
         id: 2,
         name: "Test card 2",
-        rarity: Rarity.Common
+        rarity: RarityModel.fromJS({
+            id: Rarity.Common
+        })
     };
     const card: ICardCollectionModel[] = [
         {
@@ -58,12 +62,16 @@ test("<CardCollectionWidget /> renders card with cards and custom actions", () =
     const data1: ICardModel = {
         id: 1,
         name: "Test card",
-        rarity: Rarity.Legendary
+        rarity: RarityModel.fromJS({
+            id: Rarity.Legendary
+        })
     };
     const data2: ICardModel = {
         id: 2,
         name: "Test card 2",
-        rarity: Rarity.Common
+        rarity: RarityModel.fromJS({
+            id: Rarity.Common
+        })
     };
     const card: ICardCollectionModel[] = [
         {
@@ -85,12 +93,16 @@ test("<CardCollectionWidget /> renders card with cards disabled", () => {
     const data1: ICardModel = {
         id: 1,
         name: "Test card",
-        rarity: Rarity.Legendary
+        rarity: RarityModel.fromJS({
+            id: Rarity.Legendary
+        })
     };
     const data2: ICardModel = {
         id: 2,
         name: "Test card 2",
-        rarity: Rarity.Common
+        rarity: RarityModel.fromJS({
+            id: Rarity.Common
+        })
     };
     const card: ICardCollectionModel[] = [
         {
@@ -112,27 +124,37 @@ test("<CardCollectionWidget /> renders cards with all rarities", () => {
     const data1: ICardModel = {
         id: 1,
         name: "Test legendary",
-        rarity: Rarity.Legendary
+        rarity: RarityModel.fromJS({
+            id: Rarity.Legendary
+        })
     };
     const data2: ICardModel = {
         id: 2,
         name: "Test epic",
-        rarity: Rarity.Epic
+        rarity: RarityModel.fromJS({
+            id: Rarity.Epic
+        })
     };
     const data3: ICardModel = {
         id: 3,
         name: "Test rare",
-        rarity: Rarity.Rare
+        rarity: RarityModel.fromJS({
+            id: Rarity.Rare
+        })
     };
     const data4: ICardModel = {
         id: 4,
         name: "Test uncommon",
-        rarity: Rarity.Uncommon
+        rarity: RarityModel.fromJS({
+            id: Rarity.Uncommon
+        })
     };
     const data5: ICardModel = {
         id: 5,
         name: "Test common",
-        rarity: Rarity.Common
+        rarity: RarityModel.fromJS({
+            id: Rarity.Common
+        })
     };
     const card: ICardCollectionModel[] = [
         {

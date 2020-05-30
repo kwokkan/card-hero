@@ -17,11 +17,9 @@ namespace CardHero.Core.Abstractions
             return new GameCreateData
             {
                 Columns = from.Columns,
-                CurrentGameUserId = from.CurrentGameUserId,
                 MaxPlayers = from.MaxPlayers,
-                Name = from.Name,
                 Rows = from.Rows,
-                Type = (Data.Abstractions.GameType)(int)from.Type,
+                Type = from.Type,
             };
         }
     }

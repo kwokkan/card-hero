@@ -1,13 +1,13 @@
-﻿using CardHero.Data.Abstractions;
+﻿using CardHero.Core.Models;
 using CardHero.Data.SqlServer.EntityFramework;
 
 namespace CardHero.Data.SqlServer
 {
-    internal class CardMapper : IMapper<Card, CardData>
+    internal class CardMapper : IMapper<Card, CardModel>
     {
-        CardData IMapper<Card, CardData>.Map(Card from)
+        CardModel IMapper<Card, CardModel>.Map(Card from)
         {
-            return new CardData
+            return new CardModel
             {
                 Attack = from.Attack,
                 Defence = from.Defence,
@@ -17,9 +17,9 @@ namespace CardHero.Data.SqlServer
                 Id = from.CardPk,
                 LeftAttack = from.LeftAttack,
                 Name = from.Name,
-                Rarity = new RarityData
+                Rarity = new RarityModel
                 {
-                    Id = from.RarityFk,
+                    Id = (Core.Models.Rarity)from.RarityFk,
                     Frequency = from.RarityFkNavigation.Frequency,
                     Name = from.RarityFkNavigation.Name,
                 },
@@ -29,7 +29,7 @@ namespace CardHero.Data.SqlServer
             };
         }
 
-        Card IMapper<Card, CardData>.Map(CardData from)
+        Card IMapper<Card, CardModel>.Map(CardModel from)
         {
             throw new System.NotImplementedException();
         }

@@ -6,7 +6,7 @@
 
 set -e +o pipefail
 
-VERSION="20191211-b8db533"
+VERSION="20200430-d757c17"
 
 url="https://codecov.io"
 env="$CODECOV_ENV"
@@ -500,7 +500,7 @@ then
     env="$env,${!language}"
   fi
 
-elif [ "$CODEBUILD_BUILD_ARN" != "" ];
+elif [ "$CODEBUILD_CI" = "true" ];
 then
   say "$e==>$x AWS Codebuild detected."
   # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
@@ -514,7 +514,7 @@ then
     pr="$(echo $CODEBUILD_SOURCE_VERSION | sed 's/^pr\///')"
   fi
   job="$CODEBUILD_BUILD_ID"
-  slug="$(echo $CODEBUILD_SOURCE_REPO_URL | sed 's/^.*github.com\///' | sed 's/\.git$//')"
+  slug="$(echo $CODEBUILD_SOURCE_REPO_URL | sed 's/^.*github.com\///' | sed 's/^.*bitbucket.org\///' | sed 's/\.git$//')"
 
 elif [ "$DOCKER_REPO" != "" ];
 then
@@ -684,7 +684,7 @@ then
   branch="$HEROKU_TEST_RUN_BRANCH"
   build="$HEROKU_TEST_RUN_ID"
 
-elif [ "$CI" = "True" ] && [ "$APPVEYOR" = "True" ];
+elif [[ "$CI" = "true" || "$CI" = "True" ]] && [[ "$APPVEYOR" = "true" || "$APPVEYOR" = "True" ]];
 then
   say "$e==>$x Appveyor CI detected."
   # http://www.appveyor.com/docs/environment-variables
@@ -769,21 +769,31 @@ then
 
   # https://help.github.com/en/articles/virtual-environments-for-github-actions#environment-variables
   branch="${GITHUB_REF#refs/heads/}"
+  if [  "$GITHUB_HEAD_REF" != "" ];
+  then
+    # PR refs are in the format: refs/pull/7/merge
+    pr="${GITHUB_REF#refs/pull/}"
+    pr="${pr%/merge}"
+    branch="${GITHUB_HEAD_REF}"
+  fi
   commit="${GITHUB_SHA}"
   slug="${GITHUB_REPOSITORY}"
+  build="${GITHUB_RUN_ID}"
+  build_url=$(urlencode "http://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
 
 elif [ "$SYSTEM_TEAMFOUNDATIONSERVERURI" != "" ];
 then
   say "$e==>$x Azure Pipelines detected."
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=vsts
+  # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&viewFallbackFrom=vsts&tabs=yaml
   service="azure_pipelines"
   commit="$BUILD_SOURCEVERSION"
   build="$BUILD_BUILDNUMBER"
-  if [  -z "$PULL_REQUEST_NUMBER" ];
+  if [  -z "$SYSTEM_PULLREQUEST_PULLREQUESTNUMBER" ];
   then
-    pr="$PULL_REQUEST_ID"
+    pr="$SYSTEM_PULLREQUEST_PULLREQUESTID"
   else
-    pr="$PULL_REQUEST_NUMBER"
+    pr="$SYSTEM_PULLREQUEST_PULLREQUESTNUMBER"
   fi
   project="${SYSTEM_TEAMPROJECT}"
   server_uri="${SYSTEM_TEAMFOUNDATIONSERVERURI}"
@@ -806,6 +816,19 @@ then
   then
     commit=$(git rev-parse "$BITBUCKET_COMMIT")
   fi
+elif [ "$CI" = "true" ] && [ "$BUDDY" = "true" ];
+then
+  say "$e==>$x Buddy CI detected."
+  # https://buddy.works/docs/pipelines/environment-variables
+  service="buddy"
+  branch="$BUDDY_EXECUTION_BRANCH"
+  build="$BUDDY_EXECUTION_ID"
+  build_url=$(urlencode "$BUDDY_EXECUTION_URL")
+  commit="$BUDDY_EXECUTION_REVISION"
+  pr="$BUDDY_EXECUTION_PULL_REQUEST_NO"
+  tag="$BUDDY_EXECUTION_TAG"
+  slug="$BUDDY_REPO_SLUG"
+
 elif [ "$CIRRUS_CI" != "" ];
 then
   say "$e==>$x Cirrus CI detected."
@@ -817,6 +840,7 @@ then
   commit="$CIRRUS_CHANGE_IN_REPO"
   build="$CIRRUS_TASK_ID"
   job="$CIRRUS_TASK_NAME"
+
 else
   say "${r}x>${x} No CI provider detected."
   say "    Testing inside Docker? ${b}http://docs.codecov.io/docs/testing-with-docker${x}"
@@ -906,14 +930,18 @@ yaml=$(test -n "$codecov_yml" && echo "$codecov_yml" \
        || cd "$git_root" && \
           git ls-files "*codecov.yml" "*codecov.yaml" 2>/dev/null \
        || hg locate "*codecov.yml" "*codecov.yaml" 2>/dev/null \
-       || cd $proj_root && find . -type f -name '*codecov.y*ml' -depth 1 2>/dev/null \
+       || cd $proj_root && find . -maxdepth 1 -type f -name '*codecov.y*ml' 2>/dev/null \
        || echo '')
 yaml=$(echo "$yaml" | head -1)
 
 if [ "$yaml" != "" ];
 then
   say "    ${e}Yaml found at:${x} $yaml"
-  config=$(parse_yaml "$git_root/$yaml" || echo '')
+  if [[ "$yaml" != /* ]]; then
+    # relative path for yaml file given, assume relative to the repo root
+    yaml="$git_root/$yaml"
+  fi
+  config=$(parse_yaml "$yaml" || echo '')
 
   # TODO validate the yaml here
 
@@ -1013,10 +1041,10 @@ then
     if [ "$ft_gcov" = "1" ];
     then
       say "    ${e}->${x} Running $gcov_exe for Obj-C"
-      if [ "$ft_gcovout" = "1" ];
+      if [ "$ft_gcovout" = "0" ];
       then
         # suppress gcov output
-        bash -c "find $ddp -type f -name '*.gcda' $gcov_include $gcov_ignore -exec $gcov_exe -p $gcov_arg {} +" || true 2>/dev/null
+        bash -c "find $ddp -type f -name '*.gcda' $gcov_include $gcov_ignore -exec $gcov_exe -p $gcov_arg {} +" >/dev/null 2>&1 || true
       else
         bash -c "find $ddp -type f -name '*.gcda' $gcov_include $gcov_ignore -exec $gcov_exe -p $gcov_arg {} +" || true
       fi
@@ -1044,7 +1072,13 @@ then
   if [ "$ft_gcov" = "1" ];
   then
     say "${e}==>${x} Running gcov in $proj_root ${e}(disable via -X gcov)${x}"
-    bash -c "find $proj_root -type f -name '*.gcno' $gcov_include $gcov_ignore -execdir $gcov_exe -pb $gcov_arg {} +" || true
+    if [ "$ft_gcovout" = "0" ];
+    then
+      # suppress gcov output
+      bash -c "find $proj_root -type f -name '*.gcno' $gcov_include $gcov_ignore -execdir $gcov_exe -pb $gcov_arg {} \;" >/dev/null 2>&1 || true
+    else
+      bash -c "find $proj_root -type f -name '*.gcno' $gcov_include $gcov_ignore -execdir $gcov_exe -pb $gcov_arg {} \;" || true
+    fi
   else
     say "${e}==>${x} gcov disabled"
   fi
@@ -1399,7 +1433,7 @@ fi
 if [ "$ft_fix" = "1" ];
 then
   say "${e}==>${x} Appending adjustments"
-  say "    ${b}http://docs.codecov.io/docs/fixing-reports${x}"
+  say "    ${b}https://docs.codecov.io/docs/fixing-reports${x}"
 
   empty_line='^[[:space:]]*$'
   # //
@@ -1494,7 +1528,7 @@ then
       || echo ''
   fi
 
-  if echo "$network" | grep -m1 '\(.cpp\|.h\|.cxx\|.c\|.hpp\|.m\)$' 1>/dev/null;
+  if echo "$network" | grep -m1 '\(.cpp\|.h\|.cxx\|.c\|.hpp\|.m\|.swift\)$' 1>/dev/null;
   then
     # skip brackets
     find "$git_root" -type f \
@@ -1506,6 +1540,7 @@ then
            -or -name '*.m' \
            -or -name '*.c' \
            -or -name '*.hpp' \
+           -or -name '*.swift' \
          \) -exec \
       grep -nIHE \
            -e $empty_line \
@@ -1526,6 +1561,7 @@ then
            -or -name '*.m' \
            -or -name '*.c' \
            -or -name '*.hpp' \
+           -or -name '*.swift' \
          \) -exec \
       grep -nIH '// LCOV_EXCL' \
            {} \; \
@@ -1598,8 +1634,8 @@ else
             --data-binary @$upload_file.gz \
             -H 'Content-Type: application/x-gzip' \
             -H 'Content-Encoding: gzip' \
-             -H 'x-amz-acl: public-read' \
-            "$s3target" || true)
+             "$s3target" || true)
+            
 
 
         if [ "$s3" != "" ];

@@ -1,4 +1,6 @@
-﻿namespace CardHero.Data.Abstractions
+﻿using System;
+
+namespace CardHero.Data.Abstractions
 {
     public class MoveData
     {
@@ -28,7 +30,12 @@
         public int Column { get; set; }
 
         /// <summary>
-        /// The user making the move.
+        /// The user who owns the move.
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// The game user making the move.
         /// </summary>
         public int GameUserId { get; set; }
 
@@ -36,5 +43,10 @@
         /// The turn.
         /// </summary>
         public int TurnId { get; set; }
+
+        /// <summary>
+        /// Time move was created.
+        /// </summary>
+        public DateTime StartTime { get; set; }
     }
 }

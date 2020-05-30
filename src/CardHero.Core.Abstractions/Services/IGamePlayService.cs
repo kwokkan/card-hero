@@ -10,6 +10,8 @@ namespace CardHero.Core.Abstractions
     /// </summary>
     public interface IGamePlayService
     {
+        Task<GamePlayModel> GetGamePlayByIdAsync(int id, int? userId, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Makes a move on a game.
         /// </summary>

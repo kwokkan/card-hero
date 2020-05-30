@@ -14,13 +14,13 @@ namespace CardHero.Core.Abstractions
         /// The page to get. Starts at 0. Defaults to 0.
         /// </summary>
         /// <remarks>null or less than 0 will default to 0.</remarks>
-        public int? Page { get; set; }
+        public int? Page { get; set; } = 0;
 
         /// <summary>
         /// The size of each page. Defaults to 10.
         /// </summary>
         /// <remarks>null or less than 0 will default to all.</remarks>
-        public int? PageSize { get; set; }
+        public int? PageSize { get; set; } = 10;
 
         /// <summary>
         /// Sort order being applied.
@@ -37,11 +37,5 @@ namespace CardHero.Core.Abstractions
         /// null means they are not logged in.
         /// </summary>
         public int? UserId { get; set; }
-
-        public SearchFilter()
-        {
-            Page = 0;
-            PageSize = 10;
-        }
     }
 }
