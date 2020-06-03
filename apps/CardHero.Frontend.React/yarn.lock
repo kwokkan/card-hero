@@ -1303,6 +1303,11 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
+"@types/estree@0.0.42":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.42.tgz#8d0c1f480339efedb3e46070e22dd63e0430dd11"
+  integrity sha512-K1DPVvnBCPxzD+G51/cxVIoc2X8uUVl1zpJeE6iKcgHMj4+tbat5Xu4TjV7v2QSDbIeAfLi2hIk+u2+s0MlpUQ==
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -2368,30 +2373,6 @@ cacache@^12.0.2:
     unique-filename "^1.1.1"
     y18n "^4.0.0"
 
-cacache@^13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/cacache/-/cacache-13.0.1.tgz#a8000c21697089082f85287a1aec6e382024a71c"
-  integrity sha512-5ZvAxd05HDDU+y9BVvcqYu2LLXmPnQ0hW62h32g4xBTgL/MppR4/04NHfj/ycM2y6lmTnbw6HVi+1eN0Psba6w==
-  dependencies:
-    chownr "^1.1.2"
-    figgy-pudding "^3.5.1"
-    fs-minipass "^2.0.0"
-    glob "^7.1.4"
-    graceful-fs "^4.2.2"
-    infer-owner "^1.0.4"
-    lru-cache "^5.1.1"
-    minipass "^3.0.0"
-    minipass-collect "^1.0.2"
-    minipass-flush "^1.0.5"
-    minipass-pipeline "^1.2.2"
-    mkdirp "^0.5.1"
-    move-concurrently "^1.0.1"
-    p-map "^3.0.0"
-    promise-inflight "^1.0.1"
-    rimraf "^2.7.1"
-    ssri "^7.0.0"
-    unique-filename "^1.1.1"
-
 cacache@^15.0.3:
   version "15.0.3"
   resolved "https://registry.yarnpkg.com/cacache/-/cacache-15.0.3.tgz#2225c2d1dd8e872339950d6a39c051e0e9334392"
@@ -2588,7 +2569,7 @@ chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chownr@^1.1.1, chownr@^1.1.2:
+chownr@^1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.3.tgz#42d837d5239688d55f303003a508230fa6727142"
   integrity sha512-i70fVHhmV3DtTl6nqvZOnIjbY0Pe4kAUjwHj8z0zAdgBtYrJyYwLKCCuRBQ5ppkyL0AkN7HKRnETdmdp1zqNXw==
@@ -4345,7 +4326,7 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.2, graceful-fs@^4.2.4:
+graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
@@ -5460,14 +5441,6 @@ jest-watcher@^26.0.0, jest-watcher@^26.0.1:
     jest-util "^26.0.1"
     string-length "^4.0.1"
 
-jest-worker@^25.4.0:
-  version "25.5.0"
-  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-25.5.0.tgz#2611d071b79cea0f43ee57a3d118593ac1547db1"
-  integrity sha512-/dsSmUkIy5EBGfv/IjjqmFxrNAUpBERfGs1oHROyD7yxjG/w+t0GOJDX8O1k32ySmd7+a5IhnJU2qQFcJ4n1vw==
-  dependencies:
-    merge-stream "^2.0.0"
-    supports-color "^7.0.0"
-
 jest-worker@^26.0.0:
   version "26.0.0"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-26.0.0.tgz#4920c7714f0a96c6412464718d0c58a3df3fb066"
@@ -6502,13 +6475,6 @@ p-map@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
   integrity sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==
-
-p-map@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/p-map/-/p-map-3.0.0.tgz#d704d9af8a2ba684e2600d9a215983d4141a979d"
-  integrity sha512-d3qXVTF/s+W+CdJ5A29wywV2n8CQQYahlgz2bFiA+4eVNJbHJodPZ+/gXwPGh0bOqA+j8S+6+ckmvLGPk1QpxQ==
-  dependencies:
-    aggregate-error "^3.0.0"
 
 p-map@^4.0.0:
   version "4.0.0"
@@ -7782,7 +7748,7 @@ rimraf@2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^2.5.4, rimraf@^2.6.3, rimraf@^2.7.1:
+rimraf@^2.5.4, rimraf@^2.6.3:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
@@ -8241,14 +8207,6 @@ ssri@^6.0.1:
   dependencies:
     figgy-pudding "^3.5.1"
 
-ssri@^7.0.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-7.1.0.tgz#92c241bf6de82365b5c7fb4bd76e975522e1294d"
-  integrity sha512-77/WrDZUWocK0mvA5NTRQyveUf+wsrIc6vyrxpS8tVvYBcX215QbafrJR3KtkpskIzoFLqqNuuYQvxaMjXJ/0g==
-  dependencies:
-    figgy-pudding "^3.5.1"
-    minipass "^3.1.1"
-
 ssri@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/ssri/-/ssri-8.0.0.tgz#79ca74e21f8ceaeddfcb4b90143c458b8d988808"
@@ -8542,7 +8500,7 @@ terminal-link@^2.0.0:
     ansi-escapes "^4.2.1"
     supports-hyperlinks "^2.0.0"
 
-terser-webpack-plugin@3.0.2:
+terser-webpack-plugin@3.0.2, terser-webpack-plugin@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-3.0.2.tgz#fdc501c73847d8904f6a80c5009b11ee2d11b8eb"
   integrity sha512-QeBHLJzKJHCnrPNlZj5EmOF6wwvzpVGDHvTrySIH8+jZEXfcKKCiriRmF6945rKzuZDnkOEU/LDv7qtPiiyP/Q==
@@ -8572,22 +8530,7 @@ terser-webpack-plugin@^1.4.3:
     webpack-sources "^1.4.0"
     worker-farm "^1.7.0"
 
-terser-webpack-plugin@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.6.tgz#a4014b311a61f87c6a1b217ef4f5a75bd0665a69"
-  integrity sha512-I8IDsQwZrqjdmOicNeE8L/MhwatAap3mUrtcAKJuilsemUNcX+Hier/eAzwStVqhlCxq0aG3ni9bK/0BESXkTg==
-  dependencies:
-    cacache "^13.0.1"
-    find-cache-dir "^3.3.1"
-    jest-worker "^25.4.0"
-    p-limit "^2.3.0"
-    schema-utils "^2.6.6"
-    serialize-javascript "^3.0.0"
-    source-map "^0.6.1"
-    terser "^4.6.12"
-    webpack-sources "^1.4.3"
-
-terser@^4.1.2, terser@^4.6.12, terser@^4.6.13:
+terser@^4.1.2, terser@^4.6.13:
   version "4.6.13"
   resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.13.tgz#e879a7364a5e0db52ba4891ecde007422c56a916"
   integrity sha512-wMvqukYgVpQlymbnNbabVZbtM6PN63AzqexpwJL8tbh/mRT9LE5o+ruVduAGL7D6Fpjl+Q+06U5I9Ul82odAhw==
@@ -9176,11 +9119,12 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@5.0.0-beta.16:
-  version "5.0.0-beta.16"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-beta.16.tgz#9702c3fa4d1ff8ee1d50d88de34f8c41af64195e"
-  integrity sha512-O6YzI5H7XDPoXFrdC338P0GsSdhmYvz0//HL8LxVFHuRSbtHcV8mfx5U8ouWihFqwyvbfy27Bqoz2KY62kME9Q==
+webpack@5.0.0-beta.17:
+  version "5.0.0-beta.17"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-beta.17.tgz#ba9d3a2cc97c376f51f6ffa38e0b2053632f4ecb"
+  integrity sha512-V1aogUEyFplYGE7lP8+fExf8/NS6xqUaGs8T2mDOZSDYe3bstWoVwAniju4hw1xNJVx096S4Ivm9pfsejzUY+w==
   dependencies:
+    "@types/estree" "0.0.42"
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/helper-module-context" "1.9.0"
     "@webassemblyjs/wasm-edit" "1.9.0"
@@ -9194,13 +9138,12 @@ webpack@5.0.0-beta.16:
     graceful-fs "^4.1.15"
     json-parse-better-errors "^1.0.2"
     loader-runner "^3.1.0"
-    loader-utils "^1.2.3"
     mime-types "^2.1.26"
     neo-async "^2.6.1"
     pkg-dir "^4.2.0"
     schema-utils "^2.5.0"
     tapable "2.0.0-beta.9"
-    terser-webpack-plugin "^2.3.6"
+    terser-webpack-plugin "^3.0.2"
     watchpack "2.0.0-beta.13"
     webpack-sources "2.0.0-beta.8"
 
