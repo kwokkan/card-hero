@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using CardHero.Core.Models;
 using CardHero.Data.Abstractions;
 using CardHero.Data.PostgreSql.EntityFramework;
 
@@ -15,11 +16,11 @@ namespace CardHero.Data.PostgreSql
 
         private readonly CardHeroDataDbContext _context;
 
-        private readonly IMapper<CardPack, CardPackData> _cardPackMapper;
+        private readonly IMapper<CardPack, CardPackModel> _cardPackMapper;
 
         public CardPackRepository(
             CardHeroDataDbContext context,
-            IMapper<CardPack, CardPackData> cardPackMapper
+            IMapper<CardPack, CardPackModel> cardPackMapper
         )
         {
             _context = context;
@@ -27,7 +28,7 @@ namespace CardHero.Data.PostgreSql
             _cardPackMapper = cardPackMapper;
         }
 
-        async Task<SearchResult<CardPackData>> ICardPackRepository.FindCardPacksAsync(CancellationToken cancellationToken)
+        async Task<SearchResult<CardPackModel>> ICardPackRepository.FindCardPacksAsync(CancellationToken cancellationToken)
         {
             var query = _context.CardPack.AsQueryable();
 
@@ -39,7 +40,7 @@ namespace CardHero.Data.PostgreSql
 
             var results = await query.Select(x => _cardPackMapper.Map(x)).ToArrayAsync(cancellationToken: cancellationToken);
 
-            var result = new SearchResult<CardPackData>
+            var result = new SearchResult<CardPackModel>
             {
                 CurrentPage = 0,
                 PageSize = DefaultPageSize,

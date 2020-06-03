@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
-import { ICardModel, Rarity } from "../../clients/clients";
+import { ICardModel, Rarity, RarityModel } from "../../clients/clients";
 import { AccountContext, IAccountContextProps } from "../../contexts/AccountContext";
 import { CardList } from "./CardList";
 
@@ -17,7 +17,9 @@ test("<CardList /> renders correctly", () => {
             isFavourited: false,
             leftAttack: 5,
             name: "First Card name",
-            rarity: Rarity.Common,
+            rarity: RarityModel.fromJS({
+                id: Rarity.Common
+            }),
             rightAttack: 6,
             totalStats: 7,
             upAttack: 8,
@@ -32,7 +34,9 @@ test("<CardList /> renders correctly", () => {
             isFavourited: true,
             leftAttack: 15,
             name: "Second Card name",
-            rarity: Rarity.Legendary,
+            rarity: RarityModel.fromJS({
+                id: Rarity.Legendary
+            }),
             rightAttack: 16,
             totalStats: 17,
             upAttack: 18,

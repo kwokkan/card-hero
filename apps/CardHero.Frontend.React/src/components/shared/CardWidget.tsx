@@ -13,8 +13,10 @@ export function CardWidget(props: ICardWidgetProps) {
         return null;
     }
 
+    const rarity = c.rarity.id
+
     return (
-        <div className={'card collection-card card-rarity_' + Rarity[c.rarity].toLowerCase()}>
+        <div className={'card collection-card card-rarity_' + Rarity[rarity].toLowerCase()}>
             <div className="card-body">
                 <h1 className="text-center" title="Up attack">{c.upAttack}</h1>
                 <h1 className="float-right" title="Right attack">{c.rightAttack}</h1>
@@ -23,8 +25,8 @@ export function CardWidget(props: ICardWidgetProps) {
             </div>
 
             <div className="card-footer">
-                <h2 className={'text-center card-rarity-symbols text-rarity_' + Rarity[c.rarity].toLowerCase()} title={Rarity[c.rarity]}>
-                    {Array(c.rarity).fill(0).map((_, i) =>
+                <h2 className={'text-center card-rarity-symbols text-rarity_' + Rarity[rarity].toLowerCase()} title={Rarity[rarity]}>
+                    {Array(rarity).fill(0).map((_, i) =>
                         <Icon key={i} icon="star" />
                     )}
                 </h2>
