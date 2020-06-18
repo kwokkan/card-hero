@@ -65,7 +65,7 @@
     "typescript": "3.9.5",
     "webpack": "4.43.0",
     "webpack-bundle-analyzer": "3.8.0",
-    "webpack-cli": "3.3.11"
+    "webpack-cli": "3.3.12"
   },
   "scripts": {
     "analyse": "cross-env NODE_ENV=development CH_ANALYSE=true webpack --config webpack.config.js",
