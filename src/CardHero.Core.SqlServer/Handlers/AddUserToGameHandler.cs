@@ -30,7 +30,7 @@ namespace CardHero.Core.SqlServer.Handlers
 
         async Task IAddUserToGameHandler.HandleAsync(int id, int userId, int deckId, CancellationToken cancellationToken)
         {
-            var game = await _gameRepository.GetGameByIdAsync(id);
+            var game = await _gameRepository.GetGameByIdAsync(id, cancellationToken: cancellationToken);
 
             if (game == null)
             {
