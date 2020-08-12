@@ -36,10 +36,12 @@ namespace CardHero.Core.SqlServer.Handlers
             var moves = await _moveService.GetMovesAsync(gameId, cancellationToken: cancellationToken);
 
             var cardIds = moves.Select(x => x.CardId).ToArray();
-            var result = await _cardService.GetCardsAsync(new Abstractions.CardSearchFilter
-            {
-                Ids = cardIds,
-            });
+            var result = await _cardService.GetCardsAsync(
+                new Abstractions.CardSearchFilter
+                {
+                    Ids = cardIds,
+                },
+                cancellationToken: cancellationToken);
             var cards = result.Results;
 
             var newMoves = await _moveUserService.PopulateMoveUsersAsync(moves, cards, userIds, cancellationToken: cancellationToken);

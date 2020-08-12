@@ -4,10 +4,10 @@ namespace CardHero.Data.Abstractions
 {
     public class GameUpdateData
     {
-        public UpdateProperty<int?> CurrentUserId { get; set; } = default;
+        public UpdateProperty<int?> CurrentUserId { get; set; }
 
-        public UpdateProperty<int?> WinnerUserId { get; set; } = default;
+        public UpdateProperty<int?> WinnerUserId { get; set; }
 
-        public UpdateProperty<DateTime?> EndTime { get; set; } = default;
+        public UpdateProperty<DateTime?> EndTime { get; set; }
     }
 }
