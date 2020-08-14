@@ -41,7 +41,7 @@ namespace CardHero.Core.SqlServer
                 throw new InvalidMoveException("Move must be made on the board.");
             }
 
-            var moves = await _moveRepository.GetMovesByGameIdAsync(move.GameId);
+            var moves = await _moveRepository.GetMovesByGameIdAsync(move.GameId, cancellationToken: cancellationToken);
 
             if (moves.Any(x => x.Row == move.Row && x.Column == move.Column))
             {

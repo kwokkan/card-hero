@@ -36,7 +36,7 @@ namespace CardHero.Data.SqlServer
                 Coins = coins,
             };
 
-            await _context.User.AddAsync(efUser);
+            await _context.User.AddAsync(efUser, cancellationToken: cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken: cancellationToken);
 

@@ -2,6 +2,6 @@
 {
     public class DeckUpdateData
     {
-        public UpdateProperty<int[]> CardCollectionIds { get; set; } = default;
+        public UpdateProperty<int[]> CardCollectionIds { get; set; }
     }
 }
