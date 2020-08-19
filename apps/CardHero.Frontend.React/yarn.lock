@@ -9193,10 +9193,10 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@5.0.0-beta.26:
-  version "5.0.0-beta.26"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-beta.26.tgz#1a6262ba0c99d7943788a39b923eee1f1dce6d76"
-  integrity sha512-/T4eA+MxVf6AzEU6V9PMUM6m+ChNlZfXtd5hHVKgjyyWv+XurGAihQsxaK4alILEBArWLgeDwi8IKwNur1t1vw==
+webpack@5.0.0-beta.27:
+  version "5.0.0-beta.27"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-beta.27.tgz#03af03560faa68c87fd39c502833141fa8343d99"
+  integrity sha512-8w3eknUchdgoF0lJ/gM6e2kUvN6O+gzSl/Yw5c444bUnvPSGTlpKnaRs3I4j/vkNZWvpfML8wO5yWaBda8vTCQ==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.45"
