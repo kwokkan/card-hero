@@ -122,6 +122,24 @@ jobs:
           heroku container:push web -a card-hero
           heroku container:release web -a card-hero
 
+  go-preview:
+    docker:
+      - image: node:14.3.0-buster
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+      - restore_cache:
+          keys:
+            - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
+      - run: |
+          cd publish
+          yarn global add now
+          npx now --token $EV_ZEIT_TOKEN
+
   npm-build:
     docker:
       - image: node:14.9.0-buster
@@ -205,11 +223,15 @@ workflows:
             - dotnet-test
             - npm-build
             - npm-test
-          filters:
-            branches:
-              only:
-                - master
+
+      - go-preview:
+          requires:
+            - dotnet-publish
 
       - go-live:
           requires:
             - dotnet-publish
+          filters:
+            branches:
+              only:
+                - master
