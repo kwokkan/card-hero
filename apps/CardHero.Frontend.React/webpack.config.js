@@ -39,7 +39,7 @@ module.exports = {
         filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
         path: path.resolve(__dirname, "../CardHero.NetCoreApp.TypeScript/wwwroot/dist"),
         devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
-        jsonpFunction: "wj"
+        chunkLoadingGlobal: "wj"
     },
 
     //cache: true,
