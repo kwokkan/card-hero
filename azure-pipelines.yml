@@ -43,7 +43,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - script: yarn install --frozen-lockfile
-  workingDirectory: $(Pipeline.Workspace)/apps/CardHero.Frontend.React
+  workingDirectory: apps/CardHero.Frontend.React'
 
 #- task: Npm@1
 #  inputs:
