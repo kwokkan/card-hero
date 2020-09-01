@@ -13,8 +13,26 @@ variables:
   solution: 'CardHero.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+  #YARN_CACHE_FOLDER: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
 
 steps:
+- task: Cache@2
+  inputs:
+    key: 'nuget | "$(Agent.OS)" | **/*.csproj,!**/bin/**'
+    restoreKeys: |
+       nuget | "$(Agent.OS)"
+    path: $(NUGET_PACKAGES)
+  displayName: Cache NuGet packages
+  
+- task: Cache@2
+  inputs:
+    key: 'yarn | "$(Agent.OS)" | apps/CardHero.Frontend.React/yarn.lock'
+    restoreKeys: |
+       yarn | "$(Agent.OS)"
+    path: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
+  displayName: Cache Yarn packages
+  
 - task: NuGetToolInstaller@1
 - task: UseDotNet@2
   inputs:
@@ -23,11 +41,13 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-    
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: 'apps/CardHero.Frontend.React'
+
+- script: yarn install --frozen-lockfile
+
+#- task: Npm@1
+#  inputs:
+#    command: 'install'
+#    workingDir: 'apps/CardHero.Frontend.React'
 
 - task: SonarCloudPrepare@1
   inputs:
