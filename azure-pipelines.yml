@@ -14,7 +14,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
+  #YARN_CACHE_FOLDER: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
 
 steps:
 - task: Cache@2
@@ -30,7 +30,7 @@ steps:
     key: 'yarn | "$(Agent.OS)" | apps/CardHero.Frontend.React/yarn.lock'
     restoreKeys: |
        yarn | "$(Agent.OS)"
-    path: $(YARN_CACHE_FOLDER)
+    path: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
   displayName: Cache Yarn packages
   
 - task: NuGetToolInstaller@1
