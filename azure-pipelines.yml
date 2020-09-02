@@ -30,7 +30,7 @@ steps:
     key: 'yarn | "$(Agent.OS)" | apps/CardHero.Frontend.React/yarn.lock'
     restoreKeys: |
        yarn | "$(Agent.OS)"
-    path: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
+    path: $(Build.SourcesDirectory)/apps/CardHero.Frontend.React/node_modules
   displayName: Cache Yarn packages
   
 - task: NuGetToolInstaller@1
@@ -43,6 +43,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - script: yarn install --frozen-lockfile
+  workingDirectory: apps/CardHero.Frontend.React
 
 #- task: Npm@1
 #  inputs:
