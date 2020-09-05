@@ -50,7 +50,7 @@
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "4.1.0",
     "jest": "26.4.2",
-    "jest-watch-typeahead": "0.6.0",
+    "jest-watch-typeahead": "0.6.1",
     "mini-css-extract-plugin": "0.11.0",
     "mockdate": "3.0.2",
     "optimize-css-assets-webpack-plugin": "5.0.4",
