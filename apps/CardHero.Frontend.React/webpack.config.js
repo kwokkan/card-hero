@@ -161,7 +161,7 @@ module.exports = {
         }),
         new PurgecssPlugin({
             paths: glob.sync("src/**/*", { nodir: true }),
-            whitelistPatterns: [
+            safelist: [
                 /close/,
                 /modal/,
                 /sr-only/
