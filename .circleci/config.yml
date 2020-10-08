@@ -28,7 +28,7 @@ jobs:
 
   init-node:
     docker:
-      - image: node:14.13.0-buster
+      - image: node:14.13.1-buster
     steps:
       - attach_workspace:
           at: .
@@ -87,7 +87,7 @@ jobs:
 
   go-live:
     docker:
-      - image: node:14.13.0-buster
+      - image: node:14.13.1-buster
     steps:
       - setup_remote_docker
       - attach_workspace:
@@ -124,7 +124,7 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:14.13.0-buster
+      - image: node:14.13.1-buster
     steps:
       - attach_workspace:
           at: .
@@ -142,7 +142,7 @@ jobs:
             - << pipeline.parameters.publish-project >>/wwwroot
   npm-test:
     docker:
-      - image: node:14.13.0-buster
+      - image: node:14.13.1-buster
     steps:
       - attach_workspace:
           at: .
@@ -161,7 +161,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:14.13.0-buster
+      - image: node:14.13.1-buster
     steps:
       - attach_workspace:
           at: .
