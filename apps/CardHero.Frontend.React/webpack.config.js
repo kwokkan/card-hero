@@ -39,10 +39,22 @@ module.exports = {
         filename: isProd ? "[name].[contenthash].min.js" : "[name].bundle.min.js",
         path: path.resolve(__dirname, "../CardHero.NetCoreApp.TypeScript/wwwroot/dist"),
         devtoolModuleFilenameTemplate: "/src/[resource-path]?[loaders]",
-        jsonpFunction: "wj"
+        chunkLoadingGlobal: "wj"
     },
 
-    cache: true,
+    //cache: true,
+    cache: {
+        // 1. Set cache type to filesystem
+        type: "filesystem",
+
+        buildDependencies: {
+            // 2. Add your config as buildDependency to get cache invalidation on config change
+            config: [__filename]
+
+            // 3. If you have other things the build depends on you can add them here
+            // Note that webpack, loaders and all modules referenced from your config are automatically added
+        }
+    },
 
     bail: true,
 
@@ -57,7 +69,6 @@ module.exports = {
         minimize: isProd,
         minimizer: isProd ? [
             new TerserPlugin({
-                cache: true,
                 parallel: true,
 
                 terserOptions: {
@@ -83,13 +94,15 @@ module.exports = {
             })
         ] : [],
         //concatenateModules: false,
-        moduleIds: "hashed",
+        chunkIds: "deterministic",
+        moduleIds: "deterministic",
         //runtimeChunk: "single",
         runtimeChunk: {
             name: "runtime"
         },
         sideEffects: true,
         usedExports: true,
+        innerGraph: true,
         splitChunks: {
             cacheGroups: {
                 shared: {
@@ -138,6 +151,7 @@ module.exports = {
     //profile:true,
 
     resolve: {
+        cache: true,
         // Add ".ts" and ".tsx" as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx"],
 
@@ -161,7 +175,7 @@ module.exports = {
         }),
         new PurgecssPlugin({
             paths: glob.sync("src/**/*", { nodir: true }),
-            whitelistPatterns: [
+            safelist: [
                 /close/,
                 /modal/,
                 /sr-only/
@@ -197,7 +211,6 @@ module.exports = {
                 include: sourcePath,
                 exclude: modulePath,
                 use: [
-                    "cache-loader",
                     {
                         loader: "ts-loader",
                         //options: {
@@ -223,7 +236,6 @@ module.exports = {
                 include: sourcePath,
                 exclude: modulePath,
                 use: [
-                    "cache-loader",
                     {
                         loader: "source-map-loader"
                     }
@@ -254,12 +266,6 @@ module.exports = {
                 ]
             }
         ]
-    },
-
-    node: {
-        Buffer: false,
-        fs: "empty",
-        process: false
     },
 
     // When importing a module whose path matches one of the following, just
