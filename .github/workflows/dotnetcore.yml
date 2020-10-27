@@ -16,7 +16,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build CardHero.sln --configuration Release
     - name: Setup Node.js for use with actions
-      uses: actions/setup-node@v1.1.0
+      uses: actions/setup-node@v1.4.4
       with:
         node-version: '14.x'
     - run: |
