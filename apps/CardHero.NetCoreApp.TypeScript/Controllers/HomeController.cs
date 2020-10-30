@@ -43,7 +43,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
 
             var referer = Request.Headers["Referer"].ToString();
 
-            if (!string.IsNullOrWhiteSpace(referer) && referer.StartsWith(absoluteBaseUri + "/"))
+            if (!string.IsNullOrWhiteSpace(referer) && referer.StartsWith(absoluteBaseUri + "/", System.StringComparison.OrdinalIgnoreCase))
             {
                 returnUrl = referer;
             }
@@ -75,7 +75,7 @@ namespace CardHero.NetCoreApp.TypeScript.Controllers
 
             var returnUrl = "/";
 
-            if (!string.IsNullOrWhiteSpace(redirectUri) && redirectUri.StartsWith(absoluteBaseUri + "/"))
+            if (!string.IsNullOrWhiteSpace(redirectUri) && redirectUri.StartsWith(absoluteBaseUri + "/", System.StringComparison.OrdinalIgnoreCase))
             {
                 returnUrl = redirectUri;
             }
