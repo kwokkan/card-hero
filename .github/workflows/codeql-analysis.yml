@@ -61,7 +61,7 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    - if: matrix.language == 'charp'
+    - if: matrix.language == 'csharp'
       name: C# Build
       run: |
         dotnet build CardHero.sln
