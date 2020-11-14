@@ -119,7 +119,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.HasKey(e => e.CardFavouritePk);
 
                 entity.HasIndex(e => new { e.CardFk, e.UserFk })
-                    .HasName("UX_CardFavourite_Card_FK_User_FK")
+                    .HasDatabaseName("UX_CardFavourite_Card_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
@@ -224,7 +224,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.HasKey(e => e.DeckFavouritePk);
 
                 entity.HasIndex(e => new { e.DeckFk, e.UserFk })
-                    .HasName("UX_DeckFavourite_Deck_FK_User_FK")
+                    .HasDatabaseName("UX_DeckFavourite_Deck_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.DeckFavouritePk).HasColumnName("DeckFavourite_PK");
@@ -502,7 +502,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                 entity.HasKey(e => e.UserPk);
 
                 entity.HasIndex(e => new { e.Identifier, e.IdPsource })
-                    .HasName("UX_User_Identifier")
+                    .HasDatabaseName("UX_User_Identifier")
                     .IsUnique();
 
                 entity.Property(e => e.UserPk).HasColumnName("User_PK");
