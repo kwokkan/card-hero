@@ -26,27 +26,6 @@ jobs:
           paths:
             - .
 
-  init-node:
-    docker:
-      - image: node:14.15.0-buster
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
-      - run:
-          name: node install
-          command: |
-            cd << pipeline.parameters.node-project >>
-            mv config/.yarnclean .yarnclean
-            yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-          paths:
-            - << pipeline.parameters.node-project >>/node_modules
-
   dotnet-build:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:3.1.403-buster
