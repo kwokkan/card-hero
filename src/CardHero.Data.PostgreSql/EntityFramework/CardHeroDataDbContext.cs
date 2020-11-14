@@ -41,7 +41,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasIndex(e => e.RarityFk);
 
                 entity.HasIndex(e => new { e.CardPackFk, e.CardPackId })
-                    .HasName("UX_Card_CardPack_FK_CardPackId")
+                    .HasDatabaseName("UX_Card_CardPack_FK_CardPackId")
                     .IsUnique();
 
                 entity.Property(e => e.CardPk).HasColumnName("Card_PK");
@@ -125,7 +125,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasIndex(e => e.UserFk);
 
                 entity.HasIndex(e => new { e.CardFk, e.UserFk })
-                    .HasName("UX_CardFavourite_Card_FK_User_FK")
+                    .HasDatabaseName("UX_CardFavourite_Card_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
@@ -231,7 +231,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasIndex(e => e.UserFk);
 
                 entity.HasIndex(e => new { e.DeckFk, e.UserFk })
-                    .HasName("UX_DeckFavourite_Deck_FK_User_FK")
+                    .HasDatabaseName("UX_DeckFavourite_Deck_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.DeckFavouritePk).HasColumnName("DeckFavourite_PK");
@@ -499,7 +499,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasKey(e => e.UserPk);
 
                 entity.HasIndex(e => new { e.Identifier, e.IdPsource })
-                    .HasName("UX_User_Identifier")
+                    .HasDatabaseName("UX_User_Identifier")
                     .IsUnique();
 
                 entity.Property(e => e.UserPk).HasColumnName("User_PK");
