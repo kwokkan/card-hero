@@ -37,7 +37,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '3.x'
+    version: '5.x'
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
