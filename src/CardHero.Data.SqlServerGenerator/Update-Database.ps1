@@ -6,6 +6,8 @@ Microsoft.EntityFrameworkCore.SqlServer `
 -StartupProject CardHero.Data.SqlServerGenerator `
 -Context CardHeroDataDbContext `
 -OutputDir EntityFramework `
+-NoOnConfiguring `
+-NoPluralize `
 -Tables `
 Card,`
 CardCollection,`

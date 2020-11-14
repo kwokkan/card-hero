@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+#nullable disable
 
 namespace CardHero.Data.SqlServer.EntityFramework
 {
@@ -36,9 +40,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.CardPk);
 
-                entity.HasIndex(e => e.CardPackFk);
+                entity.HasIndex(e => e.CardPackFk, "IX_Card_CardPack_FK");
 
-                entity.HasIndex(e => e.RarityFk);
+                entity.HasIndex(e => e.RarityFk, "IX_Card_Rarity_FK");
 
                 entity.Property(e => e.CardPk).HasColumnName("Card_PK");
 
@@ -65,7 +69,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
                     .IsRowVersion()
                     .IsConcurrencyToken();
 
-                entity.Property(e => e.TotalStats).HasComputedColumnSql("(isnull(((((([UpAttack]+[RightAttack])+[DownAttack])+[LeftAttack])+[Health])+[Attack])+[Defence],(0)))");
+                entity.Property(e => e.TotalStats).HasComputedColumnSql("(isnull(((((([UpAttack]+[RightAttack])+[DownAttack])+[LeftAttack])+[Health])+[Attack])+[Defence],(0)))", false);
 
                 entity.HasOne(d => d.CardPackFkNavigation)
                     .WithMany(p => p.Card)
@@ -84,9 +88,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.CardCollectionPk);
 
-                entity.HasIndex(e => e.CardFk);
+                entity.HasIndex(e => e.CardFk, "IX_CardCollection_Card_FK");
 
-                entity.HasIndex(e => e.UserFk);
+                entity.HasIndex(e => e.UserFk, "IX_CardCollection_User_FK");
 
                 entity.Property(e => e.CardCollectionPk).HasColumnName("CardCollection_PK");
 
@@ -118,8 +122,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.CardFavouritePk);
 
-                entity.HasIndex(e => new { e.CardFk, e.UserFk })
-                    .HasDatabaseName("UX_CardFavourite_Card_FK_User_FK")
+                entity.HasIndex(e => new { e.CardFk, e.UserFk }, "UX_CardFavourite_Card_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.CardFavouritePk).HasColumnName("CardFavourite_PK");
@@ -163,7 +166,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.DeckPk);
 
-                entity.HasIndex(e => e.UserFk);
+                entity.HasIndex(e => e.UserFk, "IX_Deck_User_FK");
 
                 entity.Property(e => e.DeckPk).HasColumnName("Deck_PK");
 
@@ -192,9 +195,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.DeckCardCollectionPk);
 
-                entity.HasIndex(e => e.CardCollectionFk);
+                entity.HasIndex(e => e.CardCollectionFk, "IX_DeckCardCollection_CardCollection_FK");
 
-                entity.HasIndex(e => e.DeckFk);
+                entity.HasIndex(e => e.DeckFk, "IX_DeckCardCollection_Deck_FK");
 
                 entity.Property(e => e.DeckCardCollectionPk).HasColumnName("DeckCardCollection_PK");
 
@@ -223,8 +226,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.DeckFavouritePk);
 
-                entity.HasIndex(e => new { e.DeckFk, e.UserFk })
-                    .HasDatabaseName("UX_DeckFavourite_Deck_FK_User_FK")
+                entity.HasIndex(e => new { e.DeckFk, e.UserFk }, "UX_DeckFavourite_Deck_FK_User_FK")
                     .IsUnique();
 
                 entity.Property(e => e.DeckFavouritePk).HasColumnName("DeckFavourite_PK");
@@ -250,11 +252,11 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.GamePk);
 
-                entity.HasIndex(e => e.CurrentUserFk);
+                entity.HasIndex(e => e.CurrentUserFk, "IX_Game_CurrentUser_FK");
 
-                entity.HasIndex(e => e.GameTypeFk);
+                entity.HasIndex(e => e.GameTypeFk, "IX_Game_GameType_FK");
 
-                entity.HasIndex(e => e.WinnerUserFk);
+                entity.HasIndex(e => e.WinnerUserFk, "IX_Game_WinnerUser_FK");
 
                 entity.Property(e => e.GamePk).HasColumnName("Game_PK");
 
@@ -294,7 +296,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.GameDeckPk);
 
-                entity.HasIndex(e => e.GameUserFk);
+                entity.HasIndex(e => e.GameUserFk, "IX_GameDeck_GameUser_FK");
 
                 entity.Property(e => e.GameDeckPk).HasColumnName("GameDeck_PK");
 
@@ -322,9 +324,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.GameDeckCardCollectionPk);
 
-                entity.HasIndex(e => e.CardFk);
+                entity.HasIndex(e => e.CardFk, "IX_GameDeckCardCollection_Card_FK");
 
-                entity.HasIndex(e => e.GameDeckFk);
+                entity.HasIndex(e => e.GameDeckFk, "IX_GameDeckCardCollection_GameDeck_FK");
 
                 entity.Property(e => e.GameDeckCardCollectionPk).HasColumnName("GameDeckCardCollection_PK");
 
@@ -353,9 +355,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.GameUserPk);
 
-                entity.HasIndex(e => e.GameFk);
+                entity.HasIndex(e => e.GameFk, "IX_GameUser_Game_FK");
 
-                entity.HasIndex(e => e.UserFk);
+                entity.HasIndex(e => e.UserFk, "IX_GameUser_User_FK");
 
                 entity.Property(e => e.GameUserPk).HasColumnName("GameUser_PK");
 
@@ -389,9 +391,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.MovePk);
 
-                entity.HasIndex(e => e.GameDeckCardCollectionFk);
+                entity.HasIndex(e => e.GameDeckCardCollectionFk, "IX_Move_GameDeckCardCollection_FK");
 
-                entity.HasIndex(e => e.TurnFk);
+                entity.HasIndex(e => e.TurnFk, "IX_Move_Turn_FK");
 
                 entity.Property(e => e.MovePk).HasColumnName("Move_PK");
 
@@ -401,7 +403,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .HasMaxLength(10)
-                    .IsFixedLength();
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 
@@ -438,7 +440,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.StoreItemPk);
 
-                entity.HasIndex(e => e.CardPackFk);
+                entity.HasIndex(e => e.CardPackFk, "IX_StoreItem_CardPack_FK");
 
                 entity.Property(e => e.StoreItemPk).HasColumnName("StoreItem_PK");
 
@@ -467,9 +469,9 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.TurnPk);
 
-                entity.HasIndex(e => e.CurrentGameUserFk);
+                entity.HasIndex(e => e.CurrentGameUserFk, "IX_Turn_CurrentGameUser_FK");
 
-                entity.HasIndex(e => e.GameFk);
+                entity.HasIndex(e => e.GameFk, "IX_Turn_Game_FK");
 
                 entity.Property(e => e.TurnPk).HasColumnName("Turn_PK");
 
@@ -501,8 +503,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
             {
                 entity.HasKey(e => e.UserPk);
 
-                entity.HasIndex(e => new { e.Identifier, e.IdPsource })
-                    .HasDatabaseName("UX_User_Identifier")
+                entity.HasIndex(e => new { e.Identifier, e.IdPsource }, "UX_User_Identifier")
                     .IsUnique();
 
                 entity.Property(e => e.UserPk).HasColumnName("User_PK");
@@ -513,8 +514,8 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.IdPsource)
                     .IsRequired()
-                    .HasColumnName("IdPSource")
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("IdPSource");
 
                 entity.Property(e => e.Identifier)
                     .IsRequired()
