@@ -57,14 +57,8 @@ jobs:
           dotnet restore << pipeline.parameters.solution >>
       - run: |
           dotnet build << pipeline.parameters.solution >> --no-restore
-  dotnet-test:
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:3.1.403-buster
-    steps:
-      - attach_workspace:
-          at: .
       - run: |
-          dotnet test << pipeline.parameters.solution >> --verbosity detailed /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" /p:nodereuse=false
+          dotnet test << pipeline.parameters.solution >> --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\" /p:nodereuse=false
       - persist_to_workspace:
           root: .
           paths:
@@ -131,24 +125,22 @@ jobs:
       - restore_cache:
           keys:
             - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v3-{{ arch }}-
+      - run:
+          name: node install
+          command: |
+            cd << pipeline.parameters.node-project >>
+            mv config/.yarnclean .yarnclean
+            yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: npm build:prod
           command: |
             cd << pipeline.parameters.node-project >>
             npm run build:prod
-      - persist_to_workspace:
-          root: .
-          paths:
-            - << pipeline.parameters.publish-project >>/wwwroot
-  npm-test:
-    docker:
-      - image: node:14.15.0-buster
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
       - run:
           name: npm test
           command: |
@@ -157,6 +149,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - << pipeline.parameters.publish-project >>/wwwroot
             - << pipeline.parameters.node-project >>/obj/coverage/js
 
   upload-coverage:
@@ -177,34 +170,22 @@ workflows:
     jobs:
       - init-workspace
 
-      - init-node:
-          requires:
-            - init-workspace
       - dotnet-build:
           requires:
             - init-workspace
 
-      - dotnet-test:
-          requires:
-            - dotnet-build
-
       - npm-build:
           requires:
-            - init-node
-      - npm-test:
-          requires:
-            - init-node
+            - init-workspace
 
       - upload-coverage:
           requires:
-            - dotnet-test
-            - npm-test
+            - dotnet-build
+            - npm-build
 
       - dotnet-publish:
           requires:
-            - dotnet-test
             - npm-build
-            - npm-test
           filters:
             branches:
               only:
