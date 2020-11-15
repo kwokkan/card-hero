@@ -8,7 +8,7 @@ import { NotificationType } from "../../types/NotificationType";
 import { StoreItemBuyModal } from "./StoreItemBuyModal";
 import { StoreItemDetails } from "./StoreItemDetails";
 
-export function Store() {
+export function Store(): JSX.Element {
     const [itemsState, setItemsState] = useState<IStoreItemModel[]>([]);
     const [selectedItemState, setSelectedItemState] = useState<IStoreItemModel>();
     const [modelShownState, setModelShownState] = useState<boolean>(false);
