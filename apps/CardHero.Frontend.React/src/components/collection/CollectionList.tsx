@@ -6,7 +6,7 @@ interface ICollectionListProps {
     collection: ICardCollectionModel[];
 }
 
-export function CollectionList(props: ICollectionListProps) {
+export function CollectionList(props: ICollectionListProps): JSX.Element {
     return (
         <div className="row">
             {props.collection.map(x =>
