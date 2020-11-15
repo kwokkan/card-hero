@@ -1,4 +1,4 @@
-﻿import React, { ChangeEvent, Component, Fragment } from "react";
+﻿import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { IDeckModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { Icon } from "../../styles/index";
@@ -13,90 +13,88 @@ interface IDeckSearchState {
     name?: string;
     page?: number;
     pageSize?: number;
-    modalShown: boolean;
 }
 
-export class DeckSearch extends Component<IDeckSearchProps, IDeckSearchState> {
-    constructor(props: IDeckSearchProps) {
-        super(props);
+export function DeckSearch(props: IDeckSearchProps): JSX.Element {
+    const [search, setSearch] = useState<IDeckSearchState>({});
+    const [modalShown, setModalShown] = useState<boolean>(false);
 
-        this.state = {
-            modalShown: false
-        };
-    }
-
-    async componentDidMount() {
-        await this.getDecks();
-    }
-
-    async getDecks(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const getDecks = async (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        var decks = await DeckService.getDecks(this.state);
+        var decks = await DeckService.getDecks(search);
 
-        if (this.props.onDecksPopulated) {
-            this.props.onDecksPopulated(decks);
+        if (props.onDecksPopulated) {
+            props.onDecksPopulated(decks);
         }
-    }
+    };
 
-    onInputChange(prop: KeyOfType<IDeckSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+    useEffect(() => {
+        async function load() {
+            await getDecks();
+        }
+
+        load();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onInputChange = (prop: KeyOfType<IDeckSearchState, string>, e: ChangeEvent<HTMLInputElement>) => {
         const newState: IDeckSearchState = {
             [prop]: e.target.value
         } as any;
 
-        this.setState(newState);
-    }
+        setSearch(newState);
+    };
 
-    onSelectChange(prop: KeyOfType<IDeckSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+    const onSelectChange = (prop: KeyOfType<IDeckSearchState, number>, e: ChangeEvent<HTMLSelectElement>) => {
         const newState: IDeckSearchState = {
             [prop]: parseInt(e.target.value)
         } as any;
 
-        this.setState(newState);
-    }
+        setSearch(newState);
+    };
 
-    async onDeckCreated(deck: IDeckCreateModelOnCreatedProps) {
+    const onDeckCreated = async (deck: IDeckCreateModelOnCreatedProps) => {
         await DeckService.createDeck(deck);
 
-        await this.getDecks();
-    }
+        await getDecks();
+    };
 
-    render() {
-        return (
-            <Fragment>
-                <div className="card">
-                    <h4 className="card-header">
-                        Decks
-                    </h4>
+    return (
+        <Fragment>
+            <div className="card">
+                <h4 className="card-header">
+                    Decks
+                </h4>
 
-                    <form method="get" className="search-filter deck-filter">
-                        <div className="card-body">
-                            <div className="form-group">
-                                <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={(e) => this.onInputChange('name', e)} />
-                            </div>
-
-                            <div className="form-group">
-                                <NumberDropDown name="pageSize" value={this.state.pageSize} onChange={(e) => this.onSelectChange("pageSize", e)} />
-                            </div>
+                <form method="get" className="search-filter deck-filter">
+                    <div className="card-body">
+                        <div className="form-group">
+                            <input type="text" name="name" className="form-control" placeholder="Name" value={search.name} onChange={(e) => onInputChange('name', e)} />
                         </div>
 
-                        <div className="card-footer">
-                            <button type="button" className="btn btn-success auto-modal" onClick={() => this.setState({ modalShown: true })}><Icon icon="plus" /></button>
-                            <button type="submit" className="btn btn-primary pull-right" onClick={(e) => this.getDecks(e)}>Filter</button>
-
-                            <div className="clearfix"></div>
+                        <div className="form-group">
+                            <NumberDropDown name="pageSize" value={search.pageSize} onChange={(e) => onSelectChange("pageSize", e)} />
                         </div>
-                    </form>
-                </div>
-                <DeckCreateModal
-                    show={this.state.modalShown}
-                    onCreated={(deck) => this.onDeckCreated(deck)}
-                    onHide={() => this.setState({ modalShown: false })}
-                />
-            </Fragment>
-        );
-    }
+                    </div>
+
+                    <div className="card-footer">
+                        <button type="button" className="btn btn-success auto-modal" onClick={() => setModalShown(true)}><Icon icon="plus" /></button>
+                        <button type="submit" className="btn btn-primary pull-right" onClick={(e) => getDecks(e)}>Filter</button>
+
+                        <div className="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+            <DeckCreateModal
+                show={modalShown}
+                onCreated={(deck) => onDeckCreated(deck)}
+                onHide={() => setModalShown(false)}
+            />
+        </Fragment>
+    );
 }

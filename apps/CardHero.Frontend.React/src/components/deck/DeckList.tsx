@@ -9,7 +9,7 @@ interface IDeckListProps {
     routePrefix?: string;
 }
 
-export function DeckList(props: IDeckListProps) {
+export function DeckList(props: IDeckListProps): JSX.Element {
     const routePrefix = getRoutePrefix(props.routePrefix);
 
     return (
