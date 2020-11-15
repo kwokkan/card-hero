@@ -10,7 +10,7 @@ interface ICardListProps {
     routePrefix?: string;
 }
 
-export function CardList(props: ICardListProps) {
+export function CardList(props: ICardListProps): JSX.Element {
     const context = useContext(AccountContext);
     const user = context.user;
     const routePrefix = getRoutePrefix(props.routePrefix);
