@@ -7,7 +7,7 @@ interface IHomeProps {
     routePrefix?: string;
 }
 
-export function Home(props: IHomeProps) {
+export function Home(props: IHomeProps): JSX.Element {
     const appName = props.appName;
     const routePrefix = getRoutePrefix(props.routePrefix);
 
