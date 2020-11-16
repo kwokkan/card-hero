@@ -1,8 +1,8 @@
-﻿import React, { Component } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { GameType, IGameDeckModel, IGamePlayModel } from "../../clients/clients";
-import { AccountContext } from "../../contexts/AccountContext";
+import { useAccountContext } from "../../contexts/AccountContextProvider";
 import { getGameBannerMessage } from "../../helpers/gameBannerHelpers";
 import { GamePlayService } from "../../services/GamePlayService";
 import { GameBanner } from "./GameBanner";
@@ -16,26 +16,16 @@ interface IGameProps {
     id: number;
 }
 
-interface IGameState {
-    gamePlay?: IGamePlayModel;
-    gameDeck?: IGameDeckModel;
-    lastUpdate: Date;
-}
+export function Game(props: IGameProps): JSX.Element {
+    const [gamePlay, setGamePlay] = useState<Nullable<IGamePlayModel>>();
+    const [gameDeck, setGameDeck] = useState<Nullable<IGameDeckModel>>();
+    const [lastUpdate, setLastUpdate] = useState<Date>(new Date(0));
 
-export class Game extends Component<IGameProps, IGameState> {
-    static contextType = AccountContext;
+    const context = useAccountContext();
 
-    private _interval: number;
+    const _interval = useRef<number>();
 
-    constructor(props: IGameProps) {
-        super(props);
-
-        this.state = {
-            lastUpdate: new Date(0)
-        };
-    }
-
-    private getPlayedGameDeckCardCollectionIds(gamePlay?: IGamePlayModel): number[] {
+    const getPlayedGameDeckCardCollectionIds = (gamePlay?: IGamePlayModel): number[] => {
         let playedGdccIds: number[];
 
         if (gamePlay && gamePlay.game.type === GameType.Standard) {
@@ -43,9 +33,9 @@ export class Game extends Component<IGameProps, IGameState> {
         }
 
         return playedGdccIds;
-    }
+    };
 
-    private async populateGame(id: number) {
+    const populateGame = async (id: number) => {
         const gamePlay = await GamePlayService.getGamePlayById(id);
 
         if (gamePlay) {
@@ -53,79 +43,80 @@ export class Game extends Component<IGameProps, IGameState> {
 
             const lastActivity = new Date(game.startTime.getTime() + gamePlay.moves.length);
 
-            if (this.state.lastUpdate < lastActivity) {
-                this.setState({
-                    gamePlay: gamePlay,
-                    gameDeck: gamePlay.gameDeck,
-                    lastUpdate: lastActivity
-                });
+            if (lastUpdate < lastActivity) {
+                setGamePlay(gamePlay);
+                setGameDeck(gamePlay.gameDeck);
+                setLastUpdate(lastActivity);
             }
 
             if (game.endTime) {
-                window.clearInterval(this._interval);
+                window.clearInterval(_interval.current);
             }
         }
-    }
-
-    async componentDidMount() {
-        const gameId: number = this.props.id;
-
-        await this.populateGame(gameId);
-
-        this._interval = window.setInterval(async () => {
-            await this.populateGame(gameId);
-        }, 5000);
-    }
-
-    componentWillUnmount() {
-        window.clearInterval(this._interval);
-    }
-
-    onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {
-        await this.populateGame(event.gamePlay.game.id);
     };
 
-    render() {
-        const gamePlay = this.state.gamePlay;
-        const game = (gamePlay || {}).game;
-        const playedGdccIds = this.getPlayedGameDeckCardCollectionIds(gamePlay);
+    useEffect(() => {
+        async function load() {
+            const gameId: number = props.id;
 
-        const user = this.context.user;
-        const gameBanner = getGameBannerMessage(game, user);
+            await populateGame(gameId);
 
-        return (
-            <div className="col-lg-12">
-                <div className="row">
-                    <div className="col-lg-2">
-                        <GameDetailWidget game={game} />
+            _interval.current = window.setInterval(async () => {
+                await populateGame(gameId);
+            }, 5000);
+        }
 
-                        <GameUsersWidget
-                            currentUserId={game ? game.currentUserId : null}
-                            userIds={game ? game.userIds : null}
+        load();
+
+        return () => {
+            window.clearInterval(_interval.current);
+        };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.id]);
+    
+    const onGameBoardUpdated = async (event: IGameBoardOnUpdatedProps) => {
+        await populateGame(event.gamePlay.game.id);
+    };
+
+    const game = (gamePlay || {}).game;
+    const playedGdccIds = getPlayedGameDeckCardCollectionIds(gamePlay);
+
+    const user = context.user;
+    const gameBanner = getGameBannerMessage(game, user);
+
+    return (
+        <div className="col-lg-12">
+            <div className="row">
+                <div className="col-lg-2">
+                    <GameDetailWidget game={game} />
+
+                    <GameUsersWidget
+                        currentUserId={game ? game.currentUserId : null}
+                        userIds={game ? game.userIds : null}
+                    />
+
+                    <GameHistoryWidget game={game} />
+                </div>
+
+                <DndProvider backend={HTML5Backend}>
+                    <div className="col-lg-6">
+                        <GameBanner visible={gameBanner.shouldDisplay} message={gameBanner.message} additionalClasses={gameBanner.additionalClass} />
+
+                        <GameBoard
+                            gamePlay={gamePlay}
+                            onUpdated={onGameBoardUpdated}
                         />
-
-                        <GameHistoryWidget game={game} />
                     </div>
 
-                    <DndProvider backend={HTML5Backend}>
-                        <div className="col-lg-6">
-                            <GameBanner visible={gameBanner.shouldDisplay} message={gameBanner.message} additionalClasses={gameBanner.additionalClass} />
-
-                            <GameBoard
-                                gamePlay={gamePlay}
-                                onUpdated={this.onGameBoardUpdated}
-                            />
-                        </div>
-
-                        <div className="col-lg-2">
-                            <GameDeckWidget
-                                gameDeck={this.state.gameDeck}
-                                excludeGameDeckCardCollectionIds={playedGdccIds}
-                            />
-                        </div>
-                    </DndProvider>
-                </div>
+                    <div className="col-lg-2">
+                        <GameDeckWidget
+                            gameDeck={gameDeck}
+                            excludeGameDeckCardCollectionIds={playedGdccIds}
+                        />
+                    </div>
+                </DndProvider>
             </div>
-        );
-    }
+        </div>
+    );
 }
