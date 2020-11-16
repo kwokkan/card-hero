@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Fragment, useEffect, useState } from "react";
 import { IDeckModel, IGameModel } from "../../clients/clients";
 import { DeckService } from "../../services/DeckService";
 import { GameList } from "./GameList";
@@ -8,22 +8,11 @@ interface IGameAppProps {
     routePrefix?: string;
 }
 
-interface IGameAppState {
-    games: IGameModel[];
-    decks: IDeckModel[];
-}
+export function GameApp(props: IGameAppProps): JSX.Element {
+    const [games, setGames] = useState<IGameModel[]>([]);
+    const [decks, setDecks] = useState<IDeckModel[]>([]);
 
-export class GameApp extends Component<IGameAppProps, IGameAppState> {
-    constructor(props: IGameAppProps) {
-        super(props);
-
-        this.state = {
-            games: [],
-            decks: []
-        };
-    }
-
-    private async getDecks() {
+    const getDecks = async () => {
         const decks = await DeckService.getDecks();
 
         if (Constants.Debug) {
@@ -34,16 +23,18 @@ export class GameApp extends Component<IGameAppProps, IGameAppState> {
             }
         }
 
-        this.setState({
-            decks: decks
-        });
-    }
+        setDecks(decks);
+    };
 
-    async componentDidMount() {
-        await this.getDecks();
-    }
+    useEffect(() => {
+        async function load() {
+            await getDecks();
+        }
 
-    onGamesPopulated(games: IGameModel[]) {
+        load();
+    }, []);
+
+    const onGamesPopulated = (games: IGameModel[]) => {
         if (Constants.Debug) {
             if (games != null) {
                 games.forEach(game => {
@@ -52,27 +43,23 @@ export class GameApp extends Component<IGameAppProps, IGameAppState> {
             }
         }
 
-        this.setState({
-            games: games
-        })
-    }
+        setGames(games);
+    };
 
-    render() {
-        return (
-            <Fragment>
-                <div className="col-lg-2">
-                    <GameSearch
-                        decks={this.state.decks}
-                        onGamesPopulated={(x) => this.onGamesPopulated(x)} />
-                </div>
-                <div className="col-lg-10">
-                    <GameList
-                        games={this.state.games}
-                        decks={this.state.decks}
-                        routePrefix={this.props.routePrefix}
-                    />
-                </div>
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <div className="col-lg-2">
+                <GameSearch
+                    decks={decks}
+                    onGamesPopulated={(x) => onGamesPopulated(x)} />
+            </div>
+            <div className="col-lg-10">
+                <GameList
+                    games={games}
+                    decks={decks}
+                    routePrefix={props.routePrefix}
+                />
+            </div>
+        </Fragment>
+    );
 }

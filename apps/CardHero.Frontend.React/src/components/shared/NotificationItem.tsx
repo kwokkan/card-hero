@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React from "react";
 import { INotificationItem } from "../../types/INotificationItem";
 import { NotificationType } from "../../types/NotificationType";
 
@@ -21,24 +21,22 @@ function typeToCss(type: NotificationType): string {
     }
 }
 
-export class NotificationItem extends Component<INotificationItemProps, {}> {
-    render() {
-        const typeClass = typeToCss(this.props.type);
+export function NotificationItem(props: INotificationItemProps) {
+    const typeClass = typeToCss(props.type);
 
-        return (
-            <div className={"notification-item toast fade show"}>
-                <div className="toast-header">
-                    <span className={"badge badge-pill badge-secondary mr-2 " + typeClass}>&nbsp;</span>
+    return (
+        <div className={"notification-item toast fade show"}>
+            <div className="toast-header">
+                <span className={"badge badge-pill badge-secondary mr-2 " + typeClass}>&nbsp;</span>
 
-                    <strong className="mr-auto">{this.props.title}</strong>
+                <strong className="mr-auto">{props.title}</strong>
 
-                    <button type="button" className="ml-2 mb-1 close" aria-label="Close" onClick={() => this.props.onDismiss()}>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <p className="toast-body">{this.props.message}</p>
+                <button type="button" className="ml-2 mb-1 close" aria-label="Close" onClick={() => props.onDismiss()}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        );
-    }
+
+            <p className="toast-body">{props.message}</p>
+        </div>
+    );
 }

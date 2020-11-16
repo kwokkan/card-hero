@@ -1,4 +1,4 @@
-﻿import React, { ChangeEvent, Component } from "react";
+﻿import React, { ChangeEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { IDeckModel, IGameModel } from "../../clients/clients";
 
@@ -17,106 +17,87 @@ interface IGameSelectDeckModalProps {
 
 interface IGameSelectDeckModalState {
     deckId?: number;
-    canJoin: boolean;
 }
 
-export class GameSelectDeckModal extends Component<IGameSelectDeckModalProps, IGameSelectDeckModalState> {
-    static readonly defaultState: IGameSelectDeckModalState = {
-        deckId: undefined,
-        canJoin: false
-    }
+export function GameSelectDeckModal(props: IGameSelectDeckModalProps): JSX.Element | null {
+    const [deckId, setDeckId] = useState<Nullable<number>>();
+    const [canJoin, setCanJoin] = useState<boolean>(false);
 
-    constructor(props: IGameSelectDeckModalProps) {
-        super(props);
+    const onJoined = () => {
+        props.onHide();
 
-        this.state = {
-            canJoin: false
-        };
-    }
-
-    onJoined() {
-        this.props.onHide();
-
-        if (this.props.onJoined) {
-            const { deckId } = this.state;
-
-            this.props.onJoined({
+        if (props.onJoined) {
+            props.onJoined({
                 deckId,
-                gameId: this.props.game.id
+                gameId: props.game.id
             });
         }
-    }
+    };
 
-    onSelectChange(prop: KeyOfType<IGameSelectDeckModalState, number>, e: ChangeEvent<HTMLSelectElement>) {
+    const onSelectChange = (prop: KeyOfType<IGameSelectDeckModalState, number>, e: ChangeEvent<HTMLSelectElement>) => {
         const newState: IGameSelectDeckModalState = {
             [prop]: parseInt(e.target.value)
         } as any;
 
-        this.setState(newState, () => {
-            this.setState({ canJoin: this.canJoin() });
-        });
+        setDeckId(newState.deckId);
+        setCanJoin(!!deckId);
+    };
+
+    const onExited = () => {
+        setDeckId(undefined);
+        setCanJoin(false);
+    };
+
+    if (!props.game) {
+        return null;
     }
 
-    canJoin(): boolean {
-        return !!this.state.deckId;
-    }
+    return (
+        <Modal
+            {...props}
+            onExited={() => onExited}
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    Join Game
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="row">
+                    <div className="container">
+                        <form className="form auto-post">
+                            <div className="form-group">
+                                Join game <strong>#{props.game.id}</strong>?
+                            </div>
 
-    onExited() {
-        this.setState(GameSelectDeckModal.defaultState);
-    }
-
-    render() {
-        if (!this.props.game) {
-            return null;
-        }
-
-        return (
-            <Modal
-                {...this.props}
-                onExited={() => this.onExited}
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        Join Game
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="row">
-                        <div className="container">
-                            <form className="form auto-post">
-                                <div className="form-group">
-                                    Join game <strong>#{this.props.game.id}</strong>?
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="mDeckId">Deck</label>
-                                    <select
-                                        id="mDeckId"
-                                        className="form-control"
-                                        value={this.state.deckId}
-                                        onChange={(e) => this.onSelectChange("deckId", e)}
-                                    >
-                                        <option>Please select</option>
-                                        {this.props.decks.map(x =>
-                                            <option key={x.id} value={x.id}>{x.name}</option>
-                                        )}
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="mDeckId">Deck</label>
+                                <select
+                                    id="mDeckId"
+                                    className="form-control"
+                                    value={deckId}
+                                    onChange={(e) => onSelectChange("deckId", e)}
+                                >
+                                    <option>Please select</option>
+                                    {props.decks.map(x =>
+                                        <option key={x.id} value={x.id}>{x.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </form>
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn btn-secondary" onClick={this.props.onHide}>Close</button>
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        onClick={() => this.onJoined()}
-                        disabled={!this.state.canJoin}
-                    >Join</button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={props.onHide}>Close</button>
+                <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => onJoined()}
+                    disabled={!canJoin}
+                >Join</button>
+            </Modal.Footer>
+        </Modal>
+    );
 }

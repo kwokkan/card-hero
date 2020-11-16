@@ -8,7 +8,7 @@ interface IStoreItemDetailsProps {
     onSelectItem?: (item: IStoreItemModel) => void;
 }
 
-export function StoreItemDetails(props: IStoreItemDetailsProps) {
+export function StoreItemDetails(props: IStoreItemDetailsProps): JSX.Element {
     const si = props.storeItem;
 
     const onSelectItem = () => {

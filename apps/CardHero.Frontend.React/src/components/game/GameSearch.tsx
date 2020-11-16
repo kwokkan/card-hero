@@ -1,9 +1,9 @@
-﻿import React, { ChangeEvent, Component, Fragment } from "react";
+﻿import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { GameCreateModel, IDeckModel, IGameModel } from "../../clients/clients";
 import { GameService } from "../../services/GameService";
 import { Icon } from "../../styles/index";
-import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 import { NumberDropDown } from "../shared/NumberDropDown";
+import { GameCreateModal, IGameCreateModalOnCreatedProps } from "./GameCreateModal";
 
 interface IGameSearchProps {
     decks: IDeckModel[];
@@ -15,60 +15,60 @@ interface IGameSearchState {
     activeOnly?: boolean;
     page?: number;
     pageSize?: number;
-    modalShown: boolean;
 }
 
-export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
-    constructor(props: IGameSearchProps) {
-        super(props);
+export function GameSearch(props: IGameSearchProps): JSX.Element {
+    const [search, setSearch] = useState<IGameSearchState>({});
+    const [modalShown, setModalShown] = useState<boolean>(false);
 
-        this.state = {
-            modalShown: false
-        };
-    }
+    useEffect(() => {
+        async function load() {
+            await getGames();
+        }
 
-    async componentDidMount() {
-        this.getGames();
-    }
+        load();
 
-    async getGames(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getGames = async (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (e != null) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        var games = await GameService.getGames(this.state);
+        var games = await GameService.getGames(search);
 
-        if (this.props.onGamesPopulated) {
-            this.props.onGamesPopulated(games);
+        if (props.onGamesPopulated) {
+            props.onGamesPopulated(games);
         }
-    }
+    };
 
-    onInputChange(prop: KeyOfType<IGameSearchState, string>, e: ChangeEvent<HTMLInputElement>) {
+    const onInputChange = (prop: KeyOfType<IGameSearchState, string>, e: ChangeEvent<HTMLInputElement>) => {
         const newState: IGameSearchState = {
             [prop]: e.target.value
         } as any;
 
-        this.setState(newState);
-    }
+        setSearch(prev => ({ ...prev, ...newState }));
+    };
 
-    onCheckboxChange(prop: KeyOfType<IGameSearchState, boolean>, e: ChangeEvent<HTMLInputElement>) {
+    const onCheckboxChange = (prop: KeyOfType<IGameSearchState, boolean>, e: ChangeEvent<HTMLInputElement>) => {
         const newState: IGameSearchState = {
             [prop]: e.target.checked
         } as any;
 
-        this.setState(newState);
-    }
+        setSearch(prev => ({ ...prev, ...newState }));
+    };
 
-    onSelectChange(prop: KeyOfType<IGameSearchState, number>, e: ChangeEvent<HTMLSelectElement>) {
+    const onSelectChange = (prop: KeyOfType<IGameSearchState, number>, e: ChangeEvent<HTMLSelectElement>) => {
         const newState: IGameSearchState = {
             [prop]: e.target.value
         } as any;
 
-        this.setState(newState);
-    }
+        setSearch(prev => ({ ...prev, ...newState }));
+    };
 
-    async onGameCreated(game: IGameCreateModalOnCreatedProps) {
+    const onGameCreated = async (game: IGameCreateModalOnCreatedProps) => {
         if (Constants.Debug) {
             console.log(game);
         }
@@ -76,52 +76,50 @@ export class GameSearch extends Component<IGameSearchProps, IGameSearchState> {
         const postGame = new GameCreateModel(game);
         await GameService.createGame(postGame);
 
-        await this.getGames();
-    }
+        await getGames();
+    };
 
-    render() {
-        return (
-            <Fragment>
-                <div className="card">
-                    <h4 className="card-header">
-                        Games
-                    </h4>
+    return (
+        <Fragment>
+            <div className="card">
+                <h4 className="card-header">
+                    Games
+                </h4>
 
-                    <form method="get" className="search-filter game-filter">
-                        <div className="card-body">
-                            <div className="form-group">
-                                <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={(e) => this.onInputChange('name', e)} />
-                            </div>
+                <form method="get" className="search-filter game-filter">
+                    <div className="card-body">
+                        <div className="form-group">
+                            <input type="text" name="name" className="form-control" placeholder="Name" value={search.name} onChange={(e) => onInputChange('name', e)} />
+                        </div>
 
-                            <div className="form-check">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultChecked={this.state.activeOnly} onChange={(e) => this.onCheckboxChange('activeOnly', e)} />
-                                    {' '}
-                                    Active Only
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input type="checkbox" className="form-check-input" defaultChecked={search.activeOnly} onChange={(e) => onCheckboxChange('activeOnly', e)} />
+                                {' '}
+                                Active Only
                             </label>
-                            </div>
-
-                            <div className="form-group">
-                                <NumberDropDown name="pageSize" value={this.state.pageSize} onChange={(e) => this.onSelectChange("pageSize", e)} />
-                            </div>
                         </div>
 
-                        <div className="card-footer">
-                            <button type="button" className="btn btn-success auto-modal" onClick={() => this.setState({ modalShown: true })}><Icon icon="plus" /></button>
-                            <button type="submit" className="btn btn-primary pull-right" onClick={(e) => this.getGames(e)}>Filter</button>
-
-                            <div className="clearfix"></div>
+                        <div className="form-group">
+                            <NumberDropDown name="pageSize" value={search.pageSize} onChange={(e) => onSelectChange("pageSize", e)} />
                         </div>
-                    </form>
-                </div>
+                    </div>
 
-                <GameCreateModal
-                    show={this.state.modalShown}
-                    onCreated={(game) => this.onGameCreated(game)}
-                    onHide={() => this.setState({ modalShown: false })}
-                    decks={this.props.decks}
-                />
-            </Fragment>
-        );
-    }
+                    <div className="card-footer">
+                        <button type="button" className="btn btn-success auto-modal" onClick={() => setModalShown(true)}><Icon icon="plus" /></button>
+                        <button type="submit" className="btn btn-primary pull-right" onClick={(e) => getGames(e)}>Filter</button>
+
+                        <div className="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+
+            <GameCreateModal
+                show={modalShown}
+                onCreated={(game) => onGameCreated(game)}
+                onHide={() => setModalShown(false)}
+                decks={props.decks}
+            />
+        </Fragment>
+    );
 }

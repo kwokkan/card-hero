@@ -1,20 +1,12 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Fragment, useState } from "react";
 import { ICardCollectionModel } from "../../clients/clients";
 import { CollectionList } from "./CollectionList";
 import { CollectionSearch } from "./CollectionSearch";
 
-interface ICollectionAppState {
-    collection: ICardCollectionModel[];
-}
+export function CollectionApp(): JSX.Element {
+    const [collection, setCollection] = useState<ICardCollectionModel[]>([]);
 
-export class CollectionApp extends Component<{}, ICollectionAppState> {
-    constructor(props: {}) {
-        super(props);
-
-        this.state = { collection: [] };
-    }
-
-    onCollectionPopulated(collection: ICardCollectionModel[]) {
+    const onCollectionPopulated = (collection: ICardCollectionModel[]) => {
         if (Constants.Debug) {
             if (collection != null) {
                 collection.forEach(card => {
@@ -23,22 +15,18 @@ export class CollectionApp extends Component<{}, ICollectionAppState> {
             }
         }
 
-        this.setState({
-            collection: collection
-        });
-    }
+        setCollection(collection);
+    };
 
-    render() {
-        return (
-            <Fragment>
-                <div className="col-lg-2">
-                    <CollectionSearch
-                        onCollectionPopulated={(x) => this.onCollectionPopulated(x)} />
-                </div>
-                <div className="col-lg-10">
-                    <CollectionList collection={this.state.collection} />
-                </div>
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <div className="col-lg-2">
+                <CollectionSearch
+                    onCollectionPopulated={(x) => onCollectionPopulated(x)} />
+            </div>
+            <div className="col-lg-10">
+                <CollectionList collection={collection} />
+            </div>
+        </Fragment>
+    );
 }

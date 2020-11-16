@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React from "react";
 import { Modal } from "react-bootstrap";
 import { IStoreItemModel } from "../../clients/clients";
 
@@ -9,44 +9,42 @@ interface IStoreItemBuyModelProps {
     onPurchase?: (item: IStoreItemModel) => void;
 }
 
-export class StoreItemBuyModal extends Component<IStoreItemBuyModelProps, {}> {
-    onHide() {
-        if (this.props.onHide) {
-            this.props.onHide();
+export function StoreItemBuyModal(props: IStoreItemBuyModelProps): JSX.Element | null {
+    const onHide = () => {
+        if (props.onHide) {
+            props.onHide();
         }
-    }
+    };
 
-    onPurchase() {
-        if (this.props.onPurchase) {
-            this.props.onPurchase(this.props.storeItem);
+    const onPurchase = () => {
+        if (props.onPurchase) {
+            props.onPurchase(props.storeItem);
         }
-    }
+    };
 
-    render() {
-        if (!this.props.storeItem) return null;
+    if (!props.storeItem) return null;
 
-        return (
-            <Modal
-                {...this.props}
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        Purchase item
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="row">
-                        <div className="container">
-                            Buy <strong>{this.props.storeItem.name}</strong>?
-                        </div>
+    return (
+        <Modal
+            {...props}
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    Purchase item
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="row">
+                    <div className="container">
+                        Buy <strong>{props.storeItem.name}</strong>?
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn btn-secondary" onClick={() => this.onHide()}>Cancel</button>
-                    <button type="button" className="btn btn-success" onClick={() => this.onPurchase()}>Purchase</button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={() => onHide()}>Cancel</button>
+                <button type="button" className="btn btn-success" onClick={() => onPurchase()}>Purchase</button>
+            </Modal.Footer>
+        </Modal>
+    );
 }

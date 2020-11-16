@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from "react";
+﻿import React, { Fragment, useState } from "react";
 import { IDeckModel } from "../../clients/clients";
 import { DeckList } from "./DeckList";
 import { DeckSearch } from "./DeckSearch";
@@ -7,18 +7,10 @@ interface IDeckAppProps {
     routePrefix?: string;
 }
 
-interface IDeckAppState {
-    decks: IDeckModel[];
-}
+export function DeckApp(props: IDeckAppProps): JSX.Element {
+    const [decks, setDecks] = useState<IDeckModel[]>([]);
 
-export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
-    constructor(props: IDeckAppProps) {
-        super(props);
-
-        this.state = { decks: [] };
-    }
-
-    onDecksPopulated(decks: IDeckModel[]) {
+    const onDecksPopulated = (decks: IDeckModel[]) => {
         if (Constants.Debug) {
             if (decks != null) {
                 decks.forEach(deck => {
@@ -27,22 +19,18 @@ export class DeckApp extends Component<IDeckAppProps, IDeckAppState> {
             }
         }
 
-        this.setState({
-            decks: decks
-        });
-    }
+        setDecks(decks);
+    };
 
-    render() {
-        return (
-            <Fragment>
-                <div className="col-lg-2">
-                    <DeckSearch
-                        onDecksPopulated={(x) => this.onDecksPopulated(x)} />
-                </div>
-                <div className="col-lg-10">
-                    <DeckList decks={this.state.decks} routePrefix={this.props.routePrefix} />
-                </div>
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <div className="col-lg-2">
+                <DeckSearch
+                    onDecksPopulated={(x) => onDecksPopulated(x)} />
+            </div>
+            <div className="col-lg-10">
+                <DeckList decks={decks} routePrefix={props.routePrefix} />
+            </div>
+        </Fragment>
+    );
 }

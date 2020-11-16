@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React, { useCallback, useEffect, useState } from "react";
 import { debounce } from "throttle-debounce";
 import { DeckCardModel, ICardCollectionModel, IDeckCardModel, IDeckModel } from "../../clients/clients";
 import { CardCollectionService } from "../../services/CardCollectionService";
@@ -11,93 +11,74 @@ interface IDeckProps {
     id: number;
 }
 
-interface IDeckState {
-    searchValue?: string;
-    deck?: IDeckModel;
-    ownedCards: ICardCollectionModel[];
-    usedCards: IDeckCardModel[];
-}
+export function Deck(props: IDeckProps): JSX.Element {
+    const [searchValue, setSearchValue] = useState<Nullable<string>>("");
+    const [deck, setDeck] = useState<Nullable<IDeckModel>>();
+    const [ownedCards, setOWnedCards] = useState<ICardCollectionModel[]>([]);
+    const [usedCards, setUsedCards] = useState<IDeckCardModel[]>([]);
 
-export class Deck extends Component<IDeckProps, IDeckState> {
-    searchValueDebounced: any;
-
-    constructor(props: IDeckProps) {
-        super(props);
-
-        this.state = {
-            ownedCards: [],
-            usedCards: []
-        };
-
-        this.searchValueDebounced = debounce(500, this.populateCollection);
-    }
-
-    private async populateCollection() {
+    const populateCollection = async () => {
         const collection = await CardCollectionService.getCollection({
-            name: this.state.searchValue
+            name: searchValue
         });
 
-        this.setState({
-            ownedCards: collection
-        });
-    }
+        setOWnedCards(collection);
+    };
 
-    private async populateDeck(id: number) {
+    const populateDeck = async (id: number) => {
         const deck = await DeckService.getDeckById(id);
 
-        this.setState({
-            deck: deck,
-            usedCards: deck.cards
-        });
-    }
+        setDeck(deck);
+        setUsedCards(deck.cards);
+    };
 
-    async componentDidMount() {
-        const deckId: number = this.props.id;
+    //TODO: Fix debounce properly
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const searchValueDebounced = useCallback(debounce(500, populateCollection), [searchValue]);
 
-        await Promise.all([
-            this.populateDeck(deckId),
-            this.populateCollection()
-        ]);
-    }
+    useEffect(() => {
+        async function load() {
+            const deckId: number = props.id;
 
-    async componentWillReceiveProps(nextProps: IDeckProps) {
-        const deckId: number = this.props.id;
-
-        if (nextProps.id !== deckId) {
-            await this.populateDeck(deckId);
+            await Promise.all([
+                populateDeck(deckId),
+                populateCollection()
+            ]);
         }
-    }
 
-    private onDeckDetailsFavourite = async (deck: IDeckModel) => {
+        load();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.id]);
+
+    const onDeckDetailsFavourite = async (deck: IDeckModel) => {
         if (Constants.Debug) {
             console.log(deck);
         }
 
         await DeckService.favouriteCard(deck.id, !deck.isFavourited);
 
-        await this.populateDeck(deck.id);
+        await populateDeck(deck.id);
     };
 
-    private onDeckDetailsSaveClicked = async (deck: IDeckModel) => {
+    const onDeckDetailsSaveClicked = async (deck: IDeckModel) => {
         if (Constants.Debug) {
             console.log(deck);
         }
 
-        const usedCards = this.state.usedCards.map(DeckCardModel.fromJS);
+        const usedDeckCards = usedCards.map(DeckCardModel.fromJS);
         var updateDeck: IDeckModel = {
-            cards: usedCards
+            cards: usedDeckCards
         };
         await DeckService.patchDeck(deck.id, updateDeck);
     };
 
-    private onOwnedCardsCardClicked = (card: ICardCollectionModel) => {
+    const onOwnedCardsCardClicked = (card: ICardCollectionModel) => {
         if (Constants.Debug) {
             console.log(card);
         }
 
-        const usedCards = this.state.usedCards;
-
-        if (usedCards.length < this.state.deck.maxCards) {
+        if (usedCards.length < deck.maxCards) {
             if (usedCards.findIndex(x => x.cardCollectionId === card.id) === -1) {
                 const newState = usedCards
                     .slice()
@@ -106,43 +87,38 @@ export class Deck extends Component<IDeckProps, IDeckState> {
                         cardCollectionId: card.id
                     });
 
-                this.setState({
-                    usedCards: newState
-                });
+                setUsedCards(newState);
             }
         }
     };
 
-    private onCurrentDeckCardClicked = (card: ICardCollectionModel) => {
+    const onCurrentDeckCardClicked = (card: ICardCollectionModel) => {
         if (Constants.Debug) {
             console.log(card);
         }
 
-        const usedCards = this.state.usedCards;
         const usedIdx = usedCards.findIndex(x => x.cardCollectionId === card.id);
         if (usedIdx > -1) {
             const newState = usedCards.slice();
             newState.splice(usedIdx, 1);
 
-            this.setState({
-                usedCards: newState
-            });
+            setUsedCards(newState);
         }
     };
 
-    private onSearchValueUpdated = (value: string) => {
+    const onSearchValueUpdated = (value: string) => {
         if (Constants.Debug) {
             console.log(value);
         }
 
-        this.setState({
-            searchValue: value
-        }, () => {
-            this.searchValueDebounced();
-        });
-    }
+        setSearchValue(value);
+    };
 
-    private deckCardToCardCollection(deckCard: IDeckCardModel): ICardCollectionModel {
+    useEffect(() => {
+        searchValueDebounced();
+    }, [searchValueDebounced]);
+
+    const deckCardToCardCollection = (deckCard: IDeckCardModel): ICardCollectionModel => {
         if (!deckCard) {
             return null;
         }
@@ -152,48 +128,43 @@ export class Deck extends Component<IDeckProps, IDeckState> {
             cardId: deckCard.card.id,
             id: deckCard.cardCollectionId
         };
+    };
+
+    if (!deck) {
+        return null;
     }
 
-    render() {
-        const deck = this.state.deck;
+    const usedDeckCards = usedCards.map(deckCardToCardCollection);
 
-        if (!deck) {
-            return null;
-        }
+    return (
+        <div className="col-lg-12">
+            <div className="row">
+                <div className="col-lg-4">
+                    <DeckDetailsWidget deck={deck} onFavourite={onDeckDetailsFavourite} onSaveClicked={onDeckDetailsSaveClicked} />
+                </div>
 
-        const ownedCards = this.state.ownedCards;
-        const usedCards = this.state.usedCards.map(this.deckCardToCardCollection);
+                <div className="col-lg-4">
+                    <CardCollectionWidget
+                        title="Owned Cards"
+                        cardCollection={ownedCards}
+                        cardActionName="Add"
+                        onCardClicked={onOwnedCardsCardClicked}
+                        cardActionDisabled={usedDeckCards.length >= deck.maxCards}
+                        cardActionClassName="btn-primary"
+                        subSection={<InlineSearchBar onValueUpdated={onSearchValueUpdated} />}
+                    />
+                </div>
 
-        return (
-            <div className="col-lg-12">
-                <div className="row">
-                    <div className="col-lg-4">
-                        <DeckDetailsWidget deck={deck} onFavourite={this.onDeckDetailsFavourite} onSaveClicked={this.onDeckDetailsSaveClicked} />
-                    </div>
-
-                    <div className="col-lg-4">
-                        <CardCollectionWidget
-                            title="Owned Cards"
-                            cardCollection={ownedCards}
-                            cardActionName="Add"
-                            onCardClicked={this.onOwnedCardsCardClicked}
-                            cardActionDisabled={usedCards.length >= deck.maxCards}
-                            cardActionClassName="btn-primary"
-                            subSection={<InlineSearchBar onValueUpdated={this.onSearchValueUpdated} />}
-                        />
-                    </div>
-
-                    <div className="col-lg-4">
-                        <CardCollectionWidget
-                            title="Current Deck"
-                            cardCollection={usedCards}
-                            cardActionName="Remove"
-                            onCardClicked={this.onCurrentDeckCardClicked}
-                            cardActionClassName="btn-danger"
-                        />
-                    </div>
+                <div className="col-lg-4">
+                    <CardCollectionWidget
+                        title="Current Deck"
+                        cardCollection={usedDeckCards}
+                        cardActionName="Remove"
+                        onCardClicked={onCurrentDeckCardClicked}
+                        cardActionClassName="btn-danger"
+                    />
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
