@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace CardHero.Data.PostgreSql.EntityFramework
 {
     public partial class Game
