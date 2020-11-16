@@ -60,7 +60,7 @@ jobs:
 
   go-live:
     docker:
-      - image: node:14.15.0-buster
+      - image: node:14.15.1-buster
     steps:
       - setup_remote_docker
       - attach_workspace:
@@ -97,7 +97,7 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:14.15.0-buster
+      - image: node:14.15.1-buster
     steps:
       - attach_workspace:
           at: .
@@ -133,7 +133,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:14.15.0-buster
+      - image: node:14.15.1-buster
     steps:
       - attach_workspace:
           at: .
