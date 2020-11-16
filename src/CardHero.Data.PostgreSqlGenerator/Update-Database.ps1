@@ -6,6 +6,8 @@ Npgsql.EntityFrameworkCore.PostgreSQL `
 -StartupProject CardHero.Data.PostgreSqlGenerator `
 -Context CardHeroDataDbContext `
 -OutputDir EntityFramework `
+-NoOnConfiguring `
+-NoPluralize `
 -Tables `
 Card,`
 CardCollection,`
