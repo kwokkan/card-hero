@@ -2,6 +2,7 @@
 const path = require("path");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
@@ -173,6 +174,13 @@ module.exports = {
             filename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
             chunkFilename: isProd ? "[name].[contenthash].min.css" : "[name].bundle.min.css",
         }),
+        new ESLintPlugin({
+            cache: true,
+            extensions: [
+                "ts",
+                "tsx"
+            ]
+        }),
         new PurgecssPlugin({
             paths: glob.sync("src/**/*", { nodir: true }),
             safelist: [
@@ -217,16 +225,6 @@ module.exports = {
                         //    experimentalWatchApi: true
                         //}
                     },
-                    {
-                        loader: "eslint-loader",
-                        options: {
-                            cache: true,
-                            emitError: true,
-                            emitWarning: true,
-                            failOnError: true,
-                            failOnWarning: true,
-                        }
-                    }
                 ]
             },
             // All output ".js" files will have any sourcemaps re-processed by "source-map-loader".
