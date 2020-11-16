@@ -33,6 +33,7 @@ export function Deck(props: IDeckProps): JSX.Element {
     };
 
     //TODO: Fix debounce properly
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const searchValueDebounced = useCallback(debounce(500, populateCollection), [searchValue]);
 
     useEffect(() => {
