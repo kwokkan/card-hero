@@ -113,15 +113,15 @@ jobs:
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
-          name: npm build:prod
+          name: yarn build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            npm run build:prod
+            yarn build:prod
       - run:
-          name: npm test
+          name: yarn test
           command: |
             cd << pipeline.parameters.node-project >>
-            npm run test
+            yarn test
       - persist_to_workspace:
           root: .
           paths:
