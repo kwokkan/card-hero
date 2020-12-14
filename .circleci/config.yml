@@ -100,8 +100,8 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-            - yarn-cache-v3-{{ arch }}-
+            - yarn-cache-v4-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+            - yarn-cache-v4-{{ arch }}-
       - run:
           name: node install
           command: |
@@ -109,7 +109,7 @@ jobs:
             mv config/.yarnclean .yarnclean
             yarn install --frozen-lockfile
       - save_cache:
-          key: yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          key: yarn-cache-v4-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
           paths:
             - << pipeline.parameters.node-project >>/node_modules
       - run:
