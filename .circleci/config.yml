@@ -67,9 +67,6 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - yarn-cache-v3-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-      - restore_cache:
-          keys:
             - publish-{{ .Environment.CIRCLE_WORKFLOW_WORKSPACE_ID }}
       - run: |
           apt-get -y update
