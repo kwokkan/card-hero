@@ -116,7 +116,7 @@ jobs:
           name: yarn build:prod
           command: |
             cd << pipeline.parameters.node-project >>
-            yarn build:prod
+            node --trace-deprecation yarn build:prod
       - run:
           name: yarn test
           command: |
