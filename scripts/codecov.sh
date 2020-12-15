@@ -6,7 +6,7 @@
 
 set -e +o pipefail
 
-VERSION="20200707-353aa93"
+VERSION="20201130-cc6d3fe"
 
 codecov_flags=( )
 url="https://codecov.io"
@@ -14,7 +14,8 @@ env="$CODECOV_ENV"
 service=""
 token=""
 search_in=""
-flags=""
+# shellcheck disable=SC2153
+flags="$CODECOV_FLAGS"
 exit_with=0
 curlargs=""
 curlawsargs=""
@@ -60,6 +61,8 @@ tag_o=""
 branch_o=""
 slug_o=""
 prefix_o=""
+git_ls_files_recurse_submodules_o=""
+package="bash"
 
 commit="$VCS_COMMIT_ID"
 branch="$VCS_BRANCH_NAME"
@@ -75,8 +78,6 @@ beta_xcode_partials=""
 proj_root="$git_root"
 gcov_exe="gcov"
 gcov_arg=""
-
-bamboo_planRepository_revision=""
 
 b="\033[0;36m"
 g="\033[0;32m"
@@ -130,6 +131,7 @@ cat << EOF
                  -X network       Disable uploading the file network
                  -X gcovout       Disable gcov output
                  -X html          Enable coverage for HTML files
+                 -X recursesubs   Enable recurse submodules in git projects when searching for source files
 
     -N           The commit SHA of the parent for which you are uploading coverage. If not present,
                  the parent will be determined using the API of your repository provider.
@@ -217,7 +219,8 @@ swiftcov() {
       then
         say "    $g+$x Building reports for $_proj $_type"
         dest=$([ -f "$f/$_proj" ] && echo "$f/$_proj" || echo "$f/Contents/MacOS/$_proj")
-        _proj_name="${_proj//[[:space:]]//g}"
+        # shellcheck disable=SC2001
+        _proj_name=$(echo "$_proj" | sed -e 's/[[:space:]]//g')
         # shellcheck disable=SC2086
         xcrun llvm-cov show $beta_xcode_partials -instr-profile "$1" "$dest" > "$_proj_name.$_type.coverage.txt" \
          || say "    ${r}x>${x} llvm-cov failed to produce results for $dest"
@@ -249,10 +252,16 @@ parse_yaml() {
 
 if [ $# != 0 ];
 then
-  while getopts "a:A:b:B:cC:dD:e:f:F:g:G:hJ:k:Kn:p:P:q:r:R:s:S:t:T:u:U:vx:X:ZN:" o
+  while getopts "a:A:b:B:cC:dD:e:f:F:g:G:hJ:k:Kn:p:P:Q:q:r:R:s:S:t:T:u:U:vx:X:ZN:-" o
   do
     codecov_flags+=( "$o" )
     case "$o" in
+      "-")
+        echo -e "${r}Long options are not supported${x}"
+        exit 2
+        ;;
+      "?")
+        ;;
       "N")
         parent=$OPTARG
         ;;
@@ -350,6 +359,10 @@ $OPTARG"
       "P")
         pr_o="$OPTARG"
         ;;
+      "Q")
+        # this is only meant for Codecov packages to overwrite
+        package="$OPTARG"
+        ;;
       "q")
         save_to="$OPTARG"
         ;;
@@ -374,7 +387,7 @@ $OPTARG"
       "t")
         if [ "${OPTARG::1}" = "@" ];
         then
-          token=$(> "${OPTARG:1}" tr -d ' \n')
+          token=$(< "${OPTARG:1}" tr -d ' \n')
         else
           token="$OPTARG"
         fi
@@ -431,6 +444,9 @@ $OPTARG"
         elif [ "$OPTARG" = "html" ];
         then
           ft_html="1"
+        elif [ "$OPTARG" = "recursesubs" ];
+        then
+          git_ls_files_recurse_submodules_o="--recurse-submodules"
         fi
         ;;
       "Z")
@@ -456,6 +472,7 @@ say "
 
 search_in="$proj_root"
 
+#shellcheck disable=SC2154
 if [ "$JENKINS_URL" != "" ];
 then
   say "$e==>$x Jenkins CI detected."
@@ -511,7 +528,7 @@ then
   tag="$TRAVIS_TAG"
   if [ "$TRAVIS_BRANCH" != "$TRAVIS_TAG" ];
   then
-    branch="$TRAVIS_BRANCH"
+    branch="${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}"
   fi
 
   language=$(compgen -A variable | grep "^TRAVIS_.*_VERSION$" | head -1)
@@ -611,7 +628,7 @@ then
     # owner/repo.git
     slug="${slug%%.git}"
   fi
-  pr="$CIRCLE_PR_NUMBER"
+  pr="${CIRCLE_PULL_REQUEST##*/}"
   commit="$CIRCLE_SHA1"
   search_in="$search_in $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS"
 
@@ -661,11 +678,11 @@ then
 elif [ "$CI" = "true" ] && [ "$SEMAPHORE" = "true" ];
 then
   say "$e==>$x Semaphore CI detected."
-  # https://semaphoreapp.com/docs/available-environment-variables.html
+# https://docs.semaphoreci.com/ci-cd-environment/environment-variables/#semaphore-related
   service="semaphore"
-  branch="$BRANCH_NAME"
-  build="$SEMAPHORE_BUILD_NUMBER"
-  job="$SEMAPHORE_CURRENT_THREAD"
+  branch="$SEMAPHORE_GIT_BRANCH"
+  build="$SEMAPHORE_WORKFLOW_NUMBER"
+  job="$SEMAPHORE_JOB_ID"
   pr="$PULL_REQUEST_NUMBER"
   slug="$SEMAPHORE_REPO_SLUG"
   commit="$REVISION"
@@ -700,13 +717,14 @@ then
   job="$DRONE_JOB_NUMBER"
   tag="$DRONE_TAG"
 
-elif [ "$HEROKU_TEST_RUN_BRANCH" != "" ];
+elif [ "$CI" = "true" ] && [ "$HEROKU_TEST_RUN_BRANCH" != "" ];
 then
   say "$e==>$x Heroku CI detected."
   # https://devcenter.heroku.com/articles/heroku-ci#environment-variables
   service="heroku"
   branch="$HEROKU_TEST_RUN_BRANCH"
   build="$HEROKU_TEST_RUN_ID"
+  commit="$HEROKU_TEST_RUN_COMMIT_VERSION"
 
 elif [[ "$CI" = "true" || "$CI" = "True" ]] && [[ "$APPVEYOR" = "true" || "$APPVEYOR" = "True" ]];
 then
@@ -787,7 +805,7 @@ then
   commit="${CI_BUILD_REF:-$CI_COMMIT_SHA}"
   slug="${CI_PROJECT_PATH}"
 
-elif [ "$GITHUB_ACTION" != "" ];
+elif [ "$GITHUB_ACTIONS" != "" ];
 then
   say "$e==>$x GitHub Actions detected."
 
@@ -807,6 +825,18 @@ then
   slug="${GITHUB_REPOSITORY}"
   build="${GITHUB_RUN_ID}"
   build_url=$(urlencode "http://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
+
+  # actions/checkout runs in detached HEAD
+  mc=
+  if [ -n "$pr" ] && [ "$pr" != false ];
+  then
+    mc=$(git show --no-patch --format="%P" 2>/dev/null || echo "")
+  fi
+  if [[ "$mc" =~ ^[a-z0-9]{40}[[:space:]][a-z0-9]{40}$ ]];
+  then
+    say "    Fixing merge commit SHA"
+    commit=$(echo "$mc" | cut -d' ' -f2)
+  fi
 
 elif [ "$SYSTEM_TEAMFOUNDATIONSERVERURI" != "" ];
 then
@@ -893,17 +923,7 @@ fi
 
 if [ "$commit_o" = "" ];
 then
-  # merge commit -> actual commit
-  mc=
-  if [ -n "$pr" ] && [ "$pr" != false ];
-  then
-    mc=$(git show --no-patch --format="%P" 2>/dev/null || echo "")
-  fi
-  if [[ "$mc" =~ ^[a-z0-9]{40}[[:space:]][a-z0-9]{40}$ ]];
-  then
-    say "    Fixing merge commit SHA"
-    commit=$(echo "$mc" | cut -d' ' -f2)
-  elif [ "$GIT_COMMIT" != "" ];
+  if [ "$GIT_COMMIT" != "" ];
   then
     commit="$GIT_COMMIT"
   elif [ "$commit" = "" ];
@@ -1193,112 +1213,113 @@ $PWD/coverage.xml"
                         -or -name 'conftest_*.c.gcov' \
                     \) -prune -or \
                     -type f \( -name '*coverage*.*' \
-                     -or -name 'nosetests.xml' \
-                     -or -name 'jacoco*.xml' \
-                     -or -name 'clover.xml' \
-                     -or -name 'report.xml' \
-                     -or -name '*.codecov.*' \
-                     -or -name 'codecov.*' \
-                     -or -name 'cobertura.xml' \
-                     -or -name 'excoveralls.json' \
-                     -or -name 'luacov.report.out' \
-                     -or -name 'coverage-final.json' \
-                     -or -name 'naxsi.info' \
-                     -or -name 'lcov.info' \
-                     -or -name 'lcov.dat' \
-                     -or -name '*.lcov' \
                      -or -name '*.clover' \
-                     -or -name 'cover.out' \
-                     -or -name 'gcov.info' \
+                     -or -name '*.codecov.*' \
                      -or -name '*.gcov' \
+                     -or -name '*.lcov' \
                      -or -name '*.lst' \
+                     -or -name 'clover.xml' \
+                     -or -name 'cobertura.xml' \
+                     -or -name 'codecov.*' \
+                     -or -name 'cover.out' \
+                     -or -name 'coverage-final.json' \
+                     -or -name 'excoveralls.json' \
+                     -or -name 'gcov.info' \
+                     -or -name 'jacoco*.xml' \
+                     -or -name '*Jacoco*.xml' \
+                     -or -name 'lcov.dat' \
+                     -or -name 'lcov.info' \
+                     -or -name 'luacov.report.out' \
+                     -or -name 'naxsi.info' \
+                     -or -name 'nosetests.xml' \
+                     -or -name 'report.xml' \
                      $include_cov \) \
                     $exclude_cov \
-                    -not -name '*.profdata' \
-                    -not -name 'coverage-summary.json' \
-                    -not -name 'phpunit-code-coverage.xml' \
-                    -not -name '*/classycle/report.xml' \
-                    -not -name 'remapInstanbul.coverage*.json' \
-                    -not -name 'phpunit-coverage.xml' \
-                    -not -name '*codecov.yml' \
-                    -not -name '*.serialized' \
-                    -not -name '.coverage*' \
-                    -not -name '.*coveragerc' \
-                    -not -name '*.sh' \
+                    -not -name '*.am' \
+                    -not -name '*.bash' \
                     -not -name '*.bat' \
-                    -not -name '*.ps1' \
-                    -not -name '*.env' \
+                    -not -name '*.bw' \
+                    -not -name '*.cfg' \
+                    -not -name '*.class' \
                     -not -name '*.cmake' \
+                    -not -name '*.cmake' \
+                    -not -name '*.conf' \
+                    -not -name '*.coverage' \
+                    -not -name '*.cp' \
+                    -not -name '*.cpp' \
+                    -not -name '*.crt' \
+                    -not -name '*.css' \
+                    -not -name '*.csv' \
+                    -not -name '*.csv' \
+                    -not -name '*.data' \
+                    -not -name '*.db' \
                     -not -name '*.dox' \
                     -not -name '*.ec' \
-                    -not -name '*.rst' \
-                    -not -name '*.h' \
-                    -not -name '*.scss' \
-                    -not -name '*.o' \
-                    -not -name '*.proto' \
-                    -not -name '*.sbt' \
-                    -not -name '*.xcoverage.*' \
-                    -not -name '*.gz' \
-                    -not -name '*.conf' \
-                    -not -name '*.p12' \
-                    -not -name '*.csv' \
-                    -not -name '*.rsp' \
-                    -not -name '*.m4' \
-                    -not -name '*.pem' \
-                    -not -name '*~' \
-                    -not -name '*.exe' \
-                    -not -name '*.am' \
-                    -not -name '*.template' \
-                    -not -name '*.cp' \
-                    -not -name '*.bw' \
-                    -not -name '*.crt' \
-                    -not -name '*.log' \
-                    -not -name '*.cmake' \
-                    -not -name '*.pth' \
-                    -not -name '*.in' \
-                    -not -name '*.jar*' \
-                    -not -name '*.pom*' \
-                    -not -name '*.png' \
-                    -not -name '*.jpg' \
-                    -not -name '*.sql' \
-                    -not -name '*.jpeg' \
-                    -not -name '*.svg' \
-                    -not -name '*.gif' \
-                    -not -name '*.csv' \
-                    -not -name '*.snapshot' \
-                    -not -name '*.mak*' \
-                    -not -name '*.bash' \
-                    -not -name '*.data' \
-                    -not -name '*.py' \
-                    -not -name '*.class' \
-                    -not -name '*.xcconfig' \
                     -not -name '*.ec' \
-                    -not -name '*.coverage' \
-                    -not -name '*.pyc' \
-                    -not -name '*.cfg' \
                     -not -name '*.egg' \
-                    -not -name '*.ru' \
-                    -not -name '*.css' \
-                    -not -name '*.less' \
-                    -not -name '*.pyo' \
-                    -not -name '*.whl' \
-                    -not -name '*.html' \
-                    -not -name '*.ftl' \
+                    -not -name '*.el' \
+                    -not -name '*.env' \
                     -not -name '*.erb' \
-                    -not -name '*.rb' \
-                    -not -name '*.js' \
-                    -not -name '*.jade' \
-                    -not -name '*.db' \
-                    -not -name '*.md' \
-                    -not -name '*.cpp' \
+                    -not -name '*.exe' \
+                    -not -name '*.ftl' \
+                    -not -name '*.gif' \
                     -not -name '*.gradle' \
-                    -not -name '*.tar.tz' \
-                    -not -name '*.lst' \
+                    -not -name '*.gz' \
+                    -not -name '*.h' \
+                    -not -name '*.html' \
+                    -not -name '*.in' \
+                    -not -name '*.jade' \
+                    -not -name '*.jar*' \
+                    -not -name '*.jpeg' \
+                    -not -name '*.jpg' \
+                    -not -name '*.js' \
+                    -not -name '*.less' \
+                    -not -name '*.log' \
+                    -not -name '*.m4' \
+                    -not -name '*.mak*' \
+                    -not -name '*.md' \
+                    -not -name '*.o' \
+                    -not -name '*.p12' \
+                    -not -name '*.pem' \
+                    -not -name '*.png' \
+                    -not -name '*.pom*' \
+                    -not -name '*.profdata' \
+                    -not -name '*.proto' \
+                    -not -name '*.ps1' \
+                    -not -name '*.pth' \
+                    -not -name '*.py' \
+                    -not -name '*.pyc' \
+                    -not -name '*.pyo' \
+                    -not -name '*.rb' \
+                    -not -name '*.rsp' \
+                    -not -name '*.rst' \
+                    -not -name '*.ru' \
+                    -not -name '*.sbt' \
                     -not -name '*.scss' \
-                    -not -name 'include.lst' \
-                    -not -name 'fullLocaleNames.lst' \
-                    -not -name 'inputFiles.lst' \
+                    -not -name '*.scss' \
+                    -not -name '*.serialized' \
+                    -not -name '*.sh' \
+                    -not -name '*.snapshot' \
+                    -not -name '*.sql' \
+                    -not -name '*.svg' \
+                    -not -name '*.tar.tz' \
+                    -not -name '*.template' \
+                    -not -name '*.whl' \
+                    -not -name '*.xcconfig' \
+                    -not -name '*.xcoverage.*' \
+                    -not -name '*/classycle/report.xml' \
+                    -not -name '*codecov.yml' \
+                    -not -name '*~' \
+                    -not -name '.*coveragerc' \
+                    -not -name '.coverage*' \
+                    -not -name 'coverage-summary.json' \
                     -not -name 'createdFiles.lst' \
+                    -not -name 'fullLocaleNames.lst' \
+                    -not -name 'include.lst' \
+                    -not -name 'inputFiles.lst' \
+                    -not -name 'phpunit-code-coverage.xml' \
+                    -not -name 'phpunit-coverage.xml' \
+                    -not -name 'remapInstanbul.coverage*.json' \
                     -not -name 'scoverage.measurements.*' \
                     -not -name 'test_*_coverage.txt' \
                     -not -name 'testrunner-coverage*' \
@@ -1327,7 +1348,7 @@ fi
 if [ "$ft_network" == "1" ];
 then
   say "${e}==>${x} Detecting git/mercurial file structure"
-  network=$(cd "$git_root" && git ls-files 2>/dev/null || hg locate 2>/dev/null || echo "")
+  network=$(cd "$git_root" && git ls-files $git_ls_files_recurse_submodules_o 2>/dev/null || hg locate 2>/dev/null || echo "")
   if [ "$network" = "" ];
   then
     network=$(find "$git_root" \( \
@@ -1488,6 +1509,8 @@ then
   syntax_bracket='^[[:space:]]*[\{\}][[:space:]]*(//.*)?$'
   # [ or ]
   syntax_list='^[[:space:]]*[][][[:space:]]*(//.*)?$'
+  # func ... {
+  syntax_go_func='^[[:space:]]*[func].*[\{][[:space:]]*$'
 
   # shellcheck disable=SC2089
   skip_dirs="-not -path '*/$bower_components/*' \
@@ -1504,9 +1527,10 @@ then
   if echo "$network" | grep -m1 '.kt$' 1>/dev/null;
   then
     # skip brackets and comments
-    find "$git_root" -type f \
-                     -name '*.kt' \
-                     -exec \
+    cd "$git_root" && \
+      find . -type f \
+             -name '*.kt' \
+             -exec \
       grep -nIHE -e "$syntax_bracket" \
                  -e "$syntax_comment_block" {} \; \
       | cut_and_join \
@@ -1514,28 +1538,31 @@ then
       || echo ''
 
     # last line in file
-    find "$git_root" -type f \
-                     -name '*.kt' -exec \
+    cd "$git_root" && \
+      find . -type f \
+             -name '*.kt' -exec \
       wc -l {} \; \
       | while read -r l; do echo "EOF: $l"; done \
       2>/dev/null \
       >> "$adjustments_file" \
       || echo ''
-
   fi
 
   if echo "$network" | grep -m1 '.go$' 1>/dev/null;
   then
     # skip empty lines, comments, and brackets
-    find "$git_root" -not -path '*/vendor/*' \
-                     -type f \
-                     -name '*.go' \
-                     -exec \
+    cd "$git_root" && \
+      find . -type f \
+             -not -path '*/vendor/*' \
+             -not -path '*/caches/*' \
+             -name '*.go' \
+             -exec \
       grep -nIHE \
            -e "$empty_line" \
            -e "$syntax_comment" \
            -e "$syntax_comment_block" \
            -e "$syntax_bracket" \
+           -e "$syntax_go_func" \
            {} \; \
       | cut_and_join \
       >> "$adjustments_file" \
@@ -1545,9 +1572,10 @@ then
   if echo "$network" | grep -m1 '.dart$' 1>/dev/null;
   then
     # skip brackets
-    find "$git_root" -type f \
-                     -name '*.dart' \
-                     -exec \
+    cd "$git_root" && \
+      find . -type f \
+             -name '*.dart' \
+             -exec \
       grep -nIHE \
            -e "$syntax_bracket" \
            {} \; \
@@ -1559,10 +1587,11 @@ then
   if echo "$network" | grep -m1 '.php$' 1>/dev/null;
   then
     # skip empty lines, comments, and brackets
-    find "$git_root" -not -path "*/vendor/*" \
-                     -type f \
-                     -name '*.php' \
-                     -exec \
+    cd "$git_root" && \
+      find . -type f \
+             -not -path "*/vendor/*" \
+             -name '*.php' \
+             -exec \
       grep -nIHE \
            -e "$syntax_list" \
            -e "$syntax_bracket" \
@@ -1573,20 +1602,22 @@ then
       || echo ''
   fi
 
-  if echo "$network" | grep -m1 '\(.cpp\|.h\|.cxx\|.c\|.hpp\|.m\|.swift\)$' 1>/dev/null;
+  if echo "$network" | grep -m1 '\(.c\.cpp\|.cxx\|.h\|.hpp\|.m\|.swift\|.vala\)$' 1>/dev/null;
   then
     # skip brackets
     # shellcheck disable=SC2086,SC2090
-    find "$git_root" -type f \
-                     $skip_dirs \
+    cd "$git_root" && \
+      find . -type f \
+             $skip_dirs \
          \( \
-           -name '*.h' \
+           -name '*.c' \
            -or -name '*.cpp' \
            -or -name '*.cxx' \
-           -or -name '*.m' \
-           -or -name '*.c' \
+           -or -name '*.h' \
            -or -name '*.hpp' \
+           -or -name '*.m' \
            -or -name '*.swift' \
+           -or -name '*.vala' \
          \) -exec \
       grep -nIHE \
            -e "$empty_line" \
@@ -1599,16 +1630,18 @@ then
 
     # skip brackets
     # shellcheck disable=SC2086,SC2090
-    find "$git_root" -type f \
-                     $skip_dirs \
+    cd "$git_root" && \
+      find . -type f \
+             $skip_dirs \
          \( \
-           -name '*.h' \
+           -name '*.c' \
            -or -name '*.cpp' \
            -or -name '*.cxx' \
-           -or -name '*.m' \
-           -or -name '*.c' \
+           -or -name '*.h' \
            -or -name '*.hpp' \
+           -or -name '*.m' \
            -or -name '*.swift' \
+           -or -name '*.vala' \
          \) -exec \
       grep -nIH '// LCOV_EXCL' \
            {} \; \
@@ -1642,7 +1675,7 @@ if [ "$dump" != "0" ];
 then
   # trim whitespace from query
   say "    ${e}->${x} Dumping upload file (no upload)"
-  echo "$url/upload/v4?$(echo "package=bash-$VERSION&token=$token&$query" | tr -d ' ')"
+  echo "$url/upload/v4?$(echo "package=$package-$VERSION&token=$token&$query" | tr -d ' ')"
   cat "$upload_file"
 else
   if [ "$save_to" != "" ];
@@ -1653,6 +1686,7 @@ else
 
   say "${e}==>${x} Gzipping contents"
   gzip -nf9 "$upload_file"
+  say "        $(du -h "$upload_file.gz")"
 
   query=$(echo "${query}" | tr -d ' ')
   say "${e}==>${x} Uploading reports"
@@ -1660,89 +1694,80 @@ else
   say "    ${e}query:${x} $query"
 
   # Full query without token (to display on terminal output)
-  queryNoToken=$(echo "package=bash-$VERSION&token=secret&$query" | tr -d ' ')
+  queryNoToken=$(echo "package=$package-$VERSION&token=secret&$query" | tr -d ' ')
   # now add token to query
-  query=$(echo "package=bash-$VERSION&token=$token&$query" | tr -d ' ')
+  query=$(echo "package=$package-$VERSION&token=$token&$query" | tr -d ' ')
 
   if [ "$ft_s3" = "1" ];
   then
-    i=0
-    while [ $i -lt 4 ]
-    do
-      ((i+=1))
-      say "${e}->${x}  Pinging Codecov"
-      say "$url/upload/v4?$queryNoToken"
-      # shellcheck disable=SC2086,2090
-      res=$(curl $curl_s -X POST $curlargs $cacert \
-            -H 'X-Reduced-Redundancy: false' \
-            -H 'X-Content-Type: application/x-gzip' \
-            "$url/upload/v4?$query" || true)
-      # a good replay is "https://codecov.io" + "\n" + "https://codecov.s3.amazonaws.com/..."
-      status=$(echo "$res" | head -1 | grep 'HTTP ' | cut -d' ' -f2)
-      if [ "$status" = "" ];
-      then
-        s3target=$(echo "$res" | sed -n 2p)
-        say "${e}->${x}  Uploading to"
-        say "${s3target}"
+    say "${e}->${x}  Pinging Codecov"
+    say "$url/upload/v4?$queryNoToken"
+    # shellcheck disable=SC2086,2090
+    res=$(curl $curl_s -X POST $cacert \
+          --retry 5 --retry-delay 2 --connect-timeout 2 \
+          -H 'X-Reduced-Redundancy: false' \
+          -H 'X-Content-Type: application/x-gzip' \
+          -H 'Content-Length: 0' \
+          --write-out "\n%{response_code}\n" \
+          $curlargs \
+          "$url/upload/v4?$query" || true)
+    # a good reply is "https://codecov.io" + "\n" + "https://storage.googleapis.com/codecov/..."
+    s3target=$(echo "$res" | sed -n 2p)
+    status=$(tail -n1 <<< "$res")
 
-        # shellcheck disable=SC2086
-        s3=$(curl -fiX PUT $curlawsargs \
-            --data-binary @"$upload_file.gz" \
-            -H 'Content-Type: application/x-gzip' \
-            -H 'Content-Encoding: gzip' \
-            "$s3target" || true)
+    if [ "$status" = "200" ] && [ "$s3target" != "" ];
+    then
+      say "${e}->${x}  Uploading to"
+      say "${s3target}"
 
-        if [ "$s3" != "" ];
-        then
-          say "    ${g}->${x} View reports at ${b}$(echo "$res" | sed -n 1p)${x}"
-          exit 0
-        else
-          say "    ${r}X>${x} Failed to upload"
-        fi
-      elif [ "$status" = "400" ];
+      # shellcheck disable=SC2086
+      s3=$(curl -fiX PUT \
+          --data-binary @"$upload_file.gz" \
+          -H 'Content-Type: application/x-gzip' \
+          -H 'Content-Encoding: gzip' \
+          $curlawsargs \
+          "$s3target" || true)
+
+      if [ "$s3" != "" ];
       then
-          # 400 Error
-          say "${g}${res}${x}"
-          exit ${exit_with}
+        say "    ${g}->${x} View reports at ${b}$(echo "$res" | sed -n 1p)${x}"
+        exit 0
+      else
+        say "    ${r}X>${x} Failed to upload"
       fi
-      say "    ${e}->${x} Sleeping for 30s and trying again..."
-      sleep 30
-    done
+    elif [ "$status" = "400" ];
+    then
+        # 400 Error
+        say "${r}${res}${x}"
+        exit ${exit_with}
+    else
+        say "${r}${res}${x}"
+    fi
   fi
 
   say "${e}==>${x} Uploading to Codecov"
-  i=0
-  while [ $i -lt 4 ]
-  do
-    ((i+=1))
 
-    # shellcheck disable=SC2086,2090
-    res=$(curl -X POST $curlargs $cacert \
-          --data-binary @"$upload_file.gz" \
-          -H 'Content-Type: text/plain' \
-          -H 'Content-Encoding: gzip' \
-          -H 'X-Content-Encoding: gzip' \
-          -H 'Accept: text/plain' \
-          "$url/upload/v2?$query" || echo 'HTTP 500')
-    # HTTP 200
-    # http://....
-    status=$(echo "$res" | head -1 | cut -d' ' -f2)
-    if [ "$status" = "" ] || [ "$status" = "200" ];
-    then
-      say "    View reports at ${b}$(echo "$res" | head -2 | tail -1)${x}"
-      exit 0
-
-    elif [ "${status:0:1}" = "5" ];
-    then
-      say "    ${e}->${x} Sleeping for 30s and trying again..."
-      sleep 30
-
-    else
-      say "    ${g}${res}${x}"
-      exit ${exit_with}
-    fi
-
-  done
+  # shellcheck disable=SC2086,2090
+  res=$(curl -X POST $cacert \
+        --data-binary @"$upload_file.gz" \
+        --retry 5 --retry-delay 2 --connect-timeout 2 \
+        -H 'Content-Type: text/plain' \
+        -H 'Content-Encoding: gzip' \
+        -H 'X-Content-Encoding: gzip' \
+        -H 'Accept: text/plain' \
+        $curlargs \
+        "$url/upload/v2?$query&attempt=$i" || echo 'HTTP 500')
+  # HTTP 200
+  # http://....
+  status=$(echo "$res" | head -1 | cut -d' ' -f2)
+  if [ "$status" = "" ] || [ "$status" = "200" ];
+  then
+    say "    View reports at ${b}$(echo "$res" | head -2 | tail -1)${x}"
+    exit 0
+  else
+    say "    ${g}${res}${x}"
+    exit ${exit_with}
+  fi
 
   say "    ${r}X> Failed to upload coverage reports${x}"
 fi

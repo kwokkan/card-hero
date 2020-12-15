@@ -13,6 +13,10 @@
   "packageRules": [
     {
       "groupName": ".NET Core monorepo",
+      "packageNames": [
+        "mcr.microsoft.com/dotnet/aspnet",
+        "mcr.microsoft.com/dotnet/sdk"
+      ],
       "sourceUrlPrefixes": [
         "https://github.com/aspnet/",
         "https://github.com/dotnet/"
