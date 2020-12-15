@@ -12,11 +12,14 @@
   "masterIssue": true,
   "packageRules": [
     {
-      "groupName": ".NET Core monorepo",
+      "groupName": ".NET Core docker",
       "packageNames": [
         "mcr.microsoft.com/dotnet/aspnet",
         "mcr.microsoft.com/dotnet/sdk"
-      ],
+      ]
+    },
+    {
+      "groupName": ".NET Core monorepo",
       "sourceUrlPrefixes": [
         "https://github.com/aspnet/",
         "https://github.com/dotnet/"
