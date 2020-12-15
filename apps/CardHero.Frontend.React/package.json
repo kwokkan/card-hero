@@ -70,7 +70,7 @@
     "analyse": "cross-env NODE_ENV=development CH_ANALYSE=true webpack --config ./webpack.config.js",
     "analyse:prod": "cross-env NODE_ENV=production CH_ANALYSE=true webpack --config ./webpack.config.js",
     "build": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production NODE_OPTIONS='--trace-deprecation' webpack --config ./webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "test": "cross-env CI=true jest --runInBand",
     "test:update": "cross-env CI=true jest --runInBand -u",
     "test:watch": "cross-env CI=true jest --runInBand --watch",
