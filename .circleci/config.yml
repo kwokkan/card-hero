@@ -108,10 +108,6 @@ jobs:
             cd << pipeline.parameters.node-project >>
             mv config/.yarnclean .yarnclean
             yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-cache-v4-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
-          paths:
-            - << pipeline.parameters.node-project >>/node_modules
       - run:
           name: yarn build:prod
           command: |
@@ -122,6 +118,10 @@ jobs:
           command: |
             cd << pipeline.parameters.node-project >>
             yarn test
+      - save_cache:
+          key: yarn-cache-v4-{{ arch }}-{{ checksum "<< pipeline.parameters.node-project >>/yarn.lock" }}
+          paths:
+            - << pipeline.parameters.node-project >>/node_modules
       - persist_to_workspace:
           root: .
           paths:
