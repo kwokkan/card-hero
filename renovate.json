@@ -38,8 +38,9 @@
       ]
     },
     {
-      "groupName": "webpack-contrib monorepo",
+      "groupName": "webpack monorepo",
       "sourceUrlPrefixes": [
+        "https://github.com/webpack/",
         "https://github.com/webpack-contrib/"
       ]
     }
