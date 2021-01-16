@@ -1,7 +1,7 @@
 language: csharp
 solution: CardHero.sln
 mono: none
-dotnet: 5.0.101
+dotnet: 5.0.102
 install:
  - dotnet restore CardHero.sln
 script:
