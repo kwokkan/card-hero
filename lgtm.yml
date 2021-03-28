@@ -17,7 +17,7 @@ extraction:
         - CardHero.sln
 
       dotnet:
-        version: 5.0.103
+        version: 5.0.201
 
   javascript:
     index:
