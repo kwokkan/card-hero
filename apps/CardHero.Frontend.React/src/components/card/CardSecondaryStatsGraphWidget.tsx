@@ -36,7 +36,7 @@ export function CardSecondaryStatsGraphWidget(props: ICardSecondaryStatsGraphWid
     };
 
     const options: ChartOptions = {
-        scale: {
+        scales: {
             ticks: {
                 beginAtZero: true,
                 max: 10
@@ -50,7 +50,7 @@ export function CardSecondaryStatsGraphWidget(props: ICardSecondaryStatsGraphWid
                 {c.name}
             </h4>
             <div className="card-body">
-                <Radar data={data} options={options} />
+                <Radar type="radar" data={data} options={options} />
             </div>
         </div>
     );

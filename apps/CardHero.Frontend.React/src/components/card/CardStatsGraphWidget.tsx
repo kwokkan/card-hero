@@ -34,7 +34,7 @@ export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Ele
     };
 
     const options: ChartOptions = {
-        scale: {
+        scales: {
             ticks: {
                 beginAtZero: true,
                 max: 10
@@ -48,7 +48,7 @@ export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Ele
                 {c.name}
             </h4>
             <div className="card-body">
-                <Radar data={data} options={options} />
+                <Radar type="radar" data={data} options={options} />
             </div>
         </div>
     );
