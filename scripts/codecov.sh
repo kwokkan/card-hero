@@ -5,7 +5,7 @@
 
 set -e +o pipefail
 
-VERSION="20210115-cec3c92"
+VERSION="1.0.2"
 
 codecov_flags=( )
 url="https://codecov.io"
@@ -28,6 +28,7 @@ ddp="$HOME/Library/Developer/Xcode/DerivedData"
 xp=""
 files=""
 save_to=""
+direct_file_upload=""
 cacert="$CODECOV_CA_BUNDLE"
 gcov_ignore="-not -path './bower_components/**' -not -path './node_modules/**' -not -path './vendor/**'"
 gcov_include=""
@@ -42,6 +43,7 @@ ft_xcodellvm="1"
 ft_xcodeplist="0"
 ft_gcovout="1"
 ft_html="0"
+ft_yaml="0"
 
 _git_root=$(git rev-parse --show-toplevel 2>/dev/null || hg root 2>/dev/null || echo "$PWD")
 git_root="$_git_root"
@@ -51,15 +53,16 @@ then
   git_root="."
 fi
 
-url_o=""
-pr_o=""
+branch_o=""
 build_o=""
 commit_o=""
-search_in_o=""
-tag_o=""
-branch_o=""
-slug_o=""
+pr_o=""
 prefix_o=""
+network_filter_o=""
+search_in_o=""
+slug_o=""
+tag_o=""
+url_o=""
 git_ls_files_recurse_submodules_o=""
 package="bash"
 
@@ -121,6 +124,10 @@ cat << EOF
 
                  -e VAR,VAR2
 
+    -k prefix    Prefix filepaths to help resolve path fixing
+
+    -i prefix    Only include files in the network with a certain prefix. Useful for upload-specific path fixing
+
     -X feature   Toggle functionalities
 
                  -X gcov          Disable gcov
@@ -132,6 +139,7 @@ cat << EOF
                  -X gcovout       Disable gcov output
                  -X html          Enable coverage for HTML files
                  -X recursesubs   Enable recurse submodules in git projects when searching for source files
+                 -X yaml          Enable coverage for YAML files
 
     -N           The commit SHA of the parent for which you are uploading coverage. If not present,
                  the parent will be determined using the API of your repository provider.
@@ -146,6 +154,9 @@ cat << EOF
                  -F ui,chrome        This upload is Chrome - UI tests
 
     -c           Move discovered coverage reports to the trash
+    -z FILE      Upload specified file directly to Codecov and bypass all report generation.
+                 This is inteded to be used only with a pre-formatted Codecov report and is not
+                 expected to work under any other circumstances.
     -Z           Exit with 1 if not successful. Default will Exit with 0
 
     -- xcode --
@@ -162,7 +173,6 @@ cat << EOF
     -G GLOB      Paths to include during gcov gathering
     -p dir       Project root directory
                  Also used when preparing gcov
-    -k prefix    Prefix filepaths to help resolve path fixing: https://github.com/codecov/support/issues/472
     -x gcovexe   gcov executable to run. Defaults to 'gcov'
     -a gcovargs  extra arguments to pass to gcov
 
@@ -248,10 +258,9 @@ parse_yaml() {
    }'
 }
 
-
 if [ $# != 0 ];
 then
-  while getopts "a:A:b:B:cC:dD:e:f:F:g:G:hJ:k:Kn:p:P:Q:q:r:R:s:S:t:T:u:U:vx:X:ZN:-" o
+  while getopts "a:A:b:B:cC:dD:e:f:F:g:G:hi:J:k:Kn:p:P:Q:q:r:R:s:S:t:T:u:U:vx:X:Zz:N:-" o
   do
     codecov_flags+=( "$o" )
     case "$o" in
@@ -298,7 +307,7 @@ then
 
         elif [[ "$OPTARG" = *"*"* ]];
         then
-          include_cov="$include_cov -or -name '$OPTARG'"
+          include_cov="$include_cov -or -path '$OPTARG'"
 
         else
           ft_search=0
@@ -328,6 +337,9 @@ $OPTARG"
       "h")
         show_help
         exit 0;
+        ;;
+      "i")
+        network_filter_o="$OPTARG"
         ;;
       "J")
         ft_xcodellvm="1"
@@ -446,10 +458,24 @@ $OPTARG"
         elif [ "$OPTARG" = "recursesubs" ];
         then
           git_ls_files_recurse_submodules_o="--recurse-submodules"
+        elif [ "$OPTARG" = "yaml" ];
+        then
+          ft_yaml="1"
         fi
         ;;
       "Z")
         exit_with=1
+        ;;
+      "z")
+        direct_file_upload="$OPTARG"
+        ft_gcov="0"
+        ft_coveragepy="0"
+        ft_fix="0"
+        ft_search="0"
+        ft_network="0"
+        ft_xcodellvm="0"
+        ft_gcovout="0"
+        include_cov=""
         ;;
       *)
         echo -e "${r}Unexpected flag not supported${x}"
@@ -471,16 +497,19 @@ say "
 
 # check for installed tools
 # git/hg
-if [ -x "$(command -v git)" ];
+if [ "$direct_file_upload" = "" ];
 then
-  say "$b==>$x $(git --version) found"
-else
-  say "$y==>$x git not installed, testing for mercurial"
-  if [ -x "$(command -v hg)" ];
+  if [ -x "$(command -v git)" ];
   then
-    say "$b==>$x $(hg --version) found"
+    say "$b==>$x $(git --version) found"
   else
-    say "$r==>$x git nor mercurial are installed. Uploader may fail or have unintended consequences"
+    say "$y==>$x git not installed, testing for mercurial"
+    if [ -x "$(command -v hg)" ];
+    then
+      say "$b==>$x $(hg --version) found"
+    else
+      say "$r==>$x git nor mercurial are installed. Uploader may fail or have unintended consequences"
+    fi
   fi
 fi
 # curl
@@ -819,6 +848,14 @@ then
 elif [ "$GITHUB_ACTIONS" != "" ];
 then
   say "$e==>$x GitHub Actions detected."
+  say "    Env vars used:"
+  say "      -> GITHUB_ACTIONS:    ${GITHUB_ACTIONS}"
+  say "      -> GITHUB_HEAD_REF:   ${GITHUB_HEAD_REF}"
+  say "      -> GITHUB_REF:        ${GITHUB_REF}"
+  say "      -> GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
+  say "      -> GITHUB_RUN_ID:     ${GITHUB_RUN_ID}"
+  say "      -> GITHUB_SHA:        ${GITHUB_SHA}"
+  say "      -> GITHUB_WORKFLOW:   ${GITHUB_WORKFLOW}"
 
   # https://github.com/features/actions
   service="github-actions"
@@ -840,7 +877,7 @@ then
 
   # actions/checkout runs in detached HEAD
   mc=
-  if [ -n "$pr" ] && [ "$pr" != false ];
+  if [ -n "$pr" ] && [ "$pr" != false ] && [ "$commit_o" == "" ];
   then
     mc=$(git show --no-patch --format="%P" 2>/dev/null || echo "")
 
@@ -928,7 +965,8 @@ then
   branch="$CIRRUS_BRANCH"
   pr="$CIRRUS_PR"
   commit="$CIRRUS_CHANGE_IN_REPO"
-  build="$CIRRUS_TASK_ID"
+  build="$CIRRUS_BUILD_ID"
+  build_url=$(urlencode "https://cirrus-ci.com/task/$CIRRUS_TASK_ID")
   job="$CIRRUS_TASK_NAME"
 
 elif [ "$DOCKER_REPO" != "" ];
@@ -1232,29 +1270,29 @@ $PWD/coverage.xml"
 
   patterns="find $search_in \( \
                         -name vendor \
-                        -or -name htmlcov \
-                        -or -name virtualenv \
-                        -or -name js/generated/coverage \
-                        -or -name .virtualenv \
-                        -or -name virtualenvs \
-                        -or -name .virtualenvs \
+                        -or -name '$bower_components' \
+                        -or -name '.egg-info*' \
+                        -or -name 'conftest_*.c.gcov' \
                         -or -name .env \
                         -or -name .envs \
-                        -or -name env \
-                        -or -name .yarn-cache \
-                        -or -name envs \
-                        -or -name .venv \
-                        -or -name .venvs \
-                        -or -name venv \
-                        -or -name venvs \
                         -or -name .git \
                         -or -name .hg \
                         -or -name .tox \
+                        -or -name .venv \
+                        -or -name .venvs \
+                        -or -name .virtualenv \
+                        -or -name .virtualenvs \
+                        -or -name .yarn-cache \
                         -or -name __pycache__ \
-                        -or -name '.egg-info*' \
-                        -or -name '$bower_components' \
+                        -or -name env \
+                        -or -name envs \
+                        -or -name htmlcov \
+                        -or -name js/generated/coverage \
                         -or -name node_modules \
-                        -or -name 'conftest_*.c.gcov' \
+                        -or -name venv \
+                        -or -name venvs \
+                        -or -name virtualenv \
+                        -or -name virtualenvs \
                     \) -prune -or \
                     -type f \( -name '*coverage*.*' \
                      -or -name '*.clover' \
@@ -1266,6 +1304,7 @@ $PWD/coverage.xml"
                      -or -name 'cobertura.xml' \
                      -or -name 'codecov.*' \
                      -or -name 'cover.out' \
+                     -or -name 'codecov-result.json' \
                      -or -name 'coverage-final.json' \
                      -or -name 'excoveralls.json' \
                      -or -name 'gcov.info' \
@@ -1373,6 +1412,9 @@ $PWD/coverage.xml"
 elif [ "$include_cov" != "" ];
 then
   files=$(eval "find $search_in -type f \( ${include_cov:5} \)$exclude_cov 2>/dev/null" || echo '')
+elif [ "$direct_file_upload" != "" ];
+then
+  files=$direct_file_upload
 fi
 
 num_of_files=$(echo "$files" | wc -l | tr -d ' ')
@@ -1427,6 +1469,10 @@ then
                     -type f -print 2>/dev/null || echo '')
   fi
 
+  if [ "$network_filter_o" != "" ];
+  then
+      network=$(echo "$network" | grep -e "$network_filter_o/*")
+  fi
   if [ "$prefix_o" != "" ];
   then
       network=$(echo "$network" | awk "{print \"$prefix_o/\"\$0}")
@@ -1442,6 +1488,7 @@ cleanup() {
 
 trap cleanup INT ABRT TERM
 
+
 if [ "$env" != "" ];
 then
   inc_env=""
@@ -1455,88 +1502,105 @@ then
 "
     fi
   done
-
-echo "$inc_env<<<<<< ENV" >> "$upload_file"
+  echo "$inc_env<<<<<< ENV" >> "$upload_file"
 fi
 
 # Append git file list
 # write discovered yaml location
-echo "$yaml" >> "$upload_file"
+if [ "$direct_file_upload" = "" ];
+then
+  echo "$yaml" >> "$upload_file"
+fi
+
 if [ "$ft_network" == "1" ];
 then
   i="woff|eot|otf"  # fonts
   i="$i|gif|png|jpg|jpeg|psd"  # images
   i="$i|ptt|pptx|numbers|pages|md|txt|xlsx|docx|doc|pdf|csv"  # docs
-  i="$i|yml|yaml|.gitignore"  # supporting docs
+  i="$i|.gitignore"  # supporting docs
 
   if [ "$ft_html" != "1" ];
   then
     i="$i|html"
   fi
 
+  if [ "$ft_yaml" != "1" ];
+  then
+    i="$i|yml|yaml"
+  fi
+
   echo "$network" | grep -vwE "($i)$" >> "$upload_file"
 fi
 echo "<<<<<< network" >> "$upload_file"
 
-fr=0
-say "${e}==>${x} Reading reports"
-while IFS='' read -r file;
-do
-  # read the coverage file
-  if [ "$(echo "$file" | tr -d ' ')" != '' ];
-  then
-    if [ -f "$file" ];
+if [ "$direct_file_upload" = "" ];
+then
+  fr=0
+  say "${e}==>${x} Reading reports"
+  while IFS='' read -r file;
+  do
+    # read the coverage file
+    if [ "$(echo "$file" | tr -d ' ')" != '' ];
     then
-      report_len=$(wc -c < "$file")
-      if [ "$report_len" -ne 0 ];
+      if [ -f "$file" ];
       then
-        say "    ${g}+${x} $file ${e}bytes=$(echo "$report_len" | tr -d ' ')${x}"
-        # append to to upload
-        _filename=$(basename "$file")
-        if [ "${_filename##*.}" = 'gcov' ];
+        report_len=$(wc -c < "$file")
+        if [ "$report_len" -ne 0 ];
         then
-          {
-            echo "# path=$(echo "$file.reduced" | sed "s|^$git_root/||")";
-            # get file name
-            head -1 "$file";
-          } >> "$upload_file"
-          # 1. remove source code
-          # 2. remove ending bracket lines
-          # 3. remove whitespace
-          # 4. remove contextual lines
-          # 5. remove function names
-          awk -F': *' '{print $1":"$2":"}' "$file" \
-            | sed '\/: *} *$/d' \
-            | sed 's/^ *//' \
-            | sed '/^-/d' \
-            | sed 's/^function.*/func/' >> "$upload_file"
+          say "    ${g}+${x} $file ${e}bytes=$(echo "$report_len" | tr -d ' ')${x}"
+          # append to to upload
+          _filename=$(basename "$file")
+          if [ "${_filename##*.}" = 'gcov' ];
+          then
+            {
+              echo "# path=$(echo "$file.reduced" | sed "s|^$git_root/||")";
+              # get file name
+              head -1 "$file";
+            } >> "$upload_file"
+            # 1. remove source code
+            # 2. remove ending bracket lines
+            # 3. remove whitespace
+            # 4. remove contextual lines
+            # 5. remove function names
+            awk -F': *' '{print $1":"$2":"}' "$file" \
+              | sed '\/: *} *$/d' \
+              | sed 's/^ *//' \
+              | sed '/^-/d' \
+              | sed 's/^function.*/func/' >> "$upload_file"
+          else
+            {
+              echo "# path=${file//^$git_root/||}";
+              cat "$file";
+            } >> "$upload_file"
+          fi
+          echo "<<<<<< EOF" >> "$upload_file"
+          fr=1
+          if [ "$clean" = "1" ];
+          then
+            rm "$file"
+          fi
         else
-          {
-            echo "# path=${file//^$git_root/||}";
-            cat "$file";
-          } >> "$upload_file"
-        fi
-        echo "<<<<<< EOF" >> "$upload_file"
-        fr=1
-        if [ "$clean" = "1" ];
-        then
-          rm "$file"
+          say "    ${r}-${x} Skipping empty file $file"
         fi
       else
-        say "    ${r}-${x} Skipping empty file $file"
+        say "    ${r}-${x} file not found at $file"
       fi
-    else
-      say "    ${r}-${x} file not found at $file"
     fi
-  fi
-done <<< "$(echo -e "$files")"
+  done <<< "$(echo -e "$files")"
 
-if [ "$fr" = "0" ];
-then
-  say "${r}-->${x} No coverage data found."
-  say "    Please visit ${b}http://docs.codecov.io/docs/supported-languages${x}"
-  say "    search for your projects language to learn how to collect reports."
-  exit ${exit_with};
+  if [ "$fr" = "0" ];
+  then
+    say "${r}-->${x} No coverage data found."
+    say "    Please visit ${b}http://docs.codecov.io/docs/supported-languages${x}"
+    say "    search for your projects language to learn how to collect reports."
+    exit ${exit_with};
+  fi
+else
+  cp "$direct_file_upload" "$upload_file"
+  if [ "$clean" = "1" ];
+  then
+    rm "$direct_file_upload"
+  fi
 fi
 
 if [ "$ft_fix" = "1" ];
@@ -1725,6 +1789,7 @@ else
   if [ "$save_to" != "" ];
   then
     say "${e}==>${x} Copying upload file to ${save_to}"
+    mkdir -p "$(dirname "$save_to")"
     cp "$upload_file" "$save_to"
   fi
 
@@ -1774,7 +1839,7 @@ else
 
       if [ "$s3" != "" ];
       then
-        say "    ${g}->${x} View reports at ${b}$(echo "$res" | sed -n 1p)${x}"
+        say "    ${g}->${x} Reports have been successfully queued for processing at ${b}$(echo "$res" | sed -n 1p)${x}"
         exit 0
       else
         say "    ${r}X>${x} Failed to upload"
@@ -1806,7 +1871,7 @@ else
   status=$(echo "$res" | head -1 | cut -d' ' -f2)
   if [ "$status" = "" ] || [ "$status" = "200" ];
   then
-    say "    View reports at ${b}$(echo "$res" | head -2 | tail -1)${x}"
+    say "    Reports have been successfully queued for processing at ${b}$(echo "$res" | head -2 | tail -1)${x}"
     exit 0
   else
     say "    ${g}${res}${x}"
