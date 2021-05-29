@@ -56,7 +56,7 @@ steps:
        yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | 03
        yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | 02
        yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | 01
-    path: $(YARN_CACHE_FOLDER)
+    path: $(Build.SourcesDirectory)/apps/CardHero.Frontend.React/node_modules
   displayName: Cache Yarn packages
   
 - task: NuGetToolInstaller@1
