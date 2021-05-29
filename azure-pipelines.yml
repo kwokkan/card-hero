@@ -16,7 +16,7 @@ variables:
   CACHE_NUGET_VERSION: v1
   CACHE_YARN_VERSION: v1
   CACHE_KEY_P1: format('{0:yyyy}', pipeline.startTime)
-  CACHE_KEY_P2: $[$(Get-Date -Format MM)]
+  CACHE_KEY_P2: $[Get-Date -Format MM]
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
