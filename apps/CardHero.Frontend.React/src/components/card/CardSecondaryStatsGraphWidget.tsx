@@ -10,7 +10,7 @@ interface ICardSecondaryStatsGraphWidgetProps {
 export function CardSecondaryStatsGraphWidget(props: ICardSecondaryStatsGraphWidgetProps): JSX.Element {
     const c = props.card;
 
-    const data: ChartData = {
+    const data: ChartData<"radar"> = {
         labels: [
             "Up Attack",
             "Right Attack",
@@ -35,7 +35,7 @@ export function CardSecondaryStatsGraphWidget(props: ICardSecondaryStatsGraphWid
         ]
     };
 
-    const options: ChartOptions = {
+    const options: ChartOptions<"radar"> = {
         scales: {
             ticks: {
                 beginAtZero: true,
@@ -50,7 +50,7 @@ export function CardSecondaryStatsGraphWidget(props: ICardSecondaryStatsGraphWid
                 {c.name}
             </h4>
             <div className="card-body">
-                <Radar type="radar" data={data} options={options} />
+                <Radar data={data} options={options} />
             </div>
         </div>
     );
