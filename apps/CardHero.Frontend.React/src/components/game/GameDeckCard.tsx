@@ -14,6 +14,7 @@ export function GameDeckCard(props: IGameDeckCardProps) {
     const isUsable = true;
 
     const [{ isDragging }, drag] = useDrag({
+        type: DragType.Card.toString(),
         item: {
             type: DragType.Card.toString(),
             gameDeckCardCollectionId: dc.id
