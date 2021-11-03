@@ -13,23 +13,49 @@ variables:
   solution: 'CardHero.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  CACHE_NUGET_VERSION: v1
+  CACHE_YARN_VERSION: v1
+  CACHE_KEY_P1: $[format('{0:yyyy}', pipeline.startTime)]
+  CACHE_KEY_P2: $[format('{0:MM}', pipeline.startTime)]
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
-  #YARN_CACHE_FOLDER: $(Pipeline.Workspace)/apps/CardHero.Frontend.React/node_modules
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 steps:
 - task: Cache@2
   inputs:
-    key: 'nuget | "$(Agent.OS)" | **/*.csproj,!**/bin/**'
+    key: 'nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "$(CACHE_KEY_P2)" | **/*.csproj,!**/bin/**'
     restoreKeys: |
-       nuget | "$(Agent.OS)"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "12"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "11"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "10"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "09"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "08"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "07"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "06"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "05"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "04"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "03"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "02"
+       nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "01"
     path: $(NUGET_PACKAGES)
   displayName: Cache NuGet packages
   
 - task: Cache@2
   inputs:
-    key: 'yarn | "$(Agent.OS)" | apps/CardHero.Frontend.React/yarn.lock'
+    key: 'yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "$(CACHE_KEY_P2)" | apps/CardHero.Frontend.React/yarn.lock'
     restoreKeys: |
-       yarn | "$(Agent.OS)"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "12"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "11"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "10"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "09"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "08"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "07"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "06"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "05"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "04"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "03"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "02"
+       yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "01"
     path: $(Build.SourcesDirectory)/apps/CardHero.Frontend.React/node_modules
   displayName: Cache Yarn packages
   

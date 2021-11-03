@@ -1,4 +1,7 @@
-﻿import { AccountApiClient, UserModel } from "../clients/clients";
+﻿/*
+ * @jest-environment jsdom
+ */
+import { AccountApiClient, UserModel } from "../clients/clients";
 import { AccountService } from "./AccountService";
 
 test("User id is obtained when logged in", async () => {

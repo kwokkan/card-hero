@@ -49,8 +49,5 @@
     "yarnDedupeHighest"
   ],
   "prHourlyLimit": 0,
-  "rebaseStalePrs": true,
-  "schedule": [
-    "after 6pm and before 8am"
-  ]
+  "rebaseStalePrs": true
 }

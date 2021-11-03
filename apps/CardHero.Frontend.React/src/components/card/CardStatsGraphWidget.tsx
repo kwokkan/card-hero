@@ -10,7 +10,7 @@ interface ICardStatsGraphWidgetProps {
 export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Element {
     const c = props.card;
 
-    const data: ChartData = {
+    const data: ChartData<"radar"> = {
         labels: [
             "Health",
             "Attack",
@@ -33,7 +33,7 @@ export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Ele
         ]
     };
 
-    const options: ChartOptions = {
+    const options: ChartOptions<"radar"> = {
         scales: {
             ticks: {
                 beginAtZero: true,
@@ -48,7 +48,7 @@ export function CardStatsGraphWidget(props: ICardStatsGraphWidgetProps): JSX.Ele
                 {c.name}
             </h4>
             <div className="card-body">
-                <Radar type="radar" data={data} options={options} />
+                <Radar data={data} options={options} />
             </div>
         </div>
     );
