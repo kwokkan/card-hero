@@ -76,7 +76,6 @@ module.exports = {
                     ecma: 8,
                     toplevel: true,
                     compress: {
-                        booleans_as_integers: true,
                         drop_console: true,
                         ecma: 8,
                         passes: 4,
