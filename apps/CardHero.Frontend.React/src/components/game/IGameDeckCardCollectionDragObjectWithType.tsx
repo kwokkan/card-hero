@@ -1,5 +1,4 @@
-﻿import { DragObjectWithType } from "react-dnd";
-
-export interface IGameDeckCardCollectionDragObjectWithType extends DragObjectWithType {
+﻿
+export interface IGameDeckCardCollectionDragObjectWithType {
     gameDeckCardCollectionId: number;
 }
