@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Builder
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
             AllowTrailingCommas = true,
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
         };

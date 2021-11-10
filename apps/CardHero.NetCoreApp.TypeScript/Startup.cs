@@ -114,9 +114,8 @@ namespace CardHero.NetCoreApp.TypeScript
                 .AddJsonOptions(x =>
                 {
                     x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    x.JsonSerializerOptions.IgnoreNullValues = true;
+                    x.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
             services
