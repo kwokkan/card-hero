@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using WebMarkupMin.AspNetCore3;
+using WebMarkupMin.AspNetCore6;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
@@ -114,9 +114,8 @@ namespace CardHero.NetCoreApp.TypeScript
                 .AddJsonOptions(x =>
                 {
                     x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    x.JsonSerializerOptions.IgnoreNullValues = true;
+                    x.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
 
             services

@@ -113,18 +113,21 @@ namespace CardHero.NetCoreApp.IntegrationTests
                     Frequency = 10,
                     RarityPk = 1,
                     Name = "Common",
+                    Rowstamp = Guid.NewGuid().ToByteArray(),
                 },
                 new Rarity
                 {
                     Frequency = 5,
                     RarityPk = 2,
                     Name = "Uncommon",
+                    Rowstamp = Guid.NewGuid().ToByteArray(),
                 },
                 new Rarity
                 {
                     Frequency = 3,
                     RarityPk = 3,
                     Name = "Rare",
+                    Rowstamp = Guid.NewGuid().ToByteArray(),
                 }
             );
         }
@@ -137,6 +140,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardPk = 1,
                 Name = "First card",
                 RarityFk = 1,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.Card.Add(new Card
             {
@@ -144,6 +148,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardPk = 2,
                 Name = "Second card",
                 RarityFk = 2,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
 
             context.CardCollection.Add(new CardCollection
@@ -151,29 +156,34 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardCollectionPk = 1,
                 CardFk = 1,
                 UserFk = 1,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.CardCollection.Add(new CardCollection
             {
                 CardCollectionPk = 2,
                 CardFk = 2,
                 UserFk = 1,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.CardCollection.Add(new CardCollection
             {
                 CardCollectionPk = 3,
                 CardFk = 1,
                 UserFk = 2,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
 
             context.CardPack.Add(new CardPack
             {
                 CardPackPk = 600,
                 Name = "First pack",
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.CardPack.Add(new CardPack
             {
                 CardPackPk = 601,
                 Name = "Second pack",
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
 
             context.Deck.Add(new Deck
@@ -182,6 +192,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 MaxCards = 5,
                 Name = "First deck",
                 UserFk = 1,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.Deck.Add(new Deck
             {
@@ -189,13 +200,15 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 MaxCards = 5,
                 Name = "Second deck",
                 UserFk = 1,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.Deck.Add(new Deck
             {
                 DeckPk = 3,
                 MaxCards = 5,
                 Name = "Third deck",
-                UserFk = 2
+                UserFk = 2,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
 
             context.StoreItem.Add(new StoreItem
@@ -205,6 +218,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 ItemCount = 1,
                 Name = "Valid Bundle",
                 StoreItemPk = 501,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -213,6 +227,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 ItemCount = 2,
                 Name = "Expired Bundle",
                 StoreItemPk = 502,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
             context.StoreItem.Add(new StoreItem
             {
@@ -221,6 +236,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 ItemCount = 3,
                 Name = "Still Valid Bundle",
                 StoreItemPk = 503,
+                Rowstamp = Guid.NewGuid().ToByteArray(),
             });
 
             context.User.Add(new User
@@ -229,7 +245,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 FullName = "Test user",
                 Identifier = "abcxyz",
                 IdPsource = "TestSvr",
-                UserPk = 1
+                UserPk = 1,
             });
             context.User.Add(new User
             {
@@ -269,6 +285,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         RarityFk = (int?)d.Rarity?.Id ?? 1,
                         RightAttack = d.RightAttack,
                         UpAttack = d.UpAttack,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
@@ -290,6 +307,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         DeckPk = d.Id,
                         MaxCards = d.MaxCards,
                         UserFk = d.UserId,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     };
 
                     if (d.Cards != null)
@@ -302,6 +320,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                                 {
                                     CardFk = c.CardId,
                                     UserFk = d.UserId,
+                                    Rowstamp = Guid.NewGuid().ToByteArray(),
                                 }
                             });
                         }
@@ -330,6 +349,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         MaxPlayers = d.MaxPlayers,
                         Rows = d.Rows,
                         WinnerUserFk = d.WinnerUserId,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
@@ -351,6 +371,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         CardFk = d.CardId,
                         GameDeckCardCollectionPk = d.Id,
                         GameDeckFk = d.GameDeckId,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
@@ -372,6 +393,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameDeckPk = d.Id,
                         GameUserFk = d.GameUserId,
                         Name = d.Name,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
@@ -394,6 +416,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameUserPk = d.Id,
                         Order = d.Order,
                         UserFk = d.UserId,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
@@ -441,6 +464,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
                         GameFk = d.GameId,
                         StartTime = d.StartTime,
                         TurnPk = d.Id,
+                        Rowstamp = Guid.NewGuid().ToByteArray(),
                     });
                 }
 
