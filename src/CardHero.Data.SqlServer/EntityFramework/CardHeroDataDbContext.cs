@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
-#nullable disable
 
 namespace CardHero.Data.SqlServer.EntityFramework
 {
@@ -403,7 +402,7 @@ namespace CardHero.Data.SqlServer.EntityFramework
 
                 entity.Property(e => e.Rowstamp)
                     .HasMaxLength(10)
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.TurnFk).HasColumnName("Turn_FK");
 

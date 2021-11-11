@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
-#nullable disable
 
 namespace CardHero.Data.PostgreSql.EntityFramework
 {
@@ -84,7 +83,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.RarityFkNavigation)
                     .WithMany(p => p.Card)
                     .HasForeignKey(d => d.RarityFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Card_Rarity_FK");
             });
 
@@ -100,9 +99,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.CardFk).HasColumnName("Card_FK");
 
-                entity.Property(e => e.CreatedTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
@@ -111,13 +108,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.CardFkNavigation)
                     .WithMany(p => p.CardCollection)
                     .HasForeignKey(d => d.CardFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CardCollection_Card_FK");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.CardCollection)
                     .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CardCollection_User_FK");
             });
 
@@ -139,13 +136,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.CardFkNavigation)
                     .WithMany(p => p.CardFavourite)
                     .HasForeignKey(d => d.CardFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CardFavourite_Card_FK");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.CardFavourite)
                     .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CardFavourite_User_FK");
             });
 
@@ -174,9 +171,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.DeckPk).HasColumnName("Deck_PK");
 
-                entity.Property(e => e.CreatedTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
@@ -186,14 +181,12 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.UpdatedTime).HasColumnType("timestamp with time zone");
-
                 entity.Property(e => e.UserFk).HasColumnName("User_FK");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.Deck)
                     .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Deck_User_FK");
             });
 
@@ -216,13 +209,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.CardCollectionFkNavigation)
                     .WithMany(p => p.DeckCardCollection)
                     .HasForeignKey(d => d.CardCollectionFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeckCardCollection_CardCollection_FK");
 
                 entity.HasOne(d => d.DeckFkNavigation)
                     .WithMany(p => p.DeckCardCollection)
                     .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeckCardCollection_Deck_FK");
             });
 
@@ -244,13 +237,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.DeckFkNavigation)
                     .WithMany(p => p.DeckFavourite)
                     .HasForeignKey(d => d.DeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeckFavourite_Deck_FK");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.DeckFavourite)
                     .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeckFavourite_User_FK");
             });
 
@@ -270,8 +263,6 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.CurrentUserFk).HasColumnName("CurrentUser_FK");
 
-                entity.Property(e => e.EndTime).HasColumnType("timestamp with time zone");
-
                 entity.Property(e => e.GameTypeFk)
                     .HasColumnName("GameType_FK")
                     .HasDefaultValueSql("1");
@@ -282,20 +273,20 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.StartTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.StartTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.WinnerUserFk).HasColumnName("WinnerUser_FK");
 
                 entity.HasOne(d => d.CurrentUserFkNavigation)
                     .WithMany(p => p.GameCurrentUserFkNavigation)
                     .HasForeignKey(d => d.CurrentUserFk)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Game_CurrentUser_FK");
 
                 entity.HasOne(d => d.WinnerUserFkNavigation)
                     .WithMany(p => p.GameWinnerUserFkNavigation)
                     .HasForeignKey(d => d.WinnerUserFk)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Game_WinnerUser_FK");
             });
 
@@ -307,9 +298,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.GameDeckPk).HasColumnName("GameDeck_PK");
 
-                entity.Property(e => e.CreatedTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
@@ -322,7 +311,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.GameUserFkNavigation)
                     .WithMany(p => p.GameDeck)
                     .HasForeignKey(d => d.GameUserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_GameDeck_GameUser_FK");
             });
 
@@ -345,13 +334,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.CardFkNavigation)
                     .WithMany(p => p.GameDeckCardCollection)
                     .HasForeignKey(d => d.CardFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_GameDeckCardCollection_Card_FK");
 
                 entity.HasOne(d => d.GameDeckFkNavigation)
                     .WithMany(p => p.GameDeckCardCollection)
                     .HasForeignKey(d => d.GameDeckFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_GameDeckCardCollection_GameDeck_FK");
             });
 
@@ -367,9 +356,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.GameFk).HasColumnName("Game_FK");
 
-                entity.Property(e => e.JoinedTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.JoinedTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
@@ -378,13 +365,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.GameFkNavigation)
                     .WithMany(p => p.GameUser)
                     .HasForeignKey(d => d.GameFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_GameUser_Game");
 
                 entity.HasOne(d => d.UserFkNavigation)
                     .WithMany(p => p.GameUser)
                     .HasForeignKey(d => d.UserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_GameUser_User");
             });
 
@@ -398,9 +385,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.MovePk).HasColumnName("Move_PK");
 
-                entity.Property(e => e.CreatedTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.GameDeckCardCollectionFk).HasColumnName("GameDeckCardCollection_FK");
 
@@ -411,13 +396,13 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.GameDeckCardCollectionFkNavigation)
                     .WithMany(p => p.Move)
                     .HasForeignKey(d => d.GameDeckCardCollectionFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Move_CardCollection_FK");
 
                 entity.HasOne(d => d.TurnFkNavigation)
                     .WithMany(p => p.Move)
                     .HasForeignKey(d => d.TurnFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Move_Turn_FK");
             });
 
@@ -446,6 +431,8 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
+                entity.Property(e => e.Expiry).HasColumnType("timestamp without time zone");
+
                 entity.Property(e => e.ItemCount).HasDefaultValueSql("1");
 
                 entity.Property(e => e.Name)
@@ -457,6 +444,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
                 entity.HasOne(d => d.CardPackFkNavigation)
                     .WithMany(p => p.StoreItem)
                     .HasForeignKey(d => d.CardPackFk)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_StoreItem_CardPack_FK");
             });
 
@@ -472,26 +460,22 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.CurrentGameUserFk).HasColumnName("CurrentGameUser_FK");
 
-                entity.Property(e => e.EndTime).HasColumnType("timestamp with time zone");
-
                 entity.Property(e => e.GameFk).HasColumnName("Game_FK");
 
                 entity.Property(e => e.Rowstamp).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.StartTime)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.StartTime).HasDefaultValueSql("now()");
 
                 entity.HasOne(d => d.CurrentGameUserFkNavigation)
                     .WithMany(p => p.Turn)
                     .HasForeignKey(d => d.CurrentGameUserFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Turn_CurrentGameUser_FK");
 
                 entity.HasOne(d => d.GameFkNavigation)
                     .WithMany(p => p.Turn)
                     .HasForeignKey(d => d.GameFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Turn_Game_FK");
             });
 
@@ -504,9 +488,7 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.UserPk).HasColumnName("User_PK");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasDefaultValueSql("now()");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("now()");
 
                 entity.Property(e => e.FullName).HasMaxLength(200);
 
