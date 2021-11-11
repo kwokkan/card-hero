@@ -478,7 +478,7 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext/" + Id);
+                        context.UseInMemoryDatabase("CardHeroDataPostgreSqlMemoryDbContext/" + Id, builder => builder.EnableNullChecks(false));
                     });
 
                     if (_context == null)
