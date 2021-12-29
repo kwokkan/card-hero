@@ -14,7 +14,7 @@
     "jquery": "3.6.0",
     "popper.js": "1.16.1",
     "react": "17.0.2",
-    "react-bootstrap": "2.0.3",
+    "react-bootstrap": "2.0.4",
     "react-chartjs-2": "3.3.0",
     "react-dnd": "14.0.4",
     "react-dnd-html5-backend": "14.0.2",
