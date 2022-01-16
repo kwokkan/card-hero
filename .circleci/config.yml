@@ -15,7 +15,7 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.100-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
     steps:
       - checkout
       - run: |
@@ -28,7 +28,7 @@ jobs:
 
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.100-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
     steps:
       - attach_workspace:
           at: .
@@ -45,7 +45,7 @@ jobs:
 
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.100-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
     steps:
       - attach_workspace:
           at: .
@@ -60,7 +60,7 @@ jobs:
 
   go-live:
     docker:
-      - image: node:16.13.1-buster
+      - image: node:16.13.2-buster
     steps:
       - setup_remote_docker
       - attach_workspace:
@@ -94,7 +94,7 @@ jobs:
 
   npm-build:
     docker:
-      - image: node:16.13.1-buster
+      - image: node:16.13.2-buster
     steps:
       - attach_workspace:
           at: .
@@ -130,7 +130,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: node:16.13.1-buster
+      - image: node:16.13.2-buster
     steps:
       - attach_workspace:
           at: .
