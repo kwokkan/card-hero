@@ -46,47 +46,49 @@ export function Main(props: IMainProps) {
 
                 <div className="row">
                     <Routes>
-                        <Route path="/" element={<HomeApp appName={appName} routePrefix={baseUrl} />}>
+                        <Route
+                            path="/"
+                            element={<HomeApp appName={appName} routePrefix={baseUrl} />}
+                        />
 
+                        <Route
+                            path="/Card"
+                            element={<CardApp routePrefix="/Card/" />}
+                        >
+                            <Route
+                                path=":id"
+                                element={<CardRoute />}
+                            />
                         </Route>
 
-                        <Route path="/Card" >
-                            <Route element={<CardApp routePrefix="/Card/" />}>
-
-                            </Route>
-
-                            <Route path=":id" element={<CardRoute />}>
-
-                            </Route>
+                        <Route
+                            path="/Game"
+                            element={<GameApp routePrefix="/Game/" />}
+                        >
+                            <Route
+                                path=":id"
+                                element={<GameRoute />}
+                            />
                         </Route>
 
+                        <Route
+                            path="/Store"
+                            element={<StoreApp />}
+                        />
 
-                        <Route path="/Game">
-                            <Route element={<GameApp routePrefix="/Game/" />}>
+                        <Route
+                            path="/Collection"
+                            element={<CollectionApp />}
+                        />
 
-                            </Route>
-
-                            <Route path=":id" element={<GameRoute />}>
-
-                            </Route>
-                        </Route>
-
-                        <Route path="/Store" element={<StoreApp />}>
-
-                        </Route>
-
-                        <Route path="/Collection" element={<CollectionApp />}>
-
-                        </Route>
-
-                        <Route path="/Deck">
-                            <Route element={<DeckApp routePrefix="/Deck/" />}>
-
-                            </Route>
-
-                            <Route path=":id" element={<DeckRoute />}>
-
-                            </Route>
+                        <Route
+                            path="/Deck"
+                            element={<DeckApp routePrefix="/Deck/" />}
+                        >
+                            <Route
+                                path=":id"
+                                element={<DeckRoute />}
+                            />
                         </Route>
                     </Routes>
                 </div>
