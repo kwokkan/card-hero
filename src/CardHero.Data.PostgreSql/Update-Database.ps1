@@ -1,9 +1,9 @@
 ﻿Scaffold-DbContext `
-"Server=.\SQLDEV2016;Database=CardHero;Integrated Security=true;MultipleActiveResultSets=true" `
-Microsoft.EntityFrameworkCore.SqlServer `
+"Host=localhost;Database=cardhero;Username=cardhero_user;Password=password" `
+Npgsql.EntityFrameworkCore.PostgreSQL `
 -Force `
--Project CardHero.Data.SqlServer `
--StartupProject CardHero.Data.SqlServerGenerator `
+-Project CardHero.Data.PostgreSql `
+-StartupProject CardHero.Data.PostgreSql `
 -Context CardHeroDataDbContext `
 -OutputDir EntityFramework `
 -NoOnConfiguring `
