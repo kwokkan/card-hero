@@ -1,5 +1,5 @@
 ﻿import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { CardApp } from "../components/card/CardApp";
 import { CardRoute } from "../components/card/CardRoute";
 import { CollectionApp } from "../components/collection/CollectionApp";
@@ -53,8 +53,13 @@ export function Main(props: IMainProps) {
 
                         <Route
                             path="/Card"
-                            element={<CardApp routePrefix="/Card/" />}
+                            element={<Outlet />}
                         >
+                            <Route
+                                index
+                                element={<CardApp routePrefix="/Card/" />}
+                            />
+
                             <Route
                                 path=":id"
                                 element={<CardRoute />}
@@ -63,8 +68,13 @@ export function Main(props: IMainProps) {
 
                         <Route
                             path="/Game"
-                            element={<GameApp routePrefix="/Game/" />}
+                            element={<Outlet />}
                         >
+                            <Route
+                                index
+                                element={<GameApp routePrefix="/Game/" />}
+                            />
+
                             <Route
                                 path=":id"
                                 element={<GameRoute />}
@@ -83,8 +93,13 @@ export function Main(props: IMainProps) {
 
                         <Route
                             path="/Deck"
-                            element={<DeckApp routePrefix="/Deck/" />}
+                            element={<Outlet />}
                         >
+                            <Route
+                                index
+                                element={<DeckApp routePrefix="/Deck/" />}
+                            />
+
                             <Route
                                 path=":id"
                                 element={<DeckRoute />}
