@@ -1,12 +1,12 @@
-﻿import React, { Fragment, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Card } from "../components/card/Card";
+﻿import React, { useEffect } from "react";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { CardApp } from "../components/card/CardApp";
+import { CardRoute } from "../components/card/CardRoute";
 import { CollectionApp } from "../components/collection/CollectionApp";
-import { Deck } from "../components/deck/Deck";
 import { DeckApp } from "../components/deck/DeckApp";
-import { Game } from "../components/game/Game";
+import { DeckRoute } from "../components/deck/DeckRoute";
 import { GameApp } from "../components/game/GameApp";
+import { GameRoute } from "../components/game/GameRoute";
 import { HomeApp } from "../components/home/HomeApp";
 import { NavMenu } from "../components/shared/NavMenu";
 import { NotificationWidget } from "../components/shared/NotificationWidget";
@@ -45,74 +45,67 @@ export function Main(props: IMainProps) {
                 <NotificationWidget />
 
                 <div className="row">
-                    <Switch>
-                        <Route exact path="/">
-                            <HomeApp appName={appName} routePrefix={baseUrl} />
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<HomeApp appName={appName} routePrefix={baseUrl} />}
+                        />
+
+                        <Route
+                            path="/Card"
+                            element={<Outlet />}
+                        >
+                            <Route
+                                index
+                                element={<CardApp routePrefix="/Card/" />}
+                            />
+
+                            <Route
+                                path=":id"
+                                element={<CardRoute />}
+                            />
                         </Route>
 
-                        <Route path="/Card"
-                            render={({ match: { path } }) => (
-                                <Fragment>
-                                    <Route exact path={`${path}/`}>
-                                        <CardApp routePrefix={path} />
-                                    </Route>
+                        <Route
+                            path="/Game"
+                            element={<Outlet />}
+                        >
+                            <Route
+                                index
+                                element={<GameApp routePrefix="/Game/" />}
+                            />
 
-                                    <Route path={`${path}/:id`}
-                                        render={({ match: { params, url } }) => (
-                                            <Route exact path={url}>
-                                                <Card id={params.id as number} />
-                                            </Route>
-                                        )}>
-                                    </Route>
-                                </Fragment>
-                            )}>
+                            <Route
+                                path=":id"
+                                element={<GameRoute />}
+                            />
                         </Route>
 
+                        <Route
+                            path="/Store"
+                            element={<StoreApp />}
+                        />
 
-                        <Route path="/Game"
-                            render={({ match: { path } }) => (
-                                <Fragment>
-                                    <Route exact path={`${path}/`}>
-                                        <GameApp routePrefix={path} />
-                                    </Route>
+                        <Route
+                            path="/Collection"
+                            element={<CollectionApp />}
+                        />
 
-                                    <Route path={`${path}/:id`}
-                                        render={({ match: { params, url } }) => (
-                                            <Route exact path={url}>
-                                                <Game id={params.id as number} />
-                                            </Route>
-                                        )}>
-                                    </Route>
-                                </Fragment>
-                            )}>
+                        <Route
+                            path="/Deck"
+                            element={<Outlet />}
+                        >
+                            <Route
+                                index
+                                element={<DeckApp routePrefix="/Deck/" />}
+                            />
+
+                            <Route
+                                path=":id"
+                                element={<DeckRoute />}
+                            />
                         </Route>
-
-                        <Route path="/Store">
-                            <StoreApp />
-                        </Route>
-
-                        <Route path="/Collection">
-                            <CollectionApp />
-                        </Route>
-
-                        <Route path="/Deck"
-                            render={({ match: { path } }) => (
-                                <Fragment>
-                                    <Route exact path={`${path}/`}>
-                                        <DeckApp routePrefix={path} />
-                                    </Route>
-
-                                    <Route path={`${path}/:id`}
-                                        render={({ match: { params, url } }) => (
-                                            <Route exact path={url}>
-                                                <Deck id={params.id as number} />
-                                            </Route>
-                                        )}>
-                                    </Route>
-                                </Fragment>
-                            )}>
-                        </Route>
-                    </Switch>
+                    </Routes>
                 </div>
             </div>
         </BrowserRouter>
