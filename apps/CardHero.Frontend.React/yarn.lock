@@ -2858,6 +2858,15 @@ dnd-core@15.0.1:
     "@react-dnd/invariant" "^2.0.0"
     redux "^4.1.1"
 
+dnd-core@15.0.2:
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-15.0.2.tgz#d048f73ff4ad770b6991285d7fa7ed6cba2d1e59"
+  integrity sha512-38dMXvgyucWsp7cjdg+OtLqghLPZmr3H8Pf3I5OAqnpLWeT5aY3W5NCsJruoGn0pKFoL+Rh73WlT4aGSe5+rKg==
+  dependencies:
+    "@react-dnd/asap" "^4.0.0"
+    "@react-dnd/invariant" "^2.0.0"
+    redux "^4.1.1"
+
 doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
@@ -5405,12 +5414,12 @@ react-chartjs-2@4.0.1:
   resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-4.0.1.tgz#38ed1d5b6e2f789408450c981e9e8e1d78b2e015"
   integrity sha512-q8bgWzKoFvBvD7YcjT/hXG8jt55TaMAuJ1dmI3tKFJ7CijUWYz4pIfOhkTI6PBTwqu/pmeWsClBRd/7HiWzN1g==
 
-react-dnd-html5-backend@15.0.1:
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-15.0.1.tgz#08b1f4c3a0e218125fe16ab147ef126da7135be7"
-  integrity sha512-a+gvXan5WLM0F+UjNe/in4s4Fah/U1+BUiROt9xbv63e3W2lOJsCJB1pUvdSASLdbUuiziRtimfUONIepq7Vvg==
+react-dnd-html5-backend@15.0.2:
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-15.0.2.tgz#8c3eb032dbfcacc4cb5131713e0deab84a2b1a6a"
+  integrity sha512-PTXbWyv9Ij9BnOjDrH5wfIeBJNH9dD9Q4YAvDCBF7zOG7GLY8hvwNj9oT/7+EnkGe5qSFiqL+T7VPwAQdGEpFA==
   dependencies:
-    dnd-core "15.0.1"
+    dnd-core "15.0.2"
 
 react-dnd@15.0.1:
   version "15.0.1"
