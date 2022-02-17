@@ -23,7 +23,7 @@
     "throttle-debounce": "3.0.1"
   },
   "devDependencies": {
-    "@babel/core": "7.17.4",
+    "@babel/core": "7.17.5",
     "@types/jest": "27.4.0",
     "@types/node": "16.11.25",
     "@types/react": "17.0.39",
