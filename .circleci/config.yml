@@ -15,7 +15,7 @@ parameters:
 jobs:
   init-workspace:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.200-bullseye-slim
     steps:
       - checkout
       - run: |
@@ -28,7 +28,7 @@ jobs:
 
   dotnet-build:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.200-bullseye-slim
     steps:
       - attach_workspace:
           at: .
@@ -45,7 +45,7 @@ jobs:
 
   dotnet-publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim
+      - image: mcr.microsoft.com/dotnet/sdk:6.0.200-bullseye-slim
     steps:
       - attach_workspace:
           at: .
