@@ -1,8 +1,8 @@
-﻿@import "overrides/bootstrap.scss";
-@import "card.scss";
-@import "custom.scss";
-@import "game.scss";
-@import "notifications.scss";
+﻿@use "overrides/bootstrap";
+@use "card";
+@use "custom";
+@use "game";
+@use "notifications";
 
 body {
     overflow-y: scroll;
