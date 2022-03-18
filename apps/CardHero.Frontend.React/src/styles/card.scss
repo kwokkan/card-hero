@@ -1,8 +1,8 @@
-﻿@import "constants/colours.scss";
+﻿@use "constants/colours";
 
 /* purgecss start ignore */
-@each $r, $c in $rarity-colours {
-    $i: index($rarity-colours, ($r $c));
+@each $r, $c in colours.$rarity-colours {
+    $i: index(colours.$rarity-colours, ($r $c));
 
     .card-rarity_#{$r},
     .card-rarity_#{$i} {
