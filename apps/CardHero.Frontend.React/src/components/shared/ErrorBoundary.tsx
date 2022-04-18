@@ -1,14 +1,18 @@
-﻿import { Component, ErrorInfo } from "react";
+﻿import { Component, ErrorInfo, ReactNode } from "react";
 import { ErrorView } from "./ErrorView";
 
-interface IErrorBoundatyState {
+interface IErrorBoundaryProps {
+    children?: ReactNode;
+}
+
+interface IErrorBoundaryState {
     hasError: boolean;
     error?: Error;
     errorInfo?: ErrorInfo;
     currentPage?: string;
 }
 
-export class ErrorBoundary extends Component<{}, IErrorBoundatyState> {
+export class ErrorBoundary extends Component<IErrorBoundaryProps, IErrorBoundaryState> {
     constructor(props: {}) {
         super(props);
 
@@ -17,8 +21,8 @@ export class ErrorBoundary extends Component<{}, IErrorBoundatyState> {
         };
     }
 
-    static getDerivedStateFromError(error: Error): IErrorBoundatyState {
-        const newState: IErrorBoundatyState = {
+    static getDerivedStateFromError(error: Error): IErrorBoundaryState {
+        const newState: IErrorBoundaryState = {
             hasError: true,
             error: error,
             currentPage: window.location.href

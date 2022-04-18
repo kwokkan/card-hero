@@ -1,4 +1,4 @@
-﻿import React, { ProviderProps, useContext, useState } from "react";
+﻿import { ProviderProps, useContext, useState } from "react";
 import { INotificationItem } from "../types/INotificationItem";
 import { INotificationContextProps, NotificationContext } from "./NotificationContext";
 

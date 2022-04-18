@@ -155,8 +155,8 @@ module.exports = {
         // Add ".ts" and ".tsx" as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
 
-        alias: {
-        //    "react": "preact",
+        fallback: {
+            //    "react": "preact",
             //    "react-dom": "preact",
             //HACK: https://github.com/facebook/react/issues/20235#issuecomment-1019965655
             "react/jsx-dev-runtime": "react/jsx-dev-runtime.js",

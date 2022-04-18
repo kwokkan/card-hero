@@ -2,7 +2,6 @@
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faBars, faBug, faCode, faCoins, faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 
 // https://fontawesome.com/how-to-use/on-the-web/other-topics/security
 config.autoAddCss = false;
