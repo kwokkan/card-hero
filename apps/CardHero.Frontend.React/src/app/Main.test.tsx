@@ -1,7 +1,6 @@
 ﻿/*
  * @jest-environment jsdom
  */
-import React from "react";
 import renderer from "react-test-renderer";
 import { AccountContextProvider, IAccountContextProviderProps } from "../contexts/AccountContextProvider";
 import { Main } from "./Main";

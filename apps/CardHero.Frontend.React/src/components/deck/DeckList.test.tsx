@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { MemoryRouter } from "react-router-dom";
+﻿import { MemoryRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
 import { IDeckModel } from "../../clients/clients";
 import { AccountContext, IAccountContextProps } from "../../contexts/AccountContext";

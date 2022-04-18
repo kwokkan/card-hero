@@ -1,5 +1,4 @@
-﻿import React from "react";
-import renderer from "react-test-renderer";
+﻿import renderer from "react-test-renderer";
 import { NotificationType } from "../../types/NotificationType";
 import { NotificationItem } from "./NotificationItem";
 

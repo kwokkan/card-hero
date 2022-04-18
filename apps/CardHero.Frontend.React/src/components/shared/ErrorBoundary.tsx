@@ -1,4 +1,4 @@
-﻿import React, { Component, ErrorInfo } from "react";
+﻿import { Component, ErrorInfo } from "react";
 import { ErrorView } from "./ErrorView";
 
 interface IErrorBoundatyState {

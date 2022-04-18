@@ -1,5 +1,4 @@
-﻿import React from "react";
-import renderer from "react-test-renderer";
+﻿import renderer from "react-test-renderer";
 import { CoinFormat } from "./CoinFormat";
 
 test("<CoinFormat /> renders all 123 gold, 45 silver, 67 bronze", () => {

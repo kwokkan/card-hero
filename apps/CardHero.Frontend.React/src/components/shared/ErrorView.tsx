@@ -1,4 +1,4 @@
-﻿import React, { ErrorInfo } from "react";
+﻿import { ErrorInfo } from "react";
 import { Rarity } from "../../clients/clients";
 import { Icon } from "../../styles/index";
 

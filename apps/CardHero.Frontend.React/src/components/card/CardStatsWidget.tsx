@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { ICardModel } from "../../clients/clients";
+﻿import { ICardModel } from "../../clients/clients";
 import { Icon } from "../../styles";
 
 interface ICardStatsWidgetProps {

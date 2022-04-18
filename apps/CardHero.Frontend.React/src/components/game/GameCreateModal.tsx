@@ -1,4 +1,4 @@
-﻿import React, { ChangeEvent, useState } from "react";
+﻿import { ChangeEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { GameType, IDeckModel } from "../../clients/clients";
 

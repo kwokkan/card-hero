@@ -22,7 +22,7 @@
     "incremental": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "esModuleInterop": false,
     "outDir": "./obj/ts/",
     "traceResolution": false,

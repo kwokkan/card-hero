@@ -1,5 +1,4 @@
-﻿import React from "react";
-
+﻿
 interface IGameBannerProps {
     visible: boolean;
     message: string;

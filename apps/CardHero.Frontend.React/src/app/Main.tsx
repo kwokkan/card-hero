@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { CardApp } from "../components/card/CardApp";
 import { CardRoute } from "../components/card/CardRoute";

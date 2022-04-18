@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { useParams } from "react-router-dom";
+﻿import { useParams } from "react-router-dom";
 import { Deck } from "./Deck";
 
 export function DeckRoute(): JSX.Element {

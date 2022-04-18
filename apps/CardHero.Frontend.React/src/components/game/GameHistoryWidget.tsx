@@ -1,4 +1,4 @@
-﻿import React, { Fragment } from "react";
+﻿import { Fragment } from "react";
 import { IGameModel } from "../../clients/clients";
 import { DateFormat } from "../shared/DateFormat";
 

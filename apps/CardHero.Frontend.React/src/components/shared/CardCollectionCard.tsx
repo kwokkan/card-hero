@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { ICardCollectionModel, Rarity } from "../../clients/clients";
+﻿import { ICardCollectionModel, Rarity } from "../../clients/clients";
 import { Icon } from "../../styles";
 
 interface ICardCollectionCardProps {

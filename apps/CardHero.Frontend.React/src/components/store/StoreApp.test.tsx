@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import MockDate from "mockdate";
-import React from "react";
 import renderer, { act } from "react-test-renderer";
 import { StoreApiClient, StoreItemModel } from "../../clients/clients";
 import { StoreApp } from "./StoreApp";

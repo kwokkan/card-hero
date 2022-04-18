@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
+﻿import { ICardModel, IGamePlayModel, IMoveModel } from "../../clients/clients";
 import { useAccountContext } from "../../contexts/AccountContextProvider";
 import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { GamePlayService } from "../../services/GamePlayService";
