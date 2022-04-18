@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { INotificationItem } from "../../types/INotificationItem";
+﻿import { INotificationItem } from "../../types/INotificationItem";
 import { NotificationType } from "../../types/NotificationType";
 
 interface INotificationItemProps extends INotificationItem {

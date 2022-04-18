@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { Store } from "./Store";
+﻿import { Store } from "./Store";
 
 export function StoreApp(): JSX.Element {
     return (

@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState } from "react";
+﻿import { Fragment, useState } from "react";
 import { ICardModel } from "../../clients/clients";
 import { CardList } from "./CardList";
 import { CardSearch } from "./CardSearch";

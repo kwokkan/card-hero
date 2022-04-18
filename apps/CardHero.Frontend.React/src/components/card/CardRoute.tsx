@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { useParams } from "react-router-dom";
+﻿import { useParams } from "react-router-dom";
 import { Card } from "./Card";
 
 export function CardRoute(): JSX.Element | null {

@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { ICardCollectionModel } from "../../clients/clients";
+﻿import { ICardCollectionModel } from "../../clients/clients";
 import { CardWidget } from "../shared/CardWidget";
 
 interface ICollectionListProps {

@@ -1,4 +1,4 @@
-﻿import React, { SelectHTMLAttributes } from "react";
+﻿import { SelectHTMLAttributes } from "react";
 
 type INumberDropDownProps = Pick<SelectHTMLAttributes<HTMLSelectElement>, "name" | "onChange" | "value">;
 

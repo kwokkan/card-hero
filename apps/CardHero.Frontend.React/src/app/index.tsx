@@ -1,6 +1,5 @@
 ﻿import { Chart, Filler, Legend, LinearScale, LineElement, PointElement, RadialLinearScale } from 'chart.js';
-import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { CardHeroApiClientBase } from "../clients/CardHeroApiClientBase";
 import { AppBootstrap } from "../components/shared/AppBootstrap";
 import { INotificationItem } from "../types/INotificationItem";
@@ -28,7 +27,8 @@ const defaultNotifications: INotificationItem[] = [
     }
 ];
 
-render(
-    <MainApp appName={appName} defaultNotifications={defaultNotifications} />,
-    AppBootstrap.rootElement
+const root = createRoot(AppBootstrap.rootElement);
+
+root.render(
+    <MainApp appName={appName} defaultNotifications={defaultNotifications} />
 );

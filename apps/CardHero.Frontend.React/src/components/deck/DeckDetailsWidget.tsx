@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { IDeckModel } from "../../clients/clients";
+﻿import { IDeckModel } from "../../clients/clients";
 import { Icon } from "../../styles/index";
 
 interface IDeckDetailsWidgetProps {

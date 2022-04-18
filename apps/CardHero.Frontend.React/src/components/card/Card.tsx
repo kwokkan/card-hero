@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { ICardModel } from "../../clients/clients";
 import { CardService } from "../../services/CardService";
 import { CardSecondaryStatsGraphWidget } from "./CardSecondaryStatsGraphWidget";

@@ -1,5 +1,4 @@
-﻿import React from "react";
-import renderer from "react-test-renderer";
+﻿import renderer from "react-test-renderer";
 import { NumberDropDown } from "./NumberDropDown";
 
 test("<NumberDropDown /> renders with no props", () => {

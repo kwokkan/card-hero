@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { relativeFromNow, toISOString } from '../../utils/date';
+﻿import { relativeFromNow, toISOString } from '../../utils/date';
 
 interface IDateFormatProps {
     date: Date;

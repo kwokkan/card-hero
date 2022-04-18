@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { IDeckModel } from "../../clients/clients";
 import { Icon } from "../../styles/index";
 import { getRoutePrefix } from "../../utils/route";

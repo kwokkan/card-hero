@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { useNotificationContext } from "../../contexts/NotificationContextProvider";
+﻿import { useNotificationContext } from "../../contexts/NotificationContextProvider";
 import { NotificationItem } from "./NotificationItem";
 
 export function NotificationWidget() {

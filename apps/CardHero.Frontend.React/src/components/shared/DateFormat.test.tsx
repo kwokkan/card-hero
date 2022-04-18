@@ -1,5 +1,4 @@
 ﻿import MockDate from "mockdate";
-import React from "react";
 import renderer from "react-test-renderer";
 import { DateFormat } from "./DateFormat";
 

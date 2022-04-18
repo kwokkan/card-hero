@@ -1,7 +1,6 @@
 ﻿/*
  * @jest-environment jsdom
  */
-import React from "react";
 import renderer from "react-test-renderer";
 import { INotificationItem } from "../types/INotificationItem";
 import { NotificationType } from "../types/NotificationType";

@@ -1,5 +1,4 @@
-﻿import React from "react";
-import renderer from "react-test-renderer";
+﻿import renderer from "react-test-renderer";
 import { CardModel, ICardCollectionModel, ICardModel, Rarity, RarityModel } from "../../clients/clients";
 import { CardCollectionCard } from "./CardCollectionCard";
 

@@ -1,4 +1,4 @@
-﻿import React, { Fragment } from "react";
+﻿import { Fragment } from "react";
 import { IStoreItemModel } from "../../clients/clients";
 import { CoinFormat } from "../shared/CoinFormat";
 import { DateFormat } from "../shared/DateFormat";

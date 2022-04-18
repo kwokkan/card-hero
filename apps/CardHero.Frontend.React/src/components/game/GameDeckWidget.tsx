@@ -1,5 +1,4 @@
-﻿import React from "react";
-import { IGameDeckModel } from "../../clients/clients";
+﻿import { IGameDeckModel } from "../../clients/clients";
 import { GameDeckCard } from "./GameDeckCard";
 
 interface IGameDeckWidgetProps {
