@@ -1346,15 +1346,20 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@react-dnd/asap@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-5.0.0.tgz#e56419b90d24bfb53136319b3fa0bbe7a21a9065"
-  integrity sha512-czNGSkNPZgxapKz1a8zj/C5me5MpVpN4wlXDQIMF4wDUuFJ37x7beakc4S7C1xKilHA4tgT9zZb4U64BdT/E5g==
+"@react-dnd/asap@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-5.0.1.tgz#a4d125aa7e278c749857764aa69e3c982e4973a6"
+  integrity sha512-ZNQ6Oed8/EA9Z464e0d/2JKrFcEfn/zaxPhRb1x+f/EsZPMbnn8oGJhwzAvN/f9xnZt4dPHVMDghcJGw/CHnIA==
 
 "@react-dnd/invariant@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-4.0.0.tgz#6276a0054e82648bd06184f75c55990326159f8b"
   integrity sha512-tjPrh294NbH6Gj1YP1of6JYEe3+sm0Wy7YA1ImG6YghlZe3n8F+fBx1yIrA5dVJCuUh6pBp4XO7/lcSq7oLL0A==
+
+"@react-dnd/invariant@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-4.0.1.tgz#7a163dd9b003dcc0b80d1cdffdc0135d0ebc1836"
+  integrity sha512-Lq131UAyxozk44WzX1xH4mSH872d5YYJQ+YoHBty+JQbiL4mtLF5z9AI4ow32NLCSO1XZ75zTwZT+YsvdyfMCg==
 
 "@react-dnd/shallowequal@^4.0.0":
   version "4.0.0"
@@ -2843,14 +2848,14 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dnd-core@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-16.0.0.tgz#06db6ff65bf4cd0a19c3399fb69dbcf8bbde9eb8"
-  integrity sha512-8cGtybb5LBjG2euYgVv3amk49F+9dH3l5TuuGQf0mhFr+KWIPE1qPxB8VpPDov74ZevUAxVDxadL2zN7I0oQ1Q==
+dnd-core@^16.0.0, dnd-core@^16.0.1:
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-16.0.1.tgz#a1c213ed08961f6bd1959a28bb76f1a868360d19"
+  integrity sha512-HK294sl7tbw6F6IeuK16YSBUoorvHpY8RHO+9yFfaJyCDVb6n7PRcezrOEOa2SBCqiYpemh5Jx20ZcjKdFAVng==
   dependencies:
-    "@react-dnd/asap" "^5.0.0"
-    "@react-dnd/invariant" "^4.0.0"
-    redux "^4.1.2"
+    "@react-dnd/asap" "^5.0.1"
+    "@react-dnd/invariant" "^4.0.1"
+    redux "^4.2.0"
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -5398,12 +5403,12 @@ react-chartjs-2@4.1.0:
   resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-4.1.0.tgz#2a123df16d3a987c54eb4e810ed766d3c03adf8d"
   integrity sha512-AsUihxEp8Jm1oBhbEovE+w50m9PVNhz1sfwEIT4hZduRC0m14gHWHd0cUaxkFDb8HNkdMIGzsNlmVqKiOpU74g==
 
-react-dnd-html5-backend@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-16.0.0.tgz#671d6c64a119e91604eb8a8c3111c0a0af350479"
-  integrity sha512-be3lKEbbT8FQcoTjFlQ4ZXG/NVrFNJu9W0INc5rm/5EFQpHCkz+xpbB2U8j9uh5Bvk7AsJyQrZznEut0hrNPIA==
+react-dnd-html5-backend@16.0.1:
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-16.0.1.tgz#87faef15845d512a23b3c08d29ecfd34871688b6"
+  integrity sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==
   dependencies:
-    dnd-core "^16.0.0"
+    dnd-core "^16.0.1"
 
 react-dnd@16.0.0:
   version "16.0.0"
@@ -5507,10 +5512,10 @@ rechoir@^0.7.0:
   dependencies:
     resolve "^1.9.0"
 
-redux@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.1.2.tgz#140f35426d99bb4729af760afcf79eaaac407104"
-  integrity sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==
+redux@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.0.tgz#46f10d6e29b6666df758780437651eeb2b969f13"
+  integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
   dependencies:
     "@babel/runtime" "^7.9.2"
 
