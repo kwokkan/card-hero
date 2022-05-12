@@ -20,7 +20,7 @@
     "react-dnd-html5-backend": "16.0.1",
     "react-dom": "18.1.0",
     "react-router-dom": "6.3.0",
-    "throttle-debounce": "4.0.1"
+    "throttle-debounce": "5.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.17.10",
