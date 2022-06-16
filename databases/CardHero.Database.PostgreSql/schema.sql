@@ -600,7 +600,7 @@ CREATE TABLE public."StoreItem" (
     "Description" character varying(1000),
     "Cost" integer NOT NULL,
     "ItemCount" integer DEFAULT 1 NOT NULL,
-    "Expiry" timestamp without time zone,
+    "Expiry" timestamp with time zone,
     "CardPack_FK" integer
 );
 
