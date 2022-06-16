@@ -431,8 +431,6 @@ namespace CardHero.Data.PostgreSql.EntityFramework
 
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
-                entity.Property(e => e.Expiry).HasColumnType("timestamp without time zone");
-
                 entity.Property(e => e.ItemCount).HasDefaultValueSql("1");
 
                 entity.Property(e => e.Name)

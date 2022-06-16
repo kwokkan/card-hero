@@ -52,7 +52,7 @@ namespace CardHero.NetCoreApp.TypeScript
                     x.LogoutPath = "/SignOut";
 
                     x.Cookie.Name = ".ch";
-                    x.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                    x.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
                     x.ExpireTimeSpan = TimeSpan.FromTicks(TimeSpan.TicksPerDay * 28);
                     x.SlidingExpiration = true;
 
