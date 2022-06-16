@@ -155,7 +155,7 @@
   height: calc(100% + 30px);
   position: absolute;
   z-index: 10;
-  background-color: #aaaaaaaa;
+  background-color: rgba(170, 170, 170, 0.6666666667);
   margin: -15px -15px -15px -15px;
   display: flex;
   align-items: center;
