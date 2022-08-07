@@ -8,7 +8,7 @@
     "@fortawesome/free-brands-svg-icons": "6.1.2",
     "@fortawesome/free-solid-svg-icons": "6.1.2",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "bootstrap": "4.6.1",
+    "bootstrap": "4.6.2",
     "chart.js": "3.9.1",
     "dayjs": "1.11.4",
     "jquery": "3.6.0",
