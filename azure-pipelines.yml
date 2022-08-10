@@ -21,7 +21,7 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 steps:
-- task: Cache@2
+- task: Cache@2.198.0
   inputs:
     key: 'nuget | "$(Agent.OS)" | "$(CACHE_NUGET_VERSION)" | "$(CACHE_KEY_P1)" | "$(CACHE_KEY_P2)" | **/*.csproj,!**/bin/**'
     restoreKeys: |
@@ -40,7 +40,7 @@ steps:
     path: $(NUGET_PACKAGES)
   displayName: Cache NuGet packages
   
-- task: Cache@2
+- task: Cache@2.198.0
   inputs:
     key: 'yarn | "$(Agent.OS)" | "$(CACHE_YARN_VERSION)" | "$(CACHE_KEY_P1)" | "$(CACHE_KEY_P2)" | apps/CardHero.Frontend.React/yarn.lock'
     restoreKeys: |
