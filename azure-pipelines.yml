@@ -60,7 +60,7 @@ steps:
   displayName: Cache Yarn packages
   
 - task: NuGetToolInstaller@1.208.1
-- task: UseDotNet@2
+- task: UseDotNet@2.207.2
   inputs:
     packageType: 'sdk'
     version: '6.x'
