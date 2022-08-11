@@ -83,7 +83,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'kwokkan_card-hero'
 
-- task: VSBuild@1
+- task: VSBuild@1.208.0
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
