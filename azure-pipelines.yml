@@ -59,7 +59,7 @@ steps:
     path: $(Build.SourcesDirectory)/apps/CardHero.Frontend.React/node_modules
   displayName: Cache Yarn packages
   
-- task: NuGetToolInstaller@1
+- task: NuGetToolInstaller@1.208.1
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
