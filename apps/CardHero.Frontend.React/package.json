@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.18.10",
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/node": "16.11.49",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
