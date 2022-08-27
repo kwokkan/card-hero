@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Home /> renders correctly 1`] = `
-Array [
+[
   <div
     className="jumbotron text-center"
   >
@@ -112,7 +112,7 @@ Array [
 `;
 
 exports[`<Home /> renders correctly with route prefix 1`] = `
-Array [
+[
   <div
     className="jumbotron text-center"
   >
