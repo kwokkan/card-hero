@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PurgecssPlugin = require("purgecss-webpack-plugin");
+const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 
@@ -183,7 +183,7 @@ module.exports = {
                 "tsx"
             ]
         }),
-        new PurgecssPlugin({
+        new PurgeCSSPlugin({
             paths: glob.sync("src/**/*", { nodir: true }),
             safelist: [
                 /close/,
