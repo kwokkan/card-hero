@@ -4,7 +4,7 @@
     <Description>SQL Server implementation of Card Hero.</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Card Hero Core SQL Server</AssemblyTitle>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>CardHero.Core.SqlServer</AssemblyName>
     <PackageId>CardHero.Core.SqlServer</PackageId>

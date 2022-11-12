@@ -4,7 +4,7 @@
     <Description>Card Hero React frontend.</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Card Hero React frontend</AssemblyTitle>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PreserveCompilationContext>true</PreserveCompilationContext>

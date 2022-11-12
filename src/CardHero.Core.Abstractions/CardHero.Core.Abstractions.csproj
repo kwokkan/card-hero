@@ -4,7 +4,7 @@
     <Description>Card Hero core objects.</Description>
     <Copyright>Kwok Kan</Copyright>
     <AssemblyTitle>Card Hero Core</AssemblyTitle>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>CardHero.Core.Abstractions</AssemblyName>
     <PackageId>CardHero.Core</PackageId>
