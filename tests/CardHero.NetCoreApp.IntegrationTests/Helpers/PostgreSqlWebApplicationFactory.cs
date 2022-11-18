@@ -151,18 +151,21 @@ namespace CardHero.NetCoreApp.IntegrationTests
                 CardCollectionPk = 1,
                 CardFk = 1,
                 UserFk = 1,
+                Rowstamp = 1,
             });
             context.CardCollection.Add(new CardCollection
             {
                 CardCollectionPk = 2,
                 CardFk = 2,
                 UserFk = 1,
+                Rowstamp = 2,
             });
             context.CardCollection.Add(new CardCollection
             {
                 CardCollectionPk = 3,
                 CardFk = 1,
                 UserFk = 2,
+                Rowstamp = 3,
             });
 
             context.CardPack.Add(new CardPack

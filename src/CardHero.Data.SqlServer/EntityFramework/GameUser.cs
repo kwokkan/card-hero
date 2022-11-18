@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CardHero.Data.SqlServer.EntityFramework
+namespace CardHero.Data.SqlServer.EntityFramework;
+
+public partial class GameUser
 {
-    public partial class GameUser
-    {
-        public GameUser()
-        {
-            GameDeck = new HashSet<GameDeck>();
-            Turn = new HashSet<Turn>();
-        }
+    public int GameUserPk { get; set; }
 
-        public int GameUserPk { get; set; }
-        public byte[] Rowstamp { get; set; }
-        public int GameFk { get; set; }
-        public int UserFk { get; set; }
-        public DateTime JoinedTime { get; set; }
-        public int? Order { get; set; }
+    public byte[] Rowstamp { get; set; }
 
-        public virtual Game GameFkNavigation { get; set; }
-        public virtual User UserFkNavigation { get; set; }
-        public virtual ICollection<GameDeck> GameDeck { get; set; }
-        public virtual ICollection<Turn> Turn { get; set; }
-    }
+    public int GameFk { get; set; }
+
+    public int UserFk { get; set; }
+
+    public DateTime JoinedTime { get; set; }
+
+    public int? Order { get; set; }
+
+    public virtual ICollection<GameDeck> GameDeck { get; } = new List<GameDeck>();
+
+    public virtual Game GameFkNavigation { get; set; }
+
+    public virtual ICollection<Turn> Turn { get; } = new List<Turn>();
+
+    public virtual User UserFkNavigation { get; set; }
 }

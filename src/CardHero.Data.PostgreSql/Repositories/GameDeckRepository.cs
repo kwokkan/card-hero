@@ -45,10 +45,13 @@ namespace CardHero.Data.PostgreSql
 
             if (cardIds != null)
             {
-                gameDeck.GameDeckCardCollection = cardIds.Select(x => new GameDeckCardCollection
+                foreach (var cardId in cardIds)
                 {
-                    CardFk = x,
-                }).ToArray();
+                    gameDeck.GameDeckCardCollection.Add(new GameDeckCardCollection
+                    {
+                        CardFk = cardId,
+                    });
+                }
             }
 
             _context.GameDeck.Add(gameDeck);
