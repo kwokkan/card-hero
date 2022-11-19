@@ -502,7 +502,11 @@ namespace CardHero.NetCoreApp.IntegrationTests
 
                     services.AddDbContext<CardHeroDataDbContext>((context) =>
                     {
-                        context.UseInMemoryDatabase("CardHeroDataSqlServerMemoryDbContext/" + Id);
+                        context.UseInMemoryDatabase(
+                            "CardHeroDataSqlServerMemoryDbContext/" + Id,
+                            // EFCore 7 broke this
+                            options => options.EnableNullChecks(false)
+                        );
                     });
 
                     if (_context == null)
