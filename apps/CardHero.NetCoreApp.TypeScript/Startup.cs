@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using WebMarkupMin.AspNetCore6;
+using WebMarkupMin.AspNetCore7;
 
 namespace CardHero.NetCoreApp.TypeScript
 {
