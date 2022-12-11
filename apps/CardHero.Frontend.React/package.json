@@ -19,7 +19,7 @@
     "react-dnd": "16.0.1",
     "react-dnd-html5-backend": "16.0.1",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.4.4",
+    "react-router-dom": "6.4.5",
     "throttle-debounce": "5.0.0"
   },
   "devDependencies": {
