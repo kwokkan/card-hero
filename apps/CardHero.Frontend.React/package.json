@@ -9,7 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "6.2.1",
     "@fortawesome/react-fontawesome": "0.2.0",
     "bootstrap": "4.6.2",
-    "chart.js": "4.0.1",
+    "chart.js": "4.1.0",
     "dayjs": "1.11.7",
     "jquery": "3.6.1",
     "popper.js": "1.16.1",
