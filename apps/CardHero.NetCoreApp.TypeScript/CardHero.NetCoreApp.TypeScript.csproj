@@ -34,7 +34,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WebMarkupMin.AspNetCore7" Version="2.13.6" />
+    <PackageReference Include="WebMarkupMin.AspNetCore7" Version="2.13.7" />
   </ItemGroup>
 
   <ItemGroup>
