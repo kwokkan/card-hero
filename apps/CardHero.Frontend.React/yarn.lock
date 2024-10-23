@@ -1586,10 +1586,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@29.5.12":
-  version "29.5.12"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.5.12.tgz#7f7dc6eb4cf246d2474ed78744b05d06ce025544"
-  integrity sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==
+"@types/jest@29.5.14":
+  version "29.5.14"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.5.14.tgz#2b910912fa1d6856cadcd0c1f95af7df1d6049e5"
+  integrity sha512-ZN+4sdnLUbo8EVvVc2ao0GFW6oVrQRPn4K2lglySj7APvSrgzxHiNNK99us4WDMi57xxA2yggblIAMNhXOotLQ==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
@@ -1618,10 +1618,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@16.18.87":
-  version "16.18.87"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.87.tgz#9473038a28bf2d7ef7e4d23ef693a1011981abdf"
-  integrity sha512-+IzfhNirR/MDbXz6Om5eHV54D9mQlEMGag6AgEzlju0xH3M8baCXYwqQ6RKgGMpn9wSTx6Ltya/0y4Z8eSfdLw==
+"@types/node@*", "@types/node@16.18.115":
+  version "16.18.115"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.115.tgz#0bb385c4b1a1a996d6bf9d79e5ae786ce03cae51"
+  integrity sha512-NF5ajYn+dq0tRfswdyp8Df75h7D9z+L8TCIwrXoh46ZLK6KZVXkRhf/luXaZytvm/keUo9vU4m1Bg39St91a5w==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1638,17 +1638,17 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
-"@types/react-dom@18.2.20":
-  version "18.2.20"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.20.tgz#cbdf7abb3cc2377980bb1294bc51375016a8320f"
-  integrity sha512-HXN/biJY8nv20Cn9ZbCFq3liERd4CozVZmKbaiZ9KiKTrWqsP7eoGDO6OOGvJQwoVFuiXaiJ7nBBjiFFbRmQMQ==
+"@types/react-dom@18.3.1":
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.1.tgz#1e4654c08a9cdcfb6594c780ac59b55aad42fe07"
+  integrity sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==
   dependencies:
     "@types/react" "*"
 
-"@types/react-test-renderer@18.0.7":
-  version "18.0.7"
-  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-18.0.7.tgz#2cfe657adb3688cdf543995eceb2e062b5a68728"
-  integrity sha512-1+ANPOWc6rB3IkSnElhjv6VLlKg2dSv/OWClUyZimbLsQyBn8Js9Vtdsi3UICJ2rIQ3k2la06dkB+C92QfhKmg==
+"@types/react-test-renderer@18.3.0":
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-18.3.0.tgz#839502eae70058a4ae161f63385a8e7929cef4c0"
+  integrity sha512-HW4MuEYxfDbOHQsVlY/XtOvNHftCVEPhJF2pQXXwcUiUF+Oyb0usgp48HSgpK5rt8m9KZb22yqOeZm+rrVG8gw==
   dependencies:
     "@types/react" "*"
 
@@ -1659,19 +1659,13 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.2.64", "@types/react@>=16.9.11":
-  version "18.2.64"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.64.tgz#3700fbb6b2fa60a6868ec1323ae4cbd446a2197d"
-  integrity sha512-MlmPvHgjj2p3vZaxbQgFUQFvD8QiZwACfGqEdDSWou5yISWxDQ4/74nCAwsUiX7UFLKZz3BbVSPj+YxeoGGCfg==
+"@types/react@*", "@types/react@18.3.12", "@types/react@>=16.9.11":
+  version "18.3.12"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.12.tgz#99419f182ccd69151813b7ee24b792fe08774f60"
+  integrity sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==
   dependencies:
     "@types/prop-types" "*"
-    "@types/scheduler" "*"
     csstype "^3.0.2"
-
-"@types/scheduler@*":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
-  integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
 "@types/semver@^7.3.12":
   version "7.3.12"
